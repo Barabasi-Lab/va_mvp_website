@@ -1,7 +1,5 @@
 # DuckDB / Parquet data layer
 
-Written for whoever maintains this site next.
-
 The three pages used to download flat CSVs and filter them in the browser.
 Page 2 on a large phenotype meant a 128 MB download before anything rendered.
 The same data now lives in columnar files under `public/data/db/`, and
