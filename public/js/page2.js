@@ -34,7 +34,8 @@ centerPheno = params.centerPheno;
 ancestryLower = params.ancestry.toLowerCase(); // Initialize ancestryLower from the query parameter
 let betaColumn = `beta.${ancestryLower}`;
 let pColumn = `pval.${ancestryLower}`;
-pThreshold = parseFloat(params.pvalue);
+// getQueryParams returns the exponent ("-4"), not the threshold itself
+pThreshold = Math.pow(10, parseFloat(params.pvalue));
 
 // Metadata for the centre phenotype, kept separately so a strict threshold
 // that removes every centre row cannot leave the node unlabelled.

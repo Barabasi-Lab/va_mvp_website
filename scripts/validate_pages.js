@@ -104,16 +104,26 @@ async function api(route, params) {
 
 // ---------------------------------------------------------------- compare
 
+// Multisets, not sets: the raw data holds 2,777 duplicate (phenotype, rsid)
+// pairs, which become duplicate edges the page really does draw, so the
+// counts have to line up too.
+function tally(values) {
+  const m = new Map();
+  for (const v of values) m.set(v, (m.get(v) || 0) + 1);
+  return m;
+}
+
 function summarise(nodes, edges) {
   return {
-    nodes: new Set(nodes.map(n => n.id)),
-    edges: new Set(edges.map(e =>
+    nodes: tally(nodes.map(n => n.id)),
+    edges: tally(edges.map(e =>
       `${e.source.id}|${e.target.id}|${e.direction}|${Number(e.beta).toPrecision(10)}`))
   };
 }
 
 function diff(label, a, b) {
-  const only = (x, y) => [...x].filter(v => !y.has(v));
+  const only = (x, y) => [...x].filter(([k, n]) => (y.get(k) || 0) !== n)
+    .map(([k, n]) => `${k} x${n}`);
   const nMissing = only(a.nodes, b.nodes), nExtra = only(b.nodes, a.nodes);
   const eMissing = only(a.edges, b.edges), eExtra = only(b.edges, a.edges);
   const ok = !nMissing.length && !nExtra.length && !eMissing.length && !eExtra.length;

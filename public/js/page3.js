@@ -38,7 +38,9 @@ rightPheno = params.rightPheno;
 ancestryLower = params.ancestry.toLowerCase(); // Initialize ancestryLower from the query parameter
 let betaColumn = `beta.${ancestryLower}`;
 let pColumn = `pval.${ancestryLower}`;
-pThreshold = parseFloat(params.pvalue);
+// getQueryParams returns the exponent ("-4"), not the threshold itself, so
+// convert here: the first request is issued before the slider initialises.
+pThreshold = Math.pow(10, parseFloat(params.pvalue));
 
 // Ask the server for the two phenotypes' shared SNPs under the active
 // filters. The server intersects the rsid sets before applying the p-value
