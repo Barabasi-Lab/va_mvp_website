@@ -40,40 +40,40 @@ let betaColumn = `beta.${ancestryLower}`;
 let pColumn = `pval.${ancestryLower}`;
 pThreshold = parseFloat(params.pvalue);
 
-async function loadData() {
-    const splitPhenotypes = ['181', '167', '170', '175'];
-    let data = [];
-    if (splitPhenotypes.includes(leftPheno)) {
-        const file1 = `/data/node_files/${leftPheno}_1.csv`;
-        const file2 = `/data/node_files/${leftPheno}_2.csv`;
-        try {
-            const [data1, data2] = await Promise.all([d3.csv(file1), d3.csv(file2)]);
-            data = data1.concat(data2);
-        } catch (error) {
-            console.error(`Error loading split files for ${leftPheno}:`, error);
-            return null;
-        }
-    } else {
-        const fileName = `/data/node_files/${leftPheno}.csv`;
-        try {
-            data = await d3.csv(fileName);
-        } catch (error) {
-            console.error(`Error loading file ${fileName}:`, error);
-            return null;
-        }
+// Ask the server for the two phenotypes' shared SNPs under the active
+// filters. The server intersects the rsid sets before applying the p-value
+// threshold, matching the order the client used to do it in.
+async function fetchRows() {
+    const params = new URLSearchParams({
+        left: leftPheno,
+        right: rightPheno,
+        ancestry: comparison_on_off ? anc1 : ancestryLower,
+        pvalue: pThreshold
+    });
+    if (comparison_on_off && anc2) {
+        params.set('ancestry2', anc2);
+        params.set('pvalue2', pThreshold2);
     }
+    const response = await fetch(`/api/page3/rows?${params}`);
+    if (!response.ok) {
+        console.error('Error loading rows:', (await response.json()).error);
+        return null;
+    }
+    return (await response.json()).rows;
+}
+
+async function loadData() {
+    let data;
+    try {
+        data = await fetchRows();
+    } catch (error) {
+        console.error('Error loading rows:', error);
+        return null;
+    }
+    if (!data) return null;
 
     try {
-        console.log('Number of rows (left):', data.length);
-        // filter the data for leftPheno and rightPheno
-        data = data.filter(d => d.phe_id === leftPheno || d.phe_id === rightPheno);
         console.log('Number of rows (combined):', data.length);
-        // make a set of rsids that are associated with leftPheno
-        const leftRSIDs = new Set(data.filter(d => d.phe_id === leftPheno).map(d => d.rsid));
-        // make a set of rsids that are associated with rightPheno
-        const rightRSIDs = new Set(data.filter(d => d.phe_id === rightPheno).map(d => d.rsid));
-        // take the intersection of the two sets
-        const commonRSIDs = Array.from(leftRSIDs).filter(rsid => rightRSIDs.has(rsid));
         // // if commonRSIDs is longer than 100, sort by chrom and take 100 evenly spaced values
         // if (commonRSIDs.length > 100) {
         //     // sort commonRSIDs by chrom
@@ -95,8 +95,8 @@ async function loadData() {
         // }
         // console.log('Number of common rsids:', commonRSIDs.length);
 
-        // filter the data for the common rsids AND the left and right phenotypes
-        data = data.filter(d => commonRSIDs.includes(d.rsid) && (d.phe_id === leftPheno || d.phe_id === rightPheno));
+        // the shared-SNP restriction and the left/right phenotype filter are
+        // both applied server-side now
         // if the data is empty, warn the user and then close the window
         if (data.length === 0) {
             alert('No data found for the selected phenotypes.');
@@ -111,27 +111,46 @@ async function loadData() {
     }
 }
 
+// Re-fetch under the current filters and redraw. Every filter change goes
+// through here now that the p-value threshold is applied server-side.
+async function refresh() {
+    let rows;
+    try {
+        rows = await fetchRows();
+    } catch (error) {
+        console.error('Error loading rows:', error);
+        return;
+    }
+    if (!rows) return;
+    graphData = rows;
+
+    const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
+    nodes = network.nodes;
+    links = network.links;
+    const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
+    const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
+    renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno, rightPheno, network.nodeMap, comparison_on_off);
+}
+
 // Call the async function and use the data when it's ready
-loadData().then((data) => {
+loadData().then(async (data) => {
     if (data) {
         graphData = data;
-        const base_ancestries = ['amr', 'eas', 'afr', 'eur','meta'];
-        for (let ancestry of base_ancestries) {
-            const betaColumn = `beta.${ancestry}`;
-            const pColumn = `pval.${ancestry}`;
-            // Filter the phe_id column to only include the leftPheno
-            const leftPhenoData = data.filter(d => d.phe_id === leftPheno);
 
-            // If the beta column contains only NaN values, remove the ancestry from the base_ancestries list
-            if (leftPhenoData.every(d => isNaN(parseFloat(d[betaColumn])))) {
-                base_ancestries.splice(base_ancestries.indexOf(ancestry), 1);
-            }
-            else {
-                const rightPhenoData = data.filter(d => d.phe_id === rightPheno);
-                if (rightPhenoData.every(d => isNaN(parseFloat(d[betaColumn])))) {
-                    base_ancestries.splice(base_ancestries.indexOf(ancestry), 1);
-                }
-            }
+        // Ancestries with data for BOTH phenotypes, answered by the server
+        // against the unfiltered table.
+        const ORDER = ['amr', 'eas', 'afr', 'eur', 'meta'];
+        let base_ancestries = ORDER.slice();
+        try {
+            const [left, right] = await Promise.all([
+                fetch(`/api/node/${leftPheno}/ancestries`).then(r => r.json()),
+                fetch(`/api/node/${rightPheno}/ancestries`).then(r => r.json())
+            ]);
+            base_ancestries = ORDER.filter(
+                a => left.ancestries.includes(a) && right.ancestries.includes(a)
+            );
+        } catch (error) {
+            console.error('Error loading ancestry availability:', error);
         }
 
         // Define the log scale range
@@ -168,14 +187,7 @@ loadData().then((data) => {
                     return;
                 }
 
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                nodes = network.nodes;
-                links = network.links;
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno,rightPheno, network.nodeMap, comparison_on_off);
+                refresh();
 
             }, 200); // 200ms debounce delay
         };
@@ -232,14 +244,7 @@ loadData().then((data) => {
                     return;
                 }
                 console.log('comparison_on_off:', comparison_on_off);
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                nodes = network.nodes;
-                links = network.links;
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno,rightPheno, network.nodeMap, comparison_on_off);
+                refresh();
             }, 200); // 200ms debounce delay
         }
 
@@ -556,30 +561,11 @@ loadData().then((data) => {
                 d3.select('#pvalue-label-1')
                 .text(`Select p-value threshold for ${ancestryLower}`);
 
-                if (data) {
-
-                    ancestryLower = checked[0].value.toLowerCase(); // Update ancestryLower when the selection changes
-                    console.log(`Ancestry selected: ${ancestryLower}`);
-                    betaColumn = `beta.${ancestryLower}`;
-                    pColumn = `pval.${ancestryLower}`;
-
-                    // Call the async function and use the data when it's ready
-                    if (data) {
-                        console.log(`Ancestry selected: ${ancestryLower}`);
-                        // Filter the phe_id column to only include the leftPheno
-                        const leftPhenoData = data.filter(d => d.phe_id === leftPheno);
-
-                        // If the beta column contains only NaN values, alert the user
-                        
-                        const network = initializeNetwork(data, betaColumn, pColumn);
-                
-                        const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData);
-                        const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                        nodes = filteredNodes;
-                        links = filteredLinks;
-                        renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno, rightPheno, network.nodeMap, comparison_on_off);
-                    }
-                }
+                ancestryLower = checked[0].value.toLowerCase(); // Update ancestryLower when the selection changes
+                console.log(`Ancestry selected: ${ancestryLower}`);
+                betaColumn = `beta.${ancestryLower}`;
+                pColumn = `pval.${ancestryLower}`;
+                refresh();
             }
 
 
@@ -621,25 +607,17 @@ loadData().then((data) => {
                     return;
                 }
 
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                nodes = network.nodes;
-                links = network.links;
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno,rightPheno, network.nodeMap, comparison_on_off);
+                refresh();
             }
         });
 
             // Initialize the network with the default ancestry
-            const network = initializeNetwork(data, betaColumn, pColumn);
+            const network = initializeNetwork(graphData, betaColumn, pColumn);
             nodes = network.nodes;
             links = network.links;
             const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData);
-            // const categories = filteredEdges.map(l => l.target.category);
             const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-            renderNetwork(filteredNodes, filteredLinks, network.data, network.width, network.height, leftPheno,rightPheno, network.nodeMap,comparison_on_off);
+            renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno, rightPheno, network.nodeMap, comparison_on_off);
         }
         
 });
@@ -732,6 +710,14 @@ function highlightNode(activeNodeId) {
             .attr('opacity', 0);
     }, 5000);
 }
+// A p-value of exactly 0 is the strongest possible association. The previous
+// `parseFloat(p) || 1` idiom coerced it to 1 and silently dropped those rows;
+// only a missing value should fall back to 1.
+function toPvalue(value) {
+    const p = parseFloat(value);
+    return Number.isFinite(p) ? p : 1;
+}
+
 function initializeNetwork(data, betaColumn, pColumn, betaColumn2=null, pColumn2=null, comparison_on_off=false) {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -755,7 +741,7 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2=null, pColumn2
             target: nodeMap.get(d.phe_id),
             beta: Math.abs(betaValue),
             direction: Math.sign(betaValue) || 0,
-            pvalue: parseFloat(d[pColumn]) || 1
+            pvalue: toPvalue(d[pColumn])
         };
     })
     .filter(link => link !== null); // Remove null entries
@@ -769,7 +755,7 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2=null, pColumn2
             target: nodeMap.get(d.phe_id),
             beta: isNaN(parseFloat(d[betaColumn2])) ? NaN : Math.abs(parseFloat(d[betaColumn2])),
             direction: Math.sign(parseFloat(d[betaColumn2])) || 0,
-            pvalue: parseFloat(d[pColumn2]) || 1
+            pvalue: toPvalue(d[pColumn2])
         }));
 
         // Create a set of valid keys from links2 for fast intersection

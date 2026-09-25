@@ -1,1 +1,7 @@
-
+node_modules/
+.DS_Store
+public/data/db/_build.duckdb
+public/data/db/_build.duckdb.wal
+public/data/db/tmp/
+__pycache__/
+*.pyc

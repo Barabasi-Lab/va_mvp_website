@@ -18,33 +18,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create a group <g> element to contain all nodes and links
     const content = svg.append('g');
 
-    // // Load the CSV files containing the edgelist and node attributes
+    // Node attributes are static; edge weights come back already narrowed to
+    // the selected ancestry/p-value instead of the full 92-column table.
     Promise.all([
-        d3.csv('/data/edgelist_updated_scaled.csv'),
-        d3.csv('/data/node_attributes.csv')
-    ]).then(([edgelist, nodeAttributes]) => {
-        nodes = nodeAttributes.map(d => {
-            // Start with hardcoded attributes
-            const node = {
-                id: d.id,
-                x: +d.x,
-                y: +d.y,
-                size: +d.size,
-                label: d.label,
-                color: d.hex,
-                category: d.phenotype_category,
-                degree: +d.degree
-            };
-        
-            // Dynamically add any other attributes present in the node attributes file
-            Object.keys(d).forEach(key => {
-                if (!node.hasOwnProperty(key)) {
-                    node[key] = isNaN(+d[key]) ? d[key] : +d[key]; // Convert numeric values to numbers
-                }
-            });
-        
-            return node;
-        });
+        fetch(`/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`).then(r => r.json()),
+        fetch('/api/landing/nodes').then(r => r.json())
+    ]).then(([edgeResponse, nodeResponse]) => {
+        // degrees under the active filter, computed server-side
+        let degrees = edgeResponse.degrees;
+
+        nodes = nodeResponse.nodes.map(d => ({
+            id: d.id,
+            x: +d.x,
+            y: +d.y,
+            size: +d.size,
+            label: d.label,
+            color: d.hex,
+            hex: d.hex,
+            category: d.category,
+            degree: +d.degree
+        }));
 
         const nodeMap = new Map(nodes.map(node => [node.id, node]));
 
@@ -52,17 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return nodeMap.get(id);
         }
         
-        // Add the links, with all attributes from the edgelist
-        links = edgelist.map(d => {
-            const link = { source: d.source, target: d.target }; // Base structure
-            // Dynamically add all other attributes
-            for (const [key, value] of Object.entries(d)) {
-                if (!['source', 'target'].includes(key)) { // Exclude source and target
-                    link[key] = isNaN(+value) ? value : +value; // Convert to number if applicable
-                }
-            }
-            return link;
-        });
+        // Each link carries only the two weights for the active filter
+        // (`same`/`diff`); changing the filter refreshes them in place so the
+        // d3 data binding below stays valid.
+        links = edgeResponse.edges;
 
         // Precompute node neighbors
         const nodeNeighborsMap = new Map();
@@ -313,72 +299,50 @@ document.addEventListener('DOMContentLoaded', () => {
         d3.select('#chk-weight').property('checked', true);
 
 
-        function updateEdgeWeights(links, link) {
+        // Pull fresh weights for the current ancestry/p-value and write them
+        // onto the existing link objects, then re-render.
+        async function updateEdgeWeights(links, link) {
             if (!ancestry || !pvalue || !edgeType) {
                 console.warn('One or more variables (ancestry, pvalue, edgeType) are undefined.');
                 return;
             }
-        
-            let columnName;
-            if (edgeType === 'weight') {
-                const sameDirColumn = `${ancestry}_${pvalue}_same_dir_weight`;
-                const diffDirColumn = `${ancestry}_${pvalue}_diff_dir_weight`;
-        
-                // console.log("Checking links data structure:", links.slice(0, 5)); // Debug
-                // console.log("Expected columns:", sameDirColumn, diffDirColumn); // Debug
-        
-                if (!links.some(d => d[sameDirColumn] !== undefined) || !links.some(d => d[diffDirColumn] !== undefined)) {
-                    console.warn(`One or both columns "${sameDirColumn}" and "${diffDirColumn}" do not exist in links data.`);
-                    return;
-                }
-        
-                link.attr('stroke-width', d => {
-                    const sameDirWeight = parseFloat(d[sameDirColumn]) || 0;
-                    const diffDirWeight = parseFloat(d[diffDirColumn]) || 0;
-                    return (sameDirWeight + diffDirWeight);
-                });
-        
-                columnName = sameDirColumn; // Set for later use in degree calculation
-            } else {
-                columnName = `${ancestry}_${pvalue}_${edgeType}`;
-                if (!links.some(d => d[columnName] !== undefined)) {
-                    console.warn(`Column "${columnName}" does not exist in links data.`);
-                    return;
-                }
-        
-                link.attr('stroke-width', d => parseFloat(d[columnName]) || 0);
-                
+
+            let response;
+            try {
+                response = await fetch(
+                    `/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`
+                ).then(r => r.json());
+            } catch (error) {
+                console.error('Error fetching edge weights:', error);
+                return;
             }
-        
-            // Compute node degrees based on links
-            const nodeDegrees = {};
-            links.forEach(d => {
-                const source = d.source;
-                const target = d.target;
-                const sameDirWeight = parseFloat(d[`${ancestry}_${pvalue}_same_dir_weight`]) || 0;
-                const diffDirWeight = parseFloat(d[`${ancestry}_${pvalue}_diff_dir_weight`]) || 0;
-            
-                // If either weight is non-zero, count this link in the degree
-                const hasEdge = (sameDirWeight !== 0 || diffDirWeight !== 0);
-            
-                if (!nodeDegrees[source]) nodeDegrees[source] = 0;
-                if (!nodeDegrees[target]) nodeDegrees[target] = 0;
-            
-                if (hasEdge) {
-                    nodeDegrees[source] += 1;
-                    nodeDegrees[target] += 1;
-                }
+
+            const weights = new Map(
+                response.edges.map(e => [`${e.source}|${e.target}`, e])
+            );
+            links.forEach(l => {
+                const w = weights.get(`${l.source}|${l.target}`);
+                l.same = w ? w.same : 0;
+                l.diff = w ? w.diff : 0;
             });
-        
-            // console.log("Computed node degrees:", nodeDegrees); // Debugging step
-        
-            // Ensure labels are actually selected
-            // console.log("Number of labels found:", svg.selectAll('.label').size());
-        
+            degrees = response.degrees;
+
+            renderEdgeWeights(link);
+        }
+
+        function renderEdgeWeights(link) {
+            if (edgeType === 'weight') {
+                link.attr('stroke-width', d => (d.same || 0) + (d.diff || 0));
+            } else if (edgeType === 'same_dir_weight') {
+                link.attr('stroke-width', d => d.same || 0);
+            } else {
+                link.attr('stroke-width', d => d.diff || 0);
+            }
+
             // Update labels to reflect the current degree values
             svg.selectAll('.label')
                 .each(function(d) {
-                    const degreeValue = nodeDegrees[d.id] || 0; // Use node ID to get its degree
+                    const degreeValue = degrees[d.id] || 0; // Use node ID to get its degree
         
                     // console.log(`Updating label for node ${d.id}: Degree = ${degreeValue}`); // Debug
         
@@ -433,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let activeNode = null;  // Store the currently active node reference
         let filteredNodes = nodes
         let filteredLinks = links
-    updateEdgeWeights(links, link);
+    renderEdgeWeights(link);
 
     const node = content.selectAll('.node')
         .data(nodes, d => d.id)
@@ -462,29 +426,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
             
 
-// Define nodeDegrees outside of the link processing block to make it globally accessible
-const nodeDegrees = {};
-
-// Compute node degrees based on links
-links.forEach(d => {
-    const source = d.source;
-    const target = d.target;
-    const sameDirWeight = parseFloat(d[`${ancestry}_${pvalue}_same_dir_weight`]) || 0;
-    const diffDirWeight = parseFloat(d[`${ancestry}_${pvalue}_diff_dir_weight`]) || 0;
-
-    // If either weight is non-zero, count this link in the degree
-    const hasEdge = (sameDirWeight !== 0 || diffDirWeight !== 0);
-
-    if (!nodeDegrees[source]) nodeDegrees[source] = 0;
-    if (!nodeDegrees[target]) nodeDegrees[target] = 0;
-
-    if (hasEdge) {
-        nodeDegrees[source] += 1;
-        nodeDegrees[target] += 1;
-    }
-});
-
-console.log("Computed node degrees:", nodeDegrees); // Debugging output
+// `degrees` holds the per-node degree under the active filter and is
+// refreshed by updateEdgeWeights whenever the filter changes.
 
 function highlightNode(selectedNode) {
     if (!selectedNode) {
@@ -525,9 +468,9 @@ function highlightNode(selectedNode) {
     // as query parameters
     node.on('dblclick', function (event, d) {
         // console.log('Double-clicked node:', d);
-        console.log(nodeDegrees[d.id]);
+        console.log(degrees[d.id]);
 
-        if (nodeDegrees[d.id] === undefined) {
+        if (degrees[d.id] === undefined) {
             // warn the user that the node has no edges
             console.log('This node has no edges.');
             alert('This node has no edges.');
@@ -617,8 +560,8 @@ const labels = svg.selectAll('.label')
     .style('fill', 'white')  // Ensure text is visible against the black background
     .style('opacity', 0)
     .each(function(d) {
-    // Use precomputed nodeDegrees instead of an incorrect column reference
-    const degreeValue = nodeDegrees[d.id] || 0;
+    // Use the server-computed degrees for the active filter
+    const degreeValue = degrees[d.id] || 0;
 
 
     // console.log(`Updating label for node ${d.id}: Degree = ${degreeValue}`); // Debugging output

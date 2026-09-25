@@ -16,6 +16,7 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "@duckdb/node-api": "^1.5.5-r.5",
     "compression": "^1.8.1",
     "d3": "^7.9.0",
     "express": "^5.1.0"

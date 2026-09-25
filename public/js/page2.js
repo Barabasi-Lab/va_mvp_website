@@ -36,52 +36,89 @@ let betaColumn = `beta.${ancestryLower}`;
 let pColumn = `pval.${ancestryLower}`;
 pThreshold = parseFloat(params.pvalue);
 
-async function loadData() {
-    // Check if the centerPheno requires loading two chunks
-    const splitPhenotypes = ['181', '167', '170', '175'];
-    let data = [];
-    if (splitPhenotypes.includes(centerPheno)) {
-        const file1 = `/data/node_files/${centerPheno}_1.csv`;
-        const file2 = `/data/node_files/${centerPheno}_2.csv`;
-        try {
-            const [data1, data2] = await Promise.all([d3.csv(file1), d3.csv(file2)]);
-            data = data1.concat(data2);
-        } catch (error) {
-            console.error(`Error loading split files for ${centerPheno}:`, error);
-            return null;
-        }
-    } else {
-        const fileName = `/data/node_files/${centerPheno}.csv`;
-        try {
-            data = await d3.csv(fileName);
-        } catch (error) {
-            console.error(`Error loading file ${fileName}:`, error);
-            return null;
-        }
+// Metadata for the centre phenotype, kept separately so a strict threshold
+// that removes every centre row cannot leave the node unlabelled.
+let centerMeta = null;
+
+// Ask the server for the centre phenotype's neighbourhood under the active
+// filters. Replaces the per-node CSVs, which had to be downloaded whole (up
+// to ~230 MB) before the browser could filter them.
+// The response depends only on the ancestry selection, so moving the p-value
+// slider re-renders from the rows already in hand.
+async function fetchRows() {
+    const params = new URLSearchParams({
+        node: centerPheno,
+        ancestry: comparison_on_off ? anc1 : ancestryLower
+    });
+    if (comparison_on_off && anc2) {
+        params.set('ancestry2', anc2);
     }
-    console.log('Number of rows:', data.length);
-    return data;
-    
+    try {
+        const response = await fetch(`/api/page2/rows?${params}`);
+        if (!response.ok) {
+            console.error('Error loading rows:', (await response.json()).error);
+            return null;
+        }
+        const payload = await response.json();
+        centerMeta = payload.center;
+        console.log('Number of rows:', payload.rows.length);
+        return payload.rows;
+    } catch (error) {
+        console.error('Error loading rows:', error);
+        return null;
+    }
 }
 
-// Call the async function and use the data when it's ready
-loadData().then((data) => {
+async function loadData() {
+    return fetchRows();
+}
+
+// Re-render from the rows already loaded. The p-value sliders use this.
+function redraw() {
+    if (!graphData) {
+        console.warn('Data is not loaded yet.');
+        return;
+    }
+
+    const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
+    const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
+    const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
+    nodes = filteredNodes;
+    links = filteredLinks;
+    renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
+
+    if (activeNode) {
+        highlightNode(activeNode, filteredLinks, comparison_on_off);
+    }
+}
+
+// Changing the ancestry changes which SNPs rank highest, so that needs a
+// round trip; everything else redraws locally.
+async function refresh() {
+    const rows = await fetchRows();
+    if (!rows) return;
+    graphData = rows;
+    redraw();
+}
+
+loadData().then(async (data) => {
     if (data) {
         graphData = data;
-        const base_ancestries = ['amr', 'eas', 'afr', 'eur','meta'];
-        for (let ancestry of base_ancestries) {
-            const betaColumn = `beta.${ancestry}`;
-            const pColumn = `pval.${ancestry}`;
-            // Filter the phe_id column to only include the centerPheno
-            const centerPhenoData = data.filter(d => d.phe_id === centerPheno);
 
-            // If the beta column contains only NaN values, remove the ancestry from the base_ancestries list
-            if (centerPhenoData.every(d => isNaN(parseFloat(d[betaColumn])))) {
-                base_ancestries.splice(base_ancestries.indexOf(ancestry), 1);
-            }
+        // Which ancestries actually have data for this phenotype. The old
+        // check read the loaded rows; the server answers it directly against
+        // the unfiltered table.
+        const ORDER = ['amr', 'eas', 'afr', 'eur', 'meta'];
+        let base_ancestries = ORDER.slice();
+        try {
+            const available = await fetch(`/api/node/${centerPheno}/ancestries`)
+                .then(r => r.json());
+            base_ancestries = ORDER.filter(a => available.ancestries.includes(a));
+        } catch (error) {
+            console.error('Error loading ancestry availability:', error);
         }
 
-        
+
         // Define the log scale range
         const minLogP = -12; // Corresponding to 10^-10
         const maxLogP = -4;  // Corresponding to 10^-4
@@ -118,18 +155,7 @@ loadData().then((data) => {
                     return;
                 }
                 
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                nodes = filteredNodes;
-                links = filteredLinks;
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-
-                if (activeNode) {
-                    console.log('Re-highlighting active node:', activeNode);
-                    highlightNode(activeNode, filteredLinks, comparison_on_off);
-                }
+                redraw();
             }, 200); // 200ms debounce delay
         };
 
@@ -186,18 +212,7 @@ loadData().then((data) => {
                     return;
                 }
                 console.log('comparison_on_off:', comparison_on_off);
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                nodes = filteredNodes;
-                links = filteredLinks;
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-
-                if (activeNode) {
-                    console.log('Re-highlighting active node:', activeNode);
-                    highlightNode(activeNode, filteredLinks, comparison_on_off);
-                }
+                redraw();
             }, 200); // 200ms debounce delay
         }
 
@@ -526,27 +541,9 @@ loadData().then((data) => {
                 d3.select('#pvalue-label-1')
                 .text(`Select p-value threshold for ${ancestryLower}`);
 
-                if (data) {
-                    // Filter the phe_id column to only include the centerPheno
-                    const centerPhenoData = data.filter(d => d.phe_id === centerPheno);
-
-                    // If the beta column contains only NaN values, alert the user
-                    if (centerPhenoData.every(d => isNaN(parseFloat(d[betaColumn])))) {
-                        alert(`The selected ancestry (${ancestryLower}) does not contain any data for the center phenotype (${centerPhenoData[0].phe_label}).`);
-                    } else {
-                        const network = initializeNetwork(data, betaColumn, pColumn);
-                        const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData);
-                        // const categories = filteredEdges.map(l => l.target.category);
-                        const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                        nodes = filteredNodes;
-                        links = filteredLinks;
-                        renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-                        if (activeNode) {
-                            console.log('Re-highlighting active node:', activeNode);
-                            highlightNode(activeNode, filteredLinks, comparison_on_off);
-                        }
-                    }
-                }
+                // The checkbox list is already limited to ancestries that have
+                // data for this phenotype, so no availability check is needed.
+                refresh();
             }
 
 
@@ -588,29 +585,18 @@ loadData().then((data) => {
                     return;
                 }
 
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                nodes = filteredNodes;
-                links = filteredLinks;
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-
-                if (activeNode) {
-                    highlightNode(activeNode, filteredLinks, comparison_on_off);
-                }
+                refresh();
             }
         });
 
 
         // Initialize the network with the default ancestry
-        const network = initializeNetwork(data, betaColumn, pColumn);
+        const network = initializeNetwork(graphData, betaColumn, pColumn);
         const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData);
-        // const categories = filteredEdges.map(l => l.target.category);
         const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
         nodes = filteredNodes;
         links = filteredLinks;
-        renderNetwork(filteredNodes, filteredLinks, network.data, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
+        renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
 
     }
 });
@@ -771,6 +757,14 @@ function highlightNode(aNode, links, comparison_on_off = false) {
 
 
 
+// A p-value of exactly 0 is the strongest possible association. The previous
+// `parseFloat(p) || 1` idiom coerced it to 1 and silently dropped those rows;
+// only a missing value should fall back to 1.
+function toPvalue(value) {
+    const p = parseFloat(value);
+    return Number.isFinite(p) ? p : 1;
+}
+
 function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColumn2 = null, comparison_on_off = false) {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -788,7 +782,7 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
         target: nodeMap.get(d.phe_id),
         beta: isNaN(parseFloat(d[betaColumn])) ? NaN : Math.abs(parseFloat(d[betaColumn])),
         direction: Math.sign(parseFloat(d[betaColumn])) || 0,
-        pvalue: parseFloat(d[pColumn]) || 1
+        pvalue: toPvalue(d[pColumn])
     }));
 
     // If comparison is enabled, prepare and merge with the second set of links
@@ -799,7 +793,7 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
             target: nodeMap.get(d.phe_id),
             beta: isNaN(parseFloat(d[betaColumn2])) ? NaN : Math.abs(parseFloat(d[betaColumn2])),
             direction: Math.sign(parseFloat(d[betaColumn2])) || 0,
-            pvalue: parseFloat(d[pColumn2]) || 1
+            pvalue: toPvalue(d[pColumn2])
         }));
 
         // Create a set of valid keys from links2 for fast intersection
@@ -918,8 +912,11 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
         centerNode.x = centerX;
         centerNode.y = centerY;
         centerNode.color = centerNode.color || 'gray';
-        centerNode.label = data.find(d => d.phe_id === centerPheno).phe_label;
-        centerNode.category = data.find(d => d.phe_id === centerPheno).phe_cat;
+        // fall back to the metadata the endpoint returns, in case the current
+        // threshold left no rows for the centre phenotype itself
+        const centerRow = data.find(d => d.phe_id === centerPheno) || centerMeta || {};
+        centerNode.label = centerRow.phe_label;
+        centerNode.category = centerRow.phe_cat;
     }
 
     return {
