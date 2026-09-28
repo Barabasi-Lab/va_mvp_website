@@ -227,24 +227,34 @@ const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
 const TOP_SNPS = 150;
 
 /**
- * The centre phenotype's strongest SNPs, ranked exactly as initializeNetwork()
- * ranks them: any row with a usable beta, ordered by ascending p-value, with
- * the p-value threshold deliberately NOT applied (the client ranks first and
- * thresholds second). Restricting to these rsids is idempotent - the client's
- * own top-150 pass over the result reproduces the same set.
+ * The centre phenotype's strongest SNPs: any row with a usable beta, ordered
+ * by ascending p-value, with the p-value threshold deliberately NOT applied
+ * (the client ranks first and thresholds second). Restricting to these rsids
+ * is idempotent - the client's own top-150 pass over the result reproduces
+ * the same set.
  *
- * Ties on p-value are common right at the 150-row cut, and the client's sort
- * is stable over the row order of the legacy CSVs, which is exactly the raw
- * dataset's own row order - so src_row breaks ties the same way.
+ * With two ancestries the key is the weaker of the two p-values, not the
+ * first ancestry's. Ranking on one ancestry alone spent slots on SNPs the
+ * other ancestry's filter then removed, while excluding SNPs that would have
+ * passed both. It also makes the key the same quantity the filters test, so
+ * the visible set is a prefix of the ranking: tightening a slider trims from
+ * the bottom rather than reshuffling what is on screen.
+ *
+ * Ties are common right at the 150-row cut, and the client's sort is stable
+ * over the row order of the legacy CSVs, which is exactly the raw dataset's
+ * own row order - so src_row breaks ties the same way.
  */
 function topSnpCte(a1, a2) {
   const betaPresent = [`"beta.${a1}" IS NOT NULL`];
   if (a2) betaPresent.push(`"beta.${a2}" IS NOT NULL`);
+  const rank = a2
+    ? `greatest(coalesce("pval.${a1}", 1), coalesce("pval.${a2}", 1))`
+    : `"pval.${a1}"`;
   return `WITH top_rsids AS (
             SELECT DISTINCT rsid FROM (
               SELECT rsid FROM associations
               WHERE phe_id = $1 AND ${betaPresent.join(' AND ')}
-              ORDER BY "pval.${a1}" ASC NULLS LAST, src_row ASC
+              ORDER BY ${rank} ASC NULLS LAST, src_row ASC
               LIMIT ${TOP_SNPS}))`;
 }
 

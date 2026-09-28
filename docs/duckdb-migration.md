@@ -166,13 +166,29 @@ behaviour, not something this work introduced, and it binds hard: Obesity has
 54,875 SNPs with EUR data, of which 54,297 clear 1e-4, and the page has always
 drawn 150. The p-value slider cannot reveal a 151st.
 
-Note the "About Phenotype View" text on that page says "top 100 associated
-SNPs" while the code uses 150. One of the two is wrong.
+The "About Phenotype View" text used to say "top 100 associated SNPs" while
+the code used 150; it now says 150, and states that the limit is hard.
 
-In comparison mode page 2 ranks by the first ancestry only, so it has the
-slot-wasting problem page 3 just had. It was left alone because it matches the
-legacy behaviour the validation suite checks against; changing it is a
-deliberate decision, not a bug fix.
+Comparison mode ranks by the weaker of the two ancestries' p-values, the same
+key page 3 uses, so every slot goes to a SNP that clears both filters. This is
+a deliberate departure from the legacy ranking, which used the first ancestry
+alone: on Hyperlipidemia with EUR+AFR that filled 110 of 150 slots, and now
+fills all 150.
+
+It is not a free win everywhere. The jointly-strongest SNPs are not always the
+most pleiotropic, so on Asthma with EUR+META the drawn count fell from 150 to
+131 even though the centre-link pass rate barely moved (150 to 148). The SNPs
+now shown are the ones most strongly associated in both ancestries; fewer of
+them happen to reach a second phenotype.
+
+Because this deviates from legacy, `validate_pages.js` checks comparison-mode
+page 2 in two parts: it derives the expected top-150 from the legacy CSV using
+the new key and asserts the endpoint returned exactly that set, then compares
+the rendering over those same SNPs. Single-ancestry cases still compare
+against legacy unchanged.
+
+Merged phenotypes cap slightly below 150: Asthma has 10,767 duplicated rsids,
+so the top 150 rows collapse to 148 SNPs. The legacy code did the same.
 
 ## Phenotype identity
 

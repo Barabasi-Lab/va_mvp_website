@@ -345,7 +345,11 @@ loadData().then(async (data) => {
             <h2>Phenotype View</h2>
             <p>
                 The center node is the phenotype that was selected from the overall graph.<br><br>
-                The inner ring of nodes are its top 100 associated SNPs, ranked by p value.<br><br>
+                The inner ring of nodes are its top 150 associated SNPs, ranked by p value.
+                That is a hard limit: loosening the p-value filter will not reveal more
+                than 150.<br><br>
+                With two ancestries selected, they are ranked by the weaker of the two
+                p-values, so every one of the 150 is a SNP that clears both filters.<br><br>
                 These nodes are arranged and colored by chromosome. The chromosome number is also 
                 listed in the label, which can be seen by hovering over a node.<br><br>
                 The outer ring of nodes are the other phenotypes associated with the same SNPs.<br><br>
