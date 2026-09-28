@@ -51,6 +51,9 @@ async function fetchRows() {
         right: rightPheno,
         ancestry: comparison_on_off ? anc1 : ancestryLower
     });
+    // the server ranks by the weakest p-value across both ancestries, so it
+    // needs to know about the second one when the cap bites
+    if (comparison_on_off && anc2) params.set('ancestry2', anc2);
     const response = await fetch(`/api/page3/rows?${params}`);
     if (!response.ok) {
         console.error('Error loading rows:', (await response.json()).error);
@@ -83,10 +86,11 @@ function showSnpCount(drawn) {
     const capped = fetched < shared;
     box.style('color', capped ? '#ffcc66' : 'white').text(
         capped
-            ? `${drawn.toLocaleString()} SNPs shown, from the ${fetched.toLocaleString()} ` +
-              `most significant of ${shared.toLocaleString()} shared`
+            ? `${drawn.toLocaleString()} SNPs drawn \u2014 view is capped at the ` +
+              `${fetched.toLocaleString()} most significant of ${shared.toLocaleString()} ` +
+              `shared; loosening the filters will not show more than that`
             : `${drawn.toLocaleString()} of ${shared.toLocaleString()} shared ` +
-              `SNP${shared === 1 ? '' : 's'} shown`);
+              `SNP${shared === 1 ? '' : 's'} drawn`);
 }
 
 async function loadData() {

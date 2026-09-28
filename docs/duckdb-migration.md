@@ -76,10 +76,24 @@ apart in the column — and enough DOM to hang the browser. `/api/page3/rows`
 returns the 250 most significant by default; `limit` overrides it up to
 50,000. About 16% of edges exceed the default.
 
-The page states what it is showing: *"250 SNPs shown, from the 250 most
-significant of 27,481 shared"*, or *"75 of 77 shared SNPs shown"* when the cap
-does not apply. If you want a different default, it is `PAGE3_DEFAULT_LIMIT`
-in `server.js`.
+The page states what it is showing: *"250 SNPs drawn — view is capped at the
+250 most significant of 27,481 shared; loosening the filters will not show
+more than that"*, or *"75 of 77 shared SNPs drawn"* when the cap does not
+apply. If you want a different default, it is `PAGE3_DEFAULT_LIMIT` in
+`server.js`.
+
+The cap is a hard limit, not a first page: a SNP ranked 251st is never
+reachable from the UI. That is deliberate, but it makes the ranking key the
+thing to get right. A SNP is only drawn when it clears the threshold on both
+phenotypes, and in comparison mode on both ancestries, so the key is the
+weakest p-value across all of those. Because the key is the same quantity the
+filters test, the visible set is a prefix of the ranking: tightening a slider
+trims from the bottom and can never reveal something from beyond the cap.
+
+Ranking on the first ancestry alone — which is what it did at first — spent
+slots on SNPs that the second ancestry's filter then removed. On Shortness of
+breath / Other dyspnea that showed 215 of 250 possible SNPs while excluding
+663 that qualified.
 
 ## Payloads
 
@@ -144,6 +158,21 @@ associations in the dataset were always filtered out. `toPvalue()` in
 `page2.js`/`page3.js` now only falls back to 1 for missing values.
 
 Everything else is byte-identical; see "Validation" below.
+
+## Page 2's 150-SNP cap
+
+Page 2 shows the centre phenotype's 150 strongest SNPs. That is original
+behaviour, not something this work introduced, and it binds hard: Obesity has
+54,875 SNPs with EUR data, of which 54,297 clear 1e-4, and the page has always
+drawn 150. The p-value slider cannot reveal a 151st.
+
+Note the "About Phenotype View" text on that page says "top 100 associated
+SNPs" while the code uses 150. One of the two is wrong.
+
+In comparison mode page 2 ranks by the first ancestry only, so it has the
+slot-wasting problem page 3 just had. It was left alone because it matches the
+legacy behaviour the validation suite checks against; changing it is a
+deliberate decision, not a bug fix.
 
 ## Phenotype identity
 

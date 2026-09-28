@@ -318,6 +318,13 @@ app.get('/api/page3/rows', async (req, res, next) => {
     const a1 = checkAncestry(req.query.ancestry, res);
     if (!a1) return;
 
+    // only affects the ranking used when the cap bites; no rows are filtered
+    let a2 = null;
+    if (req.query.ancestry2) {
+      a2 = checkAncestry(req.query.ancestry2, res, 'ancestry2');
+      if (!a2) return;
+    }
+
     let limit = PAGE3_DEFAULT_LIMIT;
     if (req.query.limit !== undefined) {
       const n = Number(req.query.limit);
@@ -327,6 +334,20 @@ app.get('/api/page3/rows', async (req, res, next) => {
       limit = n;
     }
 
+    // A SNP is only drawn when it clears the threshold on *both* phenotypes,
+    // and in comparison mode on both ancestries too, so rank by the weakest of
+    // those p-values. Ranking on one ancestry alone spent slots on SNPs that
+    // the other ancestry's filter then removed, while excluding SNPs that
+    // would have passed: on Shortness of breath / Other dyspnea that left 215
+    // of 250 slots used and 663 qualifying SNPs shut out.
+    //
+    // Because the key is the same quantity the filters test, the cap is a
+    // prefix of the ranking: tightening a slider can only remove SNPs from the
+    // bottom, never reveal one from beyond the cap.
+    const worstOf = [`coalesce(max(a."pval.${a1}"), 1)`];
+    if (a2) worstOf.push(`coalesce(max(a."pval.${a2}"), 1)`);
+    const worst = worstOf.length > 1 ? `greatest(${worstOf.join(', ')})` : worstOf[0];
+
     const cte = `
       WITH shared AS (
         SELECT rsid FROM associations WHERE phe_id = $1
@@ -335,11 +356,11 @@ app.get('/api/page3/rows', async (req, res, next) => {
       ),
       ranked AS (
         SELECT rsid FROM (
-          SELECT a.rsid, max(a."pval.${a1}") AS worst
+          SELECT a.rsid, ${worst} AS worst
           FROM associations a
           WHERE a.phe_id IN ($1, $2) AND a.rsid IN (SELECT rsid FROM shared)
           GROUP BY a.rsid
-          ORDER BY worst ASC NULLS LAST, rsid ASC
+          ORDER BY worst ASC, rsid ASC
           LIMIT ${limit})
       )`;
 
