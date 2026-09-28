@@ -43,19 +43,43 @@ a sibling of the repo directory by default.
 | `GET /api/landing/edges` | `ancestry`, `pvalue` | `{source, target, same, diff}` per edge plus per-node degrees under that filter |
 | `GET /api/node/:id/ancestries` | – | ancestries with data for that phenotype |
 | `GET /api/page2/rows` | `node`, `ancestry`, optional `ancestry2` | association rows for the phenotype's 150 strongest SNPs |
-| `GET /api/page3/rows` | `left`, `right`, `ancestry`, `pvalue`, optional `ancestry2`/`pvalue2` | association rows for the SNPs the two phenotypes share |
+| `GET /api/page3/rows` | `left`, `right`, `ancestry`, optional `ancestry2`, optional `limit` | association rows for the SNPs the two phenotypes share |
 
 `ancestry` is one of `meta, eur, afr, amr, eas`. Page 1's `pvalue` must be one
-of the nine precomputed thresholds (`1e-04` … `1e-12`); page 3's is continuous.
+of the nine precomputed thresholds (`1e-04` … `1e-12`).
 
-### Why page 2 does not take a p-value
+### Why pages 2 and 3 do not take a p-value
+
+Two reasons, and both bite.
 
 Page 2 ranks the centre phenotype's SNPs by p-value, keeps the top 150, and
 *then* applies the threshold. Serving pre-thresholded rows would make the
 client rank a smaller set, so SNPs that fail the threshold on the centre
-phenotype but carry a strong association to a neighbour would vanish. The
-response therefore depends only on the ancestry, and the p-value slider
-filters client-side with no round trip.
+phenotype but carry a strong association to a neighbour would vanish.
+
+On both pages, two-ancestry comparison mode intersects the rows by
+`(SNP, phenotype)` and keeps the **last** row it sees for a duplicated pair.
+The raw data has 2,777 duplicate pairs, plus more from the five merged
+phenotypes, so dropping rows server-side changed which duplicate won and
+shifted an edge's beta and direction. Rows therefore come back in the raw
+dataset's row order (`src_row`), which is exactly the order the legacy
+per-node CSVs used.
+
+Both responses depend only on the ancestry selection, so the p-value sliders
+filter client-side with no round trip.
+
+### The page 3 cap
+
+The median edge shares ~51 SNPs, but Hyperlipidemia and Disorders of lipoid
+metabolism share 27,481. Drawing those is meaningless — they land 0.05 px
+apart in the column — and enough DOM to hang the browser. `/api/page3/rows`
+returns the 1,000 most significant by default; `limit` overrides it up to
+50,000. About 6% of edges exceed the default.
+
+The page states what it is showing: *"1,000 SNPs shown, from the 1,000 most
+significant of 27,481 shared"*, or *"75 of 77 shared SNPs shown"* when the cap
+does not apply. If you want a different default, it is `PAGE3_DEFAULT_LIMIT`
+in `server.js`.
 
 ## Payloads
 
@@ -68,6 +92,40 @@ Gzipped, as a browser receives them:
 | Page 1 initial load | 5.1 MB | 0.47 MB |
 
 Every endpoint responds in under 350 ms locally.
+
+## Client-side performance
+
+Moving the data off the critical path was not enough on its own: the page
+scripts were quadratic or worse, and that dominated once the downloads shrank.
+Measured in Chromium:
+
+| | before | after |
+| --- | --- | --- |
+| Page 1 load | 8.2 s | 2.6 s |
+| Page 3, Hyperlipidemia ↔ lipoid metabolism | 85.7 s | 3.2 s |
+| Page 2 centre-node click, 13,914 edges | froze the tab | 122 ms to paint |
+
+What had to change, in rough order of impact:
+
+- `updateNodes` (both pages) scanned every edge once per node, and for
+  phenotypes once per node *per SNP* — about 1e9 comparisons on a large edge
+  view. It is two passes over the edges now.
+- Page 3's `initializeNetwork` and `renderNetwork` each rescanned all links per
+  SNP, or all data rows per SNP: four more ~1e9 loops.
+- Page 1's `highlightNode` tested `filteredLinks.includes(l)` inside a pass
+  over all 54,790 links — roughly 3e9 comparisons per click.
+- Page 1 created all 54,790 `<line>` elements up front at opacity 0, so the
+  browser laid out and composited every one on load. Only the selected node's
+  edges are ever visible, so `drawLinks()` now creates just those.
+- Pages 2 and 3 fetched and rendered the whole graph twice on load: once from
+  the ancestry checkbox's synthetic `change` event, once from the explicit
+  initial render.
+- A 300 ms d3 transition over 14,000 elements was what actually froze the tab
+  on a centre-node click. Above 2,000 elements the style is set outright.
+
+The thing to avoid reintroducing is an `.includes()`, `.some()` or `.find()`
+over nodes, links or data rows inside a callback that already runs once per
+node or per link.
 
 ## Behaviour changes
 
@@ -118,7 +176,12 @@ python3  scripts/validate_landing.py        # all 45 ancestry x p-value combos
 `validate_pages.js` is the strongest check: it lifts `initializeNetwork`,
 `updateEdges` and `updateNodes` straight out of `page2.js`/`page3.js`, runs
 them over the legacy CSV and over the endpoint response, and compares the
-resulting node and edge sets. All three suites pass with zero differences.
+resulting node and edge multisets. 89 cases, including ten in two-ancestry
+comparison mode, which is where the duplicate-row ordering problem showed up.
+All three suites pass with zero differences.
+
+`--sample N` adds N randomly chosen page-2 cases on top of the fixed
+regression set.
 
 Reconciling the two encodings matters when reading these scripts: the legacy
 CSVs wrote absent ancestry data as `pval=1, beta=0` where the raw dataset has
