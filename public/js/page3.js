@@ -42,26 +42,51 @@ let pColumn = `pval.${ancestryLower}`;
 // convert here: the first request is issued before the slider initialises.
 pThreshold = Math.pow(10, parseFloat(params.pvalue));
 
-// Ask the server for the two phenotypes' shared SNPs under the active
-// filters. The server intersects the rsid sets before applying the p-value
-// threshold, matching the order the client used to do it in.
+// Ask the server for the SNPs the two phenotypes share. The response depends
+// only on the ancestry (which decides the ranking when the set is capped), so
+// moving either p-value slider re-renders from the rows already in hand.
 async function fetchRows() {
     const params = new URLSearchParams({
         left: leftPheno,
         right: rightPheno,
-        ancestry: comparison_on_off ? anc1 : ancestryLower,
-        pvalue: pThreshold
+        ancestry: comparison_on_off ? anc1 : ancestryLower
     });
-    if (comparison_on_off && anc2) {
-        params.set('ancestry2', anc2);
-        params.set('pvalue2', pThreshold2);
-    }
     const response = await fetch(`/api/page3/rows?${params}`);
     if (!response.ok) {
         console.error('Error loading rows:', (await response.json()).error);
         return null;
     }
-    return (await response.json()).rows;
+    const payload = await response.json();
+    snpTotals = { shared: payload.sharedSnps, fetched: payload.shownSnps };
+    return payload.rows;
+}
+
+// How many SNPs the two phenotypes share, and how many of those were fetched
+// (the server caps very large edges). Set by fetchRows, read by showSnpCount.
+let snpTotals = { shared: 0, fetched: 0 };
+
+// Report what is actually on screen. Two separate things cut the number down:
+// the p-value filters, and the server-side cap on very large edges. Say so
+// rather than quietly truncating.
+function showSnpCount(drawn) {
+    let box = d3.select('#snp-count');
+    if (box.empty()) {
+        box = d3.select('body').append('div')
+            .attr('id', 'snp-count')
+            .style('position', 'absolute')
+            .style('bottom', '10px')
+            .style('left', '10px')
+            .style('font-size', '13px')
+            .style('pointer-events', 'none');
+    }
+    const { shared, fetched } = snpTotals;
+    const capped = fetched < shared;
+    box.style('color', capped ? '#ffcc66' : 'white').text(
+        capped
+            ? `${drawn.toLocaleString()} SNPs shown, from the ${fetched.toLocaleString()} ` +
+              `most significant of ${shared.toLocaleString()} shared`
+            : `${drawn.toLocaleString()} of ${shared.toLocaleString()} shared ` +
+              `SNP${shared === 1 ? '' : 's'} shown`);
 }
 
 async function loadData() {
@@ -113,8 +138,23 @@ async function loadData() {
     }
 }
 
-// Re-fetch under the current filters and redraw. Every filter change goes
-// through here now that the p-value threshold is applied server-side.
+// Re-render from the rows already loaded. The p-value sliders use this.
+function redraw() {
+    if (!graphData) {
+        console.warn('Data is not loaded yet.');
+        return;
+    }
+
+    const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
+    nodes = network.nodes;
+    links = network.links;
+    const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
+    const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
+    renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno, rightPheno, network.nodeMap, comparison_on_off);
+}
+
+// Changing the ancestry changes the ranking used for the cap, so that needs a
+// round trip; everything else redraws locally.
 async function refresh() {
     let rows;
     try {
@@ -125,13 +165,7 @@ async function refresh() {
     }
     if (!rows) return;
     graphData = rows;
-
-    const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-    nodes = network.nodes;
-    links = network.links;
-    const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-    const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-    renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, leftPheno, rightPheno, network.nodeMap, comparison_on_off);
+    redraw();
 }
 
 // Call the async function and use the data when it's ready
@@ -178,9 +212,11 @@ loadData().then(async (data) => {
             `);
 
         let debounceTimer;
-        const updatePValueThreshold = (logP) => {
+        const updatePValueThreshold = (logP, { defer = false } = {}) => {
             pThreshold = Math.pow(10, logP); // Convert back to linear scale
             d3.select('#pvalue-threshold').text(`1e${logP}`);
+
+            if (defer) return;   // initial seeding; the first render happens below
 
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
@@ -189,7 +225,7 @@ loadData().then(async (data) => {
                     return;
                 }
 
-                refresh();
+                redraw();
 
             }, 200); // 200ms debounce delay
         };
@@ -197,7 +233,7 @@ loadData().then(async (data) => {
         // Initialize the slider and input with the value from the query parameter
         const initialPValue = params.pvalue || maxLogP;
         d3.select('#pvalue-slider').property('value', initialPValue);
-        updatePValueThreshold(initialPValue);
+        updatePValueThreshold(initialPValue, { defer: true });
 
         d3.select('#pvalue-slider').on('input', function () {
             const logP = this.value;
@@ -246,7 +282,7 @@ loadData().then(async (data) => {
                     return;
                 }
                 console.log('comparison_on_off:', comparison_on_off);
-                refresh();
+                redraw();
             }, 200); // 200ms debounce delay
         }
 
@@ -530,8 +566,10 @@ loadData().then(async (data) => {
         const checkbox = document.querySelector(`#chk-${ancestryLower}`);
         console.log(checkbox);
         if (checkbox) {
+            // Only reflect the query string in the UI. Dispatching 'change' here
+            // re-fetched and re-rendered the entire graph on top of the initial
+            // render below, doubling load time on large views.
             checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change')); // Trigger the event so the network renders
         }
 
         // Listen for ancestry checkbox changes
@@ -649,30 +687,40 @@ function updateEdges(pThreshold, betaThreshold, betaSign, links, data, pThreshol
     }
 
 function updateNodes(edges, nodes) {
+    // Same result as before, but in two passes over the edges instead of
+    // scanning them once per node (and, for the phenotypes, once per node per
+    // SNP). On a large edge view that nested form was ~1e9 comparisons.
+
+    // degree per node id; an edge counts once for a node even if it happens to
+    // sit on both of its ends, matching the original `source || target` test
+    const degree = new Map();
+    const bump = id => degree.set(id, (degree.get(id) || 0) + 1);
+    for (const edge of edges) {
+        const s = edge.source.id;
+        const t = edge.target.id;
+        bump(s);
+        if (t !== s) bump(t);
+    }
+
     // find all the nodes that have ids starting with rs
     const rsidNodes = nodes.filter(node => node.id.startsWith('rs'));
     // eliminate any rsid nodes that have less than 2 edges
-    const rsidNodesFiltered = rsidNodes.filter(node => {
-        const degree = edges.reduce((count, edge) => {
-            return count + ((edge.source.id === node.id || edge.target.id === node.id) ? 1 : 0);
-        }, 0);
-        return degree >= 2;
-    });
+    const rsidNodesFiltered = rsidNodes.filter(node => (degree.get(node.id) || 0) >= 2);
+    const rsidKept = new Set(rsidNodesFiltered.map(n => n.id));
+
+    // ids with at least one edge to a surviving rsid node
+    const linkedToKeptRsid = new Set();
+    for (const edge of edges) {
+        const s = edge.source.id;
+        const t = edge.target.id;
+        if (rsidKept.has(t)) linkedToKeptRsid.add(s);
+        if (rsidKept.has(s)) linkedToKeptRsid.add(t);
+    }
 
     // find all the nodes that have ids not starting with rs
     const pheNodes = nodes.filter(node => !node.id.startsWith('rs'));
     // filter phenodes to include only those with at least one edge to a node in rsidNodesFiltered
-    const pheNodesFiltered = pheNodes.filter(node => {
-        return edges.some(edge => {
-            if (edge.source.id === node.id) {
-                return rsidNodesFiltered.some(rsNode => rsNode.id === edge.target.id);
-            } else if (edge.target.id === node.id) {
-                return rsidNodesFiltered.some(rsNode => rsNode.id === edge.source.id);
-            }
-            return false;
-        });
-    }
-    );
+    const pheNodesFiltered = pheNodes.filter(node => linkedToKeptRsid.has(node.id));
     // combine the filtered rsidNodes and pheNodes
     const filteredNodes = rsidNodesFiltered.concat(pheNodesFiltered);
 
@@ -816,22 +864,29 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2=null, pColumn2
     const rsidNodes = nodes.filter(n => n.id.startsWith('rs'));
     const rsidNodeMap = new Map();
     rsidNodes.forEach(n => rsidNodeMap.set(n.id, { left: false, right: false }));
-    console.log("number of nodes:", nodes);
-    console.log("number of links:", links);
-    // Identify RSID nodes that connect to at least two distinct phenotype nodes
+
+    // Distinct phenotypes per SNP, in one pass over the links. Scanning every
+    // link for every SNP was ~1e9 comparisons on a large edge view.
+    //
+    // Note the >= 2 test below never actually rejects anything: the seed value
+    // above is an object, which is truthy, so the filter that reads this map
+    // keeps every SNP either way. Left as-is because updateNodes() enforces the
+    // same "at least two edges" rule on the thresholded edges, which is the one
+    // that matters.
+    const phenotypesPerRsid = new Map();
+    const note = (rsid, pheno) => {
+        let seen = phenotypesPerRsid.get(rsid);
+        if (!seen) phenotypesPerRsid.set(rsid, seen = new Set());
+        seen.add(pheno);
+    };
+    for (const link of links) {
+        const s = link.source.id;
+        const t = link.target.id;
+        if (rsidNodeMap.has(s) && !t.startsWith('rs')) note(s, t);
+        if (rsidNodeMap.has(t) && !s.startsWith('rs')) note(t, s);
+    }
     rsidNodes.forEach(rsNode => {
-        const connectedPhenotypes = new Set();
-
-        links.forEach(link => {
-            if (link.source.id === rsNode.id && !link.target.id.startsWith('rs')) {
-                connectedPhenotypes.add(link.target.id);
-            }
-            if (link.target.id === rsNode.id && !link.source.id.startsWith('rs')) {
-                connectedPhenotypes.add(link.source.id);
-            }
-        });
-
-        if (connectedPhenotypes.size >= 2) {
+        if ((phenotypesPerRsid.get(rsNode.id)?.size || 0) >= 2) {
             rsidNodeMap.set(rsNode.id, true);
         }
     });
@@ -862,24 +917,38 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
 
     // Arrange RSID nodes in line down the middle of the screen
     let rsidNodes = nodes.filter(n => n.id.startsWith('rs'));
-    
+
+    // Link counts per node in one pass; the filters below then use set
+    // lookups. Each of these steps used to rescan every link or every SNP,
+    // which on a large edge view is around 1e9 comparisons apiece.
+    const linkCount = new Map();
+    for (const l of links) {
+        linkCount.set(l.source.id, (linkCount.get(l.source.id) || 0) + 1);
+        linkCount.set(l.target.id, (linkCount.get(l.target.id) || 0) + 1);
+    }
+
     // sort rsidNodes by chromosome
     // remove any nodes have less than 2 links
-    rsidNodes = rsidNodes.filter(n => {
-        const numLinks = links.filter(l => l.source.id === n.id || l.target.id === n.id).length;
-        return numLinks >= 2;
-    });
+    rsidNodes = rsidNodes.filter(n => (linkCount.get(n.id) || 0) >= 2);
+    const rsidIds = new Set(rsidNodes.map(n => n.id));
+
     // remove links that are not in rsidNodes
-    links = links.filter(l => rsidNodes.some(n => n.id === l.source.id || n.id === l.target.id));
+    links = links.filter(l => rsidIds.has(l.source.id) || rsidIds.has(l.target.id));
 
     // filter nodes to only include those that are in rsidNodes or nodes that do not start with rs
-    nodes = nodes.filter(n => rsidNodes.some(r => r.id === n.id) || !n.id.startsWith('rs'));
+    nodes = nodes.filter(n => rsidIds.has(n.id) || !n.id.startsWith('rs'));
+
+    // chromosome per rsid, looked up once rather than scanning every data row
+    const chromByRsid = new Map();
+    for (const d of data) {
+        if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
+    }
 
     rsidNodes.forEach((node, i) => {
         // add a label
         node.label = node.id;
         // add an attribute called chromosome that comes from the chrom column in the data
-        const chromValue = data.find(d => d.rsid === node.id)?.chrom;
+        const chromValue = chromByRsid.get(node.id);
         node.category = chromValue ? parseFloat(chromValue) : null;
         });
     rsidNodes.sort((a, b) => a.category - b.category);
@@ -888,6 +957,7 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
             node.x = middle_x;
             node.y = (i + 1) * height / (rsidNodes.length + 1);
     });
+    showSnpCount(rsidNodes.length);
     
     // Arrange phenotype nodes 
     const middle_y = height / 2;

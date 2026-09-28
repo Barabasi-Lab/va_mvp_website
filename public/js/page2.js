@@ -145,9 +145,11 @@ loadData().then(async (data) => {
             `);
 
         let debounceTimer;
-        const updatePValueThreshold = (logP) => {
+        const updatePValueThreshold = (logP, { defer = false } = {}) => {
             pThreshold = Math.pow(10, logP); // Convert back to linear scale
             d3.select('#pvalue-threshold').text(`1e${logP}`);
+
+            if (defer) return;   // initial seeding; the first render happens below
 
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
@@ -164,7 +166,7 @@ loadData().then(async (data) => {
         const initialPValue = params.pvalue || maxLogP;
         d3.select('#pvalue-slider').property('value', initialPValue);
         d3.select('#pvalue-input').property('value', initialPValue);
-        updatePValueThreshold(initialPValue);
+        updatePValueThreshold(initialPValue, { defer: true });
 
         d3.select('#pvalue-slider').on('input', function () {
             const logP = this.value;
@@ -510,8 +512,10 @@ loadData().then(async (data) => {
         const checkbox = document.querySelector(`#chk-${ancestryLower}`);
         console.log(checkbox);
         if (checkbox) {
+            // Only reflect the query string in the UI. Dispatching 'change' here
+            // re-fetched and re-rendered the entire graph on top of the initial
+            // render below, doubling load time on large views.
             checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change')); // Trigger the event so the network renders
         }
 
         // Listen for ancestry checkbox changes
@@ -630,30 +634,40 @@ function updateEdges(pThreshold, betaThreshold, betaSign, links, data, pThreshol
     }
 
 function updateNodes(edges, nodes) {
+    // Same result as before, but in two passes over the edges instead of
+    // scanning them once per node (and, for the phenotypes, once per node per
+    // SNP). On a large edge view that nested form was ~1e9 comparisons.
+
+    // degree per node id; an edge counts once for a node even if it happens to
+    // sit on both of its ends, matching the original `source || target` test
+    const degree = new Map();
+    const bump = id => degree.set(id, (degree.get(id) || 0) + 1);
+    for (const edge of edges) {
+        const s = edge.source.id;
+        const t = edge.target.id;
+        bump(s);
+        if (t !== s) bump(t);
+    }
+
     // find all the nodes that have ids starting with rs
     const rsidNodes = nodes.filter(node => node.id.startsWith('rs'));
     // eliminate any rsid nodes that have less than 2 edges
-    const rsidNodesFiltered = rsidNodes.filter(node => {
-        const degree = edges.reduce((count, edge) => {
-            return count + ((edge.source.id === node.id || edge.target.id === node.id) ? 1 : 0);
-        }, 0);
-        return degree >= 2;
-    });
+    const rsidNodesFiltered = rsidNodes.filter(node => (degree.get(node.id) || 0) >= 2);
+    const rsidKept = new Set(rsidNodesFiltered.map(n => n.id));
+
+    // ids with at least one edge to a surviving rsid node
+    const linkedToKeptRsid = new Set();
+    for (const edge of edges) {
+        const s = edge.source.id;
+        const t = edge.target.id;
+        if (rsidKept.has(t)) linkedToKeptRsid.add(s);
+        if (rsidKept.has(s)) linkedToKeptRsid.add(t);
+    }
 
     // find all the nodes that have ids not starting with rs
     const pheNodes = nodes.filter(node => !node.id.startsWith('rs'));
     // filter phenodes to include only those with at least one edge to a node in rsidNodesFiltered
-    const pheNodesFiltered = pheNodes.filter(node => {
-        return edges.some(edge => {
-            if (edge.source.id === node.id) {
-                return rsidNodesFiltered.some(rsNode => rsNode.id === edge.target.id);
-            } else if (edge.target.id === node.id) {
-                return rsidNodesFiltered.some(rsNode => rsNode.id === edge.source.id);
-            }
-            return false;
-        });
-    }
-    );
+    const pheNodesFiltered = pheNodes.filter(node => linkedToKeptRsid.has(node.id));
     // combine the filtered rsidNodes and pheNodes
     const filteredNodes = rsidNodesFiltered.concat(pheNodesFiltered);
 
@@ -688,28 +702,28 @@ function highlightNode(aNode, links, comparison_on_off = false) {
     const isPhenotype = !aNode.id.startsWith('rs');
     // const isRSID = aNode.id.startsWith('rs');
 
+    // Neighbours of the active node, as a set: this used to be a scan of every
+    // link for every circle, which on a node like Obesity is 289 x 14,000.
+    const connectedSet = new Set(connectedNodes);
+
+    // Animating tens of thousands of SVG elements at once is what actually
+    // locks the browser up, so past a few thousand set the style outright.
+    const animate = selection =>
+        selection.size() > 2000 ? selection : selection.transition().duration(300);
+
     // Reduce opacity of all nodes except aNode, its neighbors, and center phenotype
-    d3.selectAll('circle')
-        .transition().duration(300)
+    animate(d3.selectAll('circle'))
         .style('opacity', d => {
             if (aNode.id === centerPheno) {
-                // do nothing
-                console.log(aNode.id === centerPheno);
                 return 1;
-            } else {
-                return d.id === aNode.id || d.id === centerPheno || links.some(l =>
-                    (l.source.id === aNode.id && l.target.id === d.id) ||
-                    (l.target.id === aNode.id && l.source.id === d.id))
-                    ? 1
-                    : 0.3;
             }
+            return d.id === aNode.id || d.id === centerPheno || connectedSet.has(d.id)
+                ? 1
+                : 0.3;
         });
-        
-
 
     // Highlight edges
-    d3.selectAll('line')
-        .transition().duration(300)
+    animate(d3.selectAll('line'))
         .style('opacity', d => {
             if (aNode.id === centerPheno) {
                 // make all edges visible
@@ -730,10 +744,10 @@ function highlightNode(aNode, links, comparison_on_off = false) {
                         return visible_opacity;
                     }
 
-                if (connectedNodes.includes(d.source.id) && d.target.id === centerPheno) {
+                if (connectedSet.has(d.source.id) && d.target.id === centerPheno) {
                     return visible_opacity;
                 }
-                if (connectedNodes.includes(d.target.id) && d.source.id === centerPheno) {
+                if (connectedSet.has(d.target.id) && d.source.id === centerPheno) {
                     return visible_opacity;
                 }
                 }
@@ -745,12 +759,8 @@ function highlightNode(aNode, links, comparison_on_off = false) {
     d3.select('body').on('keydown', (event) => {
         if (event.key === 'Escape') {
             activeNode = null;
-            d3.selectAll('circle')
-                .transition().duration(300)
-                .style('opacity', 1);
-            d3.selectAll('line')
-                .transition().duration(300)
-                .style('opacity', 0);
+            animate(d3.selectAll('circle')).style('opacity', 1);
+            animate(d3.selectAll('line')).style('opacity', 0);
         }
     });
 
@@ -939,14 +949,21 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
 
     // Arrange RSID nodes in a circular layout
     const rsidNodes = nodes.filter(n => n.id.startsWith('rs'));
-    console.log('nodes:', nodes);
     const radius = Math.min(width, height) * 0.35;
+
+    // Row lookups built once instead of scanning every row per node below.
+    const chromByRsid = new Map();
+    const pheRowById = new Map();
+    for (const d of data) {
+        if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
+        if (!pheRowById.has(d.phe_id)) pheRowById.set(d.phe_id, d);
+    }
 
     // Sort rsidNodes by chromosome
     if (!rsidNodes[0]?.x) {
         rsidNodes.forEach((node, i) => {
             node.label = node.id;
-            const chromValue = data.find(d => d.rsid === node.id)?.chrom;
+            const chromValue = chromByRsid.get(node.id);
             node.category = chromValue ? parseFloat(chromValue) : null;
         });
         rsidNodes.sort((a, b) => a.category - b.category);
@@ -963,8 +980,9 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     if (!pheNodes[0]?.x) {
         const radiusPhe = Math.min(width, height) * 0.45;
         pheNodes.forEach((node, i) => {
-            node.label = data.find(d => d.phe_id === node.id)?.phe_label || node.id;
-            node.category = data.find(d => d.phe_id === node.id)?.phe_cat || 'Unknown';
+            const row = pheRowById.get(node.id);
+            node.label = row?.phe_label || node.id;
+            node.category = row?.phe_cat || 'Unknown';
         });
         pheNodes.sort((a, b) => a.category.localeCompare(b.category));
         pheNodes.forEach((node, i) => {

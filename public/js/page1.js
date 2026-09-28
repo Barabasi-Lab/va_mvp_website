@@ -126,14 +126,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Filter nodes based on degree threshold
             filteredNodes = nodes.filter(n => n.degree >= degreeThreshold);
 
+            // Membership is tested once per link and once per node below; as a
+            // linear scan of filteredNodes that was ~72M comparisons a keystroke.
+            filteredNodeIds = new Set(filteredNodes.map(n => n.id));
+
             // Filter links based on the condition that both source and target meet the degree threshold
             filteredLinks = links.filter(l =>
-                filteredNodes.some(n => n.id === l.source) &&  // Source node passes filter
-                filteredNodes.some(n => n.id === l.target)    // Target node passes filter
+                filteredNodeIds.has(l.source) &&  // Source node passes filter
+                filteredNodeIds.has(l.target)     // Target node passes filter
             );
+            filteredLinkSet = new Set(filteredLinks);
 
-            // Update node opacity to reflect filtering 
-            node.style('opacity', n => filteredNodes.some(fn => fn.id === n.id) ? 1 : 0.2);
+            // Update node opacity to reflect filtering
+            node.style('opacity', n => filteredNodeIds.has(n.id) ? 1 : 0.2);
 
             // Call highlightNode to reapply the node highlighting logic
             if (activeNode) highlightNode(activeNode);
@@ -330,14 +335,14 @@ document.addEventListener('DOMContentLoaded', () => {
             renderEdgeWeights(link);
         }
 
+        function linkStrokeWidth(d) {
+            if (edgeType === 'weight') return (d.same || 0) + (d.diff || 0);
+            if (edgeType === 'same_dir_weight') return d.same || 0;
+            return d.diff || 0;
+        }
+
         function renderEdgeWeights(link) {
-            if (edgeType === 'weight') {
-                link.attr('stroke-width', d => (d.same || 0) + (d.diff || 0));
-            } else if (edgeType === 'same_dir_weight') {
-                link.attr('stroke-width', d => d.same || 0);
-            } else {
-                link.attr('stroke-width', d => d.diff || 0);
-            }
+            link.attr('stroke-width', linkStrokeWidth);
 
             // Update labels to reflect the current degree values
             svg.selectAll('.label')
@@ -387,16 +392,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         }
     
-    // Add links to the SVG
-    const link = content.selectAll('.link')
-        .data(links, d => `${d.source}-${d.target}`)
-        .join('line')
-        .attr('class', 'link')
-        .style('stroke', '#999')
-        .style('opacity', 0)
+    // Edges are only ever visible for the node that is currently selected, so
+    // only that node's lines are put in the DOM. Materialising all 54,790 up
+    // front at opacity 0 left the browser laying out and compositing every one
+    // of them on load and on every interaction.
+    let link = content.selectAll('.link');
+
+    // links incident to each node, for drawLinks
+    const linksByNode = new Map();
+    links.forEach(l => {
+        if (!linksByNode.has(l.source)) linksByNode.set(l.source, []);
+        if (!linksByNode.has(l.target)) linksByNode.set(l.target, []);
+        linksByNode.get(l.source).push(l);
+        linksByNode.get(l.target).push(l);
+    });
+
+    function drawLinks(subset) {
+        link = content.selectAll('.link')
+            .data(subset, d => `${d.source}-${d.target}`)
+            .join('line')
+            .attr('class', 'link')
+            .style('stroke', '#999')
+            .style('opacity', 1)
+            .attr('stroke-width', linkStrokeWidth)
+            .attr('x1', d => xScale(nodeMap.get(d.source).x))
+            .attr('y1', d => yScale(nodeMap.get(d.source).y))
+            .attr('x2', d => xScale(nodeMap.get(d.target).x))
+            .attr('y2', d => yScale(nodeMap.get(d.target).y));
+    }
+
         let activeNode = null;  // Store the currently active node reference
         let filteredNodes = nodes
         let filteredLinks = links
+        // set mirrors of the two above, so membership tests in updateFilter and
+        // highlightNode are O(1) instead of scanning the whole array each time
+        let filteredNodeIds = new Set(nodes.map(n => n.id))
+        let filteredLinkSet = new Set(links)
     renderEdgeWeights(link);
 
     const node = content.selectAll('.node')
@@ -433,7 +464,7 @@ function highlightNode(selectedNode) {
     if (!selectedNode) {
         // Reset styles when no node is selected
         node.style('opacity', 1);  // Reset node opacity
-        link.style('opacity', 0);  // Hide links
+        drawLinks([]);             // Hide links
         labels.style('opacity', 0); // Hide labels
 
         // Restore original mouseover/mouseout behaviors
@@ -450,19 +481,21 @@ function highlightNode(selectedNode) {
 
     const selectedNodeId = selectedNode.id;
     const neighbors = nodeNeighborsMap.get(selectedNodeId) || [];
+    const neighborSet = new Set(neighbors);
 
     // Highlight only the selected node and its neighbors
     node.style('opacity', d =>
-        (d.id === selectedNodeId || neighbors.includes(d.id)) && filteredNodes.includes(d)
+        (d.id === selectedNodeId || neighborSet.has(d.id)) && filteredNodeIds.has(d.id)
             ? 1 : 0.2
     );
 
-    // Highlight only the relevant links
-    link.style('opacity', l =>
-        filteredLinks.includes(l) &&
-        ((l.source === selectedNodeId && nodeMap.has(l.target)) ||
-         (l.target === selectedNodeId && nodeMap.has(l.source))) ? 1 : 0
-    );
+    // Draw just this node's edges. Previously every link in the graph was
+    // already in the DOM and this restyled all 54,790 of them, testing
+    // membership by scanning an array - about 3e9 comparisons per click.
+    drawLinks((linksByNode.get(selectedNodeId) || []).filter(l =>
+        filteredLinkSet.has(l) &&
+        nodeMap.has(l.source === selectedNodeId ? l.target : l.source)
+    ));
 
     // on double click (only on the selected node) open dendrogram.html in a new tab and pass the ancestry and pvalue variables
     // as query parameters
@@ -524,12 +557,12 @@ function highlightNode(selectedNode) {
 
     // Restore mouseover events but only for highlighted nodes
     node.on('mouseover', function(event, d) {
-        if (d.id === selectedNodeId || neighbors.includes(d.id)) {
+        if (d.id === selectedNodeId || neighborSet.has(d.id)) {
             d3.select(this).style('stroke', 'white').style('stroke-width', 2);
             labels.style('opacity', l => l.id === d.id ? 1 : 0);
         }
     }).on('mouseout', function(event, d) {
-        if (d.id === selectedNodeId || neighbors.includes(d.id)) {
+        if (d.id === selectedNodeId || neighborSet.has(d.id)) {
             d3.select(this).style('stroke', 'none');
             labels.style('opacity', 0);
         }
@@ -598,13 +631,8 @@ const labels = svg.selectAll('.label')
 
 
 
-// Set initial positions for nodes and links
-link
-    .attr('x1', d => nodes.find(node => node.id === d.source).x)
-    .attr('y1', d => nodes.find(node => node.id === d.source).y)
-    .attr('x2', d => nodes.find(node => node.id === d.target).x)
-    .attr('y2', d => nodes.find(node => node.id === d.target).y);
-
+// Link endpoints are set once below, after the scales exist. Positioning them
+// here as well cost a second pass over all 54,790 links for nothing.
 node
     .attr('cx', d => d.x)
     .attr('cy', d => d.y);
@@ -630,11 +658,8 @@ node
 labels
     .attr('x', d => 0.02 * width)
     .attr('y', d => 0.75 * height);
-link
-    .attr('x1', d => xScale(nodes.find(node => node.id === d.source).x))
-    .attr('y1', d => yScale(nodes.find(node => node.id === d.source).y))
-    .attr('x2', d => xScale(nodes.find(node => node.id === d.target).x))
-    .attr('y2', d => yScale(nodes.find(node => node.id === d.target).y));
+// Link endpoints are positioned in drawLinks, on the handful of lines that are
+// actually on screen.
 // now resize the nodes by dividing the size by the x range divided by the width
 const xRange = maxX - minX;
 const yRange = maxY - minY;

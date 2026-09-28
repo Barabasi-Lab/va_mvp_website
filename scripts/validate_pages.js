@@ -15,7 +15,7 @@ const vm = require('vm');
 
 const REPO = path.dirname(__dirname);
 const NODE_FILES = path.join(REPO, 'public', 'data', 'node_files');
-const BASE = process.argv[2] || 'http://localhost:3000';
+const BASE = process.argv.find(a => a.startsWith('http')) || 'http://localhost:3000';
 const SPLIT = new Set(['181', '167', '170', '175']);
 
 // Node 25's label is HTML-escaped in node_attributes.csv, so the pipeline that
@@ -143,34 +143,45 @@ function diff(label, a, b) {
 
 // ----------------------------------------------------------------- page 2
 
-async function checkPage2(node, ancestry, logP) {
+async function checkPage2(node, ancestry, logP, ancestry2 = null, logP2 = null) {
   const pThreshold = Math.pow(10, logP);
-  const label = `page2 node=${node} ${ancestry} 1e${logP}`;
+  const pThreshold2 = logP2 === null ? null : Math.pow(10, logP2);
+  const cmp = Boolean(ancestry2);
+  const label = `page2 node=${node} ${ancestry}${cmp ? '+' + ancestry2 : ''} 1e${logP}` +
+                (cmp ? `/1e${logP2}` : '');
   const ctx = loadClientFns('page2.js', { centerPheno: node, centerMeta: null });
 
   const run = rows => {
-    const net = ctx.initializeNetwork(rows, `beta.${ancestry}`, `pval.${ancestry}`);
-    const edges = ctx.updateEdges(pThreshold, 0.01, 0, net.links, rows);
+    const net = ctx.initializeNetwork(rows, `beta.${ancestry}`, `pval.${ancestry}`,
+      cmp ? `beta.${ancestry2}` : null, cmp ? `pval.${ancestry2}` : null, cmp);
+    const edges = ctx.updateEdges(pThreshold, 0.01, 0, net.links, rows, pThreshold2, cmp);
     const res = ctx.updateNodes(edges, net.nodes);
     return summarise(res.nodes, res.edges);
   };
 
+  const params = { node, ancestry };
+  if (cmp) params.ancestry2 = ancestry2;
+
   const legacy = run(normaliseLegacy(legacyRows(node)).filter(r => r.phe_id !== LEGACY_MISSING_PHE));
-  const fresh = run((await api('/api/page2/rows', { node, ancestry }))
+  const fresh = run((await api('/api/page2/rows', params))
     .rows.filter(r => r.phe_id !== LEGACY_MISSING_PHE));
   return diff(label, legacy, fresh);
 }
 
 // ----------------------------------------------------------------- page 3
 
-async function checkPage3(left, right, ancestry, logP) {
+async function checkPage3(left, right, ancestry, logP, ancestry2 = null, logP2 = null) {
   const pThreshold = Math.pow(10, logP);
-  const label = `page3 ${left}->${right} ${ancestry} 1e${logP}`;
+  const pThreshold2 = logP2 === null ? null : Math.pow(10, logP2);
+  const cmp = Boolean(ancestry2);
+  const label = `page3 ${left}->${right} ${ancestry}${cmp ? '+' + ancestry2 : ''} 1e${logP}` +
+                (cmp ? `/1e${logP2}` : '');
   const ctx = loadClientFns('page3.js', { leftPheno: left, rightPheno: right });
 
   const run = rows => {
-    const net = ctx.initializeNetwork(rows, `beta.${ancestry}`, `pval.${ancestry}`);
-    const edges = ctx.updateEdges(pThreshold, 0.01, 0, net.links, rows);
+    const net = ctx.initializeNetwork(rows, `beta.${ancestry}`, `pval.${ancestry}`,
+      cmp ? `beta.${ancestry2}` : null, cmp ? `pval.${ancestry2}` : null, cmp);
+    const edges = ctx.updateEdges(pThreshold, 0.01, 0, net.links, rows, pThreshold2, cmp);
     const res = ctx.updateNodes(edges, net.nodes);
     return summarise(res.nodes, res.edges);
   };
@@ -185,8 +196,11 @@ async function checkPage3(left, right, ancestry, logP) {
   rows = rows.filter(r => common.has(r.rsid));
 
   const legacy = run(rows);
-  const fresh = run((await api('/api/page3/rows',
-    { left, right, ancestry, pvalue: pThreshold })).rows);
+  // limit=50000 disables the display cap, so this stays a like-for-like
+  // comparison of the whole shared-SNP set against the legacy CSVs
+  const params = { left, right, ancestry, pvalue: pThreshold, limit: 50000 };
+  if (cmp) { params.ancestry2 = ancestry2; params.pvalue2 = pThreshold2; }
+  const fresh = run((await api('/api/page3/rows', params)).rows);
   return diff(label, legacy, fresh);
 }
 
@@ -216,12 +230,20 @@ function randomCases(n) {
     ['708', 'eur', -8], ['236', 'meta', -4], ['87', 'meta', -10],
     ['185', 'amr', -4], ['560', 'meta', -4], ['181', 'meta', -4],
     ['708', 'eas', -4], ['181', 'meta', -12],
+    // two-ancestry intersection mode
+    ['264', 'amr', -4, 'eas', -4], ['264', 'meta', -4, 'eur', -4],
+    ['230', 'eur', -6, 'afr', -4], ['229', 'meta', -8, 'amr', -4],
+    ['708', 'eur', -4, 'meta', -8], ['87', 'meta', -4, 'eur', -10],
+    ['181', 'meta', -4, 'amr', -4],
     ...(sampleArg > 0 ? randomCases(Number(process.argv[sampleArg + 1])) : [])
   ];
   const page3Cases = [
     ['708', '236', 'meta', -4], ['181', '87', 'meta', -4],
     ['349', '1', 'eur', -4], ['560', '185', 'meta', -8],
-    ['236', '708', 'afr', -4]
+    ['236', '708', 'afr', -4],
+    // two-ancestry intersection mode
+    ['230', '229', 'meta', -4, 'eur', -4], ['708', '236', 'meta', -4, 'afr', -4],
+    ['181', '87', 'eur', -4, 'meta', -6]
   ];
 
   let ok = true;

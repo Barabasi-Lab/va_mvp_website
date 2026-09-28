@@ -208,6 +208,10 @@ function linkFilterSql(a1, a2, p1Index) {
   return clauses.join(' AND ');
 }
 
+// Rows go back in the raw dataset's own row order (src_row). The legacy
+// per-node CSVs were in exactly that order, and the client's comparison mode
+// keeps the *last* row it sees for a duplicated (SNP, phenotype) pair, so the
+// order is load-bearing wherever the raw data has duplicates.
 const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
          a.phe_id,
          n.label AS phe_label,
@@ -230,8 +234,8 @@ const TOP_SNPS = 150;
  * own top-150 pass over the result reproduces the same set.
  *
  * Ties on p-value are common right at the 150-row cut, and the client's sort
- * is stable over the row order of the legacy CSVs. (phenotype, src_row)
- * reproduces that order, so the same SNPs win the tie.
+ * is stable over the row order of the legacy CSVs, which is exactly the raw
+ * dataset's own row order - so src_row breaks ties the same way.
  */
 function topSnpCte(a1, a2) {
   const betaPresent = [`"beta.${a1}" IS NOT NULL`];
@@ -240,7 +244,7 @@ function topSnpCte(a1, a2) {
             SELECT DISTINCT rsid FROM (
               SELECT rsid FROM associations
               WHERE phe_id = $1 AND ${betaPresent.join(' AND ')}
-              ORDER BY "pval.${a1}" ASC NULLS LAST, phenotype ASC, src_row ASC
+              ORDER BY "pval.${a1}" ASC NULLS LAST, src_row ASC
               LIMIT ${TOP_SNPS}))`;
 }
 
@@ -274,7 +278,8 @@ app.get('/api/page2/rows', async (req, res, next) => {
       `${topSnpCte(a1, a2)}
        ${ROW_SELECT}
        WHERE a.rsid IN (SELECT rsid FROM top_rsids)
-         AND ${betaPresent.join(' AND ')}`,
+         AND ${betaPresent.join(' AND ')}
+       ORDER BY a.src_row`,
       [node]);
 
     // The client reads the centre node's label/category off the returned rows;
@@ -288,8 +293,21 @@ app.get('/api/page2/rows', async (req, res, next) => {
 });
 
 // Page 3: the edge between two phenotypes - only the SNPs they share.
-// The shared-SNP set is computed before the p-value filter, matching the
-// order the client used.
+//
+// Like page 2, deliberately NOT filtered by p-value: the client keeps the last
+// row it sees for a duplicated (SNP, phenotype) pair when intersecting two
+// ancestries, so dropping rows here would change which duplicate wins. The
+// response depends only on the two phenotypes, and both sliders stay
+// client-side.
+//
+// Capped, because the tail is brutal: the median edge shares ~51 SNPs, but
+// Hyperlipidemia and Disorders of lipoid metabolism share 22,642. That is both
+// unreadable - they land 0.05 px apart in the column - and enough DOM to hang
+// the browser. When the cap bites the SNPs kept are the most significant, and
+// the response reports the true total so the page can say what it is hiding.
+const PAGE3_DEFAULT_LIMIT = 1000;
+const PAGE3_MAX_LIMIT = 50000;
+
 app.get('/api/page3/rows', async (req, res, next) => {
   try {
     const left = String(req.query.left || '');
@@ -299,28 +317,45 @@ app.get('/api/page3/rows', async (req, res, next) => {
 
     const a1 = checkAncestry(req.query.ancestry, res);
     if (!a1) return;
-    const p1 = checkThreshold(req.query.pvalue, res);
-    if (!p1) return;
 
-    let a2 = null, p2 = null;
-    if (req.query.ancestry2) {
-      a2 = checkAncestry(req.query.ancestry2, res, 'ancestry2');
-      if (!a2) return;
-      p2 = checkThreshold(req.query.pvalue2, res, 'pvalue2');
-      if (!p2) return;
+    let limit = PAGE3_DEFAULT_LIMIT;
+    if (req.query.limit !== undefined) {
+      const n = Number(req.query.limit);
+      if (!Number.isInteger(n) || n < 1 || n > PAGE3_MAX_LIMIT) {
+        return res.status(400).json({ error: `limit must be an integer in 1..${PAGE3_MAX_LIMIT}` });
+      }
+      limit = n;
     }
 
-    const params = a2 ? [left, right, p1, p2] : [left, right, p1];
+    const cte = `
+      WITH shared AS (
+        SELECT rsid FROM associations WHERE phe_id = $1
+        INTERSECT
+        SELECT rsid FROM associations WHERE phe_id = $2
+      ),
+      ranked AS (
+        SELECT rsid FROM (
+          SELECT a.rsid, max(a."pval.${a1}") AS worst
+          FROM associations a
+          WHERE a.phe_id IN ($1, $2) AND a.rsid IN (SELECT rsid FROM shared)
+          GROUP BY a.rsid
+          ORDER BY worst ASC NULLS LAST, rsid ASC
+          LIMIT ${limit})
+      )`;
+
+    const [{ total }] = await query(assocConn,
+      `${cte} SELECT count(*) AS total FROM shared`, [left, right]);
+
     const rows = await query(assocConn,
-      `${ROW_SELECT}
+      `${cte}
+       ${ROW_SELECT}
        WHERE a.phe_id IN ($1, $2)
-         AND a.rsid IN (
-               SELECT rsid FROM associations WHERE phe_id = $1
-               INTERSECT
-               SELECT rsid FROM associations WHERE phe_id = $2)
-         AND ${linkFilterSql(a1, a2, 3)}`,
-      params);
-    res.json({ left, right, rows });
+         AND a.rsid IN (SELECT rsid FROM ranked)
+       ORDER BY a.src_row`,
+      [left, right]);
+
+    const shown = new Set(rows.map(r => r.rsid)).size;
+    res.json({ left, right, rows, sharedSnps: Number(total), shownSnps: shown, limit });
   } catch (err) { next(err); }
 });
 
