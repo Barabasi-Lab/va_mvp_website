@@ -5,3 +5,6 @@ public/data/db/_build.duckdb.wal
 public/data/db/tmp/
 __pycache__/
 *.pyc
+public/data/edgelist_updated_scaled.csv
+public/data/node_attributes.csv
+public/data/node_files/
