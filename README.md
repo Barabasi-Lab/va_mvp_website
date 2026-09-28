@@ -9,9 +9,11 @@ npm start          # http://localhost:3000
 
 ## Data layer
 The pages no longer download CSVs and filter them in the browser; they query
-DuckDB/Parquet files in `public/data/db/` through endpoints in `server.js`.
-See [docs/duckdb-migration.md](docs/duckdb-migration.md) for the schema, the
-endpoint list, how to rebuild the data files, and the validation scripts.
+DuckDB/Parquet files through endpoints in `server.js`. Those files are not in
+the repo: in production they live on a Railway volume at `/data/db`, and
+locally in `public/data/db/` (gitignored). See
+[docs/duckdb-migration.md](docs/duckdb-migration.md) for the schema, the
+endpoint list, how to rebuild the files, and the validation scripts.
 
 ## Code structure and logic
 The website has 3 pages, each has a .js file in ```public/js```. The following is meant as a high level overview of the code logic, not an in depth guide. 

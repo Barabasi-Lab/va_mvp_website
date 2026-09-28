@@ -2,28 +2,62 @@
 
 The three pages used to download flat CSVs and filter them in the browser.
 Page 2 on a large phenotype meant a 128 MB download before anything rendered.
-The same data now lives in columnar files under `public/data/db/`, and
-`server.js` answers narrow queries against them.
+The same data now lives in columnar files that `server.js` queries directly.
 
-## What ships
+## Where the data lives
 
-| Path | Size | Contents |
+The files are **not in the repo**. In production they sit on the Railway
+volume `va_mvp_website-volume`, mounted at `/data`; locally they sit in
+`public/data/db/`, which is gitignored. Both hold the same layout:
+
+| Path under the db directory | Size | Contents |
 | --- | --- | --- |
-| `public/data/db/landing_page.duckdb` | 18 MB | `edges` (54,790 rows, all 90 precomputed weight columns) and `node_attributes`, for page 1 |
-| `public/data/db/associations/chrom=*/data_0.parquet` | 148 MB, 22 shards | 3,060,080 phenotype–SNP associations, for pages 2 and 3 |
-| `public/data/db/node_attributes.parquet` | 40 KB | node metadata shared by pages 2 and 3 |
+| `landing_page.duckdb` | 18 MB | `edges` (54,790 rows, all 90 precomputed weight columns) and `node_attributes`, for page 1 |
+| `associations/chrom=*/data_0.parquet` | 148 MB, 22 shards | 3,060,080 phenotype–SNP associations, for pages 2 and 3 |
+| `node_attributes.parquet` | 40 KB | node metadata shared by pages 2 and 3 |
 
 Total 159 MB, replacing 5.5 GB of `public/data/node_files/`.
 
+`server.js` resolves the directory in three steps:
+
+1. `DB_DIR`, if set — an explicit override, handy for testing.
+2. `RAILWAY_VOLUME_MOUNT_PATH` + `/db`, when a volume is attached.
+3. otherwise `public/data/db/` in the checkout.
+
+**Not `RAILWAY_ENVIRONMENT`.** Checked against the running service, that is
+set to `production` on every Railway deploy whether or not a volume is
+attached, so keying off it would send a volume-less deploy to a path that does
+not exist. `RAILWAY_VOLUME_MOUNT_PATH` appears only when one is really
+mounted, and it carries the mount point rather than hardcoding `/data`.
+
 **Why Parquet, and why partitioned.** A single `.duckdb` holding the
 associations is 358 MB and a single Parquet is 140 MB; GitHub rejects any file
-over 100 MB. Partitioning by chromosome caps the largest shard at 34 MB, so the
-data ships as ordinary repo files — no Git LFS, and no Railway volume. DuckDB
-reads the shard set directly through a view; the cost versus an indexed table
-is roughly 30 ms per query.
+over 100 MB. Partitioning by chromosome caps the largest shard at 34 MB, which
+kept the files pushable while they were still in the repo, and still keeps any
+one of them easy to re-upload. DuckDB reads the shard set through a view over
+`associations/chrom=*/*.parquet`; the cost versus an indexed table is roughly
+30 ms per query. The explicit `chrom=*` glob keeps a volume's `lost+found` out
+of the scan.
 
 The precomputed edge weights in `edgelist_updated_scaled.csv` are loaded
 verbatim. Nothing recomputes them.
+
+## When the data is missing
+
+A wiped volume, or an environment created without one, used to mean empty
+graphs and no explanation. Now:
+
+- `scripts/ensure-db.js` runs as npm's `prestart` and names every missing or
+  empty file, with the directory it checked and where that came from. It
+  always exits 0: a non-zero `prestart` blocks `start`, turning a recoverable
+  data problem into a total outage.
+- `server.js` logs the same failure and still listens. Static pages serve and
+  `/api/*` returns 503 with the directory it tried, instead of crash-looping
+  with nothing to look at.
+
+`ensure-db.js` deliberately does not download anything — no fallback URL is
+configured, and a silently failed fetch would be worse than the warning. The
+extension point for adding one is marked in the file.
 
 ## Rebuilding
 
@@ -32,8 +66,17 @@ pip install duckdb
 python3 scripts/build_dbs.py --full-dataset /path/to/full_dataset.csv
 ```
 
-Takes about a minute. The raw 3.6 GB CSV is not in the repo; it is expected as
-a sibling of the repo directory by default.
+Takes about a minute, and writes into `public/data/db/`. The raw 3.6 GB CSV is
+not in the repo; it is expected as a sibling of the repo directory by default.
+
+Neither are `edgelist_updated_scaled.csv` and `node_attributes.csv` any more —
+they are gitignored, so a fresh clone cannot rebuild without copying them in.
+
+To publish a rebuild to production, upload it to the volume:
+
+```bash
+railway volume files -v va_mvp_website-volume upload public/data/db /db
+```
 
 ## Endpoints
 
@@ -244,25 +287,50 @@ are each code's rows in file order, codes concatenated alphabetically.
 
 ## Railway notes
 
-`server.js` now reads `process.env.PORT` (it previously hard-coded 3000, which
+Project `responsible-liberation`, service `va_mvp_website`, environment
+`production` (the only one), serving www.appliedintegrativeanalytics.com.
+Volume `va_mvp_website-volume` is mounted at `/data` and holds `db/`.
+
+`server.js` reads `process.env.PORT` (it previously hard-coded 3000, which
 would not have bound correctly on Railway).
 
-Not yet verified on Railway — the deploy still needs to be exercised on a
-staging environment. Things to watch:
+Useful commands:
 
-- The build must include `public/data/db/`. Nothing in `.gitignore` excludes
-  it, but confirm the deployed image actually contains the 22 shards.
-- `@duckdb/node-api` ships a native addon. It resolved cleanly on linux-x64
+```bash
+railway volume list --json
+railway volume files -v va_mvp_website-volume list /db
+railway variables --json          # shows the injected RAILWAY_* set
+railway logs --service va_mvp_website --lines 100
+```
+
+Still to confirm on a real deploy:
+
+- `@duckdb/node-api` ships a native addon. It resolves cleanly on linux-x64
   here; confirm Railway's build image matches.
-- The 159 MB of data files count against image size and push time.
-- No persistent volume is required — the previous volume/mounting trouble
-  should not recur, since everything is a static file in the image.
+- The boot log should read `data: /data/db`, and `ensure-db` should report 24
+  files present. If it reports the repo checkout instead, the volume is not
+  attached to that service instance.
 
 ## Still using the old CSVs
 
-`public/data/node_files/` (5.5 GB, 1,326 files) and
-`public/data/edgelist_updated_scaled.csv` are still tracked. Nothing serves
-them any more; they are kept only because the validation scripts diff against
-them. Deleting `node_files/` is what actually shrinks the deploy. Note that
-`.git` already carries ~921 MB of their history, which a plain delete does not
-reclaim.
+`public/data/node_files/` (5.5 GB, 1,326 files) and the two source CSVs are no
+longer tracked, but they are still on disk locally and the validation scripts
+still diff against them. Keep them.
+
+They remain in git history, and on `origin/main`, so `.git` still carries about
+921 MB. Removing that would mean rewriting `main`'s history, which is shared —
+out of scope here.
+
+`public/data/db/` was removed from this branch's history with:
+
+```bash
+git filter-repo --path public/data/db --invert-paths --refs e763483..speed-test --force
+```
+
+The `--refs` range matters. Without it, filter-repo rewrites every reachable
+commit, and because it strips GPG signatures it changed the hash of eight
+signed GitHub web-edit commits — including `main`'s tip, which would have
+detached this branch from the shared history. Scoping the rewrite to the
+unpushed commits leaves `main` byte-identical. Note that filter-repo also
+deletes the now-untracked files from the working tree and removes the `origin`
+remote; both need restoring afterwards.
