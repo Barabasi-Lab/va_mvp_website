@@ -305,7 +305,7 @@ app.get('/api/page2/rows', async (req, res, next) => {
 // unreadable - they land 0.05 px apart in the column - and enough DOM to hang
 // the browser. When the cap bites the SNPs kept are the most significant, and
 // the response reports the true total so the page can say what it is hiding.
-const PAGE3_DEFAULT_LIMIT = 1000;
+const PAGE3_DEFAULT_LIMIT = 250;
 const PAGE3_MAX_LIMIT = 50000;
 
 app.get('/api/page3/rows', async (req, res, next) => {

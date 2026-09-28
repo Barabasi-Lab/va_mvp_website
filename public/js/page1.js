@@ -396,7 +396,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // only that node's lines are put in the DOM. Materialising all 54,790 up
     // front at opacity 0 left the browser laying out and compositing every one
     // of them on load and on every interaction.
-    let link = content.selectAll('.link');
+    //
+    // They go in their own group, created before the node circles below. SVG
+    // paints in document order, so edges drawn on demand would otherwise land
+    // on top of the nodes and swallow clicks meant for them.
+    const linkLayer = content.append('g').attr('class', 'link-layer');
+    let link = linkLayer.selectAll('.link');
 
     // links incident to each node, for drawLinks
     const linksByNode = new Map();
@@ -408,11 +413,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function drawLinks(subset) {
-        link = content.selectAll('.link')
+        link = linkLayer.selectAll('.link')
             .data(subset, d => `${d.source}-${d.target}`)
             .join('line')
             .attr('class', 'link')
             .style('stroke', '#999')
+            // nothing listens on edges here, and letting them take the pointer
+            // blocks double-clicking a node to open its node view
+            .style('pointer-events', 'none')
             .style('opacity', 1)
             .attr('stroke-width', linkStrokeWidth)
             .attr('x1', d => xScale(nodeMap.get(d.source).x))

@@ -73,10 +73,10 @@ filter client-side with no round trip.
 The median edge shares ~51 SNPs, but Hyperlipidemia and Disorders of lipoid
 metabolism share 27,481. Drawing those is meaningless — they land 0.05 px
 apart in the column — and enough DOM to hang the browser. `/api/page3/rows`
-returns the 1,000 most significant by default; `limit` overrides it up to
-50,000. About 6% of edges exceed the default.
+returns the 250 most significant by default; `limit` overrides it up to
+50,000. About 16% of edges exceed the default.
 
-The page states what it is showing: *"1,000 SNPs shown, from the 1,000 most
+The page states what it is showing: *"250 SNPs shown, from the 250 most
 significant of 27,481 shared"*, or *"75 of 77 shared SNPs shown"* when the cap
 does not apply. If you want a different default, it is `PAGE3_DEFAULT_LIMIT`
 in `server.js`.
