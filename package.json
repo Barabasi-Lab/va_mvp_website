@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "prestart": "node scripts/ensure-db.js",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "copy-d3": "mkdir -p public/js && cp node_modules/d3/dist/d3.min.js public/js/d3.min.js",

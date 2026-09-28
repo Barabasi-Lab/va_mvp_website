@@ -6,7 +6,19 @@ const { DuckDBInstance } = require('@duckdb/node-api');
 const app = express();
 app.use(compression());
 
-const DB_DIR = path.join(__dirname, 'public', 'data', 'db');
+// Where the DuckDB/Parquet files live. In production they sit on a Railway
+// volume rather than in the repo, so the deploy does not carry 159 MB of data.
+//
+// RAILWAY_VOLUME_MOUNT_PATH is injected only when a volume is actually
+// attached (confirmed against the running service: it is "/data"), which makes
+// it a better signal than RAILWAY_ENVIRONMENT - that one is set on every
+// Railway deploy, volume or not, and would send us to a path that does not
+// exist. Deploy without a volume and we fall back to the repo copy and say so
+// loudly, instead of failing on a missing mount.
+const DB_DIR = process.env.DB_DIR
+  || (process.env.RAILWAY_VOLUME_MOUNT_PATH
+        ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'db')
+        : path.join(__dirname, 'public', 'data', 'db'));
 
 // ---------------------------------------------------------------- constants
 
@@ -39,21 +51,24 @@ const STAT_COLS = ANCESTRIES
 
 let landingConn;
 let assocConn;
+let dbError = null;
 
 async function openDatabases() {
   const landingInst = await DuckDBInstance.create(
     path.join(DB_DIR, 'landing_page.duckdb'), { access_mode: 'READ_ONLY' });
   landingConn = await landingInst.connect();
 
-  // The association data ships as chromosome-partitioned Parquet rather than
-  // a single database file, so no shard exceeds GitHub's 100 MB limit.
-  // DuckDB queries it in place through these views.
+  // The association data is chromosome-partitioned Parquet rather than a
+  // single database file. DuckDB queries it in place through these views;
+  // the explicit chrom=* glob keeps anything else under the directory (a
+  // volume's lost+found, say) out of the scan, and hive_partitioning lets
+  // DuckDB prune whole chromosomes.
   const assocInst = await DuckDBInstance.create(':memory:');
   assocConn = await assocInst.connect();
   const parquet = p => path.join(DB_DIR, p).replace(/'/g, "''");
   await assocConn.run(
     `CREATE VIEW associations AS
-     SELECT * FROM read_parquet('${parquet('associations/**/*.parquet')}',
+     SELECT * FROM read_parquet('${parquet('associations/chrom=*/*.parquet')}',
                                 hive_partitioning = true)`);
   await assocConn.run(
     `CREATE VIEW node_attributes AS
@@ -116,6 +131,16 @@ async function nodeExists(id) {
     'SELECT 1 AS ok FROM node_attributes WHERE id = $1 LIMIT 1', [String(id)]);
   return rows.length > 0;
 }
+
+// If the data never opened, say so on every API route rather than letting
+// each one fail on an undefined connection.
+app.use('/api', (req, res, next) => {
+  if (!dbError) return next();
+  res.status(503).json({
+    error: 'data files unavailable on the server',
+    detail: `could not open the database directory (${DB_DIR})`
+  });
+});
 
 // ------------------------------------------------------------ page 1 routes
 
@@ -406,11 +431,23 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-openDatabases().then(() => {
-  app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running at http://0.0.0.0:${port}/`);
+
+// Serve the site even if the data files are unreachable. Exiting here would
+// turn a missing volume into a crash loop with no page to look at; this way
+// the site loads, the API says plainly what is wrong, and the reason is in
+// the logs. scripts/ensure-db.js has already named the missing files.
+openDatabases()
+  .catch(err => {
+    dbError = err;
+    console.error('\n' + '='.repeat(70));
+    console.error('DATA FILES UNAVAILABLE - the site will load but the API cannot answer.');
+    console.error(`  looked in: ${DB_DIR}`);
+    console.error(`  reason:    ${err.message}`);
+    console.error('  Set DB_DIR, or attach the volume holding db/.');
+    console.error('='.repeat(70) + '\n');
+  })
+  .then(() => {
+    app.listen(port, '0.0.0.0', () => {
+      console.log(`Server running at http://0.0.0.0:${port}/  (data: ${DB_DIR})`);
+    });
   });
-}).catch(err => {
-  console.error('Failed to open DuckDB files:', err);
-  process.exit(1);
-});

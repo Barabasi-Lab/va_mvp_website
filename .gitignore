@@ -8,3 +8,4 @@ __pycache__/
 public/data/edgelist_updated_scaled.csv
 public/data/node_attributes.csv
 public/data/node_files/
+public/data/db/
