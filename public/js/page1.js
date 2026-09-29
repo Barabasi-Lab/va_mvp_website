@@ -422,12 +422,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // now match.
         const LABEL_FONT = 16.5;
 
+        // Left edge of the label block. Normally the screen edge; on a short
+        // window positionLabels moves it beside the control column.
+        let labelX = 0.01 * window.innerWidth;
+
         function buildLabel(sel, d, degreeValue) {
             sel.selectAll('tspan').remove();
 
             const row = (text, dy) => sel.append('tspan')
+                .attr('class', 'row')          // positionLabels moves these
                 .text(text)
-                .attr('x', 0.01 * width)
+                .attr('x', labelX)
                 .attr('dy', dy)
                 .attr('font-size', `${LABEL_FONT}px`);
 
@@ -719,21 +724,76 @@ labels
 // Sit the hover label one line above the count panel, measured rather than
 // guessed, so the two readouts read as one block instead of two floating
 // captions. Runs after a frame so the panel has been laid out.
+// Widest label in the set, measured once. Placement has to reason about the
+// worst case, not whichever label happens to be first in the DOM - they all
+// share a position, and the longest phenotype name is ~960px wide.
+let maxLabelWidth = 0;
+function measureLabels() {
+    maxLabelWidth = 0;
+    labels.each(function () {
+        const w = this.getBBox().width;
+        if (w > maxLabelWidth) maxLabelWidth = w;
+    });
+}
+
 function positionLabels() {
-    const stack = document.getElementById('bottom-left-stack');
+    const readout = document.getElementById('bottom-left-stack');
+    const controls = document.getElementById('left-stack');
     const sample = labels.node();
-    if (!stack || !sample) return;
+    if (!readout || !sample) return;
     const box = sample.getBBox();
     if (!box.height) return;
+    if (!maxLabelWidth) measureLabels();
+
     // Two line breaks. One was enough until the readout grew: selecting a
     // phenotype with a long name wraps it onto a second line, pushing the
     // panel up into the label.
     const gap = 2 * 1.2 * LABEL_FONT;
-    const wanted = stack.getBoundingClientRect().top - gap;
-    const current = +labels.attr('y');
-    labels.attr('y', current + (wanted - (box.y + box.height)));
+    const margin = 16;
+    const cRect = controls
+        ? controls.getBoundingClientRect()
+        : { bottom: 0, right: 0 };
+
+    // Preferred spot: bottom left, just above the readout.
+    let x = 0.01 * window.innerWidth;
+    let top = readout.getBoundingClientRect().top - gap - box.height;
+
+    // On a short window the control column reaches down into that space and
+    // the label ended up behind the search bar. Put it beside the controls
+    // instead, level with the first filter.
+    if (top < cRect.bottom + margin) {
+        x = cRect.right + margin;
+        top = 14;
+
+        // The longest phenotype name is ~960px wide, which on a narrow window
+        // reaches the About buttons. Drop below them rather than run underneath.
+        const about = document.getElementById('info-container');
+        if (about) {
+            const aRect = about.getBoundingClientRect();
+            if (x + maxLabelWidth > aRect.left - margin) {
+                const below = aRect.bottom + margin;
+                const lowest = window.innerHeight - box.height - 10;
+                if (below <= lowest) top = below;
+            }
+        }
+    }
+
+    labels.attr('y', +labels.attr('y') + (top - box.y));
+    if (x !== labelX) {
+        labelX = x;
+        labels.selectAll('tspan.row').attr('x', x);
+    }
 }
-requestAnimationFrame(positionLabels);
+requestAnimationFrame(() => {
+    measureLabels();
+    // Ask the filter column to leave room for the label block, so the label
+    // keeps its place at the bottom left instead of being bumped aside; it
+    // only moves when even a compressed column cannot spare the space.
+    const h = labels.node() ? labels.node().getBBox().height : 0;
+    Panels.extraReserve = h + 2 * 1.2 * LABEL_FONT + 16;
+    if (Panels.__refit) Panels.__refit();
+    positionLabels();
+});
 window.addEventListener('resize', () => requestAnimationFrame(positionLabels));
 // Panels.summary calls this after the readout re-renders, so the label keeps
 // its distance when the panel grows or shrinks.
@@ -832,6 +892,7 @@ if (!localStorage.getItem('welcomeDismissed')) {
 // Create a container div for the button and info text
 const infoContainer = d3.select('body')
     .append('div')
+    .attr('id', 'info-container')
     .style('position', 'absolute')
     .style('top', '10px')
     .style('right', '10px')

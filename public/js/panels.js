@@ -97,7 +97,10 @@
         wrap.style.transform = 'none';
         const natural = wrap.offsetHeight;
         const readout = document.getElementById('bottom-left-stack');
-        const reserved = readout ? readout.offsetHeight + 20 : 0;
+        // extraReserve lets a page keep room below the column for something
+        // else - page 1 parks its hover label there.
+        const reserved = (readout ? readout.offsetHeight + 20 : 0)
+                       + (global.Panels.extraReserve || 0);
         const avail = window.innerHeight - top - reserved - 10;
         const scale = natural > avail && natural > 0
           ? Math.max(minScale, avail / natural)
