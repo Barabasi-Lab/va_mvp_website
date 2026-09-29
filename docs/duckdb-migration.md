@@ -86,6 +86,8 @@ railway volume files -v va_mvp_website-volume upload public/data/db /db
 | `GET /api/landing/edges` | `ancestry`, `pvalue` | `{source, target, same, diff}` per edge plus per-node degrees under that filter |
 | `GET /api/node/:id/ancestries` | – | ancestries with data for that phenotype |
 | `GET /api/page2/rows` | `node`, `ancestry`, optional `ancestry2` | association rows for the phenotype's 150 strongest SNPs |
+| `GET /api/page2/download` | `node` | CSV: every association for that phenotype, uncapped |
+| `GET /api/page3/download` | `left`, `right` | CSV: every shared SNP, both phenotypes, uncapped |
 | `GET /api/page3/rows` | `left`, `right`, `ancestry`, optional `ancestry2`, optional `limit` | association rows for the SNPs the two phenotypes share |
 
 `ancestry` is one of `meta, eur, afr, amr, eas`. Page 1's `pvalue` must be one
@@ -111,7 +113,65 @@ per-node CSVs used.
 Both responses depend only on the ancestry selection, so the p-value sliders
 filter client-side with no round trip.
 
-### The page 3 cap
+### How SNPs are ranked
+
+Pages 2 and 3 keep only the strongest SNPs, and the statistic that decides
+"strongest" is **|z| = |beta / se|**, computed at query time. `RANK_METRIC=pval`
+switches back to ranking by the reported p-value without a code change.
+
+z is computed on the fly rather than baked into the Parquet. Benchmarked on
+the shipped shards across nine representative queries: **-1.7 ms median,
++5.7 ms worst** versus the p-value ordering, so it was not worth a rebuild and
+re-upload of the volume.
+
+**z and p do not agree here, and the gap is not rounding.** For a plain Wald
+test p would be 2*Phi(-|z|), but in this dataset the sampled median gap is
+0.55 log10 and the tail runs past 290 log10. The pattern is unmistakable: the
+worst offenders are all rare variants with large |beta| and small se, e.g. a
+variant with beta = -1.60, se = 0.044 gives |z| = 36.5 (p ~ 1e-292) against a
+reported p of 1.2e-08. That is what a saddlepoint-corrected test
+(SAIGE/REGENIE) does — the Wald standard error is anti-conservative for rare
+variants under case-control imbalance, and the reported p is the corrected,
+trustworthy one.
+
+So ranking by z promotes rare variants that the reported p-value holds back.
+Measured effect on what actually reaches the screen, z versus p-value:
+
+| view | z | p-value |
+| --- | --- | --- |
+| page 2, Shortness of breath, EUR | 150 SNPs | 150 SNPs |
+| page 2, Obesity, META | 150 SNPs | 150 SNPs |
+| page 2, Asthma, META | **109 SNPs** | **148 SNPs** |
+| page 3, 739-741, EUR | 250 SNPs | 250 SNPs |
+| page 3, 230-229, META | 250 SNPs | 250 SNPs |
+
+Most views are unchanged. Asthma is the outlier, and it is the case with the
+strongest case-control imbalance, which is exactly where the correction bites
+hardest.
+
+With two ancestries selected the key is the **weaker** of the two |z| values,
+so a SNP only scores well when both ancestries support it.
+
+## The SNP cap warning
+
+Both pages cap how many SNPs they draw — 150 on page 2, 250 on page 3 — and
+say so when the cap is actually biting:
+
+> SNP count exceeds the maximum that can be displayed: N SNPs with strongest
+> evidence shown. Download the data to see all SNPs.
+
+The trigger is `drawn >= fetched && fetched < total`, i.e. *the view is full*.
+It used to be just `fetched < total`, which asks whether the **fetch** was
+capped — a different question. When the p-value filter had already cut the
+drawn count below the cap, nothing was being hidden (the ranking key is the
+quantity the filter tests, so anything past the cut scores worse and fails
+anyway), yet the warning still appeared with as few as 30 SNPs on screen.
+
+The download buttons honour that message: they return every association for
+the phenotype, or every shared SNP for the edge, ignoring both the cap and the
+sliders, with `se` alongside `beta`.
+
+## The page 3 cap
 
 The median edge shares ~51 SNPs, but Hyperlipidemia and Disorders of lipoid
 metabolism share 27,481. Drawing those is meaningless — they land 0.05 px
@@ -259,12 +319,17 @@ first):
 python3 scripts/validate_node_files.py      # DB vs the legacy per-node CSVs
 node     scripts/validate_pages.js --sample 60   # rendered networks, both sources
 python3  scripts/validate_landing.py        # all 45 ancestry x p-value combos
+python3  scripts/validate_ranking.py        # which SNPs the top-N picks
 ```
 
 `validate_pages.js` is the strongest check: it lifts `initializeNetwork`,
 `updateEdges` and `updateNodes` straight out of `page2.js`/`page3.js`, runs
 them over the legacy CSV and over the endpoint response, and compares the
-resulting node and edge multisets. 89 cases, including ten in two-ancestry
+resulting node and edge multisets. It compares the two sources **over the same
+SNP set**, because which SNPs get picked is no longer derivable from the legacy
+CSVs — they carry no `se` column. `validate_ranking.py` covers the selection
+itself, recomputing the expected top-N from the Parquet independently of the
+server's SQL. 89 cases, including ten in two-ancestry
 comparison mode, which is where the duplicate-row ordering problem showed up.
 All three suites pass with zero differences.
 
