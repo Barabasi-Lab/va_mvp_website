@@ -725,13 +725,19 @@ function positionLabels() {
     if (!stack || !sample) return;
     const box = sample.getBBox();
     if (!box.height) return;
-    const gap = 1.2 * LABEL_FONT;                       // one line break
+    // Two line breaks. One was enough until the readout grew: selecting a
+    // phenotype with a long name wraps it onto a second line, pushing the
+    // panel up into the label.
+    const gap = 2 * 1.2 * LABEL_FONT;
     const wanted = stack.getBoundingClientRect().top - gap;
     const current = +labels.attr('y');
     labels.attr('y', current + (wanted - (box.y + box.height)));
 }
 requestAnimationFrame(positionLabels);
 window.addEventListener('resize', () => requestAnimationFrame(positionLabels));
+// Panels.summary calls this after the readout re-renders, so the label keeps
+// its distance when the panel grows or shrinks.
+Panels.onResize = positionLabels;
 
 // Link endpoints are positioned in drawLinks, on the handful of lines that are
 // actually on screen.
@@ -751,6 +757,9 @@ const zoom = d3.zoom()
     });
 
 svg.call(zoom);
+// Double-click opens the node view; d3.zoom also binds dblclick to zoom in,
+// so the graph jumped as the new tab opened.
+svg.on('dblclick.zoom', null);
 
 // Center and zoom in (1.2x) around graph center
 const dataCenterX = (minX + maxX) / 2;

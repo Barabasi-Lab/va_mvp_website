@@ -56,25 +56,64 @@
 
   global.Panels = {
     /**
-     * Lay the left-hand control panels out top to bottom from measured
-     * heights, in the order given. They were absolutely positioned at
-     * hand-written offsets, which collided as soon as a panel grew - the
-     * ancestry list is a different length per phenotype, and the edge
-     * thickness radios and reset button were added underneath it.
+     * Lay the left-hand control panels out top to bottom, and shrink them to
+     * fit the window.
      *
-     * Call after the panels exist, and again if one changes height.
+     * They used to be absolutely positioned at hand-written offsets, which
+     * collided as soon as a panel grew. Now they flow inside one wrapper, and
+     * if that wrapper is taller than the space above the bottom-left readout
+     * the whole column is scaled down - text and gaps together - so the
+     * filters stay on screen on a short laptop display.
+     *
+     * Call after the panels exist; it re-runs itself on resize.
      */
-    stackLeft(selectors, { top = 10, left = 10, gap = 12 } = {}) {
-      let y = top;
-      for (const sel of selectors) {
-        const el = typeof sel === 'string' ? document.querySelector(sel) : sel;
-        if (!el) continue;
-        el.style.position = 'absolute';
-        el.style.left = `${left}px`;
-        el.style.top = `${y}px`;
-        y += el.getBoundingClientRect().height + gap;
+    stackLeft(selectors, { top = 10, left = 10, gap = 12, minScale = 0.55 } = {}) {
+      let wrap = document.getElementById('left-stack');
+      if (!wrap) {
+        wrap = document.createElement('div');
+        wrap.id = 'left-stack';
+        Object.assign(wrap.style, {
+          position: 'absolute',
+          transformOrigin: 'top left',
+          zIndex: '900'
+        });
+        document.body.appendChild(wrap);
       }
-      return y;
+      wrap.style.top = `${top}px`;
+      wrap.style.left = `${left}px`;
+
+      const els = selectors
+        .map(sel => (typeof sel === 'string' ? document.querySelector(sel) : sel))
+        .filter(Boolean);
+      els.forEach((el, i) => {
+        wrap.appendChild(el);                 // also reorders, so order is the order given
+        el.style.position = 'static';
+        el.style.top = '';
+        el.style.left = '';
+        el.style.marginBottom = i === els.length - 1 ? '0px' : `${gap}px`;
+      });
+
+      const fit = () => {
+        wrap.style.transform = 'none';
+        const natural = wrap.offsetHeight;
+        const readout = document.getElementById('bottom-left-stack');
+        const reserved = readout ? readout.offsetHeight + 20 : 0;
+        const avail = window.innerHeight - top - reserved - 10;
+        const scale = natural > avail && natural > 0
+          ? Math.max(minScale, avail / natural)
+          : 1;
+        wrap.style.transform = scale === 1 ? 'none' : `scale(${scale})`;
+      };
+      fit();
+
+      if (!wrap.dataset.resizeBound) {
+        wrap.dataset.resizeBound = '1';
+        window.addEventListener('resize', () => requestAnimationFrame(fit));
+      }
+      // the readout changes height as counts and labels change, which moves
+      // the space this column has to live in
+      global.Panels.__refit = fit;
+      return wrap;
     },
 
     /**
@@ -87,6 +126,8 @@
         .filter(e => e && e[1] !== null && e[1] !== undefined)
         .map(([label, value]) => line(label, typeof value === 'number' ? fmt(value) : value))
         .join('');
+      if (global.Panels.__refit) requestAnimationFrame(global.Panels.__refit);
+      if (global.Panels.onResize) requestAnimationFrame(global.Panels.onResize);
     },
 
     /**
