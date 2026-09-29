@@ -118,8 +118,8 @@ function updatePanels(nodes, links) {
         ['SNPs', snps.length],
         ['Phenotypes', phenos.length],
         ['Associations', links.length],
-        [comparison_on_off ? '\u00a0\u00a0synergistic' : '\u00a0\u00a0positive', same],
-        [comparison_on_off ? '\u00a0\u00a0antagonistic' : '\u00a0\u00a0negative', links.length - same],
+        [comparison_on_off ? '\u00a0\u00a0concordant' : '\u00a0\u00a0positive', same],
+        [comparison_on_off ? '\u00a0\u00a0discordant' : '\u00a0\u00a0negative', links.length - same],
         ['SNPs for this phenotype', available]
     ]);
 
@@ -554,7 +554,7 @@ loadData().then(async (data) => {
                         <div><input type="radio" name="beta-source" class="beta-source" value="max" id="bs-max" checked disabled><label for="bs-max">Max of both</label></div>
                     </div>
                 </div>
-                <button id="reset-view" style="margin-top: 10px; background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>
+
             `);
 
         const checkbox = document.querySelector(`#chk-${ancestryLower}`);
@@ -580,7 +580,27 @@ loadData().then(async (data) => {
         });
 
         // Reset button, replacing the Escape key.
+        // Its own panel, so the layout below can put it last.
+        d3.select('body')
+            .append('div')
+            .attr('id', 'reset-container')
+            .style('position', 'absolute')
+            .style('left', '10px')
+            .style('padding', '10px')
+            .html(`<button id="reset-view" style="background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>`);
         d3.select('#reset-view').on('click', () => resetView());
+
+        // Hand-written offsets collided once the ancestry list, the edge
+        // thickness radios and the reset button stacked up under each other.
+        // Lay the column out from measured heights: search second to last,
+        // reset last.
+        Panels.stackLeft([
+            pValueSlider.node(),
+            pValueSlider2.node(),
+            compareAncestries.node(),
+            searchContainer.node(),
+            document.getElementById('reset-container')
+        ]);
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
             const checked = d3.selectAll('.ancestry-option').nodes().filter(d => d.checked);

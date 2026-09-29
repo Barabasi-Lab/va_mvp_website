@@ -24,7 +24,7 @@
         gap: '8px',
         maxWidth: '360px',
         color: 'white',
-        fontSize: '13px',
+        fontSize: '16.5px',
         lineHeight: '1.45',
         pointerEvents: 'none',
         zIndex: '900'
@@ -55,6 +55,28 @@
   const fmt = n => Number(n).toLocaleString();
 
   global.Panels = {
+    /**
+     * Lay the left-hand control panels out top to bottom from measured
+     * heights, in the order given. They were absolutely positioned at
+     * hand-written offsets, which collided as soon as a panel grew - the
+     * ancestry list is a different length per phenotype, and the edge
+     * thickness radios and reset button were added underneath it.
+     *
+     * Call after the panels exist, and again if one changes height.
+     */
+    stackLeft(selectors, { top = 10, left = 10, gap = 12 } = {}) {
+      let y = top;
+      for (const sel of selectors) {
+        const el = typeof sel === 'string' ? document.querySelector(sel) : sel;
+        if (!el) continue;
+        el.style.position = 'absolute';
+        el.style.left = `${left}px`;
+        el.style.top = `${y}px`;
+        y += el.getBoundingClientRect().height + gap;
+      }
+      return y;
+    },
+
     /**
      * Live counts for whatever is currently drawn. `entries` is a list of
      * [label, value] pairs; pages decide what is meaningful for them.

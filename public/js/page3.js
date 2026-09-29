@@ -109,9 +109,9 @@ function updatePanels(rsidNodes, pheNodes, links, comparisonOn) {
         ['SNPs', drawn],
         ['Phenotypes', pheNodes.length],
         ['Associations', links.length],
-        [comparisonOn ? '\u00a0\u00a0synergistic' : '\u00a0\u00a0positive', same],
-        [comparisonOn ? '\u00a0\u00a0antagonistic' : '\u00a0\u00a0negative', links.length - same],
-        ['Shared SNPs in this edge', shared]
+        [comparisonOn ? '\u00a0\u00a0concordant' : '\u00a0\u00a0positive', same],
+        [comparisonOn ? '\u00a0\u00a0discordant' : '\u00a0\u00a0negative', links.length - same],
+        ['SNPs in this edge', shared]
     ]);
 
     Panels.snpWarning(limit, drawn >= fetched && fetched < shared);
@@ -606,6 +606,17 @@ loadData().then(async (data) => {
             betaSource = this.value;
             redraw();
         });
+        // Hand-written offsets collided once the ancestry list and the edge
+        // thickness radios stacked up under each other. Lay the column out
+        // from measured heights, with the search bar last. (No reset button
+        // here: page 3 holds no selection to clear.)
+        Panels.stackLeft([
+            pValueSlider.node(),
+            pValueSlider2.node(),
+            compareAncestries.node(),
+            searchContainer.node()
+        ]);
+
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
             const checked = d3.selectAll('.ancestry-option').nodes().filter(d => d.checked);

@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add a container for the search bar
         const searchContainer = d3.select('body')
             .append('div')
+            .attr('id', 'search-bar-container')
             .style('position', 'absolute')
             .style('top', '400px')
             .style('left', '10px')
@@ -217,8 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div><input type="checkbox" class="ancestry-option" value="eur" id="chk-eur"><label for="chk-eur">EUR</label></div>
                 </div>
                 <p style="font-size: 12px;">(Select one ancestry)</p>
-                <button id="reset-view" style="background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>
             `);
+
+        // Its own panel, so the layout below can put it last.
+        d3.select('body')
+            .append('div')
+            .attr('id', 'reset-container')
+            .style('position', 'absolute')
+            .style('left', '10px')
+            .style('padding', '10px')
+            .html(`<button id="reset-view" style="background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>`);
+
 
         // Enforce radio-button-like behavior with checkboxes
         d3.selectAll('.ancestry-option').on('change', function () {
@@ -284,8 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div id="edge-checkboxes" style="border: 1px solid white; padding: 5px; max-width: 200px;">
                     <div><input type="checkbox" class="edge-option" value="weight" id="chk-weight"><label for="chk-weight">Weight</label></div>
-                    <div><input type="checkbox" class="edge-option" value="same_dir_weight" id="chk-same"><label for="chk-same">Synergistic Weight</label></div>
-                    <div><input type="checkbox" class="edge-option" value="diff_dir_weight" id="chk-diff"><label for="chk-diff">Antagonistic Weight</label></div>
+                    <div><input type="checkbox" class="edge-option" value="same_dir_weight" id="chk-same"><label for="chk-same">Concordant Weight</label></div>
+                    <div><input type="checkbox" class="edge-option" value="diff_dir_weight" id="chk-diff"><label for="chk-diff">Discordant Weight</label></div>
                 </div>
                 <p style="font-size: 12px;">(Select one edge type)</p>
             `);
@@ -304,6 +314,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initialize the first checkbox as checked
         d3.select('#chk-weight').property('checked', true);
+        // Panels were positioned at hand-written offsets and the search bar
+        // sat on top of the ancestry list. Lay them out from measured heights
+        // instead: search second to last, reset last.
+        Panels.stackLeft([
+            degreeFilterContainer.node(),
+            pValueSlider.node(),
+            edgeToggle.node(),
+            ancestryToggle.node(),
+            searchContainer.node(),
+            document.getElementById('reset-container')
+        ]);
 
 
         // Pull fresh weights for the current ancestry/p-value and write them
@@ -364,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
         /**
          * Live counts for what the current filters leave on screen. An edge
          * counts as present when either direction carries weight, matching the
-         * degree calculation the server does. Synergistic and antagonistic are
+         * degree calculation the server does. Concordant and discordant are
          * the same direction-of-effect split the edge-type filter uses, and an
          * edge can contribute to both, so the two do not sum to the total.
          */
@@ -381,11 +402,52 @@ document.addEventListener('DOMContentLoaded', () => {
             Panels.summary([
                 ['Phenotypes', filteredNodes.length],
                 ['Associations', shown],
-                ['\u00a0\u00a0synergistic', syn],
-                ['\u00a0\u00a0antagonistic', anti],
+                ['\u00a0\u00a0concordant', syn],
+                ['\u00a0\u00a0discordant', anti],
                 activeNode ? ['Selected', activeNode.label] : null,
                 activeNode ? ['\u00a0\u00a0degree', degrees[activeNode.id] || 0] : null
             ]);
+        }
+
+        // Swatch geometry: kept at the same ratio to the text as before, with
+        // the vertical offset measured so its centre lines up.
+        const SWATCH_FONT = 54;
+        const SWATCH_DY = 0.2415;
+
+        // Hover label, shared by the initial render and every filter redraw so
+        // the two cannot drift apart.
+        //
+        // LABEL_FONT is halfway between the old 20px label and the old 13px
+        // count panel, and panels.js uses the same size, so the two readouts
+        // now match.
+        const LABEL_FONT = 16.5;
+
+        function buildLabel(sel, d, degreeValue) {
+            sel.selectAll('tspan').remove();
+
+            const row = (text, dy) => sel.append('tspan')
+                .text(text)
+                .attr('x', 0.01 * width)
+                .attr('dy', dy)
+                .attr('font-size', `${LABEL_FONT}px`);
+
+            row(`Phenotype: ${d.label}`, 0);
+            row(`Category: ${d.category}`, '1.2em');
+
+            // Colour swatch, sitting on the category line. The bullet glyph's
+            // ink sits well above its own baseline, so at this size a positive
+            // dy pushed it visibly below the text it belongs to; this raises it
+            // back onto the text's centre line.
+            sel.append('tspan')
+                .html('&bull;')
+                .style('fill', d.hex)
+                .attr('dy', `${SWATCH_DY}em`)
+                .style('font-size', `${SWATCH_FONT}px`);
+
+            // Undo the swatch's baseline shift and advance one line. dy is in
+            // units of each tspan's own font-size, so convert between the two.
+            const back = (1.2 * LABEL_FONT - SWATCH_DY * SWATCH_FONT) / LABEL_FONT;
+            row(`Degree under current filters: ${degreeValue}`, `${back}em`);
         }
 
         function renderEdgeWeights(link) {
@@ -395,39 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update labels to reflect the current degree values
             svg.selectAll('.label')
                 .each(function(d) {
-                    const degreeValue = degrees[d.id] || 0; // Use node ID to get its degree
-        
-                    // console.log(`Updating label for node ${d.id}: Degree = ${degreeValue}`); // Debug
-        
-                    d3.select(this).selectAll('tspan').remove(); // Clear existing tspans
-        
-                    d3.select(this)
-                        .append('tspan')
-                        .text(`Phenotype: ${d.label}`)
-                        .attr('x', 0.01 * width)
-                        .attr('dy', 0)
-                        .attr('font-size', '20px');
-        
-                    d3.select(this)
-                        .append('tspan')
-                        .text(`Category: ${d.category}`)
-                        .attr('x', 0.01 * width)
-                        .attr('dy', '1.2em')
-                        .attr('font-size', '20px');
-
-                    d3.select(this)
-                        .append('tspan')
-                        .html('&bull;') // Using bullet character as a circle
-                        .style('fill', d.hex) // Set the color from d.hex
-                        .attr('dy', '0.3em')
-                        .style('font-size', '80px'); // Match the font size
-            
-                    d3.select(this)
-                        .append('tspan')
-                        .text(`Degree under current filters: ${degreeValue}`)
-                        .attr('x', 0.01 * width)
-                        .attr('font-size', '20px')
-                        .attr('dy', '0.4em');
+                    buildLabel(d3.select(this), d, degrees[d.id] || 0);
                 });
         
             // Redraw any visible labels
@@ -648,44 +678,12 @@ const labels = svg.selectAll('.label')
     .attr('class', 'label')
     .attr('dx', 0)
     .attr('dy', '.35em')
-    .attr('font-size', '32px')
+    .attr('font-size', `${LABEL_FONT}px`)
     .style('fill', 'white')  // Ensure text is visible against the black background
     .style('opacity', 0)
     .each(function(d) {
-    // Use the server-computed degrees for the active filter
-    const degreeValue = degrees[d.id] || 0;
-
-
-    // console.log(`Updating label for node ${d.id}: Degree = ${degreeValue}`); // Debugging output
-
-    d3.select(this)
-        .append('tspan')
-        .text(`Phenotype: ${d.label}`)
-        .attr('x', 0.01 * width)
-        .attr('dy', 0)
-        .attr('font-size', '20px');
-
-    d3.select(this)
-        .append('tspan')
-        .text(`Category: ${d.category}`)
-        .attr('x', 0.01 * width)
-        .attr('dy', '1.2em')
-        .attr('font-size', '20px'); 
-        
-    d3.select(this)
-        .append('tspan')
-        .html('&bull;') // Using bullet character as a circle
-        .style('fill', d.hex) // Set the color from d.hex
-        .attr('dy', '0.3em')
-        .style('font-size', '80px'); // Match the font size
-
-    d3.select(this)
-        .append('tspan')
-        .text(`Degree under current filters: ${degreeValue}`)
-        .attr('x', 0.01 * width)
-        .attr('font-size', '20px')
-        .attr('dy', '0.4em');
-});
+        buildLabel(d3.select(this), d, degrees[d.id] || 0);
+    });
 
 
 
@@ -717,6 +715,24 @@ node
 labels
     .attr('x', d => 0.02 * width)
     .attr('y', d => 0.75 * height);
+
+// Sit the hover label one line above the count panel, measured rather than
+// guessed, so the two readouts read as one block instead of two floating
+// captions. Runs after a frame so the panel has been laid out.
+function positionLabels() {
+    const stack = document.getElementById('bottom-left-stack');
+    const sample = labels.node();
+    if (!stack || !sample) return;
+    const box = sample.getBBox();
+    if (!box.height) return;
+    const gap = 1.2 * LABEL_FONT;                       // one line break
+    const wanted = stack.getBoundingClientRect().top - gap;
+    const current = +labels.attr('y');
+    labels.attr('y', current + (wanted - (box.y + box.height)));
+}
+requestAnimationFrame(positionLabels);
+window.addEventListener('resize', () => requestAnimationFrame(positionLabels));
+
 // Link endpoints are positioned in drawLinks, on the handful of lines that are
 // actually on screen.
 // now resize the nodes by dividing the size by the x range divided by the width
@@ -855,8 +871,8 @@ const infoText = infoContainer.append('div')
             run on different ancestry subgroups within MVP, the ancestry filter can be used to look 
             at each of these subnetworks separately. </p>
         <p>In some cases we are interested only in SNPs that effect both of their assosciated phenotypes 
-            in the same way (a synergistic association), or in SNPs that have opposite effects on their 
-            associated phenotypes (an antagonistic association). The edge type filter can be used to compare 
+            in the same way (a concordant association), or in SNPs that have opposite effects on their 
+            associated phenotypes (an discordant association). The edge type filter can be used to compare 
             these cases</p>
         <p>The p-value slider sets the threshold for a SNP-phenotype association to be included in the network 
         <p>The degree filter can be used to eliminate phenotypes that don't have many connections</p>
