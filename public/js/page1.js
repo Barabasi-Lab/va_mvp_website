@@ -923,7 +923,7 @@ const infoText = infoContainer.append('div')
     .style('border-radius', '5px')
     .style('max-width', '1000px')
     .html(`
-        <h2>Million Veteran Program Phenotype Network</h2>
+        <h2>MVPheWAS Explorer: Phenotype Network</h2>
         <p>
             This network illuminates the shared genetic basis of phenotypes within the VA's 
             Million Veteran Program (MVP). Each node is a phenotype, and each edge is made up
