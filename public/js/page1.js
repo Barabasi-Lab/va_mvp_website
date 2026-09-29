@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Call highlightNode to reapply the node highlighting logic
             if (activeNode) highlightNode(activeNode);
+            updateSummary();
         }
 
 
@@ -216,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div><input type="checkbox" class="ancestry-option" value="eur" id="chk-eur"><label for="chk-eur">EUR</label></div>
                 </div>
                 <p style="font-size: 12px;">(Select one ancestry)</p>
+                <button id="reset-view" style="background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>
             `);
 
         // Enforce radio-button-like behavior with checkboxes
@@ -335,14 +337,60 @@ document.addEventListener('DOMContentLoaded', () => {
             renderEdgeWeights(link);
         }
 
-        function linkStrokeWidth(d) {
+        function linkWeight(d) {
             if (edgeType === 'weight') return (d.same || 0) + (d.diff || 0);
             if (edgeType === 'same_dir_weight') return d.same || 0;
             return d.diff || 0;
         }
 
+        // Rendered radius of a node, matching the `r` attribute set further
+        // down. yHeight is assigned before anything can call this: the only
+        // callers are drawLinks and renderEdgeWeights, and the one call that
+        // happens during setup runs against an empty selection.
+        function nodeRadius(id) {
+            const n = nodeMap.get(id);
+            return n ? n.size / yHeight / 1.1 : Infinity;
+        }
+
+        // Edge weight and node size come from unrelated columns, so an edge
+        // could be drawn wider than the nodes it joins. Clamp to the diameter
+        // of the smaller endpoint. Two map lookups per drawn edge, and only
+        // the selected node's edges are ever drawn, so the cost is nil.
+        function linkStrokeWidth(d) {
+            const cap = 2 * Math.min(nodeRadius(d.source), nodeRadius(d.target));
+            return Math.min(linkWeight(d), cap);
+        }
+
+        /**
+         * Live counts for what the current filters leave on screen. An edge
+         * counts as present when either direction carries weight, matching the
+         * degree calculation the server does. Synergistic and antagonistic are
+         * the same direction-of-effect split the edge-type filter uses, and an
+         * edge can contribute to both, so the two do not sum to the total.
+         */
+        function updateSummary() {
+            let shown = 0, syn = 0, anti = 0;
+            for (const l of filteredLinks) {
+                const same = l.same || 0;
+                const diff = l.diff || 0;
+                if (same === 0 && diff === 0) continue;
+                shown++;
+                if (same > 0) syn++;
+                if (diff > 0) anti++;
+            }
+            Panels.summary([
+                ['Phenotypes', filteredNodes.length],
+                ['Associations', shown],
+                ['\u00a0\u00a0synergistic', syn],
+                ['\u00a0\u00a0antagonistic', anti],
+                activeNode ? ['Selected', activeNode.label] : null,
+                activeNode ? ['\u00a0\u00a0degree', degrees[activeNode.id] || 0] : null
+            ]);
+        }
+
         function renderEdgeWeights(link) {
             link.attr('stroke-width', linkStrokeWidth);
+            updateSummary();
 
             // Update labels to reflect the current degree values
             svg.selectAll('.label')
@@ -459,9 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
             labels.style('opacity', l => l.id === d.id ? 0 : 0);
         })
         .on('click', (event, d) => {
-            console.log('Clicked node:', d);
             activeNode = d;
             highlightNode(d);
+            updateSummary();
         });
             
 
@@ -528,8 +576,10 @@ function highlightNode(selectedNode) {
     node.on('contextmenu', function (event, d) {
         // clear any existing context menus
         d3.selectAll('.context-menu').remove();
-        // if there is an active node:
-        if (activeNode) {
+        // Needs two distinct phenotypes. Right-clicking the node that is
+        // already selected would open page 3 with leftPheno === rightPheno,
+        // which has nothing to intersect, so offer nothing there.
+        if (activeNode && d.id !== activeNode.id) {
             event.preventDefault(); // Prevent the default context menu from appearing
 
             // Create a custom context menu
@@ -577,14 +627,15 @@ function highlightNode(selectedNode) {
     });
 }
 
-// Escape key event to clear selection
-d3.select('body').on('keydown', function(event) {
-    if (event.key === 'Escape') {
-        activeNode = null;
-        highlightNode(null); // Reset all highlighting
-        content.selectAll('rect').remove();
-    }
-});
+// Clear the selection. This was bound to Escape; it is now the "Reset view"
+// button under the filters.
+function resetView() {
+    activeNode = null;
+    highlightNode(null); // Reset all highlighting
+    content.selectAll('rect').remove();
+    updateSummary();
+}
+d3.select('#reset-view').on('click', resetView);
 
 
 // console.log("Computed node degrees:", nodeDegrees); // Debugging output

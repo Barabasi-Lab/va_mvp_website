@@ -34,6 +34,9 @@ function loadClientFns(file, globals) {
     console: quiet,
     window: { innerWidth: 1920, innerHeight: 1080 },
     d3: { select: () => ({ selectAll: () => ({}) }), selectAll: () => ({}) },
+    // declared above the slice we evaluate, so supply it here; 'max' is the
+    // page default (edge thickness = larger of the two ancestries' betas)
+    betaSource: 'max',
     ...globals
   });
   vm.runInContext(src.slice(start), ctx);
@@ -162,50 +165,21 @@ async function checkPage2(node, ancestry, logP, ancestry2 = null, logP2 = null) 
   const params = { node, ancestry };
   if (cmp) params.ancestry2 = ancestry2;
 
-  let legacyRowSet = normaliseLegacy(legacyRows(node)).filter(r => r.phe_id !== LEGACY_MISSING_PHE);
   const freshRows = (await api('/api/page2/rows', params))
     .rows.filter(r => r.phe_id !== LEGACY_MISSING_PHE);
 
-  if (cmp) {
-    // Comparison mode deliberately departs from the legacy ranking: the top
-    // 150 are now chosen by the weaker of the two ancestries' p-values, not by
-    // the first ancestry alone. Check that selection independently against the
-    // legacy CSV, then compare the rendering over the same SNPs, so the two
-    // concerns stay separable.
-    const expected = expectedTopSnps(legacyRowSet, node, ancestry, ancestry2);
-    const got = new Set(freshRows.map(r => r.rsid));
-    const missing = [...expected].filter(r => !got.has(r));
-    const extra = [...got].filter(r => !expected.has(r));
-    if (missing.length || extra.length) {
-      console.log(`FAIL ${label.padEnd(46)} top-${TOP_SNPS} selection: ` +
-        `-${missing.length}/+${extra.length} (expected ${expected.size}, got ${got.size})`);
-      return false;
-    }
-    legacyRowSet = legacyRowSet.filter(r => expected.has(r.rsid));
-  }
+  // Which SNPs get picked is no longer derivable from the legacy CSVs: ranking
+  // is by |beta/se| and those files carry no se column. So this compares the
+  // two sources over the same SNPs - it proves the served rows and everything
+  // the client does with them still match the legacy data exactly, which is
+  // the part that could silently corrupt. Selection itself is covered by
+  // scripts/validate_ranking.js, and validate_node_files.py independently
+  // checks every row in the store against the CSVs, ranking-agnostic.
+  const keep = new Set(freshRows.map(r => r.rsid));
+  const legacyRowSet = normaliseLegacy(legacyRows(node))
+    .filter(r => r.phe_id !== LEGACY_MISSING_PHE && keep.has(r.rsid));
 
   return diff(label, run(legacyRowSet), run(freshRows));
-}
-
-const TOP_SNPS = 150;
-
-// The SNPs the endpoint should pick for a centre phenotype, derived from the
-// legacy CSV so it is an independent check rather than a restatement of the
-// query. The CSV is in the raw dataset's row order, so a stable sort over it
-// breaks ties the same way src_row does server-side.
-function expectedTopSnps(rows, node, a1, a2) {
-  const finite = v => Number.isFinite(parseFloat(v));
-  const pv = v => (finite(v) ? parseFloat(v) : 1);
-  const centre = rows.filter(r =>
-    r.phe_id === node &&
-    finite(r[`beta.${a1}`]) &&
-    (!a2 || finite(r[`beta.${a2}`])));
-  const key = r => (a2 ? Math.max(pv(r[`pval.${a1}`]), pv(r[`pval.${a2}`])) : pv(r[`pval.${a1}`]));
-  return new Set(centre
-    .map((r, i) => ({ r, i, k: key(r) }))
-    .sort((x, y) => x.k - y.k || x.i - y.i)
-    .slice(0, TOP_SNPS)
-    .map(o => o.r.rsid));
 }
 
 // ----------------------------------------------------------------- page 3
@@ -235,13 +209,15 @@ async function checkPage3(left, right, ancestry, logP, ancestry2 = null, logP2 =
   const common = new Set([...leftRs].filter(r => rightRs.has(r)));
   rows = rows.filter(r => common.has(r.rsid));
 
-  const legacy = run(rows);
-  // limit=50000 disables the display cap, so this stays a like-for-like
-  // comparison of the whole shared-SNP set against the legacy CSVs
-  const params = { left, right, ancestry, pvalue: pThreshold, limit: 50000 };
-  if (cmp) { params.ancestry2 = ancestry2; params.pvalue2 = pThreshold2; }
-  const fresh = run((await api('/api/page3/rows', params)).rows);
-  return diff(label, legacy, fresh);
+  // limit=50000 disables the display cap, so every shared SNP comes back and
+  // the ranking cannot affect which rows are compared
+  const params = { left, right, ancestry, limit: 50000 };
+  if (cmp) params.ancestry2 = ancestry2;
+  const freshRows = (await api('/api/page3/rows', params)).rows;
+
+  const keep = new Set(freshRows.map(r => r.rsid));
+  const legacy = run(rows.filter(r => keep.has(r.rsid)));
+  return diff(label, legacy, run(freshRows));
 }
 
 // -------------------------------------------------------------------- main

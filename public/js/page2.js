@@ -12,6 +12,10 @@ let ancestryLower = null; // Declare ancestryLower as a global variable, and use
 let comparison_on_off = false; // Declare comparison_on_off as a global variable
 let anc1 = null; // Declare anc1 as a global variable
 let anc2 = null; // Declare anc2 as a global variable
+// Edge thickness source in comparison mode: 'a1', 'a2' or 'max' (default).
+// Resets on reload because it is a plain variable, which is the specified
+// behaviour.
+let betaSource = 'max';
 let betaColumn2 = null; // Declare betaColumn2 as a global variable
 let pColumn2 = null; // Declare pColumn2 as a global variable
 let pThreshold2 = 1e-4; // Declare pThreshold2 as a global variable, default to 1e-4
@@ -62,6 +66,11 @@ async function fetchRows() {
         }
         const payload = await response.json();
         centerMeta = payload.center;
+        snpTotals = {
+            available: payload.availableSnps,  // SNPs this phenotype has in total
+            fetched: payload.fetchedSnps,      // how many the cap let through
+            limit: payload.limit
+        };
         console.log('Number of rows:', payload.rows.length);
         return payload.rows;
     } catch (error) {
@@ -72,6 +81,49 @@ async function fetchRows() {
 
 async function loadData() {
     return fetchRows();
+}
+
+// Set by fetchRows, read by updatePanels.
+let snpTotals = { available: 0, fetched: 0, limit: 0 };
+
+/**
+ * Bottom-left overlays: live counts, plus the cap warning.
+ *
+ * The warning fires only when the drawn set has actually filled the cap. If
+ * the p-value filter has already cut the count below it, the cap is hiding
+ * nothing: the ranking key is the same quantity the filter tests, so anything
+ * ranked past the cut scores worse and would fail the filter too.
+ */
+// Enable/label the edge-thickness radios. They only apply in comparison mode,
+// so they stay greyed out until a second ancestry is picked.
+function setThicknessControls(enabled, a1Name, a2Name) {
+    d3.select('#thickness-controls').style('opacity', enabled ? 1 : 0.5);
+    d3.selectAll('.beta-source').property('disabled', !enabled);
+    if (enabled) {
+        d3.select('#bs-a1-label').text(a1Name.toUpperCase());
+        d3.select('#bs-a2-label').text(a2Name.toUpperCase());
+    } else {
+        d3.select('#bs-a1-label').text('Ancestry 1');
+        d3.select('#bs-a2-label').text('Ancestry 2');
+    }
+}
+
+function updatePanels(nodes, links) {
+    const snps = nodes.filter(n => n.id.startsWith('rs'));
+    const phenos = nodes.filter(n => !n.id.startsWith('rs'));
+    const { available, fetched, limit } = snpTotals;
+
+    const same = links.filter(l => l.direction >= 0).length;
+    Panels.summary([
+        ['SNPs', snps.length],
+        ['Phenotypes', phenos.length],
+        ['Associations', links.length],
+        [comparison_on_off ? '\u00a0\u00a0synergistic' : '\u00a0\u00a0positive', same],
+        [comparison_on_off ? '\u00a0\u00a0antagonistic' : '\u00a0\u00a0negative', links.length - same],
+        ['SNPs for this phenotype', available]
+    ]);
+
+    Panels.snpWarning(limit, snps.length >= fetched && fetched < available);
 }
 
 // Re-render from the rows already loaded. The p-value sliders use this.
@@ -364,7 +416,7 @@ loadData().then(async (data) => {
                 the two ancestries<br><br>
                 Double-click on a phenotype node to open a new dendrogram.<br><br>
                 Right click on an outer node to open an edge view between it and the center node.<br><br>
-                Press the 'Escape' key to reset the network view.
+                Use the 'Reset view' button under the filters to clear the selection.
             </p>
         `);
 
@@ -402,26 +454,9 @@ loadData().then(async (data) => {
         .style('cursor', 'pointer')
         .style('border-radius', '5px')
         .on('click', () => {
-            // Assume graphData is the object returned by initializeNetwork
-            // It contains {nodes, links, data, width, height, nodeMap}
-            const exportdata = network;
-
-            // Create a filtered array of rows from data corresponding to links in the current network
-            const linkSet = new Set(exportdata.links.map(l => `${l.source.id}|${l.target.id}`));
-            const filteredData = data.filter(d => linkSet.has(`${d.rsid}|${d.phe_id}`));
-
-            // Convert filteredData to CSV
-            const csvString = d3.csvFormat(filteredData);
-
-            // Trigger download
-            const blob = new Blob([csvString], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'network_data.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            // Every SNP for this phenotype, not just the 150 on screen, which
+            // is what the cap warning promises. Served as CSV by the API.
+            window.location.href = `/api/page2/download?node=${encodeURIComponent(centerPheno)}`;
         });
 
         // --- Persistent search bar container ---
@@ -511,6 +546,15 @@ loadData().then(async (data) => {
                     `).join('\n')}
                 </div>
                 <p style="font-size: 12px;">(Select two to compare)</p>
+                <div id="thickness-controls" style="margin-top: 4px; opacity: 0.5;">
+                    <label>Edge thickness from:</label>
+                    <div id="thickness-radios" style="border: 1px solid white; padding: 5px; max-width: 200px;">
+                        <div><input type="radio" name="beta-source" class="beta-source" value="a1" id="bs-a1" disabled><label for="bs-a1" id="bs-a1-label">Ancestry 1</label></div>
+                        <div><input type="radio" name="beta-source" class="beta-source" value="a2" id="bs-a2" disabled><label for="bs-a2" id="bs-a2-label">Ancestry 2</label></div>
+                        <div><input type="radio" name="beta-source" class="beta-source" value="max" id="bs-max" checked disabled><label for="bs-max">Max of both</label></div>
+                    </div>
+                </div>
+                <button id="reset-view" style="margin-top: 10px; background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>
             `);
 
         const checkbox = document.querySelector(`#chk-${ancestryLower}`);
@@ -522,6 +566,21 @@ loadData().then(async (data) => {
             checkbox.checked = true;
         }
 
+
+        // Which ancestry's beta sets edge thickness in comparison mode. Kept
+        // deliberately separate from ranking: z-score decides which SNPs are
+        // shown, beta decides how thick the edge is drawn.
+        //
+        // A plain variable, so it survives ancestry and p-value changes (which
+        // only redraw) and resets to "max" on reload, as specified. Opening a
+        // node or edge view is a new tab, so that starts at the default too.
+        d3.selectAll('.beta-source').on('change', function () {
+            betaSource = this.value;
+            redraw();
+        });
+
+        // Reset button, replacing the Escape key.
+        d3.select('#reset-view').on('click', () => resetView());
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
             const checked = d3.selectAll('.ancestry-option').nodes().filter(d => d.checked);
@@ -545,6 +604,9 @@ loadData().then(async (data) => {
                 betaColumn = `beta.${ancestryLower}`;
                 pColumn = `pval.${ancestryLower}`;
                 comparison_on_off = false;
+
+                // Thickness source only means something with two ancestries
+                setThicknessControls(false);
 
                 // Update first slider’s label
                 d3.select('#pvalue-label-1')
@@ -570,6 +632,8 @@ loadData().then(async (data) => {
                 // Assign ancestry variables
                 anc1 = checked[0].value.toLowerCase();
                 anc2 = checked[1].value.toLowerCase();
+
+                setThicknessControls(true, anc1, anc2);
 
                 // Update both labels
                 d3.select('#pvalue-label-1')
@@ -759,15 +823,18 @@ function highlightNode(aNode, links, comparison_on_off = false) {
             }
 
         });
-    // on escape key set the active node to null and reset the styles to the defaults
-    d3.select('body').on('keydown', (event) => {
-        if (event.key === 'Escape') {
-            activeNode = null;
-            animate(d3.selectAll('circle')).style('opacity', 1);
-            animate(d3.selectAll('line')).style('opacity', 0);
-        }
-    });
+}
 
+// Clear the selection and put every node and edge back to its resting state.
+// This used to be bound to Escape, and only after a node had been clicked,
+// since the handler was registered inside highlightNode. It is now the
+// "Reset view" button under the filters.
+function resetView() {
+    activeNode = null;
+    const animate = selection =>
+        selection.size() > 2000 ? selection : selection.transition().duration(300);
+    animate(d3.selectAll('circle')).style('opacity', 1);
+    animate(d3.selectAll('line')).style('opacity', 0);
 }
 
 
@@ -832,7 +899,10 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
             const match = link2Map.get(key);
             if (match) {
                 // take the max of the two betas
-                link.beta = Math.max(link.beta, match.beta); // Use max beta
+                // beta drives edge thickness; the ranking uses z separately
+                link.beta = betaSource === 'a1' ? link.beta
+                          : betaSource === 'a2' ? match.beta
+                          : Math.max(link.beta, match.beta);
                 link.pvalue2 = match.pvalue; // Optional: store pvalue from second set
                 link.direction = link.direction * match.direction; // Multiply directions
             }
@@ -951,6 +1021,8 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     // Clear existing network before rendering new one
     d3.select('svg').selectAll('*').remove();
 
+    updatePanels(nodes, links);
+
     // Arrange RSID nodes in a circular layout
     const rsidNodes = nodes.filter(n => n.id.startsWith('rs'));
     const radius = Math.min(width, height) * 0.35;
@@ -1063,8 +1135,9 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
         .on('contextmenu', function (event, d) {
             //clear any existing context menus
             d3.selectAll('.context-menu').remove();
-            // if the node is an rsid node:
-            if (!d.id.startsWith('rs')) {
+            // Phenotype nodes only, and never the centre: an edge view of the
+            // centre against itself has nothing to intersect.
+            if (!d.id.startsWith('rs') && d.id !== centerPheno) {
                 event.preventDefault(); // Prevent the default context menu from appearing
         
                 // Create a custom context menu

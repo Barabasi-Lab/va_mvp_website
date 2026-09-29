@@ -16,6 +16,10 @@ let pThreshold2 = 1e-4;
 let comparison_on_off = false; // Variable to track if comparison mode is on
 let anc1 = null;
 let anc2 = null;
+// Edge thickness source in comparison mode: 'a1', 'a2' or 'max' (default).
+// Resets on reload because it is a plain variable, which is the specified
+// behaviour.
+let betaSource = 'max';
 
 
 // Function to parse query parameters
@@ -60,37 +64,57 @@ async function fetchRows() {
         return null;
     }
     const payload = await response.json();
-    snpTotals = { shared: payload.sharedSnps, fetched: payload.shownSnps };
+    snpTotals = {
+        shared: payload.sharedSnps,   // SNPs the two phenotypes share
+        fetched: payload.shownSnps,   // how many of those the server sent
+        limit: payload.limit          // the cap it applied
+    };
     return payload.rows;
 }
 
-// How many SNPs the two phenotypes share, and how many of those were fetched
-// (the server caps very large edges). Set by fetchRows, read by showSnpCount.
-let snpTotals = { shared: 0, fetched: 0 };
+// Set by fetchRows, read by updatePanels.
+let snpTotals = { shared: 0, fetched: 0, limit: 0 };
 
-// Report what is actually on screen. Two separate things cut the number down:
-// the p-value filters, and the server-side cap on very large edges. Say so
-// rather than quietly truncating.
-function showSnpCount(drawn) {
-    let box = d3.select('#snp-count');
-    if (box.empty()) {
-        box = d3.select('body').append('div')
-            .attr('id', 'snp-count')
-            .style('position', 'absolute')
-            .style('bottom', '10px')
-            .style('left', '10px')
-            .style('font-size', '13px')
-            .style('pointer-events', 'none');
+/**
+ * Bottom-left overlays: live counts, plus the cap warning.
+ *
+ * The warning fires only when the drawn set has actually filled the cap. It
+ * used to fire whenever the *fetch* was capped (fetched < shared), which is a
+ * different question: when the p-value filter independently cuts the drawn
+ * count below the cap, nothing is being hidden by the cap, because the ranking
+ * key is the same quantity the filter tests - anything ranked past the cut
+ * scores worse and would fail the filter too. That is why it appeared with
+ * only 30 SNPs on screen.
+ */
+// Enable/label the edge-thickness radios. They only apply in comparison mode,
+// so they stay greyed out until a second ancestry is picked.
+function setThicknessControls(enabled, a1Name, a2Name) {
+    d3.select('#thickness-controls').style('opacity', enabled ? 1 : 0.5);
+    d3.selectAll('.beta-source').property('disabled', !enabled);
+    if (enabled) {
+        d3.select('#bs-a1-label').text(a1Name.toUpperCase());
+        d3.select('#bs-a2-label').text(a2Name.toUpperCase());
+    } else {
+        d3.select('#bs-a1-label').text('Ancestry 1');
+        d3.select('#bs-a2-label').text('Ancestry 2');
     }
-    const { shared, fetched } = snpTotals;
-    const capped = fetched < shared;
-    box.style('color', capped ? '#ffcc66' : 'white').text(
-        capped
-            ? `${drawn.toLocaleString()} SNPs drawn \u2014 view is capped at the ` +
-              `${fetched.toLocaleString()} most significant of ${shared.toLocaleString()} ` +
-              `shared; loosening the filters will not show more than that`
-            : `${drawn.toLocaleString()} of ${shared.toLocaleString()} shared ` +
-              `SNP${shared === 1 ? '' : 's'} drawn`);
+}
+
+function updatePanels(rsidNodes, pheNodes, links, comparisonOn) {
+    const drawn = rsidNodes.length;
+    const { shared, fetched, limit } = snpTotals;
+
+    const same = links.filter(l => l.direction >= 0).length;
+    Panels.summary([
+        ['SNPs', drawn],
+        ['Phenotypes', pheNodes.length],
+        ['Associations', links.length],
+        [comparisonOn ? '\u00a0\u00a0synergistic' : '\u00a0\u00a0positive', same],
+        [comparisonOn ? '\u00a0\u00a0antagonistic' : '\u00a0\u00a0negative', links.length - same],
+        ['Shared SNPs in this edge', shared]
+    ]);
+
+    Panels.snpWarning(limit, drawn >= fetched && fetched < shared);
 }
 
 async function loadData() {
@@ -524,24 +548,10 @@ loadData().then(async (data) => {
         .on('click', () => {
             // Assume graphData is the object returned by initializeNetwork
             // It contains {nodes, links, data, width, height, nodeMap}
-            const exportdata = network;
-
-            // Create a filtered array of rows from data corresponding to links in the current network
-            const linkSet = new Set(exportdata.links.map(l => `${l.source.id}|${l.target.id}`));
-            const filteredData = data.filter(d => linkSet.has(`${d.rsid}|${d.phe_id}`));
-
-            // Convert filteredData to CSV
-            const csvString = d3.csvFormat(filteredData);
-
-            // Trigger download
-            const blob = new Blob([csvString], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'network_data.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            // Every shared SNP, not just the ones on screen, which is what the
+            // cap warning promises. Served as CSV by the API.
+            window.location.href = `/api/page3/download?left=${encodeURIComponent(leftPheno)}` +
+                                   `&right=${encodeURIComponent(rightPheno)}`;
         });
 
 
@@ -565,6 +575,14 @@ loadData().then(async (data) => {
                     `).join('\n')}
                 </div>
                 <p style="font-size: 12px;">(Select two to compare)</p>
+                <div id="thickness-controls" style="margin-top: 4px; opacity: 0.5;">
+                    <label>Edge thickness from:</label>
+                    <div id="thickness-radios" style="border: 1px solid white; padding: 5px; max-width: 200px;">
+                        <div><input type="radio" name="beta-source" class="beta-source" value="a1" id="bs-a1" disabled><label for="bs-a1" id="bs-a1-label">Ancestry 1</label></div>
+                        <div><input type="radio" name="beta-source" class="beta-source" value="a2" id="bs-a2" disabled><label for="bs-a2" id="bs-a2-label">Ancestry 2</label></div>
+                        <div><input type="radio" name="beta-source" class="beta-source" value="max" id="bs-max" checked disabled><label for="bs-max">Max of both</label></div>
+                    </div>
+                </div>
             `);
 
         const checkbox = document.querySelector(`#chk-${ancestryLower}`);
@@ -576,6 +594,18 @@ loadData().then(async (data) => {
             checkbox.checked = true;
         }
 
+
+        // Which ancestry's beta sets edge thickness in comparison mode. Kept
+        // deliberately separate from ranking: z-score decides which SNPs are
+        // shown, beta decides how thick the edge is drawn.
+        //
+        // A plain variable, so it survives ancestry and p-value changes (which
+        // only redraw) and resets to "max" on reload, as specified. Opening a
+        // node or edge view is a new tab, so that starts at the default too.
+        d3.selectAll('.beta-source').on('change', function () {
+            betaSource = this.value;
+            redraw();
+        });
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
             const checked = d3.selectAll('.ancestry-option').nodes().filter(d => d.checked);
@@ -600,6 +630,9 @@ loadData().then(async (data) => {
                 betaColumn = `beta.${ancestryLower}`;
                 pColumn = `pval.${ancestryLower}`;
                 comparison_on_off = false;
+
+                // Thickness source only means something with two ancestries
+                setThicknessControls(false);
 
                 // Update first slider’s label
                 d3.select('#pvalue-label-1')
@@ -627,6 +660,8 @@ loadData().then(async (data) => {
                 // Assign ancestry variables
                 anc1 = checked[0].value.toLowerCase();
                 anc2 = checked[1].value.toLowerCase();
+
+                setThicknessControls(true, anc1, anc2);
 
                 // Update both labels
                 d3.select('#pvalue-label-1')
@@ -833,7 +868,10 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2=null, pColumn2
             const match = link2Map.get(key);
             if (match) {
                 // take the max of the two betas
-                link.beta = Math.max(link.beta, match.beta); // Use max beta
+                // beta drives edge thickness; the ranking uses z separately
+                link.beta = betaSource === 'a1' ? link.beta
+                          : betaSource === 'a2' ? match.beta
+                          : Math.max(link.beta, match.beta);
                 link.pvalue2 = match.pvalue; // Optional: store pvalue from second set
                 link.direction = link.direction * match.direction; // Multiply directions
             }
@@ -961,9 +999,9 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
             node.x = middle_x;
             node.y = (i + 1) * height / (rsidNodes.length + 1);
     });
-    showSnpCount(rsidNodes.length);
-    
-    // Arrange phenotype nodes 
+    updatePanels(rsidNodes, nodes.filter(n => !n.id.startsWith('rs')), links, comparison_on_off);
+
+    // Arrange phenotype nodes
     const middle_y = height / 2;
     const left_x = width / 5;
     const right_x = width * 4 / 5;
@@ -972,11 +1010,13 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
     const leftNode = nodes.find(n => n.id === leftPheno);
     const rightNode = nodes.find(n => n.id === rightPheno);
 
-    if (leftNode[0]?.x) {
-        // if they do, do nothing
-        
-    }
-    else {
+    // Nothing clears the filters: leave the canvas empty. The counts and the
+    // warning have already been written above, so the page still explains
+    // itself. Previously this fell through to `leftNode[0]`, which threw on
+    // undefined and left a blank page with only a console error.
+    if (!leftNode || !rightNode) return;
+
+    if (leftNode.x === undefined) {
         // set the x and y attributes of the leftNode
         leftNode.x = left_x;
         leftNode.y = middle_y;

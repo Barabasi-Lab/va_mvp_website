@@ -251,19 +251,55 @@ const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
 // ~840k rows and letting the browser throw most of them away.
 const TOP_SNPS = 150;
 
+// Which statistic ranks SNPs for the top-N cut on pages 2 and 3.
+//   'z'    - |beta / se|, the Wald statistic (default, per review)
+//   'pval' - the reported p-value, the previous behaviour
+// Set RANK_METRIC=pval to switch back without a code change. See the note on
+// strength() for why the two disagree more than you might expect.
+const RANK_METRIC = (process.env.RANK_METRIC || 'z').toLowerCase();
+
+/**
+ * Association strength for one ancestry, computed at query time. Larger is
+ * stronger for both metrics, so every ranking below is a plain DESC and the
+ * least()/min() composition means "weakest supporting side".
+ *
+ * z is computed on the fly rather than materialised into the Parquet:
+ * benchmarked at -1.7 ms median and +5.7 ms worst against the shipped shards,
+ * so it is not worth a rebuild and re-upload of the volume.
+ *
+ * NOTE: z and the reported p-value are NOT monotonically related in this
+ * dataset. p is far less significant than |beta/se| would imply for rare
+ * variants - the sampled median gap is 0.55 log10 and the tail reaches 290+ -
+ * which is the signature of a saddlepoint-corrected test (SAIGE/REGENIE)
+ * where the Wald standard error is anti-conservative for rare variants under
+ * case-control imbalance. Ranking by z therefore promotes rare variants that
+ * the reported p-value holds back; on Asthma it changes 74 of the top 150.
+ *
+ * se is never zero or negative here (checked), and se is NULL exactly where
+ * beta is. The coalesce to -1 sorts unusable rows last under DESC and stops
+ * least()/greatest() from silently ignoring a NULL side.
+ */
+function strength(a) {
+  if (RANK_METRIC === 'pval') {
+    // -log10(p), with p = 0 (4,533 rows underflow) treated as the strongest
+    return `CASE WHEN "pval.${a}" IS NULL THEN -1
+                 WHEN "pval.${a}" <= 0 THEN 1e308
+                 ELSE -log10("pval.${a}") END`;
+  }
+  return `coalesce(abs("beta.${a}" / "se.${a}"), -1)`;
+}
+
 /**
  * The centre phenotype's strongest SNPs: any row with a usable beta, ordered
- * by ascending p-value, with the p-value threshold deliberately NOT applied
+ * by descending strength(), with the p-value threshold deliberately NOT applied
  * (the client ranks first and thresholds second). Restricting to these rsids
  * is idempotent - the client's own top-150 pass over the result reproduces
  * the same set.
  *
- * With two ancestries the key is the weaker of the two p-values, not the
- * first ancestry's. Ranking on one ancestry alone spent slots on SNPs the
- * other ancestry's filter then removed, while excluding SNPs that would have
- * passed both. It also makes the key the same quantity the filters test, so
- * the visible set is a prefix of the ranking: tightening a slider trims from
- * the bottom rather than reshuffling what is on screen.
+ * With two ancestries the key is the weaker of the two, so a SNP only scores
+ * well when both ancestries support it. Ranking on one ancestry
+ * alone spent slots on SNPs the other ancestry's filter then removed, while
+ * excluding SNPs that would have passed both.
  *
  * Ties are common right at the 150-row cut, and the client's sort is stable
  * over the row order of the legacy CSVs, which is exactly the raw dataset's
@@ -273,13 +309,13 @@ function topSnpCte(a1, a2) {
   const betaPresent = [`"beta.${a1}" IS NOT NULL`];
   if (a2) betaPresent.push(`"beta.${a2}" IS NOT NULL`);
   const rank = a2
-    ? `greatest(coalesce("pval.${a1}", 1), coalesce("pval.${a2}", 1))`
-    : `"pval.${a1}"`;
+    ? `least(${strength(a1)}, ${strength(a2)})`
+    : strength(a1);
   return `WITH top_rsids AS (
             SELECT DISTINCT rsid FROM (
               SELECT rsid FROM associations
               WHERE phe_id = $1 AND ${betaPresent.join(' AND ')}
-              ORDER BY ${rank} ASC NULLS LAST, src_row ASC
+              ORDER BY ${rank} DESC, src_row ASC
               LIMIT ${TOP_SNPS}))`;
 }
 
@@ -323,7 +359,21 @@ app.get('/api/page2/rows', async (req, res, next) => {
       `SELECT label AS phe_label, hex AS phe_hex,
               phenotype_category AS phe_cat
        FROM node_attributes WHERE id = $1`, [node]);
-    res.json({ node, center: meta || null, rows });
+
+    // How big the pool was that the top-N came out of, so the page can say
+    // whether the cap is actually hiding anything.
+    const [{ total }] = await query(assocConn,
+      `SELECT count(DISTINCT rsid) AS total FROM associations a
+       WHERE a.phe_id = $1 AND ${betaPresent.join(' AND ')}`, [node]);
+
+    res.json({
+      node,
+      center: meta || null,
+      rows,
+      availableSnps: Number(total),
+      fetchedSnps: new Set(rows.map(r => r.rsid)).size,
+      limit: TOP_SNPS
+    });
   } catch (err) { next(err); }
 });
 
@@ -370,18 +420,16 @@ app.get('/api/page3/rows', async (req, res, next) => {
     }
 
     // A SNP is only drawn when it clears the threshold on *both* phenotypes,
-    // and in comparison mode on both ancestries too, so rank by the weakest of
-    // those p-values. Ranking on one ancestry alone spent slots on SNPs that
-    // the other ancestry's filter then removed, while excluding SNPs that
-    // would have passed: on Shortness of breath / Other dyspnea that left 215
-    // of 250 slots used and 663 qualifying SNPs shut out.
-    //
-    // Because the key is the same quantity the filters test, the cap is a
-    // prefix of the ranking: tightening a slider can only remove SNPs from the
-    // bottom, never reveal one from beyond the cap.
-    const worstOf = [`coalesce(max(a."pval.${a1}"), 1)`];
-    if (a2) worstOf.push(`coalesce(max(a."pval.${a2}"), 1)`);
-    const worst = worstOf.length > 1 ? `greatest(${worstOf.join(', ')})` : worstOf[0];
+    // and in comparison mode on both ancestries too, so rank by the weakest
+    // strength() across all of those. min() over the two phenotypes' rows, then
+    // least() across ancestries: a SNP scores well only where every side
+    // supports it. Ranking on one ancestry alone spent slots on SNPs that the
+    // other ancestry's filter then removed, while excluding SNPs that would
+    // have passed: on Shortness of breath / Other dyspnea that left 215 of 250
+    // slots used and 663 qualifying SNPs shut out.
+    const weakestOf = [`coalesce(min(${strength(a1)}), -1)`];
+    if (a2) weakestOf.push(`coalesce(min(${strength(a2)}), -1)`);
+    const weakest = weakestOf.length > 1 ? `least(${weakestOf.join(', ')})` : weakestOf[0];
 
     const cte = `
       WITH shared AS (
@@ -391,11 +439,11 @@ app.get('/api/page3/rows', async (req, res, next) => {
       ),
       ranked AS (
         SELECT rsid FROM (
-          SELECT a.rsid, ${worst} AS worst
+          SELECT a.rsid, ${weakest} AS weakest
           FROM associations a
           WHERE a.phe_id IN ($1, $2) AND a.rsid IN (SELECT rsid FROM shared)
           GROUP BY a.rsid
-          ORDER BY worst ASC, rsid ASC
+          ORDER BY weakest DESC, rsid ASC
           LIMIT ${limit})
       )`;
 
@@ -412,6 +460,74 @@ app.get('/api/page3/rows', async (req, res, next) => {
 
     const shown = new Set(rows.map(r => r.rsid)).size;
     res.json({ left, right, rows, sharedSnps: Number(total), shownSnps: shown, limit });
+  } catch (err) { next(err); }
+});
+
+// ------------------------------------------------------------- downloads
+//
+// The pages cap how many SNPs they draw and tell the user to download the data
+// to see the rest, so these deliberately ignore the cap and the p-value
+// sliders: they return every association for the phenotype(s) in question,
+// with se alongside beta so z can be recomputed offline.
+//
+// (The old client-side download built a CSV from a `network` variable that was
+// not in scope, so it threw, and it would only have exported the rows already
+// on screen - the opposite of what the message promises.)
+
+const DOWNLOAD_COLS = ['phe_id', 'phe_label', 'rsid', 'chrom'].concat(
+  ANCESTRIES.flatMap(a => [`pval.${a.toLowerCase()}`, `beta.${a.toLowerCase()}`, `se.${a.toLowerCase()}`]));
+
+function toCsv(rows) {
+  const esc = v => {
+    if (v === null || v === undefined) return '';
+    const s = String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const out = [DOWNLOAD_COLS.join(',')];
+  for (const r of rows) out.push(DOWNLOAD_COLS.map(c => esc(r[c])).join(','));
+  return out.join('\n') + '\n';
+}
+
+const DOWNLOAD_SELECT = `SELECT a.phe_id, n.label AS phe_label, a.rsid, a.chrom,
+         ${ANCESTRIES.flatMap(a => [
+           `a."pval.${a.toLowerCase()}"`, `a."beta.${a.toLowerCase()}"`, `a."se.${a.toLowerCase()}"`
+         ]).join(', ')}
+  FROM associations a
+  JOIN node_attributes n ON n.id = a.phe_id`;
+
+function sendCsv(res, name, rows) {
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename="${name}"`);
+  res.send(toCsv(rows));
+}
+
+// Every SNP associated with this phenotype, uncapped.
+app.get('/api/page2/download', async (req, res, next) => {
+  try {
+    const node = String(req.query.node || '');
+    if (!(await nodeExists(node))) return res.status(404).json({ error: `unknown node ${node}` });
+    const rows = await query(assocConn,
+      `${DOWNLOAD_SELECT} WHERE a.phe_id = $1 ORDER BY a.src_row`, [node]);
+    sendCsv(res, `phenotype_${node}_associations.csv`, rows);
+  } catch (err) { next(err); }
+});
+
+// Every SNP the two phenotypes share, uncapped, for both of them.
+app.get('/api/page3/download', async (req, res, next) => {
+  try {
+    const left = String(req.query.left || '');
+    const right = String(req.query.right || '');
+    if (!(await nodeExists(left))) return res.status(404).json({ error: `unknown node ${left}` });
+    if (!(await nodeExists(right))) return res.status(404).json({ error: `unknown node ${right}` });
+    const rows = await query(assocConn,
+      `${DOWNLOAD_SELECT}
+       WHERE a.phe_id IN ($1, $2)
+         AND a.rsid IN (
+               SELECT rsid FROM associations WHERE phe_id = $1
+               INTERSECT
+               SELECT rsid FROM associations WHERE phe_id = $2)
+       ORDER BY a.src_row`, [left, right]);
+    sendCsv(res, `shared_snps_${left}_${right}.csv`, rows);
   } catch (err) { next(err); }
 });
 
