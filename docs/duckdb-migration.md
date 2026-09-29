@@ -152,6 +152,33 @@ hardest.
 With two ancestries selected the key is the **weaker** of the two |z| values,
 so a SNP only scores well when both ancestries support it.
 
+## Backfilling the cap
+
+Pages 2 and 3 discard SNPs after the server picks them: a link needs
+|beta| > 0.01 and a p-value under the slider, and `updateNodes` then drops any
+SNP left with fewer than two surviving links. Taking the plain top N and
+letting those fall away meant the view often showed fewer than it could.
+
+The endpoints now take the thresholds and skip SNPs that would be dropped,
+backfilling from further down the ranking, so the view fills to the cap
+whenever that many qualify. Asthma under META went from 145 SNPs to 150.
+
+This works because the "at least two links" test is **per SNP**: a SNP's own
+link count does not depend on which other SNPs are on screen, so the server
+can decide it and get the same answer the client would.
+
+Two consequences:
+
+- The response now depends on the sliders, so they re-fetch (debounced 200 ms)
+  instead of re-rendering in place. Page 2 went from ~0.36 s to ~0.6 s per
+  move; page 3 is ~0.3 s.
+- Passing no `pvalue` still gives the plain top N, which is what the
+  validation scripts use.
+
+The client's own cap had the same flaw in a different form: it sliced 150
+*links*, and the five merged phenotypes carry two rows per SNP, so Asthma
+capped itself at 116. It now counts distinct SNPs.
+
 ## The SNP cap warning
 
 Both pages cap how many SNPs they draw — 150 on page 2, 250 on page 3 — and
@@ -160,12 +187,16 @@ say so when the cap is actually biting:
 > SNP count exceeds the maximum that can be displayed: N SNPs with strongest
 > evidence shown. Download the data to see all SNPs.
 
-The trigger is `drawn >= fetched && fetched < total`, i.e. *the view is full*.
-It used to be just `fetched < total`, which asks whether the **fetch** was
-capped — a different question. When the p-value filter had already cut the
-drawn count below the cap, nothing was being hidden (the ranking key is the
-quantity the filter tests, so anything past the cut scores worse and fails
-anyway), yet the warning still appeared with as few as 30 SNPs on screen.
+The server settles this exactly: it asks the store for one SNP more than it
+can display, and reports `moreAvailable` if that extra one comes back. So the
+warning appears only when more SNPs cleared the filters than fit on screen,
+and a view that is short simply because few SNPs qualify stays silent.
+
+Earlier versions inferred it, and got it wrong in both directions: first by
+asking whether the *fetch* was capped (`fetched < total`), which fired with as
+few as 30 SNPs on screen, and then by testing whether the drawn set had filled
+the cap, which could not tell a full view from a view with exactly N
+qualifying SNPs.
 
 The download buttons honour that message: they return every association for
 the phenotype, or every shared SNP for the edge, ignoring both the cap and the

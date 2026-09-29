@@ -46,18 +46,24 @@ let pColumn = `pval.${ancestryLower}`;
 // convert here: the first request is issued before the slider initialises.
 pThreshold = Math.pow(10, parseFloat(params.pvalue));
 
-// Ask the server for the SNPs the two phenotypes share. The response depends
-// only on the ancestry (which decides the ranking when the set is capped), so
-// moving either p-value slider re-renders from the rows already in hand.
+// Ask the server for the SNPs the two phenotypes share. The thresholds go
+// with the request so it can skip SNPs this page would then discard and
+// backfill from further down the ranking, keeping the view full whenever
+// enough SNPs qualify. That makes the response depend on the sliders, so they
+// re-fetch (debounced) rather than re-rendering in place.
 async function fetchRows() {
     const params = new URLSearchParams({
         left: leftPheno,
         right: rightPheno,
-        ancestry: comparison_on_off ? anc1 : ancestryLower
+        ancestry: comparison_on_off ? anc1 : ancestryLower,
+        pvalue: pThreshold
     });
-    // the server ranks by the weakest p-value across both ancestries, so it
+    // the server ranks by the weakest evidence across both ancestries, so it
     // needs to know about the second one when the cap bites
-    if (comparison_on_off && anc2) params.set('ancestry2', anc2);
+    if (comparison_on_off && anc2) {
+        params.set('ancestry2', anc2);
+        params.set('pvalue2', pThreshold2);
+    }
     const response = await fetch(`/api/page3/rows?${params}`);
     if (!response.ok) {
         console.error('Error loading rows:', (await response.json()).error);
@@ -65,26 +71,24 @@ async function fetchRows() {
     }
     const payload = await response.json();
     snpTotals = {
-        shared: payload.sharedSnps,   // SNPs the two phenotypes share
-        fetched: payload.shownSnps,   // how many of those the server sent
-        limit: payload.limit          // the cap it applied
+        shared: payload.sharedSnps,      // SNPs the two phenotypes share
+        fetched: payload.shownSnps,      // how many of those the server sent
+        more: payload.moreAvailable,     // were there more that qualified?
+        limit: payload.limit             // the cap it applied
     };
     return payload.rows;
 }
 
 // Set by fetchRows, read by updatePanels.
-let snpTotals = { shared: 0, fetched: 0, limit: 0 };
+let snpTotals = { shared: 0, fetched: 0, more: false, limit: 0 };
 
 /**
  * Bottom-left overlays: live counts, plus the cap warning.
  *
- * The warning fires only when the drawn set has actually filled the cap. It
- * used to fire whenever the *fetch* was capped (fetched < shared), which is a
- * different question: when the p-value filter independently cuts the drawn
- * count below the cap, nothing is being hidden by the cap, because the ranking
- * key is the same quantity the filter tests - anything ranked past the cut
- * scores worse and would fail the filter too. That is why it appeared with
- * only 30 SNPs on screen.
+ * The warning fires when more SNPs cleared the filters than the view can
+ * show. The server settles that by asking for one more than it can display
+ * and reporting whether it came back, so a view that is short only because
+ * few SNPs qualify says nothing.
  */
 // Enable/label the edge-thickness radios. They only apply in comparison mode,
 // so they stay greyed out until a second ancestry is picked.
@@ -102,7 +106,7 @@ function setThicknessControls(enabled, a1Name, a2Name) {
 
 function updatePanels(rsidNodes, pheNodes, links, comparisonOn) {
     const drawn = rsidNodes.length;
-    const { shared, fetched, limit } = snpTotals;
+    const { shared, more, limit } = snpTotals;
 
     const same = links.filter(l => l.direction >= 0).length;
     Panels.summary([
@@ -114,7 +118,9 @@ function updatePanels(rsidNodes, pheNodes, links, comparisonOn) {
         ['SNPs in this edge', shared]
     ]);
 
-    Panels.snpWarning(limit, drawn >= fetched && fetched < shared);
+    // The server reports directly whether more SNPs cleared the filters than
+    // fit on screen, so the warning no longer has to infer it.
+    Panels.snpWarning(limit, more);
 }
 
 async function loadData() {
@@ -253,7 +259,7 @@ loadData().then(async (data) => {
                     return;
                 }
 
-                redraw();
+                refresh();   // selection depends on the threshold now
 
             }, 200); // 200ms debounce delay
         };
@@ -310,7 +316,7 @@ loadData().then(async (data) => {
                     return;
                 }
                 console.log('comparison_on_off:', comparison_on_off);
-                redraw();
+                refresh();   // selection depends on the threshold now
             }, 200); // 200ms debounce delay
         }
 

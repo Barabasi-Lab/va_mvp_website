@@ -57,11 +57,15 @@ def expected_page2(con, node, a1, a2=None):
     ranked = sorted(
         rows,
         key=lambda r: (-min(z if z is not None else -1 for z in r[2:]), r[1]))
+    # the cap counts distinct SNPs, not rows: merged phenotypes carry two rows
+    # per SNP and used to lose slots to their own duplicates
     out, seen = [], set()
-    for r in ranked[:TOP_SNPS]:
+    for r in ranked:
         if r[0] not in seen:
             seen.add(r[0])
             out.append(r[0])
+            if len(out) == TOP_SNPS:
+                break
     return set(out)
 
 

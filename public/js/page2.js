@@ -12,6 +12,9 @@ let ancestryLower = null; // Declare ancestryLower as a global variable, and use
 let comparison_on_off = false; // Declare comparison_on_off as a global variable
 let anc1 = null; // Declare anc1 as a global variable
 let anc2 = null; // Declare anc2 as a global variable
+// How many SNPs the node view shows. Must match TOP_SNPS in server.js.
+const TOP_SNPS = 150;
+
 // Edge thickness source in comparison mode: 'a1', 'a2' or 'max' (default).
 // Resets on reload because it is a plain variable, which is the specified
 // behaviour.
@@ -48,15 +51,19 @@ let centerMeta = null;
 // Ask the server for the centre phenotype's neighbourhood under the active
 // filters. Replaces the per-node CSVs, which had to be downloaded whole (up
 // to ~230 MB) before the browser could filter them.
-// The response depends only on the ancestry selection, so moving the p-value
-// slider re-renders from the rows already in hand.
+// The thresholds go to the server so it can skip SNPs this page would then
+// discard and backfill from further down the ranking, keeping the view full
+// whenever enough SNPs qualify. That makes the response depend on the
+// sliders, so they re-fetch (debounced) rather than re-rendering in place.
 async function fetchRows() {
     const params = new URLSearchParams({
         node: centerPheno,
-        ancestry: comparison_on_off ? anc1 : ancestryLower
+        ancestry: comparison_on_off ? anc1 : ancestryLower,
+        pvalue: pThreshold
     });
     if (comparison_on_off && anc2) {
         params.set('ancestry2', anc2);
+        params.set('pvalue2', pThreshold2);
     }
     try {
         const response = await fetch(`/api/page2/rows?${params}`);
@@ -69,6 +76,7 @@ async function fetchRows() {
         snpTotals = {
             available: payload.availableSnps,  // SNPs this phenotype has in total
             fetched: payload.fetchedSnps,      // how many the cap let through
+            more: payload.moreAvailable,       // were there more that qualified?
             limit: payload.limit
         };
         console.log('Number of rows:', payload.rows.length);
@@ -84,15 +92,15 @@ async function loadData() {
 }
 
 // Set by fetchRows, read by updatePanels.
-let snpTotals = { available: 0, fetched: 0, limit: 0 };
+let snpTotals = { available: 0, fetched: 0, more: false, limit: 0 };
 
 /**
  * Bottom-left overlays: live counts, plus the cap warning.
  *
- * The warning fires only when the drawn set has actually filled the cap. If
- * the p-value filter has already cut the count below it, the cap is hiding
- * nothing: the ranking key is the same quantity the filter tests, so anything
- * ranked past the cut scores worse and would fail the filter too.
+ * The warning fires when more SNPs cleared the filters than the view can
+ * show. The server settles that by asking for one more than it can display
+ * and reporting whether it came back, so a view that is short only because
+ * few SNPs qualify says nothing.
  */
 // Enable/label the edge-thickness radios. They only apply in comparison mode,
 // so they stay greyed out until a second ancestry is picked.
@@ -111,7 +119,7 @@ function setThicknessControls(enabled, a1Name, a2Name) {
 function updatePanels(nodes, links) {
     const snps = nodes.filter(n => n.id.startsWith('rs'));
     const phenos = nodes.filter(n => !n.id.startsWith('rs'));
-    const { available, fetched, limit } = snpTotals;
+    const { available, more, limit } = snpTotals;
 
     const same = links.filter(l => l.direction >= 0).length;
     Panels.summary([
@@ -123,7 +131,9 @@ function updatePanels(nodes, links) {
         ['SNPs for this phenotype', available]
     ]);
 
-    Panels.snpWarning(limit, snps.length >= fetched && fetched < available);
+    // The server tells us directly whether more SNPs cleared the filters than
+    // fit on screen, so the warning no longer has to infer it.
+    Panels.snpWarning(limit, more);
 }
 
 // Re-render from the rows already loaded. The p-value sliders use this.
@@ -210,7 +220,7 @@ loadData().then(async (data) => {
                     return;
                 }
                 
-                redraw();
+                refresh();   // selection depends on the threshold now
             }, 200); // 200ms debounce delay
         };
 
@@ -267,7 +277,7 @@ loadData().then(async (data) => {
                     return;
                 }
                 console.log('comparison_on_off:', comparison_on_off);
-                redraw();
+                refresh();   // selection depends on the threshold now
             }, 200); // 200ms debounce delay
         }
 
@@ -961,19 +971,16 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
     
     // make a set of links that are connected to the centerPheno
     const centerLinks = links.filter(link => link.source.id === centerPheno || link.target.id === centerPheno);
-    // sort the links by pvalue and take the top 100
+    // Take the strongest SNPs, counting distinct SNPs rather than links.
+    // Slicing 150 *links* short-changed any phenotype whose rows are
+    // duplicated - the five merged phenotypes carry two rows per SNP, so
+    // Asthma showed 116 SNPs where 150 qualified.
     centerLinks.sort((a, b) => a.pvalue - b.pvalue);
-    const topLinks = centerLinks.slice(0, 150);
-    // fitler the rsid nodes to include only the topLinks
     const topRsidNodes = new Set();
-    topLinks.forEach(link => {
-        if (link.source.id === centerPheno) {
-            topRsidNodes.add(link.target.id);
-        } else {
-            topRsidNodes.add(link.source.id);
-        }
+    for (const link of centerLinks) {
+        topRsidNodes.add(link.source.id === centerPheno ? link.target.id : link.source.id);
+        if (topRsidNodes.size >= TOP_SNPS) break;
     }
-    );
     // filter the nodes to include only the topRsidNode AND any non rsid nodes
     nodes = nodes.filter(node => topRsidNodes.has(node.id) || !node.id.startsWith('rs'))
     // filter the links to include only nodes that are still in nodes

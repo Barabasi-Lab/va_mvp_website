@@ -34,9 +34,10 @@ function loadClientFns(file, globals) {
     console: quiet,
     window: { innerWidth: 1920, innerHeight: 1080 },
     d3: { select: () => ({ selectAll: () => ({}) }), selectAll: () => ({}) },
-    // declared above the slice we evaluate, so supply it here; 'max' is the
+    // declared above the slice we evaluate, so supply them here; 'max' is the
     // page default (edge thickness = larger of the two ancestries' betas)
     betaSource: 'max',
+    TOP_SNPS: 150,
     ...globals
   });
   vm.runInContext(src.slice(start), ctx);

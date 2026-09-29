@@ -305,18 +305,55 @@ function strength(a) {
  * over the row order of the legacy CSVs, which is exactly the raw dataset's
  * own row order - so src_row breaks ties the same way.
  */
-function topSnpCte(a1, a2) {
+function topSnpCte(a1, a2, thresholds, limit = TOP_SNPS) {
   const betaPresent = [`"beta.${a1}" IS NOT NULL`];
   if (a2) betaPresent.push(`"beta.${a2}" IS NOT NULL`);
   const rank = a2
     ? `least(${strength(a1)}, ${strength(a2)})`
     : strength(a1);
-  return `WITH top_rsids AS (
-            SELECT DISTINCT rsid FROM (
-              SELECT rsid FROM associations
-              WHERE phe_id = $1 AND ${betaPresent.join(' AND ')}
-              ORDER BY ${rank} DESC, src_row ASC
-              LIMIT ${TOP_SNPS}))`;
+
+  // One row per SNP, strongest first. DISTINCT alone does not preserve
+  // order, and the caller slices this list, so the ordering has to survive.
+  const candidates = `cand AS (
+            SELECT DISTINCT ON (rsid) rsid, ${rank} AS s, src_row
+            FROM associations
+            WHERE phe_id = $1 AND ${betaPresent.join(' AND ')}
+            ORDER BY rsid, s DESC, src_row
+          )`;
+
+  if (!thresholds) {
+    return `WITH ${candidates},
+            top_rsids AS (
+              SELECT rsid FROM cand ORDER BY s DESC, src_row LIMIT ${limit})`;
+  }
+
+  // Backfilled: skip SNPs the page would then drop, so the view fills up to
+  // TOP_SNPS whenever that many actually qualify. A SNP survives only if at
+  // least two of its links clear the p-value and |beta| filters - one to the
+  // centre and one to a neighbour - which is the same rule updateNodes
+  // applies client-side. That test is per-SNP: a SNP's own link count does
+  // not depend on which other SNPs are shown, so deciding it here gives the
+  // same answer the client would.
+  return `WITH ${candidates},
+          surviving AS (
+            SELECT a.rsid FROM associations a
+            WHERE a.rsid IN (SELECT rsid FROM cand)
+              AND ${linkFilterSql(a1, a2, 2)}
+            GROUP BY a.rsid HAVING count(*) >= 2
+          ),
+          top_rsids AS (
+            SELECT c.rsid FROM cand c JOIN surviving v USING (rsid)
+            ORDER BY c.s DESC, c.src_row
+            LIMIT ${limit})`;
+}
+
+// rsids come straight back out of our own store, but this is still building
+// SQL text, so vet them rather than trusting that.
+function rsidList(rsids) {
+  for (const r of rsids) {
+    if (!/^[A-Za-z0-9_.:-]+$/.test(r)) throw new Error(`unexpected rsid: ${r}`);
+  }
+  return rsids.map(r => `'${r}'`).join(', ');
 }
 
 // Page 2: the neighbourhood of one phenotype, cut to its strongest SNPs.
@@ -341,37 +378,61 @@ app.get('/api/page2/rows', async (req, res, next) => {
       if (!a2) return;
     }
 
+    // Optional. With a threshold the selection skips SNPs the page would
+    // drop, so the view fills to TOP_SNPS whenever that many qualify; without
+    // one it is the plain top-N and the thresholds stay client-side.
+    let p1 = null, p2 = null;
+    if (req.query.pvalue !== undefined) {
+      p1 = checkThreshold(req.query.pvalue, res);
+      if (!p1) return;
+      if (a2) {
+        p2 = checkThreshold(req.query.pvalue2, res, 'pvalue2');
+        if (!p2) return;
+      }
+    }
+    const params = p1 === null ? [node] : (a2 ? [node, p1, p2] : [node, p1]);
+
     // matches the client's `links.filter(l => !isNaN(l.beta))`
     const betaPresent = [`a."beta.${a1}" IS NOT NULL`];
     if (a2) betaPresent.push(`a."beta.${a2}" IS NOT NULL`);
 
-    const rows = await query(assocConn,
-      `${topSnpCte(a1, a2)}
-       ${ROW_SELECT}
-       WHERE a.rsid IN (SELECT rsid FROM top_rsids)
+    // Three independent lookups: the SNP selection, the centre's metadata
+    // (the client reads label/category off the returned rows, and a strict
+    // threshold can leave none), and the size of the pool the selection came
+    // out of. Issued together rather than one after another.
+    //
+    // The selection asks for one more than we can show: if it comes back, the
+    // cap is really hiding something and the page should say so.
+    const [pickedRows, [meta], [{ total }]] = await Promise.all([
+      query(assocConn,
+        `${topSnpCte(a1, a2, p1 !== null, TOP_SNPS + 1)} SELECT rsid FROM top_rsids`,
+        params),
+      query(assocConn,
+        `SELECT label AS phe_label, hex AS phe_hex,
+                phenotype_category AS phe_cat
+         FROM node_attributes WHERE id = $1`, [node]),
+      query(assocConn,
+        `SELECT count(DISTINCT rsid) AS total FROM associations a
+         WHERE a.phe_id = $1 AND ${betaPresent.join(' AND ')}`, [node])
+    ]);
+    const picked = pickedRows.map(r => r.rsid);
+    const more = picked.length > TOP_SNPS;
+    const keep = picked.slice(0, TOP_SNPS);
+
+    const rows = keep.length === 0 ? [] : await query(assocConn,
+      `${ROW_SELECT}
+       WHERE a.rsid IN (${rsidList(keep)})
          AND ${betaPresent.join(' AND ')}
        ORDER BY a.src_row`,
-      [node]);
-
-    // The client reads the centre node's label/category off the returned rows;
-    // a strict threshold can leave none, so send them separately too.
-    const [meta] = await query(assocConn,
-      `SELECT label AS phe_label, hex AS phe_hex,
-              phenotype_category AS phe_cat
-       FROM node_attributes WHERE id = $1`, [node]);
-
-    // How big the pool was that the top-N came out of, so the page can say
-    // whether the cap is actually hiding anything.
-    const [{ total }] = await query(assocConn,
-      `SELECT count(DISTINCT rsid) AS total FROM associations a
-       WHERE a.phe_id = $1 AND ${betaPresent.join(' AND ')}`, [node]);
+      []);
 
     res.json({
       node,
       center: meta || null,
       rows,
-      availableSnps: Number(total),
-      fetchedSnps: new Set(rows.map(r => r.rsid)).size,
+      availableSnps: Number(total),      // every SNP this phenotype has
+      fetchedSnps: keep.length,
+      moreAvailable: more,               // more qualify than fit on screen
       limit: TOP_SNPS
     });
   } catch (err) { next(err); }
@@ -410,6 +471,17 @@ app.get('/api/page3/rows', async (req, res, next) => {
       if (!a2) return;
     }
 
+    // Optional, same meaning as on page 2.
+    let p1 = null, p2 = null;
+    if (req.query.pvalue !== undefined) {
+      p1 = checkThreshold(req.query.pvalue, res);
+      if (!p1) return;
+      if (a2) {
+        p2 = checkThreshold(req.query.pvalue2, res, 'pvalue2');
+        if (!p2) return;
+      }
+    }
+
     let limit = PAGE3_DEFAULT_LIMIT;
     if (req.query.limit !== undefined) {
       const n = Number(req.query.limit);
@@ -431,35 +503,61 @@ app.get('/api/page3/rows', async (req, res, next) => {
     if (a2) weakestOf.push(`coalesce(min(${strength(a2)}), -1)`);
     const weakest = weakestOf.length > 1 ? `least(${weakestOf.join(', ')})` : weakestOf[0];
 
+    // With a threshold, drop SNPs the page would then discard so the cap
+    // fills up to `limit` whenever that many qualify. Here a SNP needs both
+    // of its links - to the left and the right phenotype - to clear the
+    // filters, which is what updateNodes' "at least two edges" amounts to
+    // when only two phenotypes are on screen.
+    const surviving = p1 === null ? '' : `,
+      surviving AS (
+        SELECT a.rsid FROM associations a
+        WHERE a.phe_id IN ($1, $2) AND a.rsid IN (SELECT rsid FROM shared)
+          AND ${linkFilterSql(a1, a2, 3)}
+        GROUP BY a.rsid HAVING count(*) >= 2
+      )`;
+    const survJoin = p1 === null ? '' : 'AND a.rsid IN (SELECT rsid FROM surviving)';
+
     const cte = `
       WITH shared AS (
         SELECT rsid FROM associations WHERE phe_id = $1
         INTERSECT
         SELECT rsid FROM associations WHERE phe_id = $2
-      ),
+      )${surviving},
       ranked AS (
         SELECT rsid FROM (
           SELECT a.rsid, ${weakest} AS weakest
           FROM associations a
           WHERE a.phe_id IN ($1, $2) AND a.rsid IN (SELECT rsid FROM shared)
+            ${survJoin}
           GROUP BY a.rsid
           ORDER BY weakest DESC, rsid ASC
-          LIMIT ${limit})
+          LIMIT ${limit + 1})
       )`;
 
-    const [{ total }] = await query(assocConn,
-      `${cte} SELECT count(*) AS total FROM shared`, [left, right]);
+    const qp = p1 === null ? [left, right] : (a2 ? [left, right, p1, p2] : [left, right, p1]);
 
-    const rows = await query(assocConn,
-      `${cte}
-       ${ROW_SELECT}
+    const [[{ total }], pickedRows] = await Promise.all([
+      query(assocConn, `${cte} SELECT count(*) AS total FROM shared`, qp),
+      query(assocConn, `${cte} SELECT rsid FROM ranked`, qp)
+    ]);
+    const picked = pickedRows.map(r => r.rsid);
+    const more = picked.length > limit;
+    const keep = picked.slice(0, limit);
+
+    const rows = keep.length === 0 ? [] : await query(assocConn,
+      `${ROW_SELECT}
        WHERE a.phe_id IN ($1, $2)
-         AND a.rsid IN (SELECT rsid FROM ranked)
+         AND a.rsid IN (${rsidList(keep)})
        ORDER BY a.src_row`,
       [left, right]);
 
-    const shown = new Set(rows.map(r => r.rsid)).size;
-    res.json({ left, right, rows, sharedSnps: Number(total), shownSnps: shown, limit });
+    res.json({
+      left, right, rows,
+      sharedSnps: Number(total),   // SNPs the two phenotypes share
+      shownSnps: keep.length,
+      moreAvailable: more,         // more qualify than fit on screen
+      limit
+    });
   } catch (err) { next(err); }
 });
 
