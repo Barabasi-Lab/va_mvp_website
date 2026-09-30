@@ -106,16 +106,16 @@ ESRD,META,L0,553,401.22,Hypertensive chronic kidney disease,circulatory system,5
 ESRD,META,L0,906,585.33,"Chronic Kidney Disease, Stage III",genitourinary system,497,497,0,False,True,True,False,True
 ESRD,META,L0,900,585,Renal failure,genitourinary system,479,479,0,True,False,True,False,True
 ESRD,META,L0,236,274.1,Gout,endocrine or metabolic,396,370,26,False,False,False,False,True
-ESRD,META,L0,904,585.31,Renal dialysis,genitourinary system,394,393,1,False,True,True,False,True
 ESRD,META,L0,235,274,Gout and other crystal arthropathies,endocrine or metabolic,394,368,26,False,False,False,False,True
+ESRD,META,L0,904,585.31,Renal dialysis,genitourinary system,394,393,1,False,True,True,False,True
 ESRD,META,L0,284,285,Other anemias,hematopoietic,378,377,1,False,False,False,False,True
 ESRD,META,L1,287,285.21,Anemia in chronic kidney disease,hematopoietic,586,586,0,False,False,False,False,True
 ESRD,META,L1,907,585.34,"Chronic Kidney Disease, Stage IV",genitourinary system,569,568,1,False,True,True,False,True
 ESRD,META,L1,553,401.22,Hypertensive chronic kidney disease,circulatory system,529,528,1,False,False,False,False,True
 ESRD,META,L1,906,585.33,"Chronic Kidney Disease, Stage III",genitourinary system,497,497,0,False,True,True,False,True
 ESRD,META,L1,236,274.1,Gout,endocrine or metabolic,396,370,26,False,False,False,False,True
-ESRD,META,L1,904,585.31,Renal dialysis,genitourinary system,394,393,1,False,True,True,False,True
 ESRD,META,L1,235,274,Gout and other crystal arthropathies,endocrine or metabolic,394,368,26,False,False,False,False,True
+ESRD,META,L1,904,585.31,Renal dialysis,genitourinary system,394,393,1,False,True,True,False,True
 ESRD,META,L1,284,285,Other anemias,hematopoietic,378,377,1,False,False,False,False,True
 ESRD,META,L1,472,367.1,Myopia,sense organs,371,28,343,False,False,False,False,True
 ESRD,META,L1,465,365.11,Primary open angle glaucoma,sense organs,343,0,343,False,False,False,False,True
@@ -127,8 +127,8 @@ ESRD,META,L2,284,285,Other anemias,hematopoietic,378,377,1,False,False,False,Fal
 ESRD,META,L2,472,367.1,Myopia,sense organs,371,28,343,False,False,False,False,True
 ESRD,META,L2,465,365.11,Primary open angle glaucoma,sense organs,343,0,343,False,False,False,False,True
 ESRD,META,L2,475,367.8,Hypermetropia,sense organs,343,343,0,False,False,False,False,True
-ESRD,META,L2,237,274.11,Gouty arthropathy,endocrine or metabolic,341,341,0,False,False,False,False,True
 ESRD,META,L2,464,365.1,Open-angle glaucoma,sense organs,341,7,334,False,False,False,False,True
+ESRD,META,L2,237,274.11,Gouty arthropathy,endocrine or metabolic,341,341,0,False,False,False,False,True
 ESRD,META,L3,287,285.21,Anemia in chronic kidney disease,hematopoietic,586,586,0,False,False,False,False,True
 ESRD,META,L3,553,401.22,Hypertensive chronic kidney disease,circulatory system,529,528,1,False,False,False,False,True
 ESRD,META,L3,236,274.1,Gout,endocrine or metabolic,396,370,26,False,False,False,False,True
@@ -137,8 +137,8 @@ ESRD,META,L3,284,285,Other anemias,hematopoietic,378,377,1,False,False,False,Fal
 ESRD,META,L3,472,367.1,Myopia,sense organs,371,28,343,False,False,False,False,True
 ESRD,META,L3,465,365.11,Primary open angle glaucoma,sense organs,343,0,343,False,False,False,False,True
 ESRD,META,L3,475,367.8,Hypermetropia,sense organs,343,343,0,False,False,False,False,True
-ESRD,META,L3,237,274.11,Gouty arthropathy,endocrine or metabolic,341,341,0,False,False,False,False,True
 ESRD,META,L3,464,365.1,Open-angle glaucoma,sense organs,341,7,334,False,False,False,False,True
+ESRD,META,L3,237,274.11,Gouty arthropathy,endocrine or metabolic,341,341,0,False,False,False,False,True
 ESRD,META,L4,287,285.21,Anemia in chronic kidney disease,hematopoietic,586,586,0,False,False,False,False,True
 ESRD,META,L4,553,401.22,Hypertensive chronic kidney disease,circulatory system,529,528,1,False,False,False,False,True
 ESRD,META,L4,236,274.1,Gout,endocrine or metabolic,396,370,26,False,False,False,False,True
@@ -147,5 +147,5 @@ ESRD,META,L4,284,285,Other anemias,hematopoietic,378,377,1,False,False,False,Fal
 ESRD,META,L4,472,367.1,Myopia,sense organs,371,28,343,False,False,False,False,True
 ESRD,META,L4,465,365.11,Primary open angle glaucoma,sense organs,343,0,343,False,False,False,False,True
 ESRD,META,L4,475,367.8,Hypermetropia,sense organs,343,343,0,False,False,False,False,True
-ESRD,META,L4,237,274.11,Gouty arthropathy,endocrine or metabolic,341,341,0,False,False,False,False,True
 ESRD,META,L4,464,365.1,Open-angle glaucoma,sense organs,341,7,334,False,False,False,False,True
+ESRD,META,L4,237,274.11,Gouty arthropathy,endocrine or metabolic,341,341,0,False,False,False,False,True

@@ -288,9 +288,17 @@ def clump(snps, window=CLUMP_WINDOW):
 
 
 def overlaps_apol1(locus):
+    """Does this clump fall within CLUMP_WINDOW of APOL1?
+
+    The chromosome is compared as a string on both sides. The store's chrom
+    column comes back from DuckDB as an integer and the positions file has
+    it as text; comparing them directly made this return False for every
+    locus, including the one centred 2 kb inside APOL1.
+    """
     _lead, chrom, _pos, lo, hi = locus[:5]
     c, a, b = APOL1
-    return chrom == c and hi >= a - CLUMP_WINDOW and lo <= b + CLUMP_WINDOW
+    return (str(chrom) == str(c)
+            and hi >= a - CLUMP_WINDOW and lo <= b + CLUMP_WINDOW)
 
 
 # ------------------------------------------------------------------- step A3
@@ -382,7 +390,12 @@ def step_a3(meta, targets, tag, include_l4=True):
                     m = meta.get(nb, {})
                     flags = tier_flags(rel, tphe, m.get("phecodes", []))
                     hit = {locus_of[r] for r in rsids if r in locus_of}
+                    per_locus = defaultdict(int)
+                    for r in rsids:
+                        if r in locus_of:
+                            per_locus[locus_of[r]] += 1
                     enriched.append({
+                        "per_locus": per_locus,
                         "id": nb, "label": m.get("label", ""),
                         "category": m.get("category", ""),
                         "weight": weight, "syn": syn, "anti": anti,
@@ -445,9 +458,35 @@ def step_a3(meta, targets, tag, include_l4=True):
                         emit("median_loci_per_edge", quartiles(per_edge)[0])
                         ap = {i for i, l in enumerate(loci) if overlaps_apol1(l)}
                         hit = [e for e in kept if e["loci"] & ap]
+                        # "by_edge" and "by_weight" count whole edges that
+                        # touch the locus; an edge can carry SNPs elsewhere
+                        # too, so they overstate the locus on their own.
+                        # of_shared_snps is the strict version: the share of
+                        # shared SNPs that actually sit in the locus.
                         emit("apol1_frac_by_edge", len(hit) / deg if deg else "")
                         emit("apol1_frac_by_weight",
                              sum(e["weight"] for e in hit) / wsum if wsum else "")
+                        ap_snps = sum(sum(n for i, n in e["per_locus"].items()
+                                          if i in ap) for e in kept)
+                        mapped = sum(sum(e["per_locus"].values()) for e in kept)
+                        emit("apol1_frac_of_shared_snps",
+                             ap_snps / mapped if mapped else "")
+                        emit("frac_shared_snps_with_a_position",
+                             mapped / wsum if wsum else "")
+                        # the single locus carrying the most shared SNPs,
+                        # whatever it is - the question the APOL1 check is a
+                        # special case of
+                        tally = defaultdict(int)
+                        for e in kept:
+                            for i, n in e["per_locus"].items():
+                                tally[i] += n
+                        if tally:
+                            top = max(tally, key=tally.get)
+                            emit("top_locus_frac_of_shared_snps",
+                                 tally[top] / mapped if mapped else "")
+                            emit("top_locus_lead_rsid", loci[top][0])
+                            emit("top_locus_chrom", loci[top][1])
+                            emit("top_locus_pos", loci[top][2])
 
                     if pos is not None and thr == PRIMARY_THRESHOLD:
                         # how many edges each locus of the target contributes to

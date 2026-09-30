@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30T18:31:53+00:00",
+  "generated": "2026-09-30T18:50:57+00:00",
   "seed": 20260930,
   "ancestries": [
     "afr",
@@ -42,8 +42,11 @@
     },
     "snp_positions": {
       "path": "/home/student/Desktop/va_mvp_website/analysis/phecode_redundancy/results/snp_positions.csv",
-      "status": "ABSENT",
-      "consequence": "A4 locus metrics skipped"
+      "md5": "f7910589444c8cfea80eb7de870220df",
+      "bytes": 18558618,
+      "built_by": "snp_positions.R",
+      "source": "SNPlocs.Hsapiens.dbSNP155.GRCh38 (Bioconductor)",
+      "build": "GRCh38"
     }
   }
 }
