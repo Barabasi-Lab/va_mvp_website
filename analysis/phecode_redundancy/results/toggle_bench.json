@@ -1,0 +1,628 @@
+{
+  "runs": 2,
+  "generated": "2026-09-30T17:55:22.380Z",
+  "base": "http://localhost:3000",
+  "baseline": "http://localhost:3001",
+  "page2DebounceMs": 200,
+  "note": "latency = event fired -> svg mutations quiesce for two animation frames",
+  "page1": {
+    "default (META, 1e-04, total) | baseline": {
+      "toggleOn": {
+        "n": 0
+      },
+      "toggleOff": {
+        "n": 0
+      },
+      "ancestrySwitch": {
+        "n": 2,
+        "median": 1816.7,
+        "p90": 1816.7,
+        "min": 1181.6,
+        "max": 1816.7
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 979.1,
+        "p90": 979.1,
+        "min": 698.1,
+        "max": 979.1
+      },
+      "heapOffBytes": {
+        "n": 0
+      },
+      "heapOnBytes": {
+        "n": 0
+      },
+      "errors": []
+    },
+    "default (META, 1e-04, total) | precomputed": {
+      "toggleOn": {
+        "n": 2,
+        "median": 512.9,
+        "p90": 512.9,
+        "min": 358.8,
+        "max": 512.9
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 532.8,
+        "p90": 532.8,
+        "min": 443.6,
+        "max": 532.8
+      },
+      "ancestrySwitch": {
+        "n": 2,
+        "median": 805.1,
+        "p90": 805.1,
+        "min": 782.4,
+        "max": 805.1
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 840.2,
+        "p90": 840.2,
+        "min": 827.5,
+        "max": 840.2
+      },
+      "heapOffBytes": {
+        "n": 2,
+        "median": 8801534,
+        "p90": 8801534,
+        "min": 8799682,
+        "max": 8801534
+      },
+      "heapOnBytes": {
+        "n": 2,
+        "median": 8783134,
+        "p90": 8783134,
+        "min": 8779354,
+        "max": 8783134
+      },
+      "errors": []
+    },
+    "default (META, 1e-04, total) | client": {
+      "toggleOn": {
+        "n": 2,
+        "median": 434.6,
+        "p90": 434.6,
+        "min": 406.9,
+        "max": 434.6
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 406.8,
+        "p90": 406.8,
+        "min": 376.6,
+        "max": 406.8
+      },
+      "ancestrySwitch": {
+        "n": 2,
+        "median": 735.9,
+        "p90": 735.9,
+        "min": 610.1,
+        "max": 735.9
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 654.8,
+        "p90": 654.8,
+        "min": 583.5,
+        "max": 654.8
+      },
+      "heapOffBytes": {
+        "n": 2,
+        "median": 8638574,
+        "p90": 8638574,
+        "min": 8635390,
+        "max": 8638574
+      },
+      "heapOnBytes": {
+        "n": 2,
+        "median": 8661158,
+        "p90": 8661158,
+        "min": 8647626,
+        "max": 8661158
+      },
+      "errors": []
+    },
+    "densest (EUR, 1e-04, total) | baseline": {
+      "toggleOn": {
+        "n": 0
+      },
+      "toggleOff": {
+        "n": 0
+      },
+      "ancestrySwitch": {
+        "n": 2,
+        "median": 699.4,
+        "p90": 699.4,
+        "min": 680,
+        "max": 699.4
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 665.8,
+        "p90": 665.8,
+        "min": 619.4,
+        "max": 665.8
+      },
+      "heapOffBytes": {
+        "n": 0
+      },
+      "heapOnBytes": {
+        "n": 0
+      },
+      "errors": []
+    },
+    "densest (EUR, 1e-04, total) | precomputed": {
+      "toggleOn": {
+        "n": 2,
+        "median": 3134.4,
+        "p90": 3134.4,
+        "min": 360.4,
+        "max": 3134.4
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 611.1,
+        "p90": 611.1,
+        "min": 349.8,
+        "max": 611.1
+      },
+      "ancestrySwitch": {
+        "n": 2,
+        "median": 1738.4,
+        "p90": 1738.4,
+        "min": 665.1,
+        "max": 1738.4
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 1227.3,
+        "p90": 1227.3,
+        "min": 578.5,
+        "max": 1227.3
+      },
+      "heapOffBytes": {
+        "n": 2,
+        "median": 30706267,
+        "p90": 30706267,
+        "min": 9005500,
+        "max": 30706267
+      },
+      "heapOnBytes": {
+        "n": 2,
+        "median": 17618924,
+        "p90": 17618924,
+        "min": 10430319,
+        "max": 17618924
+      },
+      "errors": []
+    },
+    "densest (EUR, 1e-04, total) | client": {
+      "toggleOn": {
+        "n": 2,
+        "median": 1125.3,
+        "p90": 1125.3,
+        "min": 433.9,
+        "max": 1125.3
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 315.5,
+        "p90": 315.5,
+        "min": 309.6,
+        "max": 315.5
+      },
+      "ancestrySwitch": {
+        "n": 2,
+        "median": 2108.9,
+        "p90": 2108.9,
+        "min": 582.9,
+        "max": 2108.9
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 597.9,
+        "p90": 597.9,
+        "min": 594.2,
+        "max": 597.9
+      },
+      "heapOffBytes": {
+        "n": 2,
+        "median": 25348410,
+        "p90": 25348410,
+        "min": 25112494,
+        "max": 25348410
+      },
+      "heapOnBytes": {
+        "n": 2,
+        "median": 17561252,
+        "p90": 17561252,
+        "min": 17453540,
+        "max": 17561252
+      },
+      "errors": []
+    }
+  },
+  "page2": {
+    "Type 2 diabetes (deg 481) | baseline": {
+      "toggleOn": {
+        "n": 0
+      },
+      "toggleOff": {
+        "n": 0
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 3229.5,
+        "p90": 3229.5,
+        "min": 1218.9,
+        "max": 3229.5
+      },
+      "errors": []
+    },
+    "Type 2 diabetes (deg 481) | precomputed": {
+      "toggleOn": {
+        "n": 2,
+        "median": 282.6,
+        "p90": 282.6,
+        "min": 261.3,
+        "max": 282.6
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 331.9,
+        "p90": 331.9,
+        "min": 310.9,
+        "max": 331.9
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 1357.9,
+        "p90": 1357.9,
+        "min": 1164.3,
+        "max": 1357.9
+      },
+      "errors": []
+    },
+    "Type 2 diabetes (deg 481) | client": {
+      "toggleOn": {
+        "n": 2,
+        "median": 294.5,
+        "p90": 294.5,
+        "min": 271.1,
+        "max": 294.5
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 327.5,
+        "p90": 327.5,
+        "min": 308,
+        "max": 327.5
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 2926.8,
+        "p90": 2926.8,
+        "min": 1329.9,
+        "max": 2926.8
+      },
+      "errors": []
+    },
+    "Diabetes mellitus (deg 476) | baseline": {
+      "toggleOn": {
+        "n": 0
+      },
+      "toggleOff": {
+        "n": 0
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 1309.2,
+        "p90": 1309.2,
+        "min": 1286.1,
+        "max": 1309.2
+      },
+      "errors": []
+    },
+    "Diabetes mellitus (deg 476) | precomputed": {
+      "toggleOn": {
+        "n": 2,
+        "median": 279.4,
+        "p90": 279.4,
+        "min": 257.8,
+        "max": 279.4
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 330.8,
+        "p90": 330.8,
+        "min": 294.6,
+        "max": 330.8
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 1187.9,
+        "p90": 1187.9,
+        "min": 1106.1,
+        "max": 1187.9
+      },
+      "errors": []
+    },
+    "Diabetes mellitus (deg 476) | client": {
+      "toggleOn": {
+        "n": 2,
+        "median": 282.1,
+        "p90": 282.1,
+        "min": 282,
+        "max": 282.1
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 302.5,
+        "p90": 302.5,
+        "min": 288.8,
+        "max": 302.5
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 1184,
+        "p90": 1184,
+        "min": 1133.5,
+        "max": 1184
+      },
+      "errors": []
+    },
+    "Coronary atherosclerosis (deg 399) | baseline": {
+      "toggleOn": {
+        "n": 0
+      },
+      "toggleOff": {
+        "n": 0
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 1037.2,
+        "p90": 1037.2,
+        "min": 923.8,
+        "max": 1037.2
+      },
+      "errors": []
+    },
+    "Coronary atherosclerosis (deg 399) | precomputed": {
+      "toggleOn": {
+        "n": 2,
+        "median": 196.8,
+        "p90": 196.8,
+        "min": 186.1,
+        "max": 196.8
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 200.5,
+        "p90": 200.5,
+        "min": 177.2,
+        "max": 200.5
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 973.2,
+        "p90": 973.2,
+        "min": 973.2,
+        "max": 973.2
+      },
+      "errors": []
+    },
+    "Coronary atherosclerosis (deg 399) | client": {
+      "toggleOn": {
+        "n": 2,
+        "median": 189.1,
+        "p90": 189.1,
+        "min": 185.7,
+        "max": 189.1
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 185.7,
+        "p90": 185.7,
+        "min": 185.4,
+        "max": 185.7
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 916.8,
+        "p90": 916.8,
+        "min": 893.4,
+        "max": 916.8
+      },
+      "errors": []
+    },
+    "ESRD (585.32) | baseline": {
+      "toggleOn": {
+        "n": 0
+      },
+      "toggleOff": {
+        "n": 0
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 863.9,
+        "p90": 863.9,
+        "min": 787.1,
+        "max": 863.9
+      },
+      "errors": []
+    },
+    "ESRD (585.32) | precomputed": {
+      "toggleOn": {
+        "n": 2,
+        "median": 107.6,
+        "p90": 107.6,
+        "min": 106.3,
+        "max": 107.6
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 119.7,
+        "p90": 119.7,
+        "min": 119.6,
+        "max": 119.7
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 776.3,
+        "p90": 776.3,
+        "min": 707.5,
+        "max": 776.3
+      },
+      "errors": []
+    },
+    "ESRD (585.32) | client": {
+      "toggleOn": {
+        "n": 2,
+        "median": 102.1,
+        "p90": 102.1,
+        "min": 100.9,
+        "max": 102.1
+      },
+      "toggleOff": {
+        "n": 2,
+        "median": 116.8,
+        "p90": 116.8,
+        "min": 110.4,
+        "max": 116.8
+      },
+      "pvalueSwitch": {
+        "n": 2,
+        "median": 837.1,
+        "p90": 837.1,
+        "min": 780.8,
+        "max": 837.1
+      },
+      "errors": []
+    }
+  },
+  "load": {
+    "baseline page1": {
+      "coldMs": {
+        "n": 2,
+        "median": 2147,
+        "p90": 2147,
+        "min": 1493,
+        "max": 2147
+      },
+      "warmMs": {
+        "n": 2,
+        "median": 1316,
+        "p90": 1316,
+        "min": 1269,
+        "max": 1316
+      },
+      "transferredBytes": 523782,
+      "decodedBytes": 4445239,
+      "requests": 6,
+      "errors": []
+    },
+    "precomputed page1": {
+      "coldMs": {
+        "n": 2,
+        "median": 1564,
+        "p90": 1564,
+        "min": 1501,
+        "max": 1564
+      },
+      "warmMs": {
+        "n": 2,
+        "median": 1317,
+        "p90": 1317,
+        "min": 1305,
+        "max": 1317
+      },
+      "transferredBytes": 537465,
+      "decodedBytes": 4898258,
+      "requests": 9,
+      "errors": []
+    },
+    "client page1": {
+      "coldMs": {
+        "n": 2,
+        "median": 4128,
+        "p90": 4128,
+        "min": 1436,
+        "max": 4128
+      },
+      "warmMs": {
+        "n": 2,
+        "median": 1303,
+        "p90": 1303,
+        "min": 1269,
+        "max": 1303
+      },
+      "transferredBytes": 535031,
+      "decodedBytes": 4480525,
+      "requests": 10,
+      "errors": []
+    },
+    "baseline page2": {
+      "coldMs": {
+        "n": 2,
+        "median": 3589,
+        "p90": 3589,
+        "min": 2071,
+        "max": 3589
+      },
+      "warmMs": {
+        "n": 2,
+        "median": 2035,
+        "p90": 2035,
+        "min": 2029,
+        "max": 2035
+      },
+      "transferredBytes": 219478,
+      "decodedBytes": 1425996,
+      "requests": 6,
+      "errors": []
+    },
+    "precomputed page2": {
+      "coldMs": {
+        "n": 2,
+        "median": 2065,
+        "p90": 2065,
+        "min": 2063,
+        "max": 2065
+      },
+      "warmMs": {
+        "n": 2,
+        "median": 2034,
+        "p90": 2034,
+        "min": 2032,
+        "max": 2034
+      },
+      "transferredBytes": 226276,
+      "decodedBytes": 1440509,
+      "requests": 10,
+      "errors": []
+    },
+    "client page2": {
+      "coldMs": {
+        "n": 2,
+        "median": 2078,
+        "p90": 2078,
+        "min": 2074,
+        "max": 2078
+      },
+      "warmMs": {
+        "n": 2,
+        "median": 2071,
+        "p90": 2071,
+        "min": 2036,
+        "max": 2071
+      },
+      "transferredBytes": 231235,
+      "decodedBytes": 1460990,
+      "requests": 10,
+      "errors": []
+    }
+  }
+}

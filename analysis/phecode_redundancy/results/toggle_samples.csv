@@ -1,0 +1,121 @@
+ancestry,group,phecode_a,phecode_b,label_a,label_b,category_a,category_b,tier,shared_snps
+AFR,masked,695.41,695.42,Cutaneous lupus erythematosus,Systemic lupus erythematosus,dermatological system,dermatological system,T2,62
+AFR,masked,276.4,276.41,Acid-base balance disorder,Acidosis,endocrine or metabolic,endocrine or metabolic,T1,11
+AFR,masked,250.41,250.42,Impaired fasting glucose,Other abnormal glucose,endocrine or metabolic,endocrine or metabolic,T2,9
+AFR,masked,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1,2441
+AFR,masked,250.1,250.6,Type 1 diabetes,Polyneuropathy in diabetes,endocrine or metabolic,endocrine or metabolic,T2,81
+AFR,masked,281.11,281.12,Pernicious anemia,Other vitamin B12 deficiency anemia,hematopoietic,hematopoietic,T2,8
+AFR,masked,585,585.3,Renal failure,Chronic renal failure [CKD],genitourinary system,genitourinary system,T1,711
+AFR,masked,250.1,250.14,Type 1 diabetes,Type 1 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,978
+AFR,masked,556,556.11,Ulceration of the lower GI tract,Angiodysplasia of intestine (without mention of hemorrhage),digestive system,digestive system,T1,4
+AFR,masked,592,592.2,Cystitis and urethritis,Urethritis and urethral syndrome,genitourinary system,genitourinary system,T1,1
+AFR,masked,274,274.11,Gout and other crystal arthropathies,Gouty arthropathy,endocrine or metabolic,endocrine or metabolic,T1,945
+AFR,masked,381,381.1,Otitis media and Eustachian tube disorders,Otitis media,sense organs,sense organs,T1,4
+AFR,masked,711,711.1,Arthropathy associated with infections,Pyogenic arthritis,musculoskeletal system,musculoskeletal system,T1,1
+AFR,masked,594,594.1,Urinary calculus,Calculus of kidney,genitourinary system,genitourinary system,T1,80
+AFR,masked,180,180.3,Cervical cancer and dysplasia,Cervical intraepithelial neoplasia [CIN] [Cervical dysplasia],other,other,T1,5
+AFR,masked,250.1,250.23,Type 1 diabetes,Type 2 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2,171
+AFR,masked,743,743.11,"Osteoporosis, osteopenia and pathological fracture",Osteoporosis NOS,musculoskeletal system,musculoskeletal system,T1,2
+AFR,masked,574,574.1,Cholelithiasis and cholecystitis,Cholelithiasis,digestive system,digestive system,T1,220
+AFR,masked,345.11,345.3,Generalized convulsive epilepsy,Convulsions,neurological,neurological,T2+T4,1
+AFR,masked,604,604.3,Disorders of penis,Peyronie's disease,other,other,T1,12
+AFR,masked,371,371.1,Inflammation of the eye,"Uveitis, noninfectious or NOS",sense organs,sense organs,T1,136
+AFR,masked,250.13,250.7,Type 1 diabetes with ophthalmic manifestations,Diabetic retinopathy,endocrine or metabolic,endocrine or metabolic,T2+T4,33
+AFR,masked,742,742.9,"Derangement of joint, non-traumatic",Other derangement of joint,musculoskeletal system,musculoskeletal system,T1,24
+AFR,masked,428,428.1,Congestive heart failure; nonhypertensive,Congestive heart failure (CHF) NOS,circulatory system,circulatory system,T1,82
+AFR,masked,275.5,275.53,Disorders of calcium/phosphorus metabolism,Disorders of phosphorus metabolism,endocrine or metabolic,endocrine or metabolic,T1,107
+AFR,masked,276.13,276.6,Hyperpotassemia,Fluid overload,endocrine or metabolic,endocrine or metabolic,T2,39
+AFR,masked,755,755.1,Congenital anomalies of limbs,Congenital deformities of feet,congenital anomaly,congenital anomaly,T1,25
+AFR,masked,250.2,250.21,Type 2 diabetes,Type 2 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1,6
+AFR,masked,586,586.2,Other disorders of the kidney and ureters,"Cyst of kidney, acquired",genitourinary system,genitourinary system,T1,411
+AFR,masked,721,721.1,Spondylosis and allied disorders,Spondylosis without myelopathy,musculoskeletal system,musculoskeletal system,T1,14
+AFR,unmasked,250.22,1089,Type 2 diabetes with renal manifestations,1089,endocrine or metabolic,other,unrelated,3
+AFR,unmasked,274.11,415.1,Gouty arthropathy,Acute pulmonary heart disease,endocrine or metabolic,circulatory system,unrelated,1
+AFR,unmasked,272.1,574.1,Hyperlipidemia,Cholelithiasis,endocrine or metabolic,digestive system,unrelated,15
+AFR,unmasked,272,1010.3,Disorders of lipoid metabolism,1010.3,endocrine or metabolic,infectious diseases,unrelated,3
+AFR,unmasked,365.1,440.2,Open-angle glaucoma,Atherosclerosis of the extremities,sense organs,circulatory system,unrelated,6
+AFR,unmasked,318,365.1,Tobacco use disorder,Open-angle glaucoma,other,sense organs,unrelated,5
+AFR,unmasked,252,275.5,Disorders of parathyroid gland,Disorders of calcium/phosphorus metabolism,endocrine or metabolic,endocrine or metabolic,unrelated,10
+AFR,unmasked,691,706.8,Congenital anomalies of skin,Other specified diseases of sebaceous glands,dermatological system,dermatological system,unrelated,21
+AFR,unmasked,455,577,Hemorrhoids,Diseases of pancreas,circulatory system,digestive system,unrelated,1
+AFR,unmasked,250.3,272,Insulin pump user,Disorders of lipoid metabolism,endocrine or metabolic,endocrine or metabolic,unrelated,4
+AFR,unmasked,318,443.9,Tobacco use disorder,"Peripheral vascular disease, unspecified",other,circulatory system,unrelated,2
+AFR,unmasked,395,401.1,Heart valve disorders,Essential hypertension,circulatory system,circulatory system,unrelated,1
+AFR,unmasked,362,585.33,Other retinal disorders,"Chronic Kidney Disease, Stage III",sense organs,genitourinary system,unrelated,1
+AFR,unmasked,250.25,110,Diabetes type 2 with peripheral circulatory disorders,Dermatophytosis / Dermatomycosis,endocrine or metabolic,infectious diseases,unrelated,1
+AFR,unmasked,726,588,Peripheral enthesopathies and allied syndromes,Disorders resulting from impaired renal function,musculoskeletal system,genitourinary system,unrelated,1
+AFR,unmasked,401.2,585.33,Hypertensive heart and/or renal disease,"Chronic Kidney Disease, Stage III",circulatory system,genitourinary system,unrelated,172
+AFR,unmasked,250.25,276.13,Diabetes type 2 with peripheral circulatory disorders,Hyperpotassemia,endocrine or metabolic,endocrine or metabolic,unrelated,3
+AFR,unmasked,415.1,577,Acute pulmonary heart disease,Diseases of pancreas,circulatory system,digestive system,unrelated,1
+AFR,unmasked,1010.3,366.2,1010.3,Senile cataract,infectious diseases,sense organs,unrelated,5
+AFR,unmasked,704,282,Diseases of hair and hair follicles,Hereditary hemolytic anemias,dermatological system,hematopoietic,unrelated,1
+AFR,unmasked,495.2,496,Asthma with exacerbation,Chronic airway obstruction,respiratory system,respiratory system,unrelated,1
+AFR,unmasked,272.1,110,Hyperlipidemia,Dermatophytosis / Dermatomycosis,endocrine or metabolic,infectious diseases,unrelated,1
+AFR,unmasked,715.2,728.71,Ankylosing spondylitis,Contracture of palmar fascia [Dupuytren's disease],musculoskeletal system,musculoskeletal system,unrelated,1
+AFR,unmasked,252.1,580.32,Hyperparathyroidism,Nephritis and nephropathy with pathological lesion,endocrine or metabolic,genitourinary system,unrelated,8
+AFR,unmasked,365,443.9,Glaucoma,"Peripheral vascular disease, unspecified",sense organs,circulatory system,unrelated,3
+AFR,unmasked,440,442.11,Atherosclerosis,Abdominal aortic aneurysm,circulatory system,circulatory system,unrelated,2
+AFR,unmasked,275.5,585.32,Disorders of calcium/phosphorus metabolism,End stage renal disease,endocrine or metabolic,genitourinary system,unrelated,169
+AFR,unmasked,276.6,585.31,Fluid overload,Renal dialysis,endocrine or metabolic,genitourinary system,unrelated,48
+AFR,unmasked,939,250.1,Atopic/contact dermatitis due to other or unspecified,Type 1 diabetes,dermatological system,endocrine or metabolic,unrelated,2
+AFR,unmasked,291.8,334,Alteration of consciousness,Degenerative disease of the spinal cord,other,neurological,unrelated,1
+EUR,masked,571,571.51,Chronic liver disease and cirrhosis,Cirrhosis of liver without mention of alcohol,digestive system,digestive system,T1,1128
+EUR,masked,250.25,250.7,Diabetes type 2 with peripheral circulatory disorders,Diabetic retinopathy,endocrine or metabolic,endocrine or metabolic,T2,529
+EUR,masked,276,276.14,"Disorders of fluid, electrolyte, and acid-base balance",Hypopotassemia,endocrine or metabolic,endocrine or metabolic,T1,2
+EUR,masked,427,427.3,Cardiac dysrhythmias,Other specified cardiac dysrhythmias,circulatory system,circulatory system,T1,733
+EUR,masked,612,612.2,"Breast conditions, congenital or relating to hormones",Hypertrophy of breast (Gynecomastia),genitourinary system,genitourinary system,T1,401
+EUR,masked,362.27,362.29,Drusen (degenerative) of retina,Macular degeneration (senile) of retina NOS,sense organs,sense organs,T2,2747
+EUR,masked,250.14,250.25,Type 1 diabetes with neurological manifestations,Diabetes type 2 with peripheral circulatory disorders,endocrine or metabolic,endocrine or metabolic,T2,30
+EUR,masked,250.22,250.24,Type 2 diabetes with renal manifestations,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T2,6806
+EUR,masked,378,378.1,Strabismus and other disorders of binocular eye movements,Strabismus (not specified as paralytic),sense organs,sense organs,T1,44
+EUR,masked,250,250.42,Diabetes mellitus,Other abnormal glucose,endocrine or metabolic,endocrine or metabolic,T1,191
+EUR,masked,296.2,296.22,Depression,Major depressive disorder,other,other,T1,6524
+EUR,masked,710,710.12,"Osteomyelitis, periostitis, and other infections involving bone",Chronic osteomyelitis,musculoskeletal system,musculoskeletal system,T1,126
+EUR,masked,425,425.1,Cardiomyopathy,Primary/intrinsic cardiomyopathies,circulatory system,circulatory system,T1,2119
+EUR,masked,381,381.11,Otitis media and Eustachian tube disorders,Suppurative and unspecified otitis media,sense organs,sense organs,T1,17
+EUR,masked,250.11,250.7,Type 1 diabetes with ketoacidosis,Diabetic retinopathy,endocrine or metabolic,endocrine or metabolic,T2,6310
+EUR,masked,585.1,585.33,Acute renal failure,"Chronic Kidney Disease, Stage III",genitourinary system,genitourinary system,T2,297
+EUR,masked,189.11,189.1,"Malignant neoplasm of kidney, except pelvis",Cancer of kidney and renal pelvis,neoplasms,neoplasms,T1,408
+EUR,masked,281,281.12,Other deficiency anemia,Other vitamin B12 deficiency anemia,hematopoietic,hematopoietic,T1,977
+EUR,masked,250.12,250.13,Type 1 diabetes with renal manifestations,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2,8272
+EUR,masked,459,459.7,Other disorders of circulatory system,Blood vessel replaced,circulatory system,other,T1,77
+EUR,masked,317.1,317.11,Alcoholism,Alcoholic liver damage,other,other,T1,365
+EUR,masked,153,153.3,Colorectal cancer,"Malignant neoplasm of rectum, rectosigmoid junction, and anus",neoplasms,neoplasms,T1,3
+EUR,masked,282,282.8,Hereditary hemolytic anemias,Other hemoglobinopathies,hematopoietic,hematopoietic,T1,617
+EUR,masked,367.2,367.4,Astigmatism,Presbyopia,sense organs,sense organs,T2,36
+EUR,masked,250.12,250.7,Type 1 diabetes with renal manifestations,Diabetic retinopathy,endocrine or metabolic,endocrine or metabolic,T2,6519
+EUR,masked,426.91,426.92,Cardiac pacemaker in situ,Cardiac defibrillator in situ,circulatory system,circulatory system,T2,23
+EUR,masked,540.1,540.11,Appendicitis,Acute appendicitis,digestive system,digestive system,T1,94
+EUR,masked,724,724.9,Other and unspecified disorders of back,Other unspecified back disorders,musculoskeletal system,musculoskeletal system,T1,35
+EUR,masked,290,290.11,Delirium dementia and amnestic and other cognitive disorders,Alzheimer's disease,other,other,T1,231
+EUR,masked,426.31,426.91,Right bundle branch block,Cardiac pacemaker in situ,circulatory system,circulatory system,T2,54
+EUR,unmasked,250,525.1,Diabetes mellitus,Loss of teeth or edentulism,endocrine or metabolic,digestive system,unrelated,35
+EUR,unmasked,189.2,722,Cancer of bladder,Intervertebral disc disorders,neoplasms,musculoskeletal system,unrelated,57
+EUR,unmasked,272.13,348.8,Mixed hyperlipidemia,"Encephalopathy, not elsewhere classified",endocrine or metabolic,neurological,unrelated,13
+EUR,unmasked,327,476,Sleep disorders,Allergic rhinitis,neurological,respiratory system,unrelated,54
+EUR,unmasked,276.6,395,Fluid overload,Heart valve disorders,endocrine or metabolic,circulatory system,unrelated,55
+EUR,unmasked,571.81,579.2,Portal hypertension,Splenomegaly,digestive system,digestive system,unrelated,145
+EUR,unmasked,714,250.11,Rheumatoid arthritis and other inflammatory polyarthropathies,Type 1 diabetes with ketoacidosis,musculoskeletal system,endocrine or metabolic,unrelated,4314
+EUR,unmasked,428,580,Congestive heart failure; nonhypertensive,Nephritis; nephrosis; renal sclerosis,circulatory system,genitourinary system,unrelated,45
+EUR,unmasked,706,433,Diseases of sebaceous glands,Cerebrovascular disease,dermatological system,circulatory system,unrelated,22
+EUR,unmasked,275.1,287.3,Disorders of iron metabolism,Thrombocytopenia,hematopoietic,hematopoietic,unrelated,95
+EUR,unmasked,204,452.2,Leukemia,Deep vein thrombosis [DVT],neoplasms,circulatory system,unrelated,1
+EUR,unmasked,281.1,577,Megaloblastic anemia,Diseases of pancreas,hematopoietic,digestive system,unrelated,60
+EUR,unmasked,707.3,286,Chronic ulcer of unspecified site,Coagulation defects,dermatological system,hematopoietic,unrelated,21
+EUR,unmasked,250.24,416,Type 2 diabetes with neurological manifestations,Cardiomegaly,endocrine or metabolic,circulatory system,unrelated,1
+EUR,unmasked,696,697,Psoriasis and related disorders,Sarcoidosis,dermatological system,dermatological system,unrelated,3043
+EUR,unmasked,700,456,Corns and callosities,Chronic venous insufficiency [CVI],dermatological system,circulatory system,unrelated,521
+EUR,unmasked,791,250.6,Gangrene,Polyneuropathy in diabetes,symptoms,endocrine or metabolic,unrelated,102
+EUR,unmasked,249,580.3,Secondary diabetes mellitus,Nephritis and nephropathy without mention of glomerulonephritis,endocrine or metabolic,other,unrelated,90
+EUR,unmasked,401.1,509.1,Essential hypertension,Respiratory failure,circulatory system,respiratory system,unrelated,11
+EUR,unmasked,427.21,454.1,Atrial fibrillation,Varicose veins of lower extremity,circulatory system,circulatory system,unrelated,154
+EUR,unmasked,250.22,452,Type 2 diabetes with renal manifestations,Other venous embolism and thrombosis,endocrine or metabolic,circulatory system,unrelated,7
+EUR,unmasked,250.25,426.92,Diabetes type 2 with peripheral circulatory disorders,Cardiac defibrillator in situ,endocrine or metabolic,circulatory system,unrelated,68
+EUR,unmasked,200.1,440,Polycythemia vera,Atherosclerosis,neoplasms,circulatory system,unrelated,6
+EUR,unmasked,356,532,Hereditary and idiopathic peripheral neuropathy,Dysphagia,neurological,digestive system,unrelated,2
+EUR,unmasked,202.2,117,Non-Hodgkins lymphoma,Mycoses,neoplasms,infectious diseases,unrelated,1694
+EUR,unmasked,272.13,585.31,Mixed hyperlipidemia,Renal dialysis,endocrine or metabolic,genitourinary system,unrelated,1
+EUR,unmasked,366,453,Cataract,Chronic venous hypertension,sense organs,circulatory system,unrelated,93
+EUR,unmasked,165.1,172.21,Cancer of bronchus; lung,Basal cell carcinoma,neoplasms,neoplasms,unrelated,125
+EUR,unmasked,365.11,172.2,Primary open angle glaucoma,Other non-epithelial cancer of skin,sense organs,neoplasms,unrelated,248
+EUR,unmasked,710,428.4,"Osteomyelitis, periostitis, and other infections involving bone",Heart failure with preserved EF [Diastolic heart failure],musculoskeletal system,circulatory system,unrelated,117

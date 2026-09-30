@@ -1,0 +1,68 @@
+ancestry,shared_snps,phecode_a,label_a,phecode_b,label_b,shared_icd_count
+EUR,1513,714,Rheumatoid arthritis and other inflammatory polyarthropathies,939,Atopic/contact dermatitis due to other or unspecified,1
+META,1408,714,Rheumatoid arthritis and other inflammatory polyarthropathies,939,Atopic/contact dermatitis due to other or unspecified,1
+EUR,1166,690.1,Seborrheic dermatitis,702.2,Seborrheic keratosis,1
+META,831,690.1,Seborrheic dermatitis,702.2,Seborrheic keratosis,1
+EUR,380,317.11,Alcoholic liver damage,571.8,Liver abscess and sequelae of chronic liver disease,1
+META,379,317.11,Alcoholic liver damage,571.8,Liver abscess and sequelae of chronic liver disease,1
+EUR,284,250.7,Diabetic retinopathy,366,Cataract,4
+META,270,250.7,Diabetic retinopathy,366,Cataract,4
+EUR,261,250.23,Type 2 diabetes with ophthalmic manifestations,366,Cataract,1
+EUR,252,193,Thyroid cancer,194,Cancer of other endocrine glands,1
+META,252,193,Thyroid cancer,194,Cancer of other endocrine glands,1
+META,250,250.23,Type 2 diabetes with ophthalmic manifestations,366,Cataract,1
+EUR,245,249,Secondary diabetes mellitus,250.7,Diabetic retinopathy,150
+META,244,249,Secondary diabetes mellitus,250.7,Diabetic retinopathy,150
+EUR,241,745,Pain in joint,773,Pain in limb,1
+META,228,249,Secondary diabetes mellitus,250.6,Polyneuropathy in diabetes,2
+EUR,226,249,Secondary diabetes mellitus,250.6,Polyneuropathy in diabetes,2
+META,172,745,Pain in joint,773,Pain in limb,1
+EUR,159,249,Secondary diabetes mellitus,366,Cataract,2
+META,159,249,Secondary diabetes mellitus,366,Cataract,2
+EUR,145,571.5,Other chronic nonalcoholic liver disease,573,Other disorders of liver,2
+META,144,571.5,Other chronic nonalcoholic liver disease,573,Other disorders of liver,2
+EUR,111,707.2,Chronic ulcer of leg or foot,440.21,Atherosclerosis of native arteries of the extremities with ulceration or gangrene,14
+META,111,707.2,Chronic ulcer of leg or foot,440.21,Atherosclerosis of native arteries of the extremities with ulceration or gangrene,14
+EUR,98,707.3,Chronic ulcer of unspecified site,440.21,Atherosclerosis of native arteries of the extremities with ulceration or gangrene,1
+EUR,98,573.3,Hepatomegaly,579.2,Splenomegaly,1
+META,98,573.3,Hepatomegaly,579.2,Splenomegaly,1
+META,98,707.3,Chronic ulcer of unspecified site,440.21,Atherosclerosis of native arteries of the extremities with ulceration or gangrene,1
+EUR,71,250.13,Type 1 diabetes with ophthalmic manifestations,366,Cataract,1
+META,71,250.13,Type 1 diabetes with ophthalmic manifestations,366,Cataract,1
+EUR,67,580.3,Nephritis and nephropathy without mention of glomerulonephritis,585.1,Acute renal failure,1
+EUR,63,411.1,Unstable angina (intermediate coronary syndrome),429.1,Heart transplant/surgery,2
+EUR,63,411.3,Angina pectoris,429.1,Heart transplant/surgery,6
+META,63,411.1,Unstable angina (intermediate coronary syndrome),429.1,Heart transplant/surgery,2
+META,63,411.3,Angina pectoris,429.1,Heart transplant/surgery,6
+EUR,53,562.2,Diverticulitis,567,Peritonitis and retroperitoneal infections,8
+META,53,562.2,Diverticulitis,567,Peritonitis and retroperitoneal infections,8
+META,37,580.3,Nephritis and nephropathy without mention of glomerulonephritis,585.1,Acute renal failure,1
+EUR,28,714.1,Rheumatoid arthritis,359.2,Myopathy,30
+META,26,714.1,Rheumatoid arthritis,359.2,Myopathy,30
+EUR,23,707.2,Chronic ulcer of leg or foot,440.2,Atherosclerosis of the extremities,70
+META,20,707.2,Chronic ulcer of leg or foot,440.2,Atherosclerosis of the extremities,70
+AFR,18,250.7,Diabetic retinopathy,366,Cataract,4
+AFR,18,250.23,Type 2 diabetes with ophthalmic manifestations,366,Cataract,1
+AFR,16,317.11,Alcoholic liver damage,571.8,Liver abscess and sequelae of chronic liver disease,1
+AFR,13,714,Rheumatoid arthritis and other inflammatory polyarthropathies,939,Atopic/contact dermatitis due to other or unspecified,1
+EUR,13,456,Chronic venous insufficiency [CVI],459.9,Circulatory disease NEC,1
+META,12,456,Chronic venous insufficiency [CVI],459.9,Circulatory disease NEC,1
+AFR,6,249,Secondary diabetes mellitus,250.7,Diabetic retinopathy,150
+AFR,6,249,Secondary diabetes mellitus,250.6,Polyneuropathy in diabetes,2
+META,6,994.2,Sepsis,038,Septicemia,5
+AFR,5,250.13,Type 1 diabetes with ophthalmic manifestations,366,Cataract,1
+EUR,5,994.2,Sepsis,038,Septicemia,5
+AFR,3,851,Complications of transplants and reattached limbs,587,Kidney replaced by transpant,6
+AFR,3,249,Secondary diabetes mellitus,366,Cataract,2
+AFR,3,707.2,Chronic ulcer of leg or foot,440.21,Atherosclerosis of native arteries of the extremities with ulceration or gangrene,14
+AFR,3,994.2,Sepsis,038,Septicemia,5
+EUR,3,707.3,Chronic ulcer of unspecified site,440.2,Atherosclerosis of the extremities,5
+META,3,851,Complications of transplants and reattached limbs,587,Kidney replaced by transpant,6
+META,3,707.3,Chronic ulcer of unspecified site,440.2,Atherosclerosis of the extremities,5
+EUR,2,200,Myeloproliferative disease,204.2,Myeloid leukemia,1
+META,2,070.9,Hepatitis NOS,571.8,Liver abscess and sequelae of chronic liver disease,1
+META,2,200,Myeloproliferative disease,204.2,Myeloid leukemia,1
+AFR,1,200,Myeloproliferative disease,204.2,Myeloid leukemia,1
+AFR,1,193,Thyroid cancer,194,Cancer of other endocrine glands,1
+EUR,1,681.5,"Cellulitis and abscess of leg, except foot",727,"Other disorders of synovium, tendon, and bursa",2
+META,1,681.5,"Cellulitis and abscess of leg, except foot",727,"Other disorders of synovium, tendon, and bursa",2
