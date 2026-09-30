@@ -76,3 +76,13 @@ def all_edges(con, table: str):
         WHERE a.phe_id < b.phe_id
         GROUP BY a.phe_id, b.phe_id
     """).fetchall()
+
+
+def node_snps(con, table: str, node: str):
+    """(rsid, chrom, pval) for one phenotype, from a best_rows table.
+
+    A4 clumps on the target's own p-values, so this is the ordering the
+    clumping uses."""
+    return con.execute(
+        f"SELECT rsid, chrom, pval FROM {table} WHERE phe_id = ?",
+        [node]).fetchall()

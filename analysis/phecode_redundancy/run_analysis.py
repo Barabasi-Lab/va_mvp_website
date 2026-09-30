@@ -45,6 +45,13 @@ TARGETS = {
 }
 # obesity dropped from A6 at the authors' instruction
 
+CLUMP_WINDOW = 500_000      # +/- bp, greedy distance clumping (A4)
+SNP_POSITIONS = os.path.join(RESULTS, "snp_positions.csv")   # snp_positions.R
+# APOL1, GRCh38 (Ensembl/RefSeq): chr22:36,253,071-36,267,530, band 22q12.3.
+# No gene annotation is bundled with the association store, so this comes
+# from the public annotation, not from the data.
+APOL1 = ("22", 36_253_071, 36_267_530)
+
 SEED = 20260930
 
 # ------------------------------------------------------------------ utilities
@@ -176,6 +183,54 @@ def step_a2(meta):
 
 
 
+# ------------------------------------------------------- positions / clumping
+
+
+def load_positions():
+    """rsid -> (chrom, pos) from snp_positions.R, or None if it has not run.
+
+    Absent positions are reported as absent; no step substitutes an
+    approximation for them."""
+    if not os.path.exists(SNP_POSITIONS):
+        return None
+    pos = {}
+    with open(SNP_POSITIONS) as fh:
+        r = csv.DictReader(fh)
+        for row in r:
+            pos[row["rsid"]] = (row["chrom"], int(row["pos"]))
+    return pos
+
+
+def clump(snps, window=CLUMP_WINDOW):
+    """Greedy distance clumping. `snps` is [(rsid, chrom, pos, pval)].
+
+    Take the strongest unassigned SNP as a lead, absorb every unassigned SNP
+    within +/- window on the same chromosome, repeat. Returns
+    (locus_of_rsid, loci) where a locus is (lead_rsid, chrom, lead_pos,
+    lo, hi, n_members)."""
+    order = sorted(snps, key=lambda r: (r[3], r[0]))
+    locus_of, loci, taken = {}, [], set()
+    for rsid, chrom, pos, _p in order:
+        if rsid in taken:
+            continue
+        members = [s for s in snps
+                   if s[0] not in taken and s[1] == chrom
+                   and abs(s[2] - pos) <= window]
+        idx = len(loci)
+        for m in members:
+            taken.add(m[0])
+            locus_of[m[0]] = idx
+        ps = [m[2] for m in members]
+        loci.append((rsid, chrom, pos, min(ps), max(ps), len(members)))
+    return locus_of, loci
+
+
+def overlaps_apol1(locus):
+    _lead, chrom, _pos, lo, hi = locus[:5]
+    c, a, b = APOL1
+    return chrom == c and hi >= a - CLUMP_WINDOW and lo <= b + CLUMP_WINDOW
+
+
 # ------------------------------------------------------------------- step A3
 
 # T3 is not computable, so the level the task calls L3 (T1+T2+T3+T4) is
@@ -220,13 +275,21 @@ def excluded_at(level, flags, same_category):
 
 
 def step_a3(meta, targets, tag, include_l4=True):
-    """Ego-network sensitivity for each target x ancestry x threshold x level."""
+    """Ego-network sensitivity for each target x ancestry x threshold x level.
+
+    When SNP positions are available this also runs A4: the target's SNPs are
+    clumped into loci and every edge is counted in loci as well as SNPs."""
     rel = PhecodeRelations(ICD_MAP, DEFINITIONS)
     con = network.connect(DB_DIR)
+    pos = load_positions()
+    if pos is None:
+        log("  no snp_positions.csv: locus metrics (A4) left empty")
 
     CLUSTER = {"genitourinary system", "hematopoietic"}
     long_rows = []
     top_rows = []
+    locus_rows = []
+    lead_by_anc = {}
 
     for name, code in targets.items():
         tid = next(k for k, v in meta.items() if code in v["codes"])
@@ -238,15 +301,27 @@ def step_a3(meta, targets, tag, include_l4=True):
             for thr in THRESHOLDS:
                 tbl = network.best_rows(con, anc, thr)
                 edges = network.ego_edges(con, tbl, tid)
+
+                locus_of, loci = {}, []
+                if pos is not None:
+                    snps = [(r, c, pos[r][1], p)
+                            for r, c, p in network.node_snps(con, tbl, tid)
+                            if r in pos]
+                    locus_of, loci = clump(snps)
+                    if thr == PRIMARY_THRESHOLD:
+                        lead_by_anc[(name, anc)] = loci
+
                 enriched = []
-                for nb, weight, syn, anti, _rsids in edges:
+                for nb, weight, syn, anti, rsids in edges:
                     m = meta.get(nb, {})
                     flags = tier_flags(rel, tphe, m.get("phecodes", []))
+                    hit = {locus_of[r] for r in rsids if r in locus_of}
                     enriched.append({
                         "id": nb, "label": m.get("label", ""),
                         "category": m.get("category", ""),
                         "weight": weight, "syn": syn, "anti": anti,
-                        "flags": flags,
+                        "flags": flags, "loci": hit,
+                        "unmapped": sum(1 for r in rsids if r not in locus_of),
                         "same_category": m.get("category", "") == tcat,
                     })
 
@@ -280,7 +355,38 @@ def step_a3(meta, targets, tag, include_l4=True):
                          sum(e["weight"] for e in in_gu) / wsum if wsum else "")
                     emit("synergistic_frac_by_weight", syn / wsum if wsum else "")
                     emit("synergistic_frac_by_edge", syn_major / deg if deg else "")
-                    emit("shared_loci", "")   # A4, pending SNP positions
+                    if pos is None:
+                        emit("total_loci", "")
+                        emit("mean_loci_per_edge", "")
+                        emit("median_loci_per_edge", "")
+                        emit("apol1_frac_by_edge", "")
+                        emit("apol1_frac_by_weight", "")
+                    else:
+                        per_edge = [len(e["loci"]) for e in kept]
+                        union = set().union(*[e["loci"] for e in kept]) if kept else set()
+                        emit("total_loci", len(union))
+                        emit("mean_loci_per_edge",
+                             sum(per_edge) / deg if deg else "")
+                        emit("median_loci_per_edge", quartiles(per_edge)[0])
+                        ap = {i for i, l in enumerate(loci) if overlaps_apol1(l)}
+                        hit = [e for e in kept if e["loci"] & ap]
+                        emit("apol1_frac_by_edge", len(hit) / deg if deg else "")
+                        emit("apol1_frac_by_weight",
+                             sum(e["weight"] for e in hit) / wsum if wsum else "")
+
+                    if pos is not None and thr == PRIMARY_THRESHOLD:
+                        # how many edges each locus of the target contributes to
+                        for i, l in enumerate(loci):
+                            n_ed = sum(1 for e in kept if i in e["loci"])
+                            if not n_ed:
+                                continue
+                            locus_rows.append({
+                                "target": name, "ancestry": anc.upper(),
+                                "level": level, "locus": i,
+                                "lead_rsid": l[0], "chrom": l[1],
+                                "lead_pos": l[2], "span_start": l[3],
+                                "span_end": l[4], "n_snps": l[5],
+                                "n_edges": n_ed, "is_apol1": overlaps_apol1(l)})
 
                     if thr == PRIMARY_THRESHOLD:
                         for e in sorted(kept, key=lambda x: -x["weight"])[:10]:
@@ -309,7 +415,65 @@ def step_a3(meta, targets, tag, include_l4=True):
         w.writeheader()
         w.writerows(top_rows)
     log(f"  wrote {out2}")
+
+    if locus_rows:
+        out3 = os.path.join(RESULTS, f"{tag}_loci.csv")
+        with open(out3, "w", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(locus_rows[0].keys()))
+            w.writeheader()
+            w.writerows(sorted(locus_rows,
+                               key=lambda r: (r["ancestry"], r["level"],
+                                              -r["n_edges"])))
+        log(f"  wrote {out3}")
+        write_locus_overlap(lead_by_anc, tag)
     return long_rows
+
+
+def write_locus_overlap(lead_by_anc, tag):
+    """A4.4: how many of the target's loci are shared between ancestries,
+    lead SNPs within +/- CLUMP_WINDOW, plus each ancestry's chromosome
+    spread."""
+    rows = []
+    names = sorted({k[0] for k in lead_by_anc})
+    for name in names:
+        have = [a for a in ANCESTRIES if (name, a) in lead_by_anc]
+        for a in have:
+            loci = lead_by_anc[(name, a)]
+            chroms = defaultdict(int)
+            for l in loci:
+                chroms[l[1]] += 1
+            rows.append({
+                "target": name, "comparison": a.upper(), "kind": "count",
+                "n_loci_a": len(loci), "n_loci_b": "", "n_shared": "",
+                "frac_a_shared": "", "frac_b_shared": "",
+                "chrom_distribution": ";".join(
+                    f"{c}:{n}" for c, n in sorted(
+                        chroms.items(), key=lambda kv: -kv[1]))})
+        for i, a in enumerate(have):
+            for b in have[i + 1:]:
+                la, lb = lead_by_anc[(name, a)], lead_by_anc[(name, b)]
+                shared_a = sum(
+                    1 for x in la
+                    if any(y[1] == x[1] and abs(y[2] - x[2]) <= CLUMP_WINDOW
+                           for y in lb))
+                shared_b = sum(
+                    1 for y in lb
+                    if any(x[1] == y[1] and abs(y[2] - x[2]) <= CLUMP_WINDOW
+                           for x in la))
+                rows.append({
+                    "target": name, "comparison": f"{a.upper()}_vs_{b.upper()}",
+                    "kind": "overlap",
+                    "n_loci_a": len(la), "n_loci_b": len(lb),
+                    "n_shared": shared_a,
+                    "frac_a_shared": shared_a / len(la) if la else "",
+                    "frac_b_shared": shared_b / len(lb) if lb else "",
+                    "chrom_distribution": ""})
+    out = os.path.join(RESULTS, f"{tag}_locus_overlap.csv")
+    with open(out, "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+    log(f"  wrote {out}")
 
 
 def plot_sensitivity(long_rows, tag, include_l4=True):
