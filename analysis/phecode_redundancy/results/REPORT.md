@@ -53,8 +53,10 @@ was significant somewhere. See §8.
 row in the definitions file. The eight without are the unlabelled `1010.*`,
 `1089` and `1090` codes; a further 22 have a row whose exclusion range is
 empty, which is a real "no exclusions" rather than a gap. T3 for a pair
-involving one of the eight is reported as **unknown**, not as *unrelated* —
-one network pair is in that state.
+involving one of the eight is reported as **unknown**, not as *unrelated*.
+Exactly one network pair is in that state: phecodes 1010.3 and 1089, two of
+the unlabelled codes, which carry an edge of 3/9/9 SNPs in AFR/EUR/META. It
+is counted separately in §3 rather than folded into "unrelated".
 
 ---
 
