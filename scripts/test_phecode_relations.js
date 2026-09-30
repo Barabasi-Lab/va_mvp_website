@@ -13,6 +13,11 @@
 const assert = require('assert');
 const R = require('../public/js/phecode-relations.js');
 
+// T1 and T2 are derived in the browser from the code strings; T3 and T4
+// arrive in a lookup table. The cases below that need a table build a stub
+// one, so this suite stays a unit test of the rule rather than of the
+// server. The Python suite checks the same pairs against the real files.
+
 let pass = 0, fail = 0, skipped = 0;
 function test(name, fn) {
   try { fn(); pass++; console.log(`ok   ${name}`); }
@@ -54,16 +59,28 @@ test('T4 comes from the lookup table, hand-verified pair', () => {
   R.useLookup(null);
 });
 
-test('T3 reports unavailable rather than false', () => {
-  // With no lookup table the client can answer T1 and T2 only. It must say
-  // so; treating the unanswered tiers as "not related" would silently
-  // understate relatedness, exactly as on the Python side.
+test('without a lookup table the client answers T1 and T2 only', () => {
+  // The truncation rule gets T1 and T2 from the code strings. T3 and T4
+  // cannot be derived that way, and the client must say it cannot answer
+  // them rather than report them as "not related".
   R.useLookup(null);
   assert.deepStrictEqual(R.relationsReady(), ['T1', 'T2']);
   assert.ok(R.relationsReady().indexOf('T3') < 0);
 });
 
-skip('T3 hand-verified case', 'needs phecode_definitions1.2.csv; see A0_RECON.md');
+test('T3 hand-verified: 585.32 and 587, via the lookup table', () => {
+  // Kidney replaced by transplant sits inside ESRD's exclusion range
+  // 580-590.99, and vice versa. Different integer roots and no shared ICD,
+  // so T3 is the only tier that fires - the same case the Python suite
+  // checks against the definitions file directly.
+  const phe = { esrd: ['585.32'], txp: ['587'] };
+  R.useLookup({ tiers: ['T3', 'T4'], pairs: { 'esrd|txp': R.T3 } });
+  const m = R.maskOf('esrd', 'txp', id => phe[id]);
+  assert.strictEqual(m, R.T3);
+  assert.ok(!(m & R.T1) && !(m & R.T2) && !(m & R.T4));
+  assert.deepStrictEqual(R.relationsReady(), ['T1', 'T2', 'T3', 'T4']);
+  R.useLookup(null);
+});
 
 // --- string handling ------------------------------------------------------
 

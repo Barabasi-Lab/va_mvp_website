@@ -8,12 +8,19 @@ phenotypes cannot be computed. These structural tiers stand in for it.
     T3  exclusion-range overlap  REQUIRES the phecode definitions file
     T4  shared ICD codes  the two phecodes share >=1 ICD in the mapping
 
-T3 is not computable from the inputs we have: the supplied map
-(Phecode_map_v1_2_icd9_icd10cm.csv) is the ICD->phecode mapping and carries
-no `phecode_exclude_range` column. That lives in the separate phecode
-*definitions* file. Rather than silently scoring T3 as False, which would
-understate relatedness, `t3` is None whenever the definitions file is absent
-and every consumer has to decide what to do about it.
+T3 needs `phecode_exclude_range` from the phecode *definitions* file, which
+is separate from the ICD->phecode map. When that file is not supplied, `t3`
+is None rather than False - an absent tier must not read as an absent
+relationship - and every consumer has to decide what to do about it. The
+same applies per-pair: eight network phecodes have no row in the definitions
+file, and T3 for a pair involving one of them is None, not False.
+
+A warning about T3's granularity. The exclusion ranges are block-wide, not
+code-wide: 585.32, 585.3, 587 and 588 all carry "580-590.99", so T3 fires
+for any two codes in the same phecode block. It is much coarser than T1 or
+T2 and will remove clinically distinct pairs. That is a property of the
+phecode system, not of this code, but it means T3 results have to be read
+as "same block", not "same illness".
 
 Phecodes are handled as strings throughout: "585.30" and "585.3" are
 different codes, and float conversion would merge them.
@@ -85,9 +92,9 @@ class Relation:
 
     @property
     def any_structural(self) -> bool:
-        """True if any *computable* tier fires. With T3 unavailable this is a
-        lower bound on relatedness, not the full L3 definition."""
-        return bool(self.t1 or self.t2 or self.t4)
+        """True if any *computable* tier fires. When t3 is None this is a
+        lower bound on relatedness rather than the full L3 definition."""
+        return bool(self.t1 or self.t2 or self.t3 or self.t4)
 
     def as_row(self) -> dict:
         d = asdict(self)
@@ -136,16 +143,32 @@ class PhecodeRelations:
     def t3_available(self) -> bool:
         return self.exclude_ranges is not None
 
-    def _in_exclude_range(self, code: str, other: str) -> bool:
-        """Is `other` inside `code`'s exclusion range? Ranges look like
-        "585-585.99" or a comma-separated list of such."""
-        spec = (self.exclude_ranges or {}).get(code, "")
+    def _in_exclude_range(self, code: str, other: str) -> Optional[bool]:
+        """Is `other` inside `code`'s exclusion range?
+
+        Ranges in Map 1.2 are all "lo-hi", sometimes comma-separated
+        ("140-149.99, 210-210.99"). Endpoints are inclusive.
+
+        Returns None when `code` has no row in the definitions file at all -
+        that is "we do not know", not "no exclusions". Eight network phecodes
+        (the unlabelled 1010.* / 1089 / 1090 codes) are in that position, and
+        22 more have a row whose range is empty, which is a real "no
+        exclusions" and returns False.
+
+        Comparison is numeric here, unlike everywhere else in this module.
+        Containment in a numeric interval is what the column means, and the
+        string/float distinction that matters for the hierarchy ("585.30" vs
+        "585.3") cannot change which interval a code falls in.
+        """
+        if self.exclude_ranges is None or code not in self.exclude_ranges:
+            return None
+        spec = self.exclude_ranges[code]
         if not spec:
             return False
         try:
             value = float(other)
         except ValueError:
-            return False
+            return None
         for part in spec.split(","):
             part = part.strip()
             if not part:
@@ -158,6 +181,24 @@ class PhecodeRelations:
                 continue
         return False
 
+    def is_t3(self, a: str, b: str) -> Optional[bool]:
+        """Exclusion-range overlap, either direction.
+
+        None when the definitions file is absent, or when neither code's row
+        is present and so nothing can be concluded. A code's own range
+        contains itself, so identity is excluded first - the same guard T1,
+        T2 and T4 use.
+        """
+        if not self.t3_available or a == b:
+            return None if not self.t3_available else False
+        ab = self._in_exclude_range(a, b)
+        ba = self._in_exclude_range(b, a)
+        if ab or ba:
+            return True
+        if ab is None and ba is None:
+            return None
+        return False
+
     def shared_icds(self, a: str, b: str) -> set[tuple[str, str]]:
         return self.phecode_to_icds.get(a, set()) & self.phecode_to_icds.get(b, set())
 
@@ -165,8 +206,5 @@ class PhecodeRelations:
         t1 = is_t1(a, b)
         t2 = is_t2(a, b)
         shared = self.shared_icds(a, b) if a != b else set()
-        if self.t3_available:
-            t3: Optional[bool] = self._in_exclude_range(a, b) or self._in_exclude_range(b, a)
-        else:
-            t3 = None
+        t3 = self.is_t3(a, b)
         return Relation(a, b, t1, t2, t3, bool(shared), len(shared))

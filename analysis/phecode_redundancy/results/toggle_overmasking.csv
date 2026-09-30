@@ -1,181 +1,241 @@
 ancestry,tier_set,phecode_a,phecode_b,label_a,label_b,category_a,category_b,tier,shared_snps,synergistic,antagonistic
-AFR,T1,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,6044,6044,0
-AFR,T1,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,4663,4663,0
-AFR,T1,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,4172,4172,0
-AFR,T1,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,3489,3489,0
-AFR,T1,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,2635,2635,0
-AFR,T1,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1,2608,2608,0
-AFR,T1,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1,2475,0,2475
-AFR,T1,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1,2441,2441,0
-AFR,T1,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1,2075,2071,4
-AFR,T1,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1,2047,2047,0
-AFR,T1,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1,1901,1901,0
-AFR,T1,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1,1793,1793,0
-AFR,T1,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1,1677,0,1677
-AFR,T1,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,1610,1610,0
-AFR,T1,250.1,250.12,Type 1 diabetes,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T1,1528,1528,0
-AFR,T1,224,224.1,Benign neoplasm of eye,"Benign neoplasm of eye, uveal",neoplasms,neoplasms,T1,1348,1348,0
-AFR,T1,282,282.8,Hereditary hemolytic anemias,Other hemoglobinopathies,hematopoietic,hematopoietic,T1,1232,1082,150
-AFR,T1,362.2,362.21,Degeneration of macula and posterior pole of retina,"Macular degeneration, dry",sense organs,sense organs,T1,1085,1085,0
-AFR,T1,241,241.2,Nontoxic nodular goiter,Nontoxic multinodular goiter,endocrine or metabolic,endocrine or metabolic,T1,1034,1034,0
-AFR,T1,272.1,272.11,Hyperlipidemia,Hypercholesterolemia,endocrine or metabolic,endocrine or metabolic,T1,996,996,0
-AFR,T1+T2,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,6044,6044,0
-AFR,T1+T2,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,4663,4663,0
-AFR,T1+T2,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,4172,4172,0
-AFR,T1+T2,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,3489,3489,0
-AFR,T1+T2,288.1,288.2,Decreased white blood cell count,Elevated white blood cell count,hematopoietic,hematopoietic,T2,3275,0,3275
-AFR,T1+T2,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,2635,2635,0
-AFR,T1+T2,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1,2608,2608,0
-AFR,T1+T2,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1,2475,0,2475
-AFR,T1+T2,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1,2441,2441,0
-AFR,T1+T2,250.11,250.13,Type 1 diabetes with ketoacidosis,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2,2126,2126,0
-AFR,T1+T2,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1,2075,2071,4
-AFR,T1+T2,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1,2047,2047,0
-AFR,T1+T2,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1,1901,1901,0
-AFR,T1+T2,250.11,250.12,Type 1 diabetes with ketoacidosis,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T2,1901,1901,0
-AFR,T1+T2,288.11,288.2,Neutropenia,Elevated white blood cell count,hematopoietic,hematopoietic,T2,1891,0,1891
-AFR,T1+T2,250.12,250.13,Type 1 diabetes with renal manifestations,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2,1815,1815,0
-AFR,T1+T2,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1,1793,1793,0
-AFR,T1+T2,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1,1677,0,1677
-AFR,T1+T2,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,1610,1610,0
-AFR,T1+T2,250.1,250.12,Type 1 diabetes,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T1,1528,1528,0
-AFR,T1+T2+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,6044,6044,0
-AFR,T1+T2+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,4663,4663,0
-AFR,T1+T2+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,4172,4172,0
-AFR,T1+T2+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,3489,3489,0
-AFR,T1+T2+T4,288.1,288.2,Decreased white blood cell count,Elevated white blood cell count,hematopoietic,hematopoietic,T2,3275,0,3275
-AFR,T1+T2+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,2635,2635,0
-AFR,T1+T2+T4,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1,2608,2608,0
-AFR,T1+T2+T4,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1,2475,0,2475
-AFR,T1+T2+T4,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1,2441,2441,0
-AFR,T1+T2+T4,250.11,250.13,Type 1 diabetes with ketoacidosis,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2,2126,2126,0
-AFR,T1+T2+T4,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1,2075,2071,4
-AFR,T1+T2+T4,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1,2047,2047,0
-AFR,T1+T2+T4,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1,1901,1901,0
-AFR,T1+T2+T4,250.11,250.12,Type 1 diabetes with ketoacidosis,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T2,1901,1901,0
-AFR,T1+T2+T4,288.11,288.2,Neutropenia,Elevated white blood cell count,hematopoietic,hematopoietic,T2,1891,0,1891
-AFR,T1+T2+T4,250.12,250.13,Type 1 diabetes with renal manifestations,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2,1815,1815,0
-AFR,T1+T2+T4,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1,1793,1793,0
-AFR,T1+T2+T4,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1,1677,0,1677
-AFR,T1+T2+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,1610,1610,0
-AFR,T1+T2+T4,250.1,250.12,Type 1 diabetes,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T1,1528,1528,0
-EUR,T1,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,107798,107796,2
-EUR,T1,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,49259,49258,1
-EUR,T1,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1,38786,38783,3
-EUR,T1,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1,38333,38333,0
-EUR,T1,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1,35570,35568,2
-EUR,T1,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,35526,35525,1
-EUR,T1,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1,32853,32847,6
-EUR,T1,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1,31709,31707,2
-EUR,T1,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1,31167,31167,0
-EUR,T1,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1,31163,31161,2
-EUR,T1,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,29575,29575,0
-EUR,T1,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,26673,26673,0
-EUR,T1,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,26184,26178,6
-EUR,T1,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,26136,26131,5
-EUR,T1,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,25022,25022,0
-EUR,T1,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1,21892,21885,7
-EUR,T1,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1,21148,21145,3
-EUR,T1,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1,20746,20741,5
-EUR,T1,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1,19022,19022,0
-EUR,T1,411,411.8,Ischemic Heart Disease,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T1,18430,18428,2
-EUR,T1+T2,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,107798,107796,2
-EUR,T1+T2,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,49259,49258,1
-EUR,T1+T2,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1,38786,38783,3
-EUR,T1+T2,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1,38333,38333,0
-EUR,T1+T2,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1,35570,35568,2
-EUR,T1+T2,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,35526,35525,1
-EUR,T1+T2,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1,32853,32847,6
-EUR,T1+T2,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1,31709,31707,2
-EUR,T1+T2,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1,31167,31167,0
-EUR,T1+T2,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1,31163,31161,2
-EUR,T1+T2,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,29575,29575,0
-EUR,T1+T2,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,26673,26673,0
-EUR,T1+T2,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,26184,26178,6
-EUR,T1+T2,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,26136,26131,5
-EUR,T1+T2,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,25022,25022,0
-EUR,T1+T2,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1,21892,21885,7
-EUR,T1+T2,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1,21148,21145,3
-EUR,T1+T2,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1,20746,20741,5
-EUR,T1+T2,411.4,411.8,Coronary atherosclerosis,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T2,19334,19332,2
-EUR,T1+T2,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2,19223,19212,11
-EUR,T1+T2+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,107798,107796,2
-EUR,T1+T2+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,49259,49258,1
-EUR,T1+T2+T4,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1,38786,38783,3
-EUR,T1+T2+T4,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1,38333,38333,0
-EUR,T1+T2+T4,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1,35570,35568,2
-EUR,T1+T2+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,35526,35525,1
-EUR,T1+T2+T4,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1,32853,32847,6
-EUR,T1+T2+T4,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1,31709,31707,2
-EUR,T1+T2+T4,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1,31167,31167,0
-EUR,T1+T2+T4,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1,31163,31161,2
-EUR,T1+T2+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,29575,29575,0
-EUR,T1+T2+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,26673,26673,0
-EUR,T1+T2+T4,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,26184,26178,6
-EUR,T1+T2+T4,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,26136,26131,5
-EUR,T1+T2+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,25022,25022,0
-EUR,T1+T2+T4,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1,21892,21885,7
-EUR,T1+T2+T4,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1,21148,21145,3
-EUR,T1+T2+T4,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1,20746,20741,5
-EUR,T1+T2+T4,411.4,411.8,Coronary atherosclerosis,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T2,19334,19332,2
-EUR,T1+T2+T4,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2,19223,19212,11
-META,T1,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,48893,48891,2
-META,T1,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,42511,42511,0
-META,T1,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1,31410,31409,1
-META,T1,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1,30588,30587,1
-META,T1,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1,30164,30162,2
-META,T1,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1,30112,30109,3
-META,T1,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1,29551,29548,3
-META,T1,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1,25625,25625,0
-META,T1,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,25451,25450,1
-META,T1,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,22593,22591,2
-META,T1,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1,22515,22515,0
-META,T1,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,22231,22230,1
-META,T1,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,21827,21826,1
-META,T1,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1,21171,21165,6
-META,T1,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1,20522,20519,3
-META,T1,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1,20007,20000,7
-META,T1,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,16645,16642,3
-META,T1,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,16634,16633,1
-META,T1,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1,15727,15726,1
-META,T1,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1,15252,15246,6
-META,T1+T2,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,48893,48891,2
-META,T1+T2,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,42511,42511,0
-META,T1+T2,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1,31410,31409,1
-META,T1+T2,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1,30588,30587,1
-META,T1+T2,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1,30164,30162,2
-META,T1+T2,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1,30112,30109,3
-META,T1+T2,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1,29551,29548,3
-META,T1+T2,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1,25625,25625,0
-META,T1+T2,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,25451,25450,1
-META,T1+T2,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,22593,22591,2
-META,T1+T2,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1,22515,22515,0
-META,T1+T2,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,22231,22230,1
-META,T1+T2,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,21827,21826,1
-META,T1+T2,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1,21171,21165,6
-META,T1+T2,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1,20522,20519,3
-META,T1+T2,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1,20007,20000,7
-META,T1+T2,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2,18830,18820,10
-META,T1+T2,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,16645,16642,3
-META,T1+T2,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,16634,16633,1
-META,T1+T2,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1,15727,15726,1
-META,T1+T2+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1,48893,48891,2
-META,T1+T2+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1,42511,42511,0
-META,T1+T2+T4,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1,31410,31409,1
-META,T1+T2+T4,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1,30588,30587,1
-META,T1+T2+T4,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1,30164,30162,2
-META,T1+T2+T4,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1,30112,30109,3
-META,T1+T2+T4,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1,29551,29548,3
-META,T1+T2+T4,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1,25625,25625,0
-META,T1+T2+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1,25451,25450,1
-META,T1+T2+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1,22593,22591,2
-META,T1+T2+T4,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1,22515,22515,0
-META,T1+T2+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1,22231,22230,1
-META,T1+T2+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1,21827,21826,1
-META,T1+T2+T4,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1,21171,21165,6
-META,T1+T2+T4,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1,20522,20519,3
-META,T1+T2+T4,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1,20007,20000,7
-META,T1+T2+T4,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2,18830,18820,10
-META,T1+T2+T4,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,16645,16642,3
-META,T1+T2+T4,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1,16634,16633,1
-META,T1+T2+T4,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1,15727,15726,1
+AFR,T1,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,6044,6044,0
+AFR,T1,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,4663,4663,0
+AFR,T1,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,4172,4172,0
+AFR,T1,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,3489,3489,0
+AFR,T1,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,2635,2635,0
+AFR,T1,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1+T3,2608,2608,0
+AFR,T1,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1+T3,2475,0,2475
+AFR,T1,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1+T3,2441,2441,0
+AFR,T1,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1+T3,2075,2071,4
+AFR,T1,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1+T3,2047,2047,0
+AFR,T1,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1+T3,1901,1901,0
+AFR,T1,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1793,1793,0
+AFR,T1,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1+T3,1677,0,1677
+AFR,T1,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,1610,1610,0
+AFR,T1,250.1,250.12,Type 1 diabetes,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1528,1528,0
+AFR,T1,224,224.1,Benign neoplasm of eye,"Benign neoplasm of eye, uveal",neoplasms,neoplasms,T1+T3,1348,1348,0
+AFR,T1,282,282.8,Hereditary hemolytic anemias,Other hemoglobinopathies,hematopoietic,hematopoietic,T1+T3,1232,1082,150
+AFR,T1,362.2,362.21,Degeneration of macula and posterior pole of retina,"Macular degeneration, dry",sense organs,sense organs,T1+T3,1085,1085,0
+AFR,T1,241,241.2,Nontoxic nodular goiter,Nontoxic multinodular goiter,endocrine or metabolic,endocrine or metabolic,T1+T3,1034,1034,0
+AFR,T1,272.1,272.11,Hyperlipidemia,Hypercholesterolemia,endocrine or metabolic,endocrine or metabolic,T1+T3,996,996,0
+AFR,T1+T2,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,6044,6044,0
+AFR,T1+T2,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,4663,4663,0
+AFR,T1+T2,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,4172,4172,0
+AFR,T1+T2,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,3489,3489,0
+AFR,T1+T2,288.1,288.2,Decreased white blood cell count,Elevated white blood cell count,hematopoietic,hematopoietic,T2+T3,3275,0,3275
+AFR,T1+T2,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,2635,2635,0
+AFR,T1+T2,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1+T3,2608,2608,0
+AFR,T1+T2,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1+T3,2475,0,2475
+AFR,T1+T2,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1+T3,2441,2441,0
+AFR,T1+T2,250.11,250.13,Type 1 diabetes with ketoacidosis,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,2126,2126,0
+AFR,T1+T2,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1+T3,2075,2071,4
+AFR,T1+T2,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1+T3,2047,2047,0
+AFR,T1+T2,250.11,250.12,Type 1 diabetes with ketoacidosis,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,1901,1901,0
+AFR,T1+T2,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1+T3,1901,1901,0
+AFR,T1+T2,288.11,288.2,Neutropenia,Elevated white blood cell count,hematopoietic,hematopoietic,T2+T3,1891,0,1891
+AFR,T1+T2,250.12,250.13,Type 1 diabetes with renal manifestations,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,1815,1815,0
+AFR,T1+T2,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1793,1793,0
+AFR,T1+T2,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1+T3,1677,0,1677
+AFR,T1+T2,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,1610,1610,0
+AFR,T1+T2,250.1,250.12,Type 1 diabetes,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1528,1528,0
+AFR,T1+T2+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,6044,6044,0
+AFR,T1+T2+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,4663,4663,0
+AFR,T1+T2+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,4172,4172,0
+AFR,T1+T2+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,3489,3489,0
+AFR,T1+T2+T4,288.1,288.2,Decreased white blood cell count,Elevated white blood cell count,hematopoietic,hematopoietic,T2+T3,3275,0,3275
+AFR,T1+T2+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,2635,2635,0
+AFR,T1+T2+T4,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1+T3,2608,2608,0
+AFR,T1+T2+T4,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1+T3,2475,0,2475
+AFR,T1+T2+T4,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1+T3,2441,2441,0
+AFR,T1+T2+T4,250.11,250.13,Type 1 diabetes with ketoacidosis,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,2126,2126,0
+AFR,T1+T2+T4,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1+T3,2075,2071,4
+AFR,T1+T2+T4,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1+T3,2047,2047,0
+AFR,T1+T2+T4,250.11,250.12,Type 1 diabetes with ketoacidosis,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,1901,1901,0
+AFR,T1+T2+T4,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1+T3,1901,1901,0
+AFR,T1+T2+T4,288.11,288.2,Neutropenia,Elevated white blood cell count,hematopoietic,hematopoietic,T2+T3,1891,0,1891
+AFR,T1+T2+T4,250.12,250.13,Type 1 diabetes with renal manifestations,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,1815,1815,0
+AFR,T1+T2+T4,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1793,1793,0
+AFR,T1+T2+T4,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1+T3,1677,0,1677
+AFR,T1+T2+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,1610,1610,0
+AFR,T1+T2+T4,250.1,250.12,Type 1 diabetes,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1528,1528,0
+AFR,T1+T2+T3+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,6044,6044,0
+AFR,T1+T2+T3+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,4663,4663,0
+AFR,T1+T2+T3+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,4172,4172,0
+AFR,T1+T2+T3+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,3489,3489,0
+AFR,T1+T2+T3+T4,288.1,288.2,Decreased white blood cell count,Elevated white blood cell count,hematopoietic,hematopoietic,T2+T3,3275,0,3275
+AFR,T1+T2+T3+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,2635,2635,0
+AFR,T1+T2+T3+T4,288,288.2,Diseases of white blood cells,Elevated white blood cell count,hematopoietic,hematopoietic,T1+T3,2608,2608,0
+AFR,T1+T2+T3+T4,288,288.1,Diseases of white blood cells,Decreased white blood cell count,hematopoietic,hematopoietic,T1+T3,2475,0,2475
+AFR,T1+T2+T3+T4,288.1,288.11,Decreased white blood cell count,Neutropenia,hematopoietic,hematopoietic,T1+T3,2441,2441,0
+AFR,T1+T2+T3+T4,250.11,250.13,Type 1 diabetes with ketoacidosis,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,2126,2126,0
+AFR,T1+T2+T3+T4,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1+T3,2075,2071,4
+AFR,T1+T2+T3+T4,250.1,250.11,Type 1 diabetes,Type 1 diabetes with ketoacidosis,endocrine or metabolic,endocrine or metabolic,T1+T3,2047,2047,0
+AFR,T1+T2+T3+T4,250.11,250.12,Type 1 diabetes with ketoacidosis,Type 1 diabetes with renal manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,1901,1901,0
+AFR,T1+T2+T3+T4,362.2,362.27,Degeneration of macula and posterior pole of retina,Drusen (degenerative) of retina,sense organs,sense organs,T1+T3,1901,1901,0
+AFR,T1+T2+T3+T4,288.11,288.2,Neutropenia,Elevated white blood cell count,hematopoietic,hematopoietic,T2+T3,1891,0,1891
+AFR,T1+T2+T3+T4,796,185,Elevated prostate specific antigen [PSA],Cancer of prostate,other,other,T3,1823,1823,0
+AFR,T1+T2+T3+T4,250.12,250.13,Type 1 diabetes with renal manifestations,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T2+T3,1815,1815,0
+AFR,T1+T2+T3+T4,250.1,250.13,Type 1 diabetes,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,1793,1793,0
+AFR,T1+T2+T3+T4,288,288.11,Diseases of white blood cells,Neutropenia,hematopoietic,hematopoietic,T1+T3,1677,0,1677
+AFR,T1+T2+T3+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,1610,1610,0
+EUR,T1,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,107798,107796,2
+EUR,T1,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,49259,49258,1
+EUR,T1,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,38786,38783,3
+EUR,T1,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,38333,38333,0
+EUR,T1,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,35570,35568,2
+EUR,T1,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,35526,35525,1
+EUR,T1,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,32853,32847,6
+EUR,T1,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,31709,31707,2
+EUR,T1,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31167,31167,0
+EUR,T1,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31163,31161,2
+EUR,T1,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,29575,29575,0
+EUR,T1,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,26673,26673,0
+EUR,T1,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26184,26178,6
+EUR,T1,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26136,26131,5
+EUR,T1,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,25022,25022,0
+EUR,T1,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21892,21885,7
+EUR,T1,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21148,21145,3
+EUR,T1,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20746,20741,5
+EUR,T1,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1+T3,19022,19022,0
+EUR,T1,411,411.8,Ischemic Heart Disease,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T1+T3,18430,18428,2
+EUR,T1+T2,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,107798,107796,2
+EUR,T1+T2,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,49259,49258,1
+EUR,T1+T2,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,38786,38783,3
+EUR,T1+T2,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,38333,38333,0
+EUR,T1+T2,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,35570,35568,2
+EUR,T1+T2,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,35526,35525,1
+EUR,T1+T2,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,32853,32847,6
+EUR,T1+T2,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,31709,31707,2
+EUR,T1+T2,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31167,31167,0
+EUR,T1+T2,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31163,31161,2
+EUR,T1+T2,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,29575,29575,0
+EUR,T1+T2,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,26673,26673,0
+EUR,T1+T2,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26184,26178,6
+EUR,T1+T2,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26136,26131,5
+EUR,T1+T2,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,25022,25022,0
+EUR,T1+T2,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21892,21885,7
+EUR,T1+T2,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21148,21145,3
+EUR,T1+T2,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20746,20741,5
+EUR,T1+T2,411.4,411.8,Coronary atherosclerosis,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T2+T3,19334,19332,2
+EUR,T1+T2,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2+T3,19223,19212,11
+EUR,T1+T2+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,107798,107796,2
+EUR,T1+T2+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,49259,49258,1
+EUR,T1+T2+T4,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,38786,38783,3
+EUR,T1+T2+T4,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,38333,38333,0
+EUR,T1+T2+T4,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,35570,35568,2
+EUR,T1+T2+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,35526,35525,1
+EUR,T1+T2+T4,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,32853,32847,6
+EUR,T1+T2+T4,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,31709,31707,2
+EUR,T1+T2+T4,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31167,31167,0
+EUR,T1+T2+T4,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31163,31161,2
+EUR,T1+T2+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,29575,29575,0
+EUR,T1+T2+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,26673,26673,0
+EUR,T1+T2+T4,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26184,26178,6
+EUR,T1+T2+T4,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26136,26131,5
+EUR,T1+T2+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,25022,25022,0
+EUR,T1+T2+T4,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21892,21885,7
+EUR,T1+T2+T4,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21148,21145,3
+EUR,T1+T2+T4,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20746,20741,5
+EUR,T1+T2+T4,411.4,411.8,Coronary atherosclerosis,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T2+T3,19334,19332,2
+EUR,T1+T2+T4,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2+T3,19223,19212,11
+EUR,T1+T2+T3+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,107798,107796,2
+EUR,T1+T2+T3+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,49259,49258,1
+EUR,T1+T2+T3+T4,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,38786,38783,3
+EUR,T1+T2+T3+T4,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,38333,38333,0
+EUR,T1+T2+T3+T4,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,35570,35568,2
+EUR,T1+T2+T3+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,35526,35525,1
+EUR,T1+T2+T3+T4,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,32853,32847,6
+EUR,T1+T2+T3+T4,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,31709,31707,2
+EUR,T1+T2+T3+T4,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31167,31167,0
+EUR,T1+T2+T3+T4,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,31163,31161,2
+EUR,T1+T2+T3+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,29575,29575,0
+EUR,T1+T2+T3+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,26673,26673,0
+EUR,T1+T2+T3+T4,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26184,26178,6
+EUR,T1+T2+T3+T4,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,26136,26131,5
+EUR,T1+T2+T3+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,25022,25022,0
+EUR,T1+T2+T3+T4,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21892,21885,7
+EUR,T1+T2+T3+T4,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21148,21145,3
+EUR,T1+T2+T3+T4,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20746,20741,5
+EUR,T1+T2+T3+T4,411.4,411.8,Coronary atherosclerosis,"Other chronic ischemic heart disease, unspecified",circulatory system,circulatory system,T2+T3,19334,19332,2
+EUR,T1+T2+T3+T4,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2+T3,19223,19212,11
+META,T1,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,48893,48891,2
+META,T1,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,42511,42511,0
+META,T1,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,31410,31409,1
+META,T1,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,30588,30587,1
+META,T1,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30164,30162,2
+META,T1,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30112,30109,3
+META,T1,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,29551,29548,3
+META,T1,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,25625,25625,0
+META,T1,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,25451,25450,1
+META,T1,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,22593,22591,2
+META,T1,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,22515,22515,0
+META,T1,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,22231,22230,1
+META,T1,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,21827,21826,1
+META,T1,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21171,21165,6
+META,T1,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,20522,20519,3
+META,T1,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20007,20000,7
+META,T1,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16645,16642,3
+META,T1,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16634,16633,1
+META,T1,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1+T3,15727,15726,1
+META,T1,714,714.1,Rheumatoid arthritis and other inflammatory polyarthropathies,Rheumatoid arthritis,musculoskeletal system,musculoskeletal system,T1+T3,15252,15246,6
+META,T1+T2,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,48893,48891,2
+META,T1+T2,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,42511,42511,0
+META,T1+T2,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,31410,31409,1
+META,T1+T2,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,30588,30587,1
+META,T1+T2,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30164,30162,2
+META,T1+T2,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30112,30109,3
+META,T1+T2,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,29551,29548,3
+META,T1+T2,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,25625,25625,0
+META,T1+T2,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,25451,25450,1
+META,T1+T2,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,22593,22591,2
+META,T1+T2,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,22515,22515,0
+META,T1+T2,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,22231,22230,1
+META,T1+T2,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,21827,21826,1
+META,T1+T2,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21171,21165,6
+META,T1+T2,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,20522,20519,3
+META,T1+T2,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20007,20000,7
+META,T1+T2,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2+T3,18830,18820,10
+META,T1+T2,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16645,16642,3
+META,T1+T2,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16634,16633,1
+META,T1+T2,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1+T3,15727,15726,1
+META,T1+T2+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,48893,48891,2
+META,T1+T2+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,42511,42511,0
+META,T1+T2+T4,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,31410,31409,1
+META,T1+T2+T4,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,30588,30587,1
+META,T1+T2+T4,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30164,30162,2
+META,T1+T2+T4,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30112,30109,3
+META,T1+T2+T4,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,29551,29548,3
+META,T1+T2+T4,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,25625,25625,0
+META,T1+T2+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,25451,25450,1
+META,T1+T2+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,22593,22591,2
+META,T1+T2+T4,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,22515,22515,0
+META,T1+T2+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,22231,22230,1
+META,T1+T2+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,21827,21826,1
+META,T1+T2+T4,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21171,21165,6
+META,T1+T2+T4,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,20522,20519,3
+META,T1+T2+T4,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20007,20000,7
+META,T1+T2+T4,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2+T3,18830,18820,10
+META,T1+T2+T4,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16645,16642,3
+META,T1+T2+T4,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16634,16633,1
+META,T1+T2+T4,702,702.1,Degenerative skin conditions and other dermatoses,Actinic keratosis,dermatological system,dermatological system,T1+T3,15727,15726,1
+META,T1+T2+T3+T4,250,250.2,Diabetes mellitus,Type 2 diabetes,endocrine or metabolic,endocrine or metabolic,T1+T3,48893,48891,2
+META,T1+T2+T3+T4,244,244.4,Hypothyroidism,Hypothyroidism NOS,endocrine or metabolic,endocrine or metabolic,T1+T3,42511,42511,0
+META,T1+T2+T3+T4,427.2,427.21,Atrial fibrillation and flutter,Atrial fibrillation,circulatory system,circulatory system,T1+T3,31410,31409,1
+META,T1+T2+T3+T4,696,696.4,Psoriasis and related disorders,Psoriasis,dermatological system,dermatological system,T1+T3,30588,30587,1
+META,T1+T2+T3+T4,696.4,696.41,Psoriasis,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30164,30162,2
+META,T1+T2+T3+T4,696,696.41,Psoriasis and related disorders,Psoriasis vulgaris,dermatological system,dermatological system,T1+T3,30112,30109,3
+META,T1+T2+T3+T4,172,172.2,Skin cancer,Other non-epithelial cancer of skin,neoplasms,neoplasms,T1+T3,29551,29548,3
+META,T1+T2+T3+T4,401,401.1,Hypertension,Essential hypertension,circulatory system,circulatory system,T1+T3,25625,25625,0
+META,T1+T2+T3+T4,274,274.1,Gout and other crystal arthropathies,Gout,endocrine or metabolic,endocrine or metabolic,T1+T3,25451,25450,1
+META,T1+T2+T3+T4,365,365.1,Glaucoma,Open-angle glaucoma,sense organs,sense organs,T1+T3,22593,22591,2
+META,T1+T2+T3+T4,411,411.4,Ischemic Heart Disease,Coronary atherosclerosis,circulatory system,circulatory system,T1+T3,22515,22515,0
+META,T1+T2+T3+T4,272,272.1,Disorders of lipoid metabolism,Hyperlipidemia,endocrine or metabolic,endocrine or metabolic,T1+T3,22231,22230,1
+META,T1+T2+T3+T4,278,278.1,"Overweight, obesity and other hyperalimentation",Obesity,endocrine or metabolic,endocrine or metabolic,T1+T3,21827,21826,1
+META,T1+T2+T3+T4,172.2,172.21,Other non-epithelial cancer of skin,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,21171,21165,6
+META,T1+T2+T3+T4,172,172.21,Skin cancer,Basal cell carcinoma,neoplasms,neoplasms,T1+T3,20522,20519,3
+META,T1+T2+T3+T4,172,172.1,Skin cancer,"Melanomas of skin, dx or hx",neoplasms,neoplasms,T1+T3,20007,20000,7
+META,T1+T2+T3+T4,172.1,172.2,"Melanomas of skin, dx or hx",Other non-epithelial cancer of skin,neoplasms,neoplasms,T2+T3,18830,18820,10
+META,T1+T2+T3+T4,250,250.24,Diabetes mellitus,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16645,16642,3
+META,T1+T2+T3+T4,250.2,250.24,Type 2 diabetes,Type 2 diabetes with neurological manifestations,endocrine or metabolic,endocrine or metabolic,T1+T3,16634,16633,1
+META,T1+T2+T3+T4,172,173,Skin cancer,Neoplasm of uncertain behavior of skin,neoplasms,neoplasms,T3,16325,16320,5

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30T17:24:03+00:00",
+  "generated": "2026-09-30T18:31:53+00:00",
   "seed": 20260930,
   "ancestries": [
     "afr",
@@ -10,6 +10,11 @@
     0.0001,
     1e-08
   ],
+  "clump_window_bp": 500000,
+  "genome_build": {
+    "association_store": "not recorded; no position column",
+    "positions": "GRCh38 (dbSNP155). rs numbers are build-stable, so the lookup does not depend on the store's build; the store's chrom column is checked against it."
+  },
   "files": {
     "association_store": {
       "path": "/home/student/Desktop/va_mvp_website/public/data/db/associations",
@@ -25,15 +30,20 @@
       "md5": "fdd521f64b5a10481054e25e6d355a52",
       "bytes": 14513607
     },
+    "phecode_definitions": {
+      "path": "/home/student/Downloads/phecode_definitions1.2.csv",
+      "md5": "1a6d2f359c4d594861a1aa13a20abc07",
+      "bytes": 157833
+    },
     "labels": {
       "path": "/home/student/Desktop/phenotype_labels.pkl",
       "md5": "ea8c809ee731c4ba862e6a658afbb319",
       "bytes": 75054
     },
-    "phecode_definitions": {
-      "path": "(not supplied)",
+    "snp_positions": {
+      "path": "/home/student/Desktop/va_mvp_website/analysis/phecode_redundancy/results/snp_positions.csv",
       "status": "ABSENT",
-      "consequence": "T3 not computable"
+      "consequence": "A4 locus metrics skipped"
     }
   }
 }

@@ -32,7 +32,7 @@ RESULTS = os.path.join(HERE, "results")
 DB_DIR = os.path.join(REPO, "public", "data", "db")
 NODE_ATTRS = os.path.join(REPO, "public", "data", "node_attributes.csv")
 ICD_MAP = os.path.expanduser("~/Downloads/Phecode_map_v1_2_icd9_icd10cm.csv")
-DEFINITIONS = None          # phecode_definitions1.2.csv - absent; T3 unavailable
+DEFINITIONS = os.path.expanduser("~/Downloads/phecode_definitions1.2.csv")
 LABELS_PKL = os.path.expanduser("~/Desktop/phenotype_labels.pkl")
 
 ANCESTRIES = ("afr", "eur", "meta")      # AFR/EUR primary, META reference
@@ -78,6 +78,7 @@ def provenance() -> dict:
     for name, path in [("association_store", os.path.join(DB_DIR, "associations")),
                        ("node_attributes", NODE_ATTRS),
                        ("icd_map", ICD_MAP),
+                       ("phecode_definitions", DEFINITIONS or "(not supplied)"),
                        ("labels", LABELS_PKL)]:
         if os.path.isdir(path):
             shards = sorted(f for f in os.listdir(path))
@@ -86,8 +87,6 @@ def provenance() -> dict:
             files[name] = {"path": path, "md5": md5(path), "bytes": os.path.getsize(path)}
         else:
             files[name] = {"path": path, "status": "ABSENT"}
-    files["phecode_definitions"] = {"path": "(not supplied)", "status": "ABSENT",
-                                    "consequence": "T3 not computable"}
     # Positions do not come from the association store, so where they came
     # from has to be recorded here or the clumping is unreproducible.
     if os.path.exists(SNP_POSITIONS):
@@ -175,12 +174,17 @@ def step_a2(meta):
                     if ca is None or cb is None:
                         continue
                     r = rel.classify(ca, cb)
-                    if best is None or (r.t1, r.t2, r.t4) > (best.t1, best.t2, best.t4):
+                    rank = (r.t1, r.t2, bool(r.t3), r.t4)
+                    if best is None or rank > (best.t1, best.t2,
+                                               bool(best.t3), best.t4):
                         best = r
             classifiable = best is not None
             if classifiable:
                 key = ("T1" if best.t1 else "T2" if best.t2 else
-                       "T4" if best.t4 else "unrelated")
+                       "T3" if best.t3 else "T4" if best.t4 else
+                       # t3 unknown and nothing else fired: the pair is not
+                       # "unrelated", it is unresolved
+                       "unrelated" if best.t3 is False else "t3_unknown")
                 counts[key] += 1
             else:
                 counts["unclassifiable"] += 1
@@ -190,7 +194,8 @@ def step_a2(meta):
                 ",".join(m2["phecodes"]) or ",".join(m2["codes"]),
                 m1["label"], m2["label"], m1["category"], m2["category"],
                 best.t1 if classifiable else "", best.t2 if classifiable else "",
-                "", best.t4 if classifiable else "",
+                ("" if not classifiable or best.t3 is None else best.t3),
+                best.t4 if classifiable else "",
                 best.shared_icd_count if classifiable else "",
                 best.any_structural if classifiable else "", classifiable,
                 per_network["afr"].get((p1, p2), ("", ))[0],
@@ -198,7 +203,8 @@ def step_a2(meta):
                 per_network["meta"].get((p1, p2), ("", ))[0],
             ])
     log(f"  wrote {out}")
-    for k in ("T1", "T2", "T4", "unrelated", "unclassifiable"):
+    for k in ("T1", "T2", "T3", "T4", "unrelated", "t3_unknown",
+              "unclassifiable"):
         if counts[k]:
             log(f"    {k:15} {counts[k]:>7,}")
     return out, dict(counts)
@@ -289,44 +295,48 @@ def overlaps_apol1(locus):
 
 # ------------------------------------------------------------------- step A3
 
-# T3 is not computable, so the level the task calls L3 (T1+T2+T3+T4) is
-# reported as L3_partial (T1+T2+T4) and must not be read as full L3.
 LEVELS = [
     ("L0", "baseline, no exclusions"),
     ("L1", "drop T1 (ancestor-descendant)"),
     ("L2", "drop T1 + T2"),
-    ("L3_partial", "drop T1 + T2 + T4  (T3 unavailable)"),
-    ("L4", "L3_partial + drop all neighbours in the target's category"),
+    ("L3", "drop T1 + T2 + T3 + T4"),
+    ("L4", "L3 + drop all neighbours in the target's category"),
 ]
 
 
 def tier_flags(rel, target_phecodes, neighbor_phecodes):
     """Strongest relation over any pair of source codes (merged nodes carry
-    two). Returns (t1, t2, t4, classifiable)."""
+    two). Returns (t1, t2, t3, t4, classifiable).
+
+    A merged node counts as related if any combination of its codes is, so
+    the flags are OR-ed. An unknown T3 contributes nothing to the OR, which
+    is the conservative direction: it can only under-exclude.
+    """
     if not target_phecodes or not neighbor_phecodes:
-        return False, False, False, False
-    t1 = t2 = t4 = False
+        return False, False, False, False, False
+    t1 = t2 = t3 = t4 = False
     for a in target_phecodes:
         for b in neighbor_phecodes:
             r = rel.classify(a, b)
             t1 |= r.t1
             t2 |= r.t2
+            t3 |= bool(r.t3)
             t4 |= r.t4
-    return t1, t2, t4, True
+    return t1, t2, t3, t4, True
 
 
 def excluded_at(level, flags, same_category):
-    t1, t2, t4, classifiable = flags
+    t1, t2, t3, t4, classifiable = flags
     if level == "L0":
         return False
     if level == "L1":
         return t1
     if level == "L2":
         return t1 or t2
-    if level == "L3_partial":
-        return t1 or t2 or t4
+    if level == "L3":
+        return t1 or t2 or t3 or t4
     if level == "L4":
-        return t1 or t2 or t4 or same_category
+        return t1 or t2 or t3 or t4 or same_category
     raise ValueError(level)
 
 
@@ -455,7 +465,7 @@ def step_a3(meta, targets, tag, include_l4=True):
 
                     if thr == PRIMARY_THRESHOLD:
                         for e in sorted(kept, key=lambda x: -x["weight"])[:10]:
-                            t1, t2, t4, ok = e["flags"]
+                            t1, t2, t3, t4, ok = e["flags"]
                             top_rows.append({
                                 "target": name, "ancestry": anc.upper(),
                                 "level": level, "neighbor_id": e["id"],
@@ -463,7 +473,7 @@ def step_a3(meta, targets, tag, include_l4=True):
                                 "label": e["label"], "category": e["category"],
                                 "weight": e["weight"], "synergistic": e["syn"],
                                 "antagonistic": e["anti"],
-                                "t1": t1, "t2": t2, "t4": t4,
+                                "t1": t1, "t2": t2, "t3": t3, "t4": t4,
                                 "classifiable": ok})
     con.close()
 
@@ -569,8 +579,8 @@ def plot_sensitivity(long_rows, tag, include_l4=True):
             ax.set_ylim(0, 1)
     axes.flat[0].legend(title="ancestry", fontsize=9)
     fig.suptitle(f"{tag.upper()} ego-network sensitivity to phecode-relatedness "
-                 f"exclusion (p < {thr})\nL3_partial omits T3: exclusion ranges "
-                 f"unavailable. L4 is a stress test.", fontsize=11)
+                 f"exclusion (p < {thr})\nL3 = T1+T2+T3+T4. T3 is block-wide, "
+                 f"so it is aggressive; L4 is a stress test.", fontsize=11)
     fig.tight_layout()
     path = os.path.join(RESULTS, f"{tag}_sensitivity.png")
     fig.savefig(path, dpi=140)
@@ -581,7 +591,7 @@ def plot_sensitivity(long_rows, tag, include_l4=True):
 
 # ------------------------------------------------------------------- step A5
 
-TIER_ORDER = ["T1", "T2", "T4", "unrelated"]
+TIER_ORDER = ["T1", "T2", "T3", "T4", "unrelated"]
 
 
 def primary_tier(rel, m1, m2):
@@ -591,11 +601,13 @@ def primary_tier(rel, m1, m2):
     for ca in m1["phecodes"]:
         for cb in m2["phecodes"]:
             r = rel.classify(ca, cb)
-            if best is None or (r.t1, r.t2, r.t4) > (best.t1, best.t2, best.t4):
+            rank = (r.t1, r.t2, bool(r.t3), r.t4)
+            if best is None or rank > (best.t1, best.t2, bool(best.t3), best.t4):
                 best = r
     if best is None:
         return None
-    return "T1" if best.t1 else "T2" if best.t2 else "T4" if best.t4 else "unrelated"
+    return ("T1" if best.t1 else "T2" if best.t2 else "T3" if best.t3
+            else "T4" if best.t4 else "unrelated")
 
 
 def quartiles(xs):
@@ -743,9 +755,8 @@ def plot_tiers(rows, per_anc_weights):
     axes[2].grid(alpha=0.3, axis="y")
 
     fig.suptitle(f"Network-wide phecode-relatedness tiers, p < "
-                 f"{PRIMARY_THRESHOLD:g}.  T3 (exclusion ranges) unavailable; "
-                 f"'unrelated' therefore includes any T3-only pairs.",
-                 fontsize=11)
+                 f"{PRIMARY_THRESHOLD:g}.  Tiers are mutually exclusive, "
+                 f"assigned T1 > T2 > T3 > T4.", fontsize=11)
     fig.tight_layout()
     path = os.path.join(RESULTS, "network_wide_tiers.png")
     fig.savefig(path, dpi=140)
@@ -763,7 +774,8 @@ def main():
     prov = provenance()
     with open(os.path.join(RESULTS, "provenance.json"), "w") as fh:
         json.dump(prov, fh, indent=2)
-    log("provenance written; T3 unavailable (no definitions file)")
+    t3 = prov["files"]["phecode_definitions"].get("md5")
+    log(f"provenance written; T3 {'available' if t3 else 'UNAVAILABLE'}")
 
     meta = load_meta()
     log(f"loaded metadata for {len(meta)} network phenotypes")

@@ -5,9 +5,10 @@ Coverage, over-masking and spot-check samples for each candidate tier set,
 computed from the same classifier the toggle uses. Writes into results/ and
 prints the tables that go into TOGGLE_EVALUATION.md.
 
-{T1,T2,T3,T4} is not among the candidates: T3 needs phecode_definitions1.2.csv
-and no input file we have carries the exclusion ranges (A0_RECON.md). The
-largest set that can be evaluated on this data is {T1,T2,T4}.
+All four candidate sets are evaluable now that phecode_definitions1.2.csv
+has been supplied. T3 is the one to watch: its exclusion ranges are
+block-wide, so it is far more aggressive than its position in the numbering
+suggests.
 
 Usage: python3 analysis/phecode_redundancy/evaluate_toggle.py
 """
@@ -30,6 +31,7 @@ TIER_SETS = {
     "T1": T1,
     "T1+T2": T1 | T2,
     "T1+T2+T4": T1 | T2 | T4,
+    "T1+T2+T3+T4": T1 | T2 | T3 | T4,
 }
 SAMPLE_N = 30
 

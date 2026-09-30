@@ -24,7 +24,7 @@ const OUT = path.join(__dirname, '..', 'analysis', 'phecode_redundancy',
                       'results', 'screenshots');
 const NODE = '905';
 const LABEL = 'End stage renal disease';
-const TIER_SETS = ['T1', 'T1,T2', 'T1,T2,T4'];
+const TIER_SETS = ['T1', 'T1,T2', 'T1,T2,T4', 'T1,T2,T3,T4'];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const summary = page => page.evaluate(

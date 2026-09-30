@@ -8,10 +8,19 @@ import pytest
 from phecode_relations import PhecodeRelations, is_t1, is_t2, to_phecode, split
 
 ICD_MAP = os.path.expanduser("~/Downloads/Phecode_map_v1_2_icd9_icd10cm.csv")
+DEFINITIONS = os.path.expanduser("~/Downloads/phecode_definitions1.2.csv")
 
 
 @pytest.fixture(scope="module")
 def rel():
+    """The classifier as the analysis runs it, definitions included."""
+    return PhecodeRelations(ICD_MAP, DEFINITIONS)
+
+
+@pytest.fixture(scope="module")
+def rel_no_defs():
+    """The same classifier with the definitions file withheld, to check that
+    an unavailable tier stays unavailable rather than turning into False."""
     return PhecodeRelations(ICD_MAP)
 
 
@@ -43,16 +52,61 @@ def test_t4_hand_verified(rel):
     assert ("10", "T58.02") in rel.shared_icds("297.2", "986")
 
 
-def test_t3_reports_unavailable_rather_than_false(rel):
-    """The supplied map has no phecode_exclude_range, so T3 must come back as
-    unknown. Scoring it False would silently understate relatedness."""
-    assert rel.t3_available is False
-    assert rel.classify("585.32", "585.1").t3 is None
+def test_t3_reports_unavailable_rather_than_false(rel_no_defs):
+    """Without the definitions file T3 must come back as unknown. Scoring it
+    False would silently understate relatedness."""
+    assert rel_no_defs.t3_available is False
+    assert rel_no_defs.classify("585.32", "585.1").t3 is None
 
 
-@pytest.mark.skip(reason="needs phecode_definitions1.2.csv; see A0_RECON.md")
-def test_t3_hand_verified():
-    """Hand-verified T3 case, pending the definitions file."""
+def test_t3_hand_verified(rel):
+    """585.32 (ESRD) and 587 (Kidney replaced by transplant).
+
+    587 falls inside 585.32's exclusion range 580-590.99, and 585.32 falls
+    inside 587's, which is the same range. Different integer roots, so
+    neither T1 nor T2, and they share no ICD code, so not T4 either: T3 is
+    the only tier that fires, which is what makes this a usable check.
+    """
+    assert rel.t3_available is True
+    r = rel.classify("585.32", "587")
+    assert r.t3 is True
+    assert not r.t1 and not r.t2 and not r.t4
+    assert rel.exclude_ranges["585.32"] == "580-590.99"
+
+
+def test_t3_does_not_fire_across_blocks(rel):
+    """585.32 (580-590.99) and 280.1 (280-285.99) are in different blocks."""
+    assert rel.classify("585.32", "280.1").t3 is False
+
+
+def test_t3_identity_is_not_a_relation(rel):
+    """A phecode's own exclusion range contains the phecode itself, so this
+    would be True without the identity guard that T1/T2/T4 already have."""
+    assert rel._in_exclude_range("585.32", "585.32") is True
+    assert rel.classify("585.32", "585.32").t3 is False
+
+
+def test_t3_unknown_when_a_code_has_no_definitions_row(rel):
+    """Eight network phecodes have no row in the definitions file. A pair of
+    them is unknown, not unrelated."""
+    assert rel.classify("1089", "1090").t3 is None
+
+
+def test_t3_is_block_wide_not_code_wide(rel):
+    """The exclusion ranges are coarse: every code in 580-590.99 carries the
+    same range, so T3 fires for any two codes in the block. Recorded as a
+    test because it is the property that makes T3 aggressive, and anything
+    that silently narrowed it would change the analysis."""
+    block = ["580", "585", "585.32", "587", "588"]
+    for code in block:
+        assert rel.exclude_ranges[code] == "580-590.99", code
+    # and the ranges are not reciprocal: 590 carries 590-593.99, which does
+    # not contain 580, but 580's range does contain 590. Either direction
+    # counts, which is why is_t3 tests both.
+    assert rel.exclude_ranges["590"] == "590-593.99"
+    assert rel._in_exclude_range("590", "580") is False
+    assert rel._in_exclude_range("580", "590") is True
+    assert rel.classify("580", "590").t3 is True
 
 
 # --- string handling ------------------------------------------------------
@@ -97,6 +151,6 @@ def test_identity_is_not_a_relation():
 
 def test_symmetry(rel):
     for a, b in [("585", "585.32"), ("585.31", "585.32"), ("297.2", "986"),
-                 ("585.32", "280.1")]:
+                 ("585.32", "280.1"), ("585.32", "587"), ("1089", "1090")]:
         x, y = rel.classify(a, b), rel.classify(b, a)
-        assert (x.t1, x.t2, x.t4) == (y.t1, y.t2, y.t4)
+        assert (x.t1, x.t2, x.t3, x.t4) == (y.t1, y.t2, y.t3, y.t4)

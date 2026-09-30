@@ -14,15 +14,16 @@ Two implementation candidates need two different shapes of data:
   Option 2, client-side rule
     node_phecodes.json       node id -> phecode strings, so the browser can
                              apply the truncation rule itself. T1/T2 only.
-    pair_relations_t34.json  the separate lookup Option 2 needs for T3/T4,
-                             kept apart so its size can be measured on its own.
+    pair_relations_t34.json  the separate lookup Option 2 needs for T3/T4 -
+                             neither is derivable from the code strings -
+                             kept apart so its size can be measured alone.
 
 Bit positions match public/js/phecode-relations.js:
     T1 = 1, T2 = 2, T3 = 4, T4 = 8, UNCLASSIFIABLE = 16
 
-T3 is never set: the exclusion ranges are not available (see A0_RECON.md).
-The tier list written into each file says which tiers it can answer, so the
-client reports T3 as unanswered rather than as "not related".
+The tier list written into each file says which tiers it can answer, so a
+client without the definitions file reports T3 as unanswered rather than as
+"not related".
 
 Writes only into public/data/db/ as new files. The precomputed network files
 themselves (landing_page.duckdb, node_attributes.parquet, the association
@@ -89,6 +90,11 @@ def main():
         for pc in meta[nid]["phecodes"]:
             by_root.setdefault(pc.split(".")[0], set()).add(nid)
 
+    nodes_of_phecode_early = {}
+    for nid in ids:
+        for pc in meta[nid]["phecodes"]:
+            nodes_of_phecode_early.setdefault(pc, set()).add(nid)
+
     candidates = set()
     for members in by_root.values():
         ms = sorted(members)
@@ -97,14 +103,43 @@ def main():
                 candidates.add((a, b))
     log(f"  {len(candidates):,} same-root candidate pairs")
 
+    # T3 links codes across integer roots - 585.32 and 587 are both inside
+    # 580-590.99 - so neither the same-root sweep above nor the shared-ICD
+    # sweep below would find those pairs. Enumerate them from the ranges.
+    if rel.t3_available:
+        values = {}
+        for nid in ids:
+            for pc in meta[nid]["phecodes"]:
+                try:
+                    values[pc] = float(pc)
+                except ValueError:
+                    pass
+        t3_candidates = set()
+        for pc, spec in ((p, rel.exclude_ranges.get(p, "")) for p in values):
+            if not spec:
+                continue
+            bounds = []
+            for part in spec.split(","):
+                lo, _, hi = part.strip().partition("-")
+                try:
+                    bounds.append((float(lo), float(hi or lo)))
+                except ValueError:
+                    continue
+            for other, v in values.items():
+                if other == pc or not any(lo <= v <= hi for lo, hi in bounds):
+                    continue
+                for a in nodes_of_phecode_early.get(pc, ()):
+                    for b in nodes_of_phecode_early.get(other, ()):
+                        if a != b:
+                            t3_candidates.add((a, b) if a < b else (b, a))
+        log(f"  {len(t3_candidates):,} exclusion-range candidate pairs")
+        candidates |= t3_candidates
+
     icd_owner = {}
     for pc, icds in rel.phecode_to_icds.items():
         for key in icds:
             icd_owner.setdefault(key, set()).add(pc)
-    nodes_of_phecode = {}
-    for nid in ids:
-        for pc in meta[nid]["phecodes"]:
-            nodes_of_phecode.setdefault(pc, set()).add(nid)
+    nodes_of_phecode = nodes_of_phecode_early
     t4_candidates = set()
     for owners in icd_owner.values():
         if len(owners) < 2:
@@ -124,6 +159,7 @@ def main():
     log(f"  {len(pairs):,} related pairs "
         f"(T1 {sum(1 for m in pairs.values() if m & T1):,}, "
         f"T2 {sum(1 for m in pairs.values() if m & T2):,}, "
+        f"T3 {sum(1 for m in pairs.values() if m & T3):,}, "
         f"T4 {sum(1 for m in pairs.values() if m & T4):,})")
 
     con = duckdb.connect()
@@ -175,7 +211,7 @@ def main():
         json.dump({"tiers": [t for t in ("T3", "T4") if t in tiers],
                    "pairs": t34}, fh, separators=(",", ":"))
     log(f"  wrote {out} ({os.path.getsize(out):,} bytes) - "
-        f"{len(t34):,} pairs, the extra Option 2 pays for T4")
+        f"{len(t34):,} pairs, the extra Option 2 pays for T3 and T4")
     con.close()
 
 
