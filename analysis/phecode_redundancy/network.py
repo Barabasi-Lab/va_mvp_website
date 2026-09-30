@@ -9,6 +9,11 @@ checked against the served edgelist and agrees exactly: ESRD has 86 AFR and
 No promiscuous-SNP filter is applied. The shipped pipeline has none - 4,552
 SNPs appear in >40 phenotypes - and the manuscript text is being revised to
 drop the claim, so the site as deployed is the reference.
+
+No top-N SNP cap is applied. Pages 2 and 3 cap at the 150 and 250 strongest
+SNPs per phenotype for the sake of the browser; page 1 does not, and neither
+does this. That makes the recomputation match page 1, which is the view the
+network figures come from.
 """
 from __future__ import annotations
 
