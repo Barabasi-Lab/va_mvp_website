@@ -24,8 +24,39 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`).then(r => r.json()),
         fetch('/api/landing/nodes').then(r => r.json())
     ]).then(([edgeResponse, nodeResponse]) => {
-        // degrees under the active filter, computed server-side
-        let degrees = edgeResponse.degrees;
+        // Degree per node under the active filters. Computed here rather than
+        // taken from the server's copy because it has to respect the edge type
+        // as well: with "Concordant" selected, a phenotype whose edges are all
+        // discordant has no edges on screen.
+        let degrees = {};
+        let degreeThreshold = 0;
+
+        function edgePresent(l) {
+            if (edgeType === 'same_dir_weight') return (l.same || 0) !== 0;
+            if (edgeType === 'diff_dir_weight') return (l.diff || 0) !== 0;
+            return (l.same || 0) !== 0 || (l.diff || 0) !== 0;
+        }
+
+        function computeDegrees() {
+            const d = {};
+            for (const l of links) {
+                if (!(l.source in d)) d[l.source] = 0;
+                if (!(l.target in d)) d[l.target] = 0;
+                if (edgePresent(l)) { d[l.source]++; d[l.target]++; }
+            }
+            return d;
+        }
+
+        // The slider's range is only meaningful against the degrees actually
+        // in play: the largest is 541 under META at 1e-04 but 5 under EAS, so
+        // a fixed range left most of the track doing nothing.
+        function syncDegreeSlider() {
+            const max = Math.max(1, d3.max(Object.values(degrees)) || 1);
+            if (degreeThreshold > max) degreeThreshold = max;
+            d3.select('#degree-slider').attr('max', max).property('value', degreeThreshold);
+            d3.select('#degree-input').attr('max', max).property('value', degreeThreshold);
+            d3.select('#degree-value').text(degreeThreshold);
+        }
 
         nodes = nodeResponse.nodes.map(d => ({
             id: d.id,
@@ -100,41 +131,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Event handler for the slider
         d3.select('#degree-slider').on('input', function () {
-            const degreeThreshold = +this.value;
-
-            // Update the input box and degree value display
+            degreeThreshold = +this.value;
             d3.select('#degree-input').property('value', degreeThreshold);
             d3.select('#degree-value').text(degreeThreshold);
-
-            // Apply filtering
-            updateFilter(degreeThreshold);
+            updateFilter();
         });
 
         // Event handler for the input box
         d3.select('#degree-input').on('input', function () {
-            const degreeThreshold = +this.value;
-
-            // Synchronize slider and degree value display
+            degreeThreshold = +this.value;
             d3.select('#degree-slider').property('value', degreeThreshold);
             d3.select('#degree-value').text(degreeThreshold);
-
-            // Apply filtering
-            updateFilter(degreeThreshold);
+            updateFilter();
         });
 
-        // Function to apply filtering logic
-        function updateFilter(degreeThreshold) {
-            // Filter nodes based on degree threshold
-            filteredNodes = nodes.filter(n => n.degree >= degreeThreshold);
+        /**
+         * Apply the degree threshold.
+         *
+         * Degree means degree *under the current filters*, not the static
+         * column in node_attributes. That column counts every edge the
+         * phenotype has under any filter combination, so the slider used to
+         * act on a number unrelated to what was on screen, and the phenotype
+         * count never moved when the ancestry or p-value changed.
+         *
+         * A phenotype with no surviving edges is dropped even at threshold 0:
+         * it is an isolate under these filters and is not part of the network
+         * being shown. Under EAS at 1e-04 that is most of them - 71 of 1,321
+         * phenotypes have an edge at all.
+         */
+        function updateFilter() {
+            const minDegree = Math.max(1, degreeThreshold);
+            filteredNodes = nodes.filter(n => (degrees[n.id] || 0) >= minDegree);
 
             // Membership is tested once per link and once per node below; as a
             // linear scan of filteredNodes that was ~72M comparisons a keystroke.
             filteredNodeIds = new Set(filteredNodes.map(n => n.id));
 
-            // Filter links based on the condition that both source and target meet the degree threshold
+            // An edge counts only if it carries weight under the active edge
+            // type; the rest are "ghost edges" that would draw at zero width.
             filteredLinks = links.filter(l =>
-                filteredNodeIds.has(l.source) &&  // Source node passes filter
-                filteredNodeIds.has(l.target)     // Target node passes filter
+                edgePresent(l) &&
+                filteredNodeIds.has(l.source) &&
+                filteredNodeIds.has(l.target)
             );
             filteredLinkSet = new Set(filteredLinks);
 
@@ -390,15 +428,12 @@ document.addEventListener('DOMContentLoaded', () => {
          * edge can contribute to both, so the two do not sum to the total.
          */
         function updateSummary() {
-            let shown = 0, syn = 0, anti = 0;
+            let syn = 0, anti = 0;
             for (const l of filteredLinks) {
-                const same = l.same || 0;
-                const diff = l.diff || 0;
-                if (same === 0 && diff === 0) continue;
-                shown++;
-                if (same > 0) syn++;
-                if (diff > 0) anti++;
+                if ((l.same || 0) > 0) syn++;
+                if ((l.diff || 0) > 0) anti++;
             }
+            const shown = filteredLinks.length;
             Panels.summary([
                 ['Phenotypes', filteredNodes.length],
                 ['Associations', shown],
@@ -457,7 +492,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function renderEdgeWeights(link) {
             link.attr('stroke-width', linkStrokeWidth);
-            updateSummary();
+
+            // Ancestry, p-value and edge type all change which edges exist, so
+            // the degrees, the slider range and the degree filter all have to
+            // be recomputed here - not just the stroke widths.
+            degrees = computeDegrees();
+            syncDegreeSlider();
+            updateFilter();
 
             // Update labels to reflect the current degree values
             svg.selectAll('.label')
@@ -519,7 +560,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // highlightNode are O(1) instead of scanning the whole array each time
         let filteredNodeIds = new Set(nodes.map(n => n.id))
         let filteredLinkSet = new Set(links)
-    renderEdgeWeights(link);
 
     const node = content.selectAll('.node')
         .data(nodes, d => d.id)
@@ -594,7 +634,7 @@ function highlightNode(selectedNode) {
         // console.log('Double-clicked node:', d);
         console.log(degrees[d.id]);
 
-        if (degrees[d.id] === undefined) {
+        if (!(degrees[d.id] > 0)) {
             // warn the user that the node has no edges
             console.log('This node has no edges.');
             alert('This node has no edges.');
@@ -689,6 +729,10 @@ const labels = svg.selectAll('.label')
     .each(function(d) {
         buildLabel(d3.select(this), d, degrees[d.id] || 0);
     });
+
+// First pass. Deferred to here because it applies the degree filter, which
+// needs the node circles and the labels to exist.
+renderEdgeWeights(link);
 
 
 

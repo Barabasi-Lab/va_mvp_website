@@ -169,6 +169,87 @@ const layout = page => page.evaluate(() => {
     await p.close();
   }
 
+  // --- page 1: the degree filter and the counts must track every filter
+  {
+    const readPanel = p => p.evaluate(() => {
+      const rows = {};
+      for (const d of document.querySelectorAll('#summary-panel > div')) {
+        const sp = d.querySelectorAll('span');
+        if (sp.length === 2) rows[sp[0].textContent.trim()] = +sp[1].textContent.replace(/,/g, '');
+      }
+      return { phenos: rows['Phenotypes'], assoc: rows['Associations'],
+               lit: [...document.querySelectorAll('circle.node')]
+                      .filter(c => +getComputedStyle(c).opacity > 0.9).length,
+               sliderMax: +document.getElementById('degree-slider').max };
+    });
+
+    // recomputed from the API, independently of what the page did
+    const expected = async (anc, pv, thresh, type) => {
+      const d = await fetch(`${BASE}/api/landing/edges?ancestry=${anc}&pvalue=${pv}`).then(r => r.json());
+      const present = e => type === 'diff' ? e.diff !== 0
+                         : type === 'same' ? e.same !== 0
+                         : e.same !== 0 || e.diff !== 0;
+      const deg = {};
+      for (const e of d.edges) {
+        deg[e.source] = deg[e.source] || 0;
+        deg[e.target] = deg[e.target] || 0;
+        if (present(e)) { deg[e.source]++; deg[e.target]++; }
+      }
+      const min = Math.max(1, thresh);
+      const keep = new Set(Object.keys(deg).filter(k => deg[k] >= min));
+      return { phenos: keep.size,
+               assoc: d.edges.filter(e => present(e) && keep.has(e.source) && keep.has(e.target)).length,
+               maxDeg: Math.max(1, ...Object.values(deg)) };
+    };
+
+    const p = await open(browser, '/index.html');
+    const compare = async (label, anc, pv, thresh, type) => {
+      const got = await readPanel(p);
+      const want = await expected(anc, pv, thresh, type);
+      check(`page1 degree binding: ${label}`,
+            got.phenos === want.phenos && got.assoc === want.assoc &&
+            got.lit === want.phenos && got.sliderMax === want.maxDeg,
+            `${got.phenos}ph/${got.assoc}as lit ${got.lit} max ${got.sliderMax} ` +
+            `| want ${want.phenos}/${want.assoc} max ${want.maxDeg}`);
+    };
+
+    await compare('meta 1e-04', 'meta', '1e-04', 0, 'weight');
+
+    await p.evaluate(() => { const s = document.getElementById('pvalue-slider');
+      s.value = 0; s.dispatchEvent(new Event('input', { bubbles: true })); });
+    await sleep(900);
+    await compare('meta 1e-12', 'meta', '1e-12', 0, 'weight');
+
+    await p.evaluate(() => { const s = document.getElementById('pvalue-slider');
+      s.value = 8; s.dispatchEvent(new Event('input', { bubbles: true })); });
+    await sleep(900);
+    await p.evaluate(() => { const c = document.getElementById('chk-eas');
+      c.checked = true; c.dispatchEvent(new Event('change', { bubbles: true })); });
+    await sleep(1200);
+    await compare('eas 1e-04 (isolates dropped)', 'eas', '1e-04', 0, 'weight');
+
+    await p.evaluate(() => { const c = document.getElementById('chk-meta');
+      c.checked = true; c.dispatchEvent(new Event('change', { bubbles: true })); });
+    await sleep(1200);
+    for (const t of [2, 50]) {
+      await p.evaluate(v => { const s = document.getElementById('degree-input');
+        s.value = v; s.dispatchEvent(new Event('input', { bubbles: true })); }, t);
+      await sleep(700);
+      await compare(`degree >= ${t}`, 'meta', '1e-04', t, 'weight');
+    }
+    await p.evaluate(() => { const s = document.getElementById('degree-input');
+      s.value = 0; s.dispatchEvent(new Event('input', { bubbles: true })); });
+    await sleep(700);
+
+    await p.evaluate(() => { const e = document.getElementById('chk-diff');
+      e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); });
+    await sleep(900);
+    await compare('discordant only', 'meta', '1e-04', 0, 'diff');
+
+    if (p.__errors.length) check('page1 degree console clean', false, p.__errors[0]);
+    await p.close();
+  }
+
   // --- page 2: cap fills, warning, context menu, comparison controls
   for (const [node, name] of [['708', 'Asthma'], ['375', 'Obstructive sleep apnea']]) {
     const p = await open(browser, `/page2.html?ancestry=meta&pvalue=1e-04&centerPheno=${node}`);

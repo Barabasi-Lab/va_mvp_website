@@ -293,6 +293,26 @@ associations in the dataset were always filtered out. `toPvalue()` in
 
 Everything else is byte-identical; see "Validation" below.
 
+## Page 1's degree filter
+
+"Degree" on page 1 means degree **under the current filters** - the ancestry,
+the p-value and the edge type - not the static `degree` column in
+`node_attributes.csv`. That column counts every edge a phenotype has under any
+filter combination, so it is the wrong number to filter or count with.
+
+It is computed client-side in `computeDegrees()` rather than taken from the
+server's `degrees` map, because it also has to respect the edge type: with
+"Concordant" selected, a phenotype whose edges are all discordant has nothing
+on screen.
+
+A phenotype with no surviving edges is dropped even at threshold 0 - it is an
+isolate under those filters, not part of the network being shown. This matters
+enormously at the sparse end: under EAS at 1e-04 only 71 of 1,321 phenotypes
+have an edge at all, and the panel used to report all 1,321.
+
+The slider's range follows too. The largest degree is 541 under META at 1e-04
+but 5 under EAS, so a fixed range left most of the track doing nothing.
+
 ## Page 2's 150-SNP cap
 
 Page 2 shows the centre phenotype's 150 strongest SNPs. That is original
