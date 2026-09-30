@@ -391,6 +391,11 @@ def step_a3(meta, targets, tag, include_l4=True):
                     syn = sum(e["syn"] for e in kept)
                     in_cluster = [e for e in kept if e["category"] in CLUSTER]
                     in_gu = [e for e in kept if e["category"] == "genitourinary system"]
+                    # the task names genitourinary explicitly because ESRD is
+                    # a kidney phenotype; for any other target the same
+                    # question is about that target's own category, so both
+                    # are emitted and the figure plots the generic one
+                    in_own = [e for e in kept if e["category"] == tcat]
                     syn_major = sum(1 for e in kept if e["syn"] > e["anti"])
 
                     def emit(metric, value):
@@ -409,6 +414,10 @@ def step_a3(meta, targets, tag, include_l4=True):
                          len(in_gu) / deg if deg else "")
                     emit("genitourinary_frac_by_weight",
                          sum(e["weight"] for e in in_gu) / wsum if wsum else "")
+                    emit("own_category_frac_by_count",
+                         len(in_own) / deg if deg else "")
+                    emit("own_category_frac_by_weight",
+                         sum(e["weight"] for e in in_own) / wsum if wsum else "")
                     emit("synergistic_frac_by_weight", syn / wsum if wsum else "")
                     emit("synergistic_frac_by_edge", syn_major / deg if deg else "")
                     if pos is None:
@@ -538,7 +547,7 @@ def plot_sensitivity(long_rows, tag, include_l4=True):
     import matplotlib.pyplot as plt
 
     metrics = ["degree", "weighted_degree", "within_cluster_frac_by_weight",
-               "genitourinary_frac_by_weight", "synergistic_frac_by_weight",
+               "own_category_frac_by_weight", "synergistic_frac_by_weight",
                "synergistic_frac_by_edge"]
     levels = [l for l, _ in LEVELS if include_l4 or l != "L4"]
     ancs = sorted({r["ancestry"] for r in long_rows})
