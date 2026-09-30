@@ -916,48 +916,52 @@ const infoButton = infoContainer.append('button')
 
 // Add the info text (initially hidden)
 const infoText = infoContainer.append('div')
+    .attr('class', 'about-panel')
     .style('display', 'none')
-    .style('margin-top', '10px')
-    .style('padding', '10px')
-    .style('background', 'rgba(0, 0, 0, 0.8)')
-    .style('border-radius', '5px')
-    .style('max-width', '1000px')
     .html(`
         <h2>MVPheWAS Explorer: Phenotype Network</h2>
-        <p>
-            This network illuminates the shared genetic basis of phenotypes within the VA's 
-            Million Veteran Program (MVP). Each node is a phenotype, and each edge is made up
-            of several genetic variants (SNPs). Each SNP in an edge is significantly assosciated 
-            with both the source and target phenotypes, allowing us to easily find groups of
-            genetically connected phenotypes.</p>
-        <p>The thickness of an edge is proportional to the number of SNPs contained within it. If
-            two phenotypes share 50 SNPs, that edge will be twice as thick as an edge between two  
-            phenotypes that share only 25 SNPs</p>
-        <p>The nodes are colored based on their category of phenotype. These categories come from the 
-            phenotype's Phecode mapping. When we run a force-directed network layout we find that these 
-            groups cluster together, indicating that this is a suitable method of assigning clusters of phenotypes 
-        in the network.</p>
-        <p>The filters can be used to look at certain conditions more closely. Because the gwPheWAS was 
-            run on different ancestry subgroups within MVP, the ancestry filter can be used to look 
-            at each of these subnetworks separately. </p>
-        <p>In some cases we are interested only in SNPs that effect both of their assosciated phenotypes 
-            in the same way (a concordant association), or in SNPs that have opposite effects on their 
-            associated phenotypes (an discordant association). The edge type filter can be used to compare 
-            these cases</p>
-        <p>The p-value slider sets the threshold for a SNP-phenotype association to be included in the network 
-        <p>The degree filter can be used to eliminate phenotypes that don't have many connections</p>
-        <p>Clicking a node reveals its "local network" by making its edges to other nodes visible. 
-            This can be useful for exploring the network around a particular phenotype.</p>
-        <p>While a node is selected, you can right click one of its neighboring nodes to see an expanded 
-            view of the edge connecting the phenotypes. This is useful for looking at the individual 
-            SNPs that make up an edge</p>
-        <p>Double clicking a node opens a more detailed Node View. This is useful for exploring a 
-        phenotypes specific relationship to its neighbors.</p>
-        </p>
-        <p> This website is a visualization tool and download portal for the data presented in 
-        "Diversity and scale: Genetic architecture of 2068 traits in the VA Million Veteran Program" 
-        (Anurag Verma et al, Science385,eadj1182(2024).DOI:10.1126/science.adj1182). For questions about this website
-        contact the MVP Data Core at mvpdatacore@va.gov
+        <p>This network illuminates the shared genetic basis of phenotypes within
+        the VA's Million Veteran Program (MVP). Each node is a phenotype, and each
+        edge is made up of several genetic variants (SNPs). Every SNP in an edge is
+        significantly associated with both the phenotypes it joins, which makes it
+        easy to find groups of genetically connected phenotypes.</p>
+
+        <p>Edge thickness is proportional to the number of SNPs in the edge, so an
+        edge carrying 50 shared SNPs is drawn twice as thick as one carrying 25.
+        Very thick edges are capped at the size of the smaller phenotype they
+        connect, so they cannot swallow the nodes. Nodes are colored by phenotype
+        category, taken from the phenotype's Phecode mapping; running a
+        force-directed layout clusters those categories together, which suggests the
+        mapping is a reasonable way to group phenotypes in the network.</p>
+
+        <h3>Filters</h3>
+        <p>The gwPheWAS was run separately on each ancestry subgroup within MVP, so
+        the ancestry filter shows each of those subnetworks on its own. The p-value
+        slider sets how strong a SNP-phenotype association has to be to count, and
+        the degree filter hides phenotypes with few connections.</p>
+
+        <p>Sometimes only SNPs that affect both of their phenotypes in the same
+        direction are of interest (a concordant association), and sometimes only
+        those with opposite effects (a discordant association). The edge type filter
+        switches between them.</p>
+
+        <h3>Exploring</h3>
+        <p>Clicking a node reveals its local network by showing its edges, which is a
+        good way to explore around a particular phenotype. The panel at the bottom
+        left counts what is currently on screen. "Reset view" clears the selection.</p>
+
+        <p>Double-clicking a node opens the Phenotype view, a more detailed look at
+        how that phenotype relates to its neighbors. While a node is selected,
+        right-clicking one of its neighbors opens the SNP view for the edge between
+        them, showing the individual SNPs that make it up.</p>
+
+        <h3>About the data</h3>
+        <p>This website is a visualization tool and download portal for the data
+        presented in "Diversity and scale: Genetic architecture of 2068 traits in the
+        VA Million Veteran Program" (Anurag Verma et al., <em>Science</em> 385,
+        eadj1182 (2024), DOI: 10.1126/science.adj1182). For questions about this
+        website contact the MVP Data Core at
+        <a href="mailto:mvpdatacore@va.gov">mvpdatacore@va.gov</a>.</p>
     `);
 
 // add a download button to download data as a csv file

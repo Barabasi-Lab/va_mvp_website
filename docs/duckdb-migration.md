@@ -351,7 +351,15 @@ python3 scripts/validate_node_files.py      # DB vs the legacy per-node CSVs
 node     scripts/validate_pages.js --sample 60   # rendered networks, both sources
 python3  scripts/validate_landing.py        # all 45 ancestry x p-value combos
 python3  scripts/validate_ranking.py        # which SNPs the top-N picks
+node     scripts/validate_ui.js            # what the pages draw, and where
 ```
+
+`validate_ui.js` is a browser smoke test: tab titles, the left control column
+at four window sizes, the About panels, and the page interactions (edge
+clamping, reset, the cap filling, the context menu). It needs a dev server and
+`npm install --no-save puppeteer-core`; set `CHROME_PATH` if Chromium is not at
+`/usr/bin/chromium-browser`. Layout regressions are easy to cause and none of
+the data suites can see them.
 
 `validate_pages.js` is the strongest check: it lifts `initializeNetwork`,
 `updateEdges` and `updateNodes` straight out of `page2.js`/`page3.js`, runs

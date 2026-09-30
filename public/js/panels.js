@@ -10,6 +10,52 @@
 (function (global) {
   const STACK_ID = 'bottom-left-stack';
 
+  // Styling for the "About" panels, shared by all three pages. They used to
+  // be laid out with a fixed max-width and runs of <br><br>, which read badly
+  // and did not adapt to the window.
+  (function injectAboutStyles() {
+    if (document.getElementById('about-panel-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'about-panel-styles';
+    style.textContent = `
+      .about-panel {
+        /* padding must count inside the width, or the panel overhangs the
+           screen edge by exactly its horizontal padding on narrow windows */
+        box-sizing: border-box;
+        margin-top: 10px;
+        padding: 16px 20px;
+        background: rgba(0, 0, 0, 0.88);
+        border-radius: 6px;
+        /* follows the window instead of a fixed 600/1000px */
+        width: min(42rem, calc(100vw - 40px));
+        max-height: calc(100vh - 110px);
+        overflow-y: auto;
+        line-height: 1.55;
+        font-size: 14px;
+        text-align: left;
+      }
+      .about-panel h2 {
+        margin: 0 0 0.6em;
+        font-size: 1.25em;
+        font-weight: 600;
+      }
+      .about-panel h3 {
+        margin: 1.4em 0 0.35em;
+        font-size: 1em;
+        font-weight: 600;
+        opacity: 0.75;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .about-panel p { margin: 0 0 0.75em; }
+      .about-panel p:last-child { margin-bottom: 0; }
+      .about-panel ul { margin: 0 0 0.75em; padding-left: 1.2em; }
+      .about-panel li { margin: 0 0 0.3em; }
+      .about-panel a { color: #8ecbff; }
+    `;
+    document.head.appendChild(style);
+  })();
+
   function stack() {
     let el = document.getElementById(STACK_ID);
     if (!el) {
