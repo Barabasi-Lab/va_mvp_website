@@ -32,7 +32,7 @@ RESULTS = os.path.join(HERE, "results")
 DB_DIR = os.path.join(REPO, "public", "data", "db")
 NODE_ATTRS = os.path.join(REPO, "public", "data", "node_attributes.csv")
 ICD_MAP = os.path.expanduser("~/Downloads/Phecode_map_v1_2_icd9_icd10cm.csv")
-DEFINITIONS = None          # phecode_definitions1.2.csv - absent; T3 unavailable
+DEFINITIONS = os.path.expanduser("~/Downloads/phecode_definitions1.2.csv")
 LABELS_PKL = os.path.expanduser("~/Desktop/phenotype_labels.pkl")
 
 ANCESTRIES = ("afr", "eur", "meta")      # AFR/EUR primary, META reference
@@ -78,6 +78,7 @@ def provenance() -> dict:
     for name, path in [("association_store", os.path.join(DB_DIR, "associations")),
                        ("node_attributes", NODE_ATTRS),
                        ("icd_map", ICD_MAP),
+                       ("phecode_definitions", DEFINITIONS or "(not supplied)"),
                        ("labels", LABELS_PKL)]:
         if os.path.isdir(path):
             shards = sorted(f for f in os.listdir(path))
@@ -86,11 +87,31 @@ def provenance() -> dict:
             files[name] = {"path": path, "md5": md5(path), "bytes": os.path.getsize(path)}
         else:
             files[name] = {"path": path, "status": "ABSENT"}
-    files["phecode_definitions"] = {"path": "(not supplied)", "status": "ABSENT",
-                                    "consequence": "T3 not computable"}
+    # Positions do not come from the association store, so where they came
+    # from has to be recorded here or the clumping is unreproducible.
+    if os.path.exists(SNP_POSITIONS):
+        files["snp_positions"] = {
+            "path": SNP_POSITIONS, "md5": md5(SNP_POSITIONS),
+            "bytes": os.path.getsize(SNP_POSITIONS),
+            "built_by": "snp_positions.R",
+            "source": "SNPlocs.Hsapiens.dbSNP155.GRCh38 (Bioconductor)",
+            "build": "GRCh38",
+        }
+    else:
+        files["snp_positions"] = {"path": SNP_POSITIONS, "status": "ABSENT",
+                                  "consequence": "A4 locus metrics skipped"}
     return {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "seed": SEED, "ancestries": list(ANCESTRIES),
-            "thresholds": list(THRESHOLDS), "files": files}
+            "thresholds": list(THRESHOLDS),
+            "clump_window_bp": CLUMP_WINDOW,
+            "genome_build": {
+                "association_store": "not recorded; no position column",
+                "positions": "GRCh38 (dbSNP155). rs numbers are build-stable, "
+                             "so the lookup does not depend on the store's "
+                             "build; the store's chrom column is checked "
+                             "against it.",
+            },
+            "files": files}
 
 
 def load_meta():
@@ -153,12 +174,17 @@ def step_a2(meta):
                     if ca is None or cb is None:
                         continue
                     r = rel.classify(ca, cb)
-                    if best is None or (r.t1, r.t2, r.t4) > (best.t1, best.t2, best.t4):
+                    rank = (r.t1, r.t2, bool(r.t3), r.t4)
+                    if best is None or rank > (best.t1, best.t2,
+                                               bool(best.t3), best.t4):
                         best = r
             classifiable = best is not None
             if classifiable:
                 key = ("T1" if best.t1 else "T2" if best.t2 else
-                       "T4" if best.t4 else "unrelated")
+                       "T3" if best.t3 else "T4" if best.t4 else
+                       # t3 unknown and nothing else fired: the pair is not
+                       # "unrelated", it is unresolved
+                       "unrelated" if best.t3 is False else "t3_unknown")
                 counts[key] += 1
             else:
                 counts["unclassifiable"] += 1
@@ -168,7 +194,8 @@ def step_a2(meta):
                 ",".join(m2["phecodes"]) or ",".join(m2["codes"]),
                 m1["label"], m2["label"], m1["category"], m2["category"],
                 best.t1 if classifiable else "", best.t2 if classifiable else "",
-                "", best.t4 if classifiable else "",
+                ("" if not classifiable or best.t3 is None else best.t3),
+                best.t4 if classifiable else "",
                 best.shared_icd_count if classifiable else "",
                 best.any_structural if classifiable else "", classifiable,
                 per_network["afr"].get((p1, p2), ("", ))[0],
@@ -176,7 +203,8 @@ def step_a2(meta):
                 per_network["meta"].get((p1, p2), ("", ))[0],
             ])
     log(f"  wrote {out}")
-    for k in ("T1", "T2", "T4", "unrelated", "unclassifiable"):
+    for k in ("T1", "T2", "T3", "T4", "unrelated", "t3_unknown",
+              "unclassifiable"):
         if counts[k]:
             log(f"    {k:15} {counts[k]:>7,}")
     return out, dict(counts)
@@ -199,6 +227,40 @@ def load_positions():
         for row in r:
             pos[row["rsid"]] = (row["chrom"], int(row["pos"]))
     return pos
+
+
+def check_positions(pos):
+    """Do the looked-up chromosomes agree with the store's own chrom column?
+
+    The store records no genome build, so this is the only cross-check
+    available: if the rs numbers resolved to the chromosomes the store
+    already believes, the lookup is keyed to the right variants.
+    """
+    con = network.connect(DB_DIR)
+    rows = con.execute(
+        "SELECT DISTINCT rsid, chrom FROM assoc").fetchall()
+    con.close()
+    seen = agree = 0
+    disagree = []
+    for rsid, chrom in rows:
+        if rsid not in pos:
+            continue
+        seen += 1
+        if pos[rsid][0] == str(chrom):
+            agree += 1
+        elif len(disagree) < 20:
+            disagree.append((rsid, str(chrom), pos[rsid][0]))
+    out = {"rsids_in_store": len(rows), "resolved": seen,
+           "resolved_frac": seen / len(rows) if rows else 0,
+           "chrom_agrees": agree,
+           "chrom_agrees_frac": agree / seen if seen else 0,
+           "examples_of_disagreement": disagree}
+    with open(os.path.join(RESULTS, "position_qc.json"), "w") as fh:
+        json.dump(out, fh, indent=2)
+    log(f"  positions: {seen:,}/{len(rows):,} rsids resolved "
+        f"({out['resolved_frac']*100:.2f}%), chromosome agrees for "
+        f"{agree:,} ({out['chrom_agrees_frac']*100:.2f}%)")
+    return out
 
 
 def clump(snps, window=CLUMP_WINDOW):
@@ -226,51 +288,63 @@ def clump(snps, window=CLUMP_WINDOW):
 
 
 def overlaps_apol1(locus):
+    """Does this clump fall within CLUMP_WINDOW of APOL1?
+
+    The chromosome is compared as a string on both sides. The store's chrom
+    column comes back from DuckDB as an integer and the positions file has
+    it as text; comparing them directly made this return False for every
+    locus, including the one centred 2 kb inside APOL1.
+    """
     _lead, chrom, _pos, lo, hi = locus[:5]
     c, a, b = APOL1
-    return chrom == c and hi >= a - CLUMP_WINDOW and lo <= b + CLUMP_WINDOW
+    return (str(chrom) == str(c)
+            and hi >= a - CLUMP_WINDOW and lo <= b + CLUMP_WINDOW)
 
 
 # ------------------------------------------------------------------- step A3
 
-# T3 is not computable, so the level the task calls L3 (T1+T2+T3+T4) is
-# reported as L3_partial (T1+T2+T4) and must not be read as full L3.
 LEVELS = [
     ("L0", "baseline, no exclusions"),
     ("L1", "drop T1 (ancestor-descendant)"),
     ("L2", "drop T1 + T2"),
-    ("L3_partial", "drop T1 + T2 + T4  (T3 unavailable)"),
-    ("L4", "L3_partial + drop all neighbours in the target's category"),
+    ("L3", "drop T1 + T2 + T3 + T4"),
+    ("L4", "L3 + drop all neighbours in the target's category"),
 ]
 
 
 def tier_flags(rel, target_phecodes, neighbor_phecodes):
     """Strongest relation over any pair of source codes (merged nodes carry
-    two). Returns (t1, t2, t4, classifiable)."""
+    two). Returns (t1, t2, t3, t4, classifiable).
+
+    A merged node counts as related if any combination of its codes is, so
+    the flags are OR-ed. An unknown T3 contributes nothing to the OR, which
+    is the conservative direction: it can only under-exclude.
+    """
     if not target_phecodes or not neighbor_phecodes:
-        return False, False, False, False
-    t1 = t2 = t4 = False
+        return False, False, False, False, False
+    t1 = t2 = t3 = t4 = False
     for a in target_phecodes:
         for b in neighbor_phecodes:
             r = rel.classify(a, b)
             t1 |= r.t1
             t2 |= r.t2
+            t3 |= bool(r.t3)
             t4 |= r.t4
-    return t1, t2, t4, True
+    return t1, t2, t3, t4, True
 
 
 def excluded_at(level, flags, same_category):
-    t1, t2, t4, classifiable = flags
+    t1, t2, t3, t4, classifiable = flags
     if level == "L0":
         return False
     if level == "L1":
         return t1
     if level == "L2":
         return t1 or t2
-    if level == "L3_partial":
-        return t1 or t2 or t4
+    if level == "L3":
+        return t1 or t2 or t3 or t4
     if level == "L4":
-        return t1 or t2 or t4 or same_category
+        return t1 or t2 or t3 or t4 or same_category
     raise ValueError(level)
 
 
@@ -316,7 +390,12 @@ def step_a3(meta, targets, tag, include_l4=True):
                     m = meta.get(nb, {})
                     flags = tier_flags(rel, tphe, m.get("phecodes", []))
                     hit = {locus_of[r] for r in rsids if r in locus_of}
+                    per_locus = defaultdict(int)
+                    for r in rsids:
+                        if r in locus_of:
+                            per_locus[locus_of[r]] += 1
                     enriched.append({
+                        "per_locus": per_locus,
                         "id": nb, "label": m.get("label", ""),
                         "category": m.get("category", ""),
                         "weight": weight, "syn": syn, "anti": anti,
@@ -335,6 +414,11 @@ def step_a3(meta, targets, tag, include_l4=True):
                     syn = sum(e["syn"] for e in kept)
                     in_cluster = [e for e in kept if e["category"] in CLUSTER]
                     in_gu = [e for e in kept if e["category"] == "genitourinary system"]
+                    # the task names genitourinary explicitly because ESRD is
+                    # a kidney phenotype; for any other target the same
+                    # question is about that target's own category, so both
+                    # are emitted and the figure plots the generic one
+                    in_own = [e for e in kept if e["category"] == tcat]
                     syn_major = sum(1 for e in kept if e["syn"] > e["anti"])
 
                     def emit(metric, value):
@@ -353,6 +437,10 @@ def step_a3(meta, targets, tag, include_l4=True):
                          len(in_gu) / deg if deg else "")
                     emit("genitourinary_frac_by_weight",
                          sum(e["weight"] for e in in_gu) / wsum if wsum else "")
+                    emit("own_category_frac_by_count",
+                         len(in_own) / deg if deg else "")
+                    emit("own_category_frac_by_weight",
+                         sum(e["weight"] for e in in_own) / wsum if wsum else "")
                     emit("synergistic_frac_by_weight", syn / wsum if wsum else "")
                     emit("synergistic_frac_by_edge", syn_major / deg if deg else "")
                     if pos is None:
@@ -370,9 +458,35 @@ def step_a3(meta, targets, tag, include_l4=True):
                         emit("median_loci_per_edge", quartiles(per_edge)[0])
                         ap = {i for i, l in enumerate(loci) if overlaps_apol1(l)}
                         hit = [e for e in kept if e["loci"] & ap]
+                        # "by_edge" and "by_weight" count whole edges that
+                        # touch the locus; an edge can carry SNPs elsewhere
+                        # too, so they overstate the locus on their own.
+                        # of_shared_snps is the strict version: the share of
+                        # shared SNPs that actually sit in the locus.
                         emit("apol1_frac_by_edge", len(hit) / deg if deg else "")
                         emit("apol1_frac_by_weight",
                              sum(e["weight"] for e in hit) / wsum if wsum else "")
+                        ap_snps = sum(sum(n for i, n in e["per_locus"].items()
+                                          if i in ap) for e in kept)
+                        mapped = sum(sum(e["per_locus"].values()) for e in kept)
+                        emit("apol1_frac_of_shared_snps",
+                             ap_snps / mapped if mapped else "")
+                        emit("frac_shared_snps_with_a_position",
+                             mapped / wsum if wsum else "")
+                        # the single locus carrying the most shared SNPs,
+                        # whatever it is - the question the APOL1 check is a
+                        # special case of
+                        tally = defaultdict(int)
+                        for e in kept:
+                            for i, n in e["per_locus"].items():
+                                tally[i] += n
+                        if tally:
+                            top = max(tally, key=tally.get)
+                            emit("top_locus_frac_of_shared_snps",
+                                 tally[top] / mapped if mapped else "")
+                            emit("top_locus_lead_rsid", loci[top][0])
+                            emit("top_locus_chrom", loci[top][1])
+                            emit("top_locus_pos", loci[top][2])
 
                     if pos is not None and thr == PRIMARY_THRESHOLD:
                         # how many edges each locus of the target contributes to
@@ -390,7 +504,7 @@ def step_a3(meta, targets, tag, include_l4=True):
 
                     if thr == PRIMARY_THRESHOLD:
                         for e in sorted(kept, key=lambda x: -x["weight"])[:10]:
-                            t1, t2, t4, ok = e["flags"]
+                            t1, t2, t3, t4, ok = e["flags"]
                             top_rows.append({
                                 "target": name, "ancestry": anc.upper(),
                                 "level": level, "neighbor_id": e["id"],
@@ -398,7 +512,7 @@ def step_a3(meta, targets, tag, include_l4=True):
                                 "label": e["label"], "category": e["category"],
                                 "weight": e["weight"], "synergistic": e["syn"],
                                 "antagonistic": e["anti"],
-                                "t1": t1, "t2": t2, "t4": t4,
+                                "t1": t1, "t2": t2, "t3": t3, "t4": t4,
                                 "classifiable": ok})
     con.close()
 
@@ -482,7 +596,7 @@ def plot_sensitivity(long_rows, tag, include_l4=True):
     import matplotlib.pyplot as plt
 
     metrics = ["degree", "weighted_degree", "within_cluster_frac_by_weight",
-               "genitourinary_frac_by_weight", "synergistic_frac_by_weight",
+               "own_category_frac_by_weight", "synergistic_frac_by_weight",
                "synergistic_frac_by_edge"]
     levels = [l for l, _ in LEVELS if include_l4 or l != "L4"]
     ancs = sorted({r["ancestry"] for r in long_rows})
@@ -504,8 +618,8 @@ def plot_sensitivity(long_rows, tag, include_l4=True):
             ax.set_ylim(0, 1)
     axes.flat[0].legend(title="ancestry", fontsize=9)
     fig.suptitle(f"{tag.upper()} ego-network sensitivity to phecode-relatedness "
-                 f"exclusion (p < {thr})\nL3_partial omits T3: exclusion ranges "
-                 f"unavailable. L4 is a stress test.", fontsize=11)
+                 f"exclusion (p < {thr})\nL3 = T1+T2+T3+T4. T3 is block-wide, "
+                 f"so it is aggressive; L4 is a stress test.", fontsize=11)
     fig.tight_layout()
     path = os.path.join(RESULTS, f"{tag}_sensitivity.png")
     fig.savefig(path, dpi=140)
@@ -516,7 +630,7 @@ def plot_sensitivity(long_rows, tag, include_l4=True):
 
 # ------------------------------------------------------------------- step A5
 
-TIER_ORDER = ["T1", "T2", "T4", "unrelated"]
+TIER_ORDER = ["T1", "T2", "T3", "T4", "unrelated"]
 
 
 def primary_tier(rel, m1, m2):
@@ -526,11 +640,13 @@ def primary_tier(rel, m1, m2):
     for ca in m1["phecodes"]:
         for cb in m2["phecodes"]:
             r = rel.classify(ca, cb)
-            if best is None or (r.t1, r.t2, r.t4) > (best.t1, best.t2, best.t4):
+            rank = (r.t1, r.t2, bool(r.t3), r.t4)
+            if best is None or rank > (best.t1, best.t2, bool(best.t3), best.t4):
                 best = r
     if best is None:
         return None
-    return "T1" if best.t1 else "T2" if best.t2 else "T4" if best.t4 else "unrelated"
+    return ("T1" if best.t1 else "T2" if best.t2 else "T3" if best.t3
+            else "T4" if best.t4 else "unrelated")
 
 
 def quartiles(xs):
@@ -678,9 +794,8 @@ def plot_tiers(rows, per_anc_weights):
     axes[2].grid(alpha=0.3, axis="y")
 
     fig.suptitle(f"Network-wide phecode-relatedness tiers, p < "
-                 f"{PRIMARY_THRESHOLD:g}.  T3 (exclusion ranges) unavailable; "
-                 f"'unrelated' therefore includes any T3-only pairs.",
-                 fontsize=11)
+                 f"{PRIMARY_THRESHOLD:g}.  Tiers are mutually exclusive, "
+                 f"assigned T1 > T2 > T3 > T4.", fontsize=11)
     fig.tight_layout()
     path = os.path.join(RESULTS, "network_wide_tiers.png")
     fig.savefig(path, dpi=140)
@@ -698,7 +813,8 @@ def main():
     prov = provenance()
     with open(os.path.join(RESULTS, "provenance.json"), "w") as fh:
         json.dump(prov, fh, indent=2)
-    log("provenance written; T3 unavailable (no definitions file)")
+    t3 = prov["files"]["phecode_definitions"].get("md5")
+    log(f"provenance written; T3 {'available' if t3 else 'UNAVAILABLE'}")
 
     meta = load_meta()
     log(f"loaded metadata for {len(meta)} network phenotypes")
@@ -706,6 +822,12 @@ def main():
     if "a2" in steps:
         log("A2: classifying phenotype pairs")
         step_a2(meta)
+
+    if {"a3", "a4", "a6"} & set(steps):
+        pos = load_positions()
+        if pos is not None:
+            log("A4 QC: checking positions against the store's chrom column")
+            check_positions(pos)
 
     if "a3" in steps:
         log("A3: ESRD ego-network sensitivity")
