@@ -67,14 +67,19 @@ is counted separately in §3 rather than folded into "unrelated".
 |---|---|---|
 | >100 ESRD SNPs in AFR at p<1e-4 | 713 | reproduces |
 | >100 ESRD SNPs in EUR at p<1e-4 | 554 | reproduces |
-| Only 1 SNP shared between AFR and EUR | **14** raw / **7** after a >40-phenotype filter / **7** in the site's node view | **does not reproduce**; you have confirmed 14/7 is correct and the text will be revised |
+| Only 1 SNP shared between AFR and EUR | **14** in the data; **7** drawn in the current node view; **1** drawn in the pre-`4165ea2` build | **does not reproduce**; the "1" is a defect artefact, traced in `ESRD_OVERLAP_INVESTIGATION.md` |
 | Network-view neighbours of ESRD | AFR 86, EUR 142, META 160 | reproduces exactly against the served edgelist |
 
 The 14 split cleanly by chromosome: seven on chr10 (TCF7L2, including
 rs7903146), each in 54–85 phenotypes, and seven on chr22 at 36.207–36.228 Mb,
 each in 22–27 phenotypes. §5 confirms the chr22 seven are inside the APOL1
-window and collapse to a single clump, which is the most likely source of
-the manuscript's "1".
+window and collapse to a single clump.
+
+That clump is **not** the source of the manuscript's "1", which was the
+working hypothesis in A0. Checking out the pre-`4165ea2` build reproduces
+the 1 exactly and shows it to be rs35305544 alone, surviving a selection
+defect, a display rule and a duplicate row. `ESRD_OVERLAP_INVESTIGATION.md`
+has the trace and the recommended replacement statistics.
 
 `network.py` reproduces the served network exactly for ESRD in all three
 ancestries, which is the gate the rest of the analysis rests on.

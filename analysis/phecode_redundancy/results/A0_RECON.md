@@ -60,6 +60,14 @@ ESRD = phecode 585.32 = `Phe_585_32` = node id `905`. Present.
 | >100 ESRD SNPs in AFR at p<1e-4 | **713** | reproduces |
 | >100 ESRD SNPs in EUR at p<1e-4 | **554** | reproduces |
 | **Only 1 SNP shared between AFR and EUR** | **14** raw / **7** after the >40 filter / **7** in the site's node view | **does not reproduce** |
+
+> **Correction, added after the fact.** The two sevens in that row are a
+> coincidence and this table originally implied they were the same set. They
+> are disjoint. A >40-phenotype filter would drop the chr10 group and keep
+> chr22; the site's node view drops chr22 and keeps chr10, for reasons that
+> have nothing to do with promiscuity. The manuscript's "1" has since been
+> traced to a selection defect fixed in `4165ea2`. See
+> `ESRD_OVERLAP_INVESTIGATION.md`.
 | Network-view neighbours of ESRD | AFR 86, EUR 142, META 160 — matches the served edgelist exactly | reproduces |
 
 ### The 14 shared SNPs split cleanly in two
@@ -74,10 +82,18 @@ and is removed by a >40-phenotype promiscuity filter. The seven survivors are
 all on chr22 and are almost certainly one LD block — the APOL1 region sits at
 22q12.3.
 
-**Most likely explanation for "1":** the manuscript counts *loci*, not SNPs,
-after promiscuity filtering and LD/distance clumping — seven chr22 SNPs in one
-block collapse to one lead SNP. I cannot confirm this, because clumping needs
-base-pair positions, which we do not have (§2).
+**Most likely explanation for "1" (hypothesis at the time):** the manuscript
+counts *loci*, not SNPs, after promiscuity filtering and LD/distance clumping
+— seven chr22 SNPs in one block collapse to one lead SNP. I cannot confirm
+this, because clumping needs base-pair positions, which we do not have (§2).
+
+> **This hypothesis was wrong.** Positions later became available and the
+> clumping was done: ESRD has 32 AFR loci and 23 EUR loci, of which 2 are
+> shared, so a locus count does not give 1 either. The actual cause was a
+> selection defect in page 2's comparison mode, compounded by the node
+> view's min-degree-2 rule and a duplicate row in the store. The old build
+> was checked out and reproduces the 1 exactly. See
+> `ESRD_OVERLAP_INVESTIGATION.md`.
 
 This needs an answer from you rather than a guess, because the number is a
 headline claim and the difference between "1 SNP" and "7 SNPs in 1 locus"
