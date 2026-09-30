@@ -13,7 +13,7 @@ the decision is yours.
 | Question | Answer |
 |---|---|
 | Does it work? | Yes, on both pages, in both implementations, with identical results. |
-| Which implementation? | **Client-side rule.** It is as fast, ships 20.6 kB once instead of ~438 kB on every filter change, and needs no rebuild of any data file. |
+| Which implementation? | **Client-side rule.** It is as fast, ships 5.7 kB gzipped once rather than 13.8 kB gzipped on every filter change, and needs no rebuild of any data file. |
 | Which tier set? | **{T1, T2}.** T1 alone misses obvious sibling duplicates; T4 as defined over-masks. |
 | Does it meet the speed guidelines? | Yes on all three. See §3. |
 | Biggest caveat | In AFR, {T1,T2} leaves **37.9% of phenotypes with no edges at all**. The toggle needs to say so on screen, or the AFR network looks broken. |
@@ -272,10 +272,16 @@ T3 stays off because it does not exist on this data.
 
 **Implementation: Option 2, the client-side rule.**
 
-It ships 20.6 kB once against ~438 kB added to every landing-edges response,
-it needs no companion parquet and no rebuild of anything, and it is not
-slower. Option 1's only real advantage is that it can answer tiers the
-browser cannot derive — T3 and T4 — and we are recommending neither.
+It ships 20.6 kB (5.7 kB gzipped) once, against 438 kB (13.8 kB gzipped)
+added to *every* landing-edges response — and the landing edges are
+refetched on each ancestry and p-value change. It needs no companion parquet
+and no rebuild of anything, and it is not slower.
+
+To be fair to Option 1: compressed, the difference is small, and the 10%
+payload guideline is met either way (§3). Option 1's real disadvantage is
+that it re-sends a static fact on every filter change, and its only real
+advantage is that it can answer tiers the browser cannot derive — T3 and
+T4 — and we are recommending neither.
 
 If T4 is later adopted with a threshold, Option 2 absorbs it for 2.3 kB
 (`pair_relations_t34.json`), which does not change the conclusion. Option 1
