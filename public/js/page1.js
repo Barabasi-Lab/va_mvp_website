@@ -4,6 +4,10 @@ let ancestry = 'meta'; // Default ancestry
 let pvalue = '1e-04'; // Default p-value
 let edgeType = 'weight'; // Default edge type
 
+// The hierarchy-mask toggle carries over from a page that opened this one,
+// the same way ancestry and pvalue would; absent means off.
+HierarchyMask.readParams(new URLSearchParams(window.location.search));
+
 document.addEventListener('DOMContentLoaded', () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -21,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Node attributes are static; edge weights come back already narrowed to
     // the selected ancestry/p-value instead of the full 92-column table.
     Promise.all([
-        fetch(`/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`).then(r => r.json()),
+        fetch(`/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}` +
+              (HierarchyMask.needsEdgeRel() ? '&rel=1' : '')).then(r => r.json()),
         fetch('/api/landing/nodes').then(r => r.json())
     ]).then(([edgeResponse, nodeResponse]) => {
         // Degree per node under the active filters. Computed here rather than
@@ -31,7 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let degrees = {};
         let degreeThreshold = 0;
 
+        // A masked edge is treated as absent rather than merely invisible.
+        // Everything downstream - computeDegrees, the slider range, the
+        // isolate drop in updateFilter, the drawn edges and the summary
+        // counts - already keys off this one predicate, so the degree filter
+        // is the masked degree with no second code path.
         function edgePresent(l) {
+            if (HierarchyMask.isMasked(l.source, l.target, l.rel)) return false;
             if (edgeType === 'same_dir_weight') return (l.same || 0) !== 0;
             if (edgeType === 'diff_dir_weight') return (l.diff || 0) !== 0;
             return (l.same || 0) !== 0 || (l.diff || 0) !== 0;
@@ -355,14 +366,48 @@ document.addEventListener('DOMContentLoaded', () => {
         // Panels were positioned at hand-written offsets and the search bar
         // sat on top of the ancestry list. Lay them out from measured heights
         // instead: search second to last, reset last.
-        Panels.stackLeft([
-            degreeFilterContainer.node(),
-            pValueSlider.node(),
-            edgeToggle.node(),
-            ancestryToggle.node(),
-            searchContainer.node(),
-            document.getElementById('reset-container')
-        ]);
+        // The toggle only appears once the server confirms the relation data
+        // exists; on a deploy without it the page is unchanged.
+        HierarchyMask.init().then(ok => {
+            if (!ok) {
+                if (HierarchyMask.enabled) {
+                    console.warn('mask=1 was requested but the relation data ' +
+                                 'is not built on this server');
+                    HierarchyMask.enabled = false;
+                }
+                layoutPanels(null);
+                return;
+            }
+            const maskContainer = HierarchyMask.control(() => {
+                // Re-deriving the degrees is the whole cost of a toggle: no
+                // request, no re-layout, just the same recompute an edge-type
+                // change already does.
+                degrees = computeDegrees();
+                syncDegreeSlider();
+                updateFilter();
+                svg.selectAll('.label').each(function (d) {
+                    buildLabel(d3.select(this), d, degrees[d.id] || 0);
+                });
+            });
+            layoutPanels(maskContainer);
+            if (HierarchyMask.enabled) {
+                degrees = computeDegrees();
+                syncDegreeSlider();
+                updateFilter();
+            }
+        });
+
+        function layoutPanels(maskContainer) {
+            Panels.stackLeft([
+                degreeFilterContainer.node(),
+                pValueSlider.node(),
+                edgeToggle.node(),
+                ancestryToggle.node(),
+                maskContainer,
+                searchContainer.node(),
+                document.getElementById('reset-container')
+            ].filter(Boolean));
+        }
 
 
         // Pull fresh weights for the current ancestry/p-value and write them
@@ -376,7 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let response;
             try {
                 response = await fetch(
-                    `/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`
+                    `/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}` +
+                    (HierarchyMask.needsEdgeRel() ? '&rel=1' : '')
                 ).then(r => r.json());
             } catch (error) {
                 console.error('Error fetching edge weights:', error);
@@ -390,6 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const w = weights.get(`${l.source}|${l.target}`);
                 l.same = w ? w.same : 0;
                 l.diff = w ? w.diff : 0;
+                if (w && w.rel !== undefined) l.rel = w.rel;
             });
             degrees = response.degrees;
 
@@ -642,7 +689,8 @@ function highlightNode(selectedNode) {
         }
         else { 
             console.log('Opening page2.html in a new tab...');
-            window.open(`page2.html?ancestry=${ancestry}&pvalue=${pvalue}&centerPheno=${d.id}`);
+            window.open(`page2.html?ancestry=${ancestry}&pvalue=${pvalue}&centerPheno=${d.id}`
+                        + HierarchyMask.params());
             console.log('Double-clicked node:', d);
         }
     });
@@ -676,7 +724,11 @@ function highlightNode(selectedNode) {
                 .style('padding', '5px')
                 .on('click', function () {
                     // Open page3.html with selectedNode as leftPheno and the right-clicked node as rightPheno
-                    window.open(`page3.html?ancestry=${ancestry}&pvalue=${pvalue}&leftPheno=${selectedNodeId}&rightPheno=${d.id}`);
+                    // page 3 ignores the mask - it is one edge the user
+                    // asked for by name - but the state travels with it so
+                    // anything it opens keeps the setting.
+                    window.open(`page3.html?ancestry=${ancestry}&pvalue=${pvalue}&leftPheno=${selectedNodeId}&rightPheno=${d.id}`
+                                + HierarchyMask.params());
                     contextMenu.remove(); // Remove the context menu after selection
                 });
 

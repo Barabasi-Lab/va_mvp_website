@@ -73,6 +73,45 @@ async function openDatabases() {
   await assocConn.run(
     `CREATE VIEW node_attributes AS
      SELECT * FROM read_parquet('${parquet('node_attributes.parquet')}')`);
+
+  await openRelations(parquet);
+}
+
+// ----------------------------------------------- hierarchy mask (prototype)
+//
+// Companion files built by analysis/phecode_redundancy/build_relations.py.
+// They sit beside the precomputed network data rather than inside it: the
+// toggle is a prototype and nothing here may rewrite landing_page.duckdb or
+// node_attributes.parquet.
+//
+// Everything below degrades to "unavailable" if the files were never built,
+// so a deploy without them behaves exactly as it does today.
+const relations = { available: false, tiers: [], phecodes: null, t34: null };
+
+async function openRelations(parquet) {
+  const fs = require('fs');
+  const need = ['edge_relations.parquet', 'pair_relations.parquet',
+                'node_phecodes.json', 'pair_relations_t34.json'];
+  const missing = need.filter(n => !fs.existsSync(path.join(DB_DIR, n)));
+  if (missing.length) {
+    console.warn(`hierarchy-mask data not built (${missing.join(', ')}); ` +
+                 'the toggle will report itself unavailable');
+    return;
+  }
+  await assocConn.run(
+    `CREATE VIEW edge_relations AS
+     SELECT * FROM read_parquet('${parquet('edge_relations.parquet')}')`);
+  await assocConn.run(
+    `CREATE VIEW pair_relations AS
+     SELECT * FROM read_parquet('${parquet('pair_relations.parquet')}')`);
+  relations.phecodes = JSON.parse(
+    fs.readFileSync(path.join(DB_DIR, 'node_phecodes.json'), 'utf8'));
+  relations.t34 = JSON.parse(
+    fs.readFileSync(path.join(DB_DIR, 'pair_relations_t34.json'), 'utf8'));
+  // T3 is absent from the inputs, so it is absent here; the client is told
+  // which tiers it can actually ask about instead of inferring silence.
+  relations.tiers = ['T1', 'T2', ...relations.t34.tiers];
+  relations.available = true;
 }
 
 // DuckDB returns BIGINT as BigInt, which JSON.stringify cannot serialise.
@@ -170,6 +209,20 @@ app.get('/api/landing/edges', async (req, res, next) => {
                  FROM edges`;
     const edges = await query(landingConn, sql);
 
+    // Option 1 of the hierarchy-mask prototype: a tier bitmask per edge.
+    // Off unless asked for, so the default payload is byte-for-byte what it
+    // was and B3 can price the two options against the same baseline.
+    if (req.query.rel === '1' && relations.available) {
+      const rel = await query(assocConn,
+        'SELECT source, target, rel FROM edge_relations WHERE rel <> 0');
+      const byPair = new Map();
+      for (const r of rel) byPair.set(`${r.source}|${r.target}`, r.rel);
+      for (const e of edges) {
+        e.rel = byPair.get(`${e.source}|${e.target}`)
+             ?? byPair.get(`${e.target}|${e.source}`) ?? 0;
+      }
+    }
+
     // Degree under the current filter: an edge counts for both endpoints when
     // either direction carries a non-zero weight. Endpoints of zero-weight
     // edges still get an explicit 0 so the client can tell "no edges under
@@ -184,6 +237,60 @@ app.get('/api/landing/edges', async (req, res, next) => {
       }
     }
     res.json({ ancestry, pvalue, edges, degrees });
+  } catch (err) { next(err); }
+});
+
+// ------------------------------------------------- hierarchy-mask routes
+//
+// Prototype only. Both candidates are served so the evaluation can measure
+// them head to head; nothing here is wired into the default page load.
+
+// What the toggle can offer on this deploy. The client asks first and hides
+// the control entirely when the data was never built.
+app.get('/api/relations/status', (req, res) => {
+  res.json({
+    available: relations.available,
+    tiers: relations.tiers,
+    // T3 needs phecode_definitions1.2.csv, which is not among the inputs.
+    unavailableTiers: relations.available && !relations.tiers.includes('T3')
+      ? ['T3'] : []
+  });
+});
+
+// Option 2's lookup. `tiers=t12` ships only the phecode strings and the
+// browser applies the truncation rule; `tiers=all` adds the pair table that
+// T4 cannot be derived without.
+app.get('/api/relations/lookup', (req, res) => {
+  if (!relations.available) {
+    return res.status(503).json({ error: 'hierarchy-mask data not built' });
+  }
+  const all = String(req.query.tiers || 't12') === 'all';
+  const body = {
+    tiers: all ? relations.tiers : ['T1', 'T2'],
+    phecodes: relations.phecodes.phecodes
+  };
+  if (all) body.pairs = relations.t34.pairs;
+  res.json(body);
+});
+
+// Option 1 for the node view: the masks between one phenotype and every
+// phenotype related to it. The outer ring is not drawn from the landing
+// edgelist, so the per-edge file cannot answer this.
+app.get('/api/relations/pairs', async (req, res, next) => {
+  try {
+    if (!relations.available) {
+      return res.status(503).json({ error: 'hierarchy-mask data not built' });
+    }
+    const node = String(req.query.node || '');
+    if (!(await nodeExists(node))) {
+      return res.status(404).json({ error: `unknown node ${node}` });
+    }
+    const rows = await query(assocConn,
+      `SELECT source, target, rel FROM pair_relations
+       WHERE source = $1 OR target = $1`, [node]);
+    const related = {};
+    for (const r of rows) related[r.source === node ? r.target : r.source] = r.rel;
+    res.json({ node, tiers: relations.tiers, related });
   } catch (err) { next(err); }
 });
 

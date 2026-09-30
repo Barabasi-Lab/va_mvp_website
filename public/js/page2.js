@@ -38,6 +38,11 @@ function getQueryParams() {
 const params = getQueryParams();
 centerPheno = params.centerPheno;
 
+// The toggle travels in the query string, the same way ancestry and pvalue
+// do, so opening the node view from a masked network view keeps the setting.
+HierarchyMask.readParams(new URLSearchParams(window.location.search))
+             .setCenter(centerPheno);
+
 ancestryLower = params.ancestry.toLowerCase(); // Initialize ancestryLower from the query parameter
 let betaColumn = `beta.${ancestryLower}`;
 let pColumn = `pval.${ancestryLower}`;
@@ -136,6 +141,28 @@ function updatePanels(nodes, links) {
     Panels.snpWarning(limit, more);
 }
 
+/**
+ * Drop outer-ring phenotypes related to the centre, and their edges.
+ *
+ * Runs after updateNodes rather than inside it. updateNodes drops SNPs with
+ * fewer than two edges, and hiding a related phenotype can take a SNP down
+ * to one - the edge to the centre. Those SNPs stay: they are associated with
+ * the centre phenotype, which is what the view is about, and removing them
+ * would make the toggle look like it had thinned the centre's own evidence.
+ */
+function applyHierarchyMask({ nodes, edges }) {
+    if (!HierarchyMask.enabled) return { nodes, edges };
+    const hidden = new Set(nodes
+        .filter(n => !n.id.startsWith('rs') && n.id !== centerPheno
+                     && HierarchyMask.isRelatedToCenter(n.id))
+        .map(n => n.id));
+    if (!hidden.size) return { nodes, edges };
+    return {
+        nodes: nodes.filter(n => !hidden.has(n.id)),
+        edges: edges.filter(e => !hidden.has(e.source.id) && !hidden.has(e.target.id))
+    };
+}
+
 // Re-render from the rows already loaded. The p-value sliders use this.
 function redraw() {
     if (!graphData) {
@@ -145,7 +172,8 @@ function redraw() {
 
     const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
     const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-    const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
+    const masked = updateNodes(filteredEdges, network.nodes);
+    const { nodes: filteredNodes, edges: filteredLinks } = applyHierarchyMask(masked);
     nodes = filteredNodes;
     links = filteredLinks;
     renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
@@ -606,13 +634,32 @@ loadData().then(async (data) => {
         // thickness radios and the reset button stacked up under each other.
         // Lay the column out from measured heights: search second to last,
         // reset last.
-        Panels.stackLeft([
+        const stack = () => Panels.stackLeft([
             pValueSlider.node(),
             pValueSlider2.node(),
             compareAncestries.node(),
+            document.getElementById('hierarchy-mask-container'),
             searchContainer.node(),
             document.getElementById('reset-container')
-        ]);
+        ].filter(Boolean));
+        stack();
+
+        // Same as page 1: the control appears only if the relation data was
+        // built, and a mask=1 that the server cannot honour is turned off
+        // rather than silently ignored.
+        HierarchyMask.init(centerPheno).then(ok => {
+            if (!ok) {
+                if (HierarchyMask.enabled) {
+                    console.warn('mask=1 was requested but the relation data ' +
+                                 'is not built on this server');
+                    HierarchyMask.enabled = false;
+                }
+                return;
+            }
+            HierarchyMask.control(redraw);
+            stack();
+            if (HierarchyMask.enabled) redraw();
+        });
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
             const checked = d3.selectAll('.ancestry-option').nodes().filter(d => d.checked);
@@ -1188,7 +1235,10 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
                     .style('padding', '5px')
                     .on('click', function () {
                         // Open sankey.html with selectedNode as leftPheno and the right-clicked node as rightPheno
-                        window.open(`page3.html?ancestry=${ancestryLower}&pvalue=${pThreshold}&leftPheno=${centerPheno}&rightPheno=${d.id}`);
+                        // the edge view is out of the mask's scope, but the
+                        // state rides along so it is not lost on the way
+                        window.open(`page3.html?ancestry=${ancestryLower}&pvalue=${pThreshold}&leftPheno=${centerPheno}&rightPheno=${d.id}`
+                                    + HierarchyMask.params());
                         contextMenu.remove(); // Remove the context menu after selection
                     });
         
