@@ -88,9 +88,31 @@ def provenance() -> dict:
             files[name] = {"path": path, "status": "ABSENT"}
     files["phecode_definitions"] = {"path": "(not supplied)", "status": "ABSENT",
                                     "consequence": "T3 not computable"}
+    # Positions do not come from the association store, so where they came
+    # from has to be recorded here or the clumping is unreproducible.
+    if os.path.exists(SNP_POSITIONS):
+        files["snp_positions"] = {
+            "path": SNP_POSITIONS, "md5": md5(SNP_POSITIONS),
+            "bytes": os.path.getsize(SNP_POSITIONS),
+            "built_by": "snp_positions.R",
+            "source": "SNPlocs.Hsapiens.dbSNP155.GRCh38 (Bioconductor)",
+            "build": "GRCh38",
+        }
+    else:
+        files["snp_positions"] = {"path": SNP_POSITIONS, "status": "ABSENT",
+                                  "consequence": "A4 locus metrics skipped"}
     return {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "seed": SEED, "ancestries": list(ANCESTRIES),
-            "thresholds": list(THRESHOLDS), "files": files}
+            "thresholds": list(THRESHOLDS),
+            "clump_window_bp": CLUMP_WINDOW,
+            "genome_build": {
+                "association_store": "not recorded; no position column",
+                "positions": "GRCh38 (dbSNP155). rs numbers are build-stable, "
+                             "so the lookup does not depend on the store's "
+                             "build; the store's chrom column is checked "
+                             "against it.",
+            },
+            "files": files}
 
 
 def load_meta():
@@ -199,6 +221,40 @@ def load_positions():
         for row in r:
             pos[row["rsid"]] = (row["chrom"], int(row["pos"]))
     return pos
+
+
+def check_positions(pos):
+    """Do the looked-up chromosomes agree with the store's own chrom column?
+
+    The store records no genome build, so this is the only cross-check
+    available: if the rs numbers resolved to the chromosomes the store
+    already believes, the lookup is keyed to the right variants.
+    """
+    con = network.connect(DB_DIR)
+    rows = con.execute(
+        "SELECT DISTINCT rsid, chrom FROM assoc").fetchall()
+    con.close()
+    seen = agree = 0
+    disagree = []
+    for rsid, chrom in rows:
+        if rsid not in pos:
+            continue
+        seen += 1
+        if pos[rsid][0] == str(chrom):
+            agree += 1
+        elif len(disagree) < 20:
+            disagree.append((rsid, str(chrom), pos[rsid][0]))
+    out = {"rsids_in_store": len(rows), "resolved": seen,
+           "resolved_frac": seen / len(rows) if rows else 0,
+           "chrom_agrees": agree,
+           "chrom_agrees_frac": agree / seen if seen else 0,
+           "examples_of_disagreement": disagree}
+    with open(os.path.join(RESULTS, "position_qc.json"), "w") as fh:
+        json.dump(out, fh, indent=2)
+    log(f"  positions: {seen:,}/{len(rows):,} rsids resolved "
+        f"({out['resolved_frac']*100:.2f}%), chromosome agrees for "
+        f"{agree:,} ({out['chrom_agrees_frac']*100:.2f}%)")
+    return out
 
 
 def clump(snps, window=CLUMP_WINDOW):
@@ -706,6 +762,12 @@ def main():
     if "a2" in steps:
         log("A2: classifying phenotype pairs")
         step_a2(meta)
+
+    if {"a3", "a4", "a6"} & set(steps):
+        pos = load_positions()
+        if pos is not None:
+            log("A4 QC: checking positions against the store's chrom column")
+            check_positions(pos)
 
     if "a3" in steps:
         log("A3: ESRD ego-network sensitivity")
