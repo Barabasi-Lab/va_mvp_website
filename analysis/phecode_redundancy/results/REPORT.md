@@ -29,6 +29,7 @@ All parameters sit at the top of `run_analysis.py`; the seed is 20260930;
 | `~/Desktop/phenotype_labels.pkl` | `ea8c809ee731c4ba862e6a658afbb319` | 1,749 codes |
 | `~/Downloads/phecode_definitions1.2.csv` | `1a6d2f359c4d594861a1aa13a20abc07` | 1,866 phecodes, the exclusion ranges |
 | `results/snp_positions.csv` | see `provenance.json` | rsid → GRCh38, from SNPlocs.Hsapiens.dbSNP155.GRCh38 |
+| gene annotation | Bioconductor | TxDb.Hsapiens.UCSC.hg38.knownGene + org.Hs.eg.db, GRCh38 |
 
 **Phecode map version and match rate.** Phecode Map 1.2 (ICD-9 + ICD-10-CM).
 **99.92%** of the network's phecodes are in it: 1,319 of 1,320. The single
@@ -248,11 +249,14 @@ META sits between the two throughout and is in the CSV.
 ## 5. Locus results (A4)
 
 `results/esrd_loci.csv`, `results/esrd_locus_overlap.csv`, and the same two
-for anemia. SNPs are collapsed by greedy ±500 kb distance clumping on the
+for anemia. Gene labels come from `annotate_loci.R`. SNPs are collapsed by greedy ±500 kb distance clumping on the
 target's own p-value ordering: take the strongest unassigned SNP as a lead,
 absorb every unassigned SNP within the window on the same chromosome,
 repeat. No LD reference is installed, so no r²-based clumping was done and
-none was downloaded.
+none was downloaded. Gene annotation was not available locally either; the
+two Bioconductor annotation packages were installed for this step, which is
+a departure from "if annotation is available locally" and is noted here
+because it is the only download beyond the position mapping you asked for.
 
 ### Positions and the build question
 
@@ -301,15 +305,26 @@ distinct genetic mechanisms.
 
 ESRD, at L0, by the number of edges each locus contributes:
 
-| Ancestry | Locus (GRCh38) | Lead | Span | SNPs | Edges |
-|---|---|---|---|---|---|
-| AFR | chr10:112,998,590 | rs7903146 | 112,998,590–113,057,250 | 6 | **61** |
-| AFR | **chr22:36,260,398** | **rs9622362** | 36,026,856–36,747,187 | **481** | **39** |
-| AFR | chr22:35,695,911 | rs7292101 | 35,196,622–35,734,510 | 78 | 13 |
-| EUR | chr16:53,773,852 | rs17817288 | single SNP | 1 | 90 |
-| EUR | chr10:112,994,312 | rs34872471 | 112,990,477–113,058,995 | 28 | 88 |
-| EUR | chr16:20,356,323 | rs12922822 | 20,339,137–20,381,010 | 32 | 31 |
-| EUR | chr10:58,591,464 | rs4948524 | 58,504,611–58,615,138 | 316 | 20 |
+| Ancestry | Locus (GRCh38) | Lead | Nearest gene | Span | SNPs | Edges |
+|---|---|---|---|---|---|---|
+| AFR | chr10:112,998,590 | rs7903146 | **TCF7L2** (0) | 112,998,590–113,057,250 | 6 | **61** |
+| AFR | **chr22:36,260,398** | **rs9622362** | **APOL1** (0) | 36,026,856–36,747,187 | **481** | **39** |
+| AFR | chr22:35,695,911 | rs7292101 | APOL6 (27.5 kb) | 35,196,622–35,734,510 | 78 | 13 |
+| AFR | chr22:37,023,301 | rs10427778 | MPST (0) | 36,775,567–37,434,045 | 15 | 9 |
+| EUR | chr16:53,773,852 | rs17817288 | FTO (0) | single SNP | 1 | 90 |
+| EUR | chr10:112,994,312 | rs34872471 | **TCF7L2** (0) | 112,990,477–113,058,995 | 28 | 88 |
+| EUR | chr16:20,356,323 | rs12922822 | **UMOD** (21 bp) | 20,339,137–20,381,010 | 32 | 31 |
+| EUR | chr10:58,591,464 | rs4948524 | BICC1 (0) | 58,504,611–58,615,138 | 316 | 20 |
+
+Nearest gene is distance from the lead SNP to the nearest gene body,
+0 meaning inside one, from TxDb.Hsapiens.UCSC.hg38.knownGene and
+org.Hs.eg.db (`annotate_loci.R`). It is a label for a coordinate, not a
+claim about mechanism: the nearest gene is frequently not the causal one.
+
+The annotation is reassuring about the clumping. AFR's top loci are TCF7L2
+and the chr22q12.3 APOL cluster; EUR's are FTO, TCF7L2, **UMOD** — the
+canonical European kidney-function locus — and BICC1, also a kidney gene.
+Neither ancestry's list looks like noise.
 
 The AFR picture needs both columns to read correctly. **chr10 is the
 broadest locus and APOL1 is the heaviest.** rs7903146 — the canonical TCF7L2
@@ -355,21 +370,28 @@ better than its SNP-level phrasing suggests.
 
 ### Anemia
 
-| Ancestry | Top locus (GRCh38) | Lead | SNPs | Edges | % of shared SNPs |
-|---|---|---|---|---|---|
-| AFR | chr16:249,924 | rs13331259 | 505 | 7 | **86.3%** |
-| AFR | chr11:5,227,100 | rs34598529 | 40 | 23 | — |
-| EUR | chr16:53,772,541 | rs56094641 | 116 | 137 | 72.4% |
-| EUR | chr6:26,104,404 | rs198851 | 330 | 29 | — |
+| Ancestry | Locus (GRCh38) | Lead | Nearest gene | SNPs | Edges | % of shared SNPs |
+|---|---|---|---|---|---|---|
+| AFR | chr16:249,924 | rs13331259 | FAM234A (0) | 505 | 7 | **86.3%** |
+| AFR | chr11:5,227,100 | rs34598529 | **HBB** (0) | 40 | **23** | — |
+| AFR | chr15:45,039,491 | rs3874239 | SORD (0) | 11 | 11 | — |
+| EUR | chr16:53,772,541 | rs56094641 | FTO (0) | 116 | **137** | 72.4% |
+| EUR | chr6:32,548,607 | rs78837720 | HLA-DRB6 (3.2 kb) | 6 | 53 | — |
+| EUR | chr6:26,104,404 | rs198851 | **HFE-AS1** (0) | 330 | 29 | — |
 
-AFR anemia is the two globin clusters: chr16p13.3 at 0.25 Mb (alpha-globin)
-carries 86.3% of the shared SNPs, and chr11p15.4 at 5.23 Mb (beta-globin;
-the lead sits ~100 bp from rs334, the sickle variant) contributes the most
-edges. This is the signal T3 removes wholesale (§7), and it is pleiotropy at
-a known locus rather than definitional overlap.
+**AFR anemia is the globin clusters.** chr11:5,227,100 sits inside HBB, about
+100 bp from rs334, the sickle variant, and contributes the most edges. The
+heaviest locus, chr16:12,965–700,107, spans the alpha-globin cluster —
+HBA1/HBA2 sit at ~0.18 Mb, inside the clump, though the lead SNP's own
+nearest gene is FAM234A — and carries 86.3% of the shared SNPs.
 
-EUR anemia is led by chr16:53.77 Mb and chr6:26.1 Mb, neither of which
-overlaps the AFR loci.
+This is the signal T3 removes wholesale (§7). It is pleiotropy at two of
+the best-characterised loci in human genetics, not definitional overlap.
+
+**EUR anemia is a different set entirely**, led by FTO, the HLA class II
+region, and HFE — hereditary haemochromatosis, i.e. iron overload rather
+than iron deficiency, which is consistent with the discordant direction of
+effect on the 275.1 edge noted in §7. None of these overlaps the AFR loci.
 
 ---
 
