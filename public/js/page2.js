@@ -12,6 +12,13 @@ let ancestryLower = null; // Declare ancestryLower as a global variable, and use
 let comparison_on_off = false; // Declare comparison_on_off as a global variable
 let anc1 = null; // Declare anc1 as a global variable
 let anc2 = null; // Declare anc2 as a global variable
+// How many SNPs the node view shows. Must match TOP_SNPS in server.js.
+const TOP_SNPS = 150;
+
+// Edge thickness source in comparison mode: 'a1', 'a2' or 'max' (default).
+// Resets on reload because it is a plain variable, which is the specified
+// behaviour.
+let betaSource = 'max';
 let betaColumn2 = null; // Declare betaColumn2 as a global variable
 let pColumn2 = null; // Declare pColumn2 as a global variable
 let pThreshold2 = 1e-4; // Declare pThreshold2 as a global variable, default to 1e-4
@@ -34,54 +41,147 @@ centerPheno = params.centerPheno;
 ancestryLower = params.ancestry.toLowerCase(); // Initialize ancestryLower from the query parameter
 let betaColumn = `beta.${ancestryLower}`;
 let pColumn = `pval.${ancestryLower}`;
-pThreshold = parseFloat(params.pvalue);
+// getQueryParams returns the exponent ("-4"), not the threshold itself
+pThreshold = Math.pow(10, parseFloat(params.pvalue));
 
-async function loadData() {
-    // Check if the centerPheno requires loading two chunks
-    const splitPhenotypes = ['181', '167', '170', '175'];
-    let data = [];
-    if (splitPhenotypes.includes(centerPheno)) {
-        const file1 = `/data/node_files/${centerPheno}_1.csv`;
-        const file2 = `/data/node_files/${centerPheno}_2.csv`;
-        try {
-            const [data1, data2] = await Promise.all([d3.csv(file1), d3.csv(file2)]);
-            data = data1.concat(data2);
-        } catch (error) {
-            console.error(`Error loading split files for ${centerPheno}:`, error);
-            return null;
-        }
-    } else {
-        const fileName = `/data/node_files/${centerPheno}.csv`;
-        try {
-            data = await d3.csv(fileName);
-        } catch (error) {
-            console.error(`Error loading file ${fileName}:`, error);
-            return null;
-        }
+// Metadata for the centre phenotype, kept separately so a strict threshold
+// that removes every centre row cannot leave the node unlabelled.
+let centerMeta = null;
+
+// Ask the server for the centre phenotype's neighbourhood under the active
+// filters. Replaces the per-node CSVs, which had to be downloaded whole (up
+// to ~230 MB) before the browser could filter them.
+// The thresholds go to the server so it can skip SNPs this page would then
+// discard and backfill from further down the ranking, keeping the view full
+// whenever enough SNPs qualify. That makes the response depend on the
+// sliders, so they re-fetch (debounced) rather than re-rendering in place.
+async function fetchRows() {
+    const params = new URLSearchParams({
+        node: centerPheno,
+        ancestry: comparison_on_off ? anc1 : ancestryLower,
+        pvalue: pThreshold
+    });
+    if (comparison_on_off && anc2) {
+        params.set('ancestry2', anc2);
+        params.set('pvalue2', pThreshold2);
     }
-    console.log('Number of rows:', data.length);
-    return data;
-    
+    try {
+        const response = await fetch(`/api/page2/rows?${params}`);
+        if (!response.ok) {
+            console.error('Error loading rows:', (await response.json()).error);
+            return null;
+        }
+        const payload = await response.json();
+        centerMeta = payload.center;
+        snpTotals = {
+            available: payload.availableSnps,  // SNPs this phenotype has in total
+            fetched: payload.fetchedSnps,      // how many the cap let through
+            more: payload.moreAvailable,       // were there more that qualified?
+            limit: payload.limit
+        };
+        console.log('Number of rows:', payload.rows.length);
+        return payload.rows;
+    } catch (error) {
+        console.error('Error loading rows:', error);
+        return null;
+    }
 }
 
-// Call the async function and use the data when it's ready
-loadData().then((data) => {
+async function loadData() {
+    return fetchRows();
+}
+
+// Set by fetchRows, read by updatePanels.
+let snpTotals = { available: 0, fetched: 0, more: false, limit: 0 };
+
+/**
+ * Bottom-left overlays: live counts, plus the cap warning.
+ *
+ * The warning fires when more SNPs cleared the filters than the view can
+ * show. The server settles that by asking for one more than it can display
+ * and reporting whether it came back, so a view that is short only because
+ * few SNPs qualify says nothing.
+ */
+// Enable/label the edge-thickness radios. They only apply in comparison mode,
+// so they stay greyed out until a second ancestry is picked.
+function setThicknessControls(enabled, a1Name, a2Name) {
+    d3.select('#thickness-controls').style('opacity', enabled ? 1 : 0.5);
+    d3.selectAll('.beta-source').property('disabled', !enabled);
+    if (enabled) {
+        d3.select('#bs-a1-label').text(a1Name.toUpperCase());
+        d3.select('#bs-a2-label').text(a2Name.toUpperCase());
+    } else {
+        d3.select('#bs-a1-label').text('Ancestry 1');
+        d3.select('#bs-a2-label').text('Ancestry 2');
+    }
+}
+
+function updatePanels(nodes, links) {
+    const snps = nodes.filter(n => n.id.startsWith('rs'));
+    const phenos = nodes.filter(n => !n.id.startsWith('rs'));
+    const { available, more, limit } = snpTotals;
+
+    const same = links.filter(l => l.direction >= 0).length;
+    Panels.summary([
+        ['SNPs', snps.length],
+        ['Phenotypes', phenos.length],
+        ['Associations', links.length],
+        [comparison_on_off ? '\u00a0\u00a0concordant' : '\u00a0\u00a0positive', same],
+        [comparison_on_off ? '\u00a0\u00a0discordant' : '\u00a0\u00a0negative', links.length - same],
+        ['SNPs for this phenotype', available]
+    ]);
+
+    // The server tells us directly whether more SNPs cleared the filters than
+    // fit on screen, so the warning no longer has to infer it.
+    Panels.snpWarning(limit, more);
+}
+
+// Re-render from the rows already loaded. The p-value sliders use this.
+function redraw() {
+    if (!graphData) {
+        console.warn('Data is not loaded yet.');
+        return;
+    }
+
+    const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
+    const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
+    const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
+    nodes = filteredNodes;
+    links = filteredLinks;
+    renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
+
+    if (activeNode) {
+        highlightNode(activeNode, filteredLinks, comparison_on_off);
+    }
+}
+
+// Changing the ancestry changes which SNPs rank highest, so that needs a
+// round trip; everything else redraws locally.
+async function refresh() {
+    const rows = await fetchRows();
+    if (!rows) return;
+    graphData = rows;
+    redraw();
+}
+
+loadData().then(async (data) => {
     if (data) {
         graphData = data;
-        const base_ancestries = ['amr', 'eas', 'afr', 'eur','meta'];
-        for (let ancestry of base_ancestries) {
-            const betaColumn = `beta.${ancestry}`;
-            const pColumn = `pval.${ancestry}`;
-            // Filter the phe_id column to only include the centerPheno
-            const centerPhenoData = data.filter(d => d.phe_id === centerPheno);
 
-            // If the beta column contains only NaN values, remove the ancestry from the base_ancestries list
-            if (centerPhenoData.every(d => isNaN(parseFloat(d[betaColumn])))) {
-                base_ancestries.splice(base_ancestries.indexOf(ancestry), 1);
-            }
+        // Which ancestries actually have data for this phenotype. The old
+        // check read the loaded rows; the server answers it directly against
+        // the unfiltered table.
+        const ORDER = ['amr', 'eas', 'afr', 'eur', 'meta'];
+        let base_ancestries = ORDER.slice();
+        try {
+            const available = await fetch(`/api/node/${centerPheno}/ancestries`)
+                .then(r => r.json());
+            base_ancestries = ORDER.filter(a => available.ancestries.includes(a));
+        } catch (error) {
+            console.error('Error loading ancestry availability:', error);
         }
 
-        
+
         // Define the log scale range
         const minLogP = -12; // Corresponding to 10^-10
         const maxLogP = -4;  // Corresponding to 10^-4
@@ -107,9 +207,11 @@ loadData().then((data) => {
             `);
 
         let debounceTimer;
-        const updatePValueThreshold = (logP) => {
+        const updatePValueThreshold = (logP, { defer = false } = {}) => {
             pThreshold = Math.pow(10, logP); // Convert back to linear scale
             d3.select('#pvalue-threshold').text(`1e${logP}`);
+
+            if (defer) return;   // initial seeding; the first render happens below
 
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
@@ -118,18 +220,7 @@ loadData().then((data) => {
                     return;
                 }
                 
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                nodes = filteredNodes;
-                links = filteredLinks;
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-
-                if (activeNode) {
-                    console.log('Re-highlighting active node:', activeNode);
-                    highlightNode(activeNode, filteredLinks, comparison_on_off);
-                }
+                refresh();   // selection depends on the threshold now
             }, 200); // 200ms debounce delay
         };
 
@@ -137,7 +228,7 @@ loadData().then((data) => {
         const initialPValue = params.pvalue || maxLogP;
         d3.select('#pvalue-slider').property('value', initialPValue);
         d3.select('#pvalue-input').property('value', initialPValue);
-        updatePValueThreshold(initialPValue);
+        updatePValueThreshold(initialPValue, { defer: true });
 
         d3.select('#pvalue-slider').on('input', function () {
             const logP = this.value;
@@ -186,18 +277,7 @@ loadData().then((data) => {
                     return;
                 }
                 console.log('comparison_on_off:', comparison_on_off);
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                nodes = filteredNodes;
-                links = filteredLinks;
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-
-                if (activeNode) {
-                    console.log('Re-highlighting active node:', activeNode);
-                    highlightNode(activeNode, filteredLinks, comparison_on_off);
-                }
+                refresh();   // selection depends on the threshold now
             }, 200); // 200ms debounce delay
         }
 
@@ -327,7 +407,11 @@ loadData().then((data) => {
             <h2>Phenotype View</h2>
             <p>
                 The center node is the phenotype that was selected from the overall graph.<br><br>
-                The inner ring of nodes are its top 100 associated SNPs, ranked by p value.<br><br>
+                The inner ring of nodes are its top 150 associated SNPs, ranked by p value.
+                That is a hard limit: loosening the p-value filter will not reveal more
+                than 150.<br><br>
+                With two ancestries selected, they are ranked by the weaker of the two
+                p-values, so every one of the 150 is a SNP that clears both filters.<br><br>
                 These nodes are arranged and colored by chromosome. The chromosome number is also 
                 listed in the label, which can be seen by hovering over a node.<br><br>
                 The outer ring of nodes are the other phenotypes associated with the same SNPs.<br><br>
@@ -342,7 +426,7 @@ loadData().then((data) => {
                 the two ancestries<br><br>
                 Double-click on a phenotype node to open a new dendrogram.<br><br>
                 Right click on an outer node to open an edge view between it and the center node.<br><br>
-                Press the 'Escape' key to reset the network view.
+                Use the 'Reset view' button under the filters to clear the selection.
             </p>
         `);
 
@@ -380,26 +464,9 @@ loadData().then((data) => {
         .style('cursor', 'pointer')
         .style('border-radius', '5px')
         .on('click', () => {
-            // Assume graphData is the object returned by initializeNetwork
-            // It contains {nodes, links, data, width, height, nodeMap}
-            const exportdata = network;
-
-            // Create a filtered array of rows from data corresponding to links in the current network
-            const linkSet = new Set(exportdata.links.map(l => `${l.source.id}|${l.target.id}`));
-            const filteredData = data.filter(d => linkSet.has(`${d.rsid}|${d.phe_id}`));
-
-            // Convert filteredData to CSV
-            const csvString = d3.csvFormat(filteredData);
-
-            // Trigger download
-            const blob = new Blob([csvString], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'network_data.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            // Every SNP for this phenotype, not just the 150 on screen, which
+            // is what the cap warning promises. Served as CSV by the API.
+            window.location.href = `/api/page2/download?node=${encodeURIComponent(centerPheno)}`;
         });
 
         // --- Persistent search bar container ---
@@ -489,15 +556,61 @@ loadData().then((data) => {
                     `).join('\n')}
                 </div>
                 <p style="font-size: 12px;">(Select two to compare)</p>
+                <div id="thickness-controls" style="margin-top: 4px; opacity: 0.5;">
+                    <label>Edge thickness from:</label>
+                    <div id="thickness-radios" style="border: 1px solid white; padding: 5px; max-width: 200px;">
+                        <div><input type="radio" name="beta-source" class="beta-source" value="a1" id="bs-a1" disabled><label for="bs-a1" id="bs-a1-label">Ancestry 1</label></div>
+                        <div><input type="radio" name="beta-source" class="beta-source" value="a2" id="bs-a2" disabled><label for="bs-a2" id="bs-a2-label">Ancestry 2</label></div>
+                        <div><input type="radio" name="beta-source" class="beta-source" value="max" id="bs-max" checked disabled><label for="bs-max">Max of both</label></div>
+                    </div>
+                </div>
+
             `);
 
         const checkbox = document.querySelector(`#chk-${ancestryLower}`);
         console.log(checkbox);
         if (checkbox) {
+            // Only reflect the query string in the UI. Dispatching 'change' here
+            // re-fetched and re-rendered the entire graph on top of the initial
+            // render below, doubling load time on large views.
             checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change')); // Trigger the event so the network renders
         }
 
+
+        // Which ancestry's beta sets edge thickness in comparison mode. Kept
+        // deliberately separate from ranking: z-score decides which SNPs are
+        // shown, beta decides how thick the edge is drawn.
+        //
+        // A plain variable, so it survives ancestry and p-value changes (which
+        // only redraw) and resets to "max" on reload, as specified. Opening a
+        // node or edge view is a new tab, so that starts at the default too.
+        d3.selectAll('.beta-source').on('change', function () {
+            betaSource = this.value;
+            redraw();
+        });
+
+        // Reset button, replacing the Escape key.
+        // Its own panel, so the layout below can put it last.
+        d3.select('body')
+            .append('div')
+            .attr('id', 'reset-container')
+            .style('position', 'absolute')
+            .style('left', '10px')
+            .style('padding', '10px')
+            .html(`<button id="reset-view" style="background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>`);
+        d3.select('#reset-view').on('click', () => resetView());
+
+        // Hand-written offsets collided once the ancestry list, the edge
+        // thickness radios and the reset button stacked up under each other.
+        // Lay the column out from measured heights: search second to last,
+        // reset last.
+        Panels.stackLeft([
+            pValueSlider.node(),
+            pValueSlider2.node(),
+            compareAncestries.node(),
+            searchContainer.node(),
+            document.getElementById('reset-container')
+        ]);
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
             const checked = d3.selectAll('.ancestry-option').nodes().filter(d => d.checked);
@@ -522,31 +635,16 @@ loadData().then((data) => {
                 pColumn = `pval.${ancestryLower}`;
                 comparison_on_off = false;
 
+                // Thickness source only means something with two ancestries
+                setThicknessControls(false);
+
                 // Update first slider’s label
                 d3.select('#pvalue-label-1')
                 .text(`Select p-value threshold for ${ancestryLower}`);
 
-                if (data) {
-                    // Filter the phe_id column to only include the centerPheno
-                    const centerPhenoData = data.filter(d => d.phe_id === centerPheno);
-
-                    // If the beta column contains only NaN values, alert the user
-                    if (centerPhenoData.every(d => isNaN(parseFloat(d[betaColumn])))) {
-                        alert(`The selected ancestry (${ancestryLower}) does not contain any data for the center phenotype (${centerPhenoData[0].phe_label}).`);
-                    } else {
-                        const network = initializeNetwork(data, betaColumn, pColumn);
-                        const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData);
-                        // const categories = filteredEdges.map(l => l.target.category);
-                        const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                        nodes = filteredNodes;
-                        links = filteredLinks;
-                        renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-                        if (activeNode) {
-                            console.log('Re-highlighting active node:', activeNode);
-                            highlightNode(activeNode, filteredLinks, comparison_on_off);
-                        }
-                    }
-                }
+                // The checkbox list is already limited to ancestries that have
+                // data for this phenotype, so no availability check is needed.
+                refresh();
             }
 
 
@@ -564,6 +662,8 @@ loadData().then((data) => {
                 // Assign ancestry variables
                 anc1 = checked[0].value.toLowerCase();
                 anc2 = checked[1].value.toLowerCase();
+
+                setThicknessControls(true, anc1, anc2);
 
                 // Update both labels
                 d3.select('#pvalue-label-1')
@@ -588,29 +688,18 @@ loadData().then((data) => {
                     return;
                 }
 
-                const network = initializeNetwork(graphData, betaColumn, pColumn, betaColumn2, pColumn2, comparison_on_off);
-                const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData, pThreshold2, comparison_on_off);
-                // const categories = filteredEdges.map(l => l.target.category);
-                const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
-                nodes = filteredNodes;
-                links = filteredLinks;
-                renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
-
-                if (activeNode) {
-                    highlightNode(activeNode, filteredLinks, comparison_on_off);
-                }
+                refresh();
             }
         });
 
 
         // Initialize the network with the default ancestry
-        const network = initializeNetwork(data, betaColumn, pColumn);
+        const network = initializeNetwork(graphData, betaColumn, pColumn);
         const filteredEdges = updateEdges(pThreshold, betaThreshold, betaSign, network.links, graphData);
-        // const categories = filteredEdges.map(l => l.target.category);
         const { nodes: filteredNodes, edges: filteredLinks } = updateNodes(filteredEdges, network.nodes);
         nodes = filteredNodes;
         links = filteredLinks;
-        renderNetwork(filteredNodes, filteredLinks, network.data, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
+        renderNetwork(filteredNodes, filteredLinks, graphData, network.width, network.height, centerPheno, network.centerX, network.centerY, network.nodeMap, comparison_on_off);
 
     }
 });
@@ -643,30 +732,40 @@ function updateEdges(pThreshold, betaThreshold, betaSign, links, data, pThreshol
     }
 
 function updateNodes(edges, nodes) {
+    // Same result as before, but in two passes over the edges instead of
+    // scanning them once per node (and, for the phenotypes, once per node per
+    // SNP). On a large edge view that nested form was ~1e9 comparisons.
+
+    // degree per node id; an edge counts once for a node even if it happens to
+    // sit on both of its ends, matching the original `source || target` test
+    const degree = new Map();
+    const bump = id => degree.set(id, (degree.get(id) || 0) + 1);
+    for (const edge of edges) {
+        const s = edge.source.id;
+        const t = edge.target.id;
+        bump(s);
+        if (t !== s) bump(t);
+    }
+
     // find all the nodes that have ids starting with rs
     const rsidNodes = nodes.filter(node => node.id.startsWith('rs'));
     // eliminate any rsid nodes that have less than 2 edges
-    const rsidNodesFiltered = rsidNodes.filter(node => {
-        const degree = edges.reduce((count, edge) => {
-            return count + ((edge.source.id === node.id || edge.target.id === node.id) ? 1 : 0);
-        }, 0);
-        return degree >= 2;
-    });
+    const rsidNodesFiltered = rsidNodes.filter(node => (degree.get(node.id) || 0) >= 2);
+    const rsidKept = new Set(rsidNodesFiltered.map(n => n.id));
+
+    // ids with at least one edge to a surviving rsid node
+    const linkedToKeptRsid = new Set();
+    for (const edge of edges) {
+        const s = edge.source.id;
+        const t = edge.target.id;
+        if (rsidKept.has(t)) linkedToKeptRsid.add(s);
+        if (rsidKept.has(s)) linkedToKeptRsid.add(t);
+    }
 
     // find all the nodes that have ids not starting with rs
     const pheNodes = nodes.filter(node => !node.id.startsWith('rs'));
     // filter phenodes to include only those with at least one edge to a node in rsidNodesFiltered
-    const pheNodesFiltered = pheNodes.filter(node => {
-        return edges.some(edge => {
-            if (edge.source.id === node.id) {
-                return rsidNodesFiltered.some(rsNode => rsNode.id === edge.target.id);
-            } else if (edge.target.id === node.id) {
-                return rsidNodesFiltered.some(rsNode => rsNode.id === edge.source.id);
-            }
-            return false;
-        });
-    }
-    );
+    const pheNodesFiltered = pheNodes.filter(node => linkedToKeptRsid.has(node.id));
     // combine the filtered rsidNodes and pheNodes
     const filteredNodes = rsidNodesFiltered.concat(pheNodesFiltered);
 
@@ -701,28 +800,28 @@ function highlightNode(aNode, links, comparison_on_off = false) {
     const isPhenotype = !aNode.id.startsWith('rs');
     // const isRSID = aNode.id.startsWith('rs');
 
+    // Neighbours of the active node, as a set: this used to be a scan of every
+    // link for every circle, which on a node like Obesity is 289 x 14,000.
+    const connectedSet = new Set(connectedNodes);
+
+    // Animating tens of thousands of SVG elements at once is what actually
+    // locks the browser up, so past a few thousand set the style outright.
+    const animate = selection =>
+        selection.size() > 2000 ? selection : selection.transition().duration(300);
+
     // Reduce opacity of all nodes except aNode, its neighbors, and center phenotype
-    d3.selectAll('circle')
-        .transition().duration(300)
+    animate(d3.selectAll('circle'))
         .style('opacity', d => {
             if (aNode.id === centerPheno) {
-                // do nothing
-                console.log(aNode.id === centerPheno);
                 return 1;
-            } else {
-                return d.id === aNode.id || d.id === centerPheno || links.some(l =>
-                    (l.source.id === aNode.id && l.target.id === d.id) ||
-                    (l.target.id === aNode.id && l.source.id === d.id))
-                    ? 1
-                    : 0.3;
             }
+            return d.id === aNode.id || d.id === centerPheno || connectedSet.has(d.id)
+                ? 1
+                : 0.3;
         });
-        
-
 
     // Highlight edges
-    d3.selectAll('line')
-        .transition().duration(300)
+    animate(d3.selectAll('line'))
         .style('opacity', d => {
             if (aNode.id === centerPheno) {
                 // make all edges visible
@@ -743,10 +842,10 @@ function highlightNode(aNode, links, comparison_on_off = false) {
                         return visible_opacity;
                     }
 
-                if (connectedNodes.includes(d.source.id) && d.target.id === centerPheno) {
+                if (connectedSet.has(d.source.id) && d.target.id === centerPheno) {
                     return visible_opacity;
                 }
-                if (connectedNodes.includes(d.target.id) && d.source.id === centerPheno) {
+                if (connectedSet.has(d.target.id) && d.source.id === centerPheno) {
                     return visible_opacity;
                 }
                 }
@@ -754,22 +853,29 @@ function highlightNode(aNode, links, comparison_on_off = false) {
             }
 
         });
-    // on escape key set the active node to null and reset the styles to the defaults
-    d3.select('body').on('keydown', (event) => {
-        if (event.key === 'Escape') {
-            activeNode = null;
-            d3.selectAll('circle')
-                .transition().duration(300)
-                .style('opacity', 1);
-            d3.selectAll('line')
-                .transition().duration(300)
-                .style('opacity', 0);
-        }
-    });
+}
 
+// Clear the selection and put every node and edge back to its resting state.
+// This used to be bound to Escape, and only after a node had been clicked,
+// since the handler was registered inside highlightNode. It is now the
+// "Reset view" button under the filters.
+function resetView() {
+    activeNode = null;
+    const animate = selection =>
+        selection.size() > 2000 ? selection : selection.transition().duration(300);
+    animate(d3.selectAll('circle')).style('opacity', 1);
+    animate(d3.selectAll('line')).style('opacity', 0);
 }
 
 
+
+// A p-value of exactly 0 is the strongest possible association. The previous
+// `parseFloat(p) || 1` idiom coerced it to 1 and silently dropped those rows;
+// only a missing value should fall back to 1.
+function toPvalue(value) {
+    const p = parseFloat(value);
+    return Number.isFinite(p) ? p : 1;
+}
 
 function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColumn2 = null, comparison_on_off = false) {
     const width = window.innerWidth;
@@ -788,7 +894,7 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
         target: nodeMap.get(d.phe_id),
         beta: isNaN(parseFloat(d[betaColumn])) ? NaN : Math.abs(parseFloat(d[betaColumn])),
         direction: Math.sign(parseFloat(d[betaColumn])) || 0,
-        pvalue: parseFloat(d[pColumn]) || 1
+        pvalue: toPvalue(d[pColumn])
     }));
 
     // If comparison is enabled, prepare and merge with the second set of links
@@ -799,7 +905,7 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
             target: nodeMap.get(d.phe_id),
             beta: isNaN(parseFloat(d[betaColumn2])) ? NaN : Math.abs(parseFloat(d[betaColumn2])),
             direction: Math.sign(parseFloat(d[betaColumn2])) || 0,
-            pvalue: parseFloat(d[pColumn2]) || 1
+            pvalue: toPvalue(d[pColumn2])
         }));
 
         // Create a set of valid keys from links2 for fast intersection
@@ -823,7 +929,10 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
             const match = link2Map.get(key);
             if (match) {
                 // take the max of the two betas
-                link.beta = Math.max(link.beta, match.beta); // Use max beta
+                // beta drives edge thickness; the ranking uses z separately
+                link.beta = betaSource === 'a1' ? link.beta
+                          : betaSource === 'a2' ? match.beta
+                          : Math.max(link.beta, match.beta);
                 link.pvalue2 = match.pvalue; // Optional: store pvalue from second set
                 link.direction = link.direction * match.direction; // Multiply directions
             }
@@ -862,19 +971,16 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
     
     // make a set of links that are connected to the centerPheno
     const centerLinks = links.filter(link => link.source.id === centerPheno || link.target.id === centerPheno);
-    // sort the links by pvalue and take the top 100
+    // Take the strongest SNPs, counting distinct SNPs rather than links.
+    // Slicing 150 *links* short-changed any phenotype whose rows are
+    // duplicated - the five merged phenotypes carry two rows per SNP, so
+    // Asthma showed 116 SNPs where 150 qualified.
     centerLinks.sort((a, b) => a.pvalue - b.pvalue);
-    const topLinks = centerLinks.slice(0, 150);
-    // fitler the rsid nodes to include only the topLinks
     const topRsidNodes = new Set();
-    topLinks.forEach(link => {
-        if (link.source.id === centerPheno) {
-            topRsidNodes.add(link.target.id);
-        } else {
-            topRsidNodes.add(link.source.id);
-        }
+    for (const link of centerLinks) {
+        topRsidNodes.add(link.source.id === centerPheno ? link.target.id : link.source.id);
+        if (topRsidNodes.size >= TOP_SNPS) break;
     }
-    );
     // filter the nodes to include only the topRsidNode AND any non rsid nodes
     nodes = nodes.filter(node => topRsidNodes.has(node.id) || !node.id.startsWith('rs'))
     // filter the links to include only nodes that are still in nodes
@@ -918,8 +1024,11 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2 = null, pColum
         centerNode.x = centerX;
         centerNode.y = centerY;
         centerNode.color = centerNode.color || 'gray';
-        centerNode.label = data.find(d => d.phe_id === centerPheno).phe_label;
-        centerNode.category = data.find(d => d.phe_id === centerPheno).phe_cat;
+        // fall back to the metadata the endpoint returns, in case the current
+        // threshold left no rows for the centre phenotype itself
+        const centerRow = data.find(d => d.phe_id === centerPheno) || centerMeta || {};
+        centerNode.label = centerRow.phe_label;
+        centerNode.category = centerRow.phe_cat;
     }
 
     return {
@@ -939,16 +1048,25 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     // Clear existing network before rendering new one
     d3.select('svg').selectAll('*').remove();
 
+    updatePanels(nodes, links);
+
     // Arrange RSID nodes in a circular layout
     const rsidNodes = nodes.filter(n => n.id.startsWith('rs'));
-    console.log('nodes:', nodes);
     const radius = Math.min(width, height) * 0.35;
+
+    // Row lookups built once instead of scanning every row per node below.
+    const chromByRsid = new Map();
+    const pheRowById = new Map();
+    for (const d of data) {
+        if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
+        if (!pheRowById.has(d.phe_id)) pheRowById.set(d.phe_id, d);
+    }
 
     // Sort rsidNodes by chromosome
     if (!rsidNodes[0]?.x) {
         rsidNodes.forEach((node, i) => {
             node.label = node.id;
-            const chromValue = data.find(d => d.rsid === node.id)?.chrom;
+            const chromValue = chromByRsid.get(node.id);
             node.category = chromValue ? parseFloat(chromValue) : null;
         });
         rsidNodes.sort((a, b) => a.category - b.category);
@@ -965,8 +1083,9 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     if (!pheNodes[0]?.x) {
         const radiusPhe = Math.min(width, height) * 0.45;
         pheNodes.forEach((node, i) => {
-            node.label = data.find(d => d.phe_id === node.id)?.phe_label || node.id;
-            node.category = data.find(d => d.phe_id === node.id)?.phe_cat || 'Unknown';
+            const row = pheRowById.get(node.id);
+            node.label = row?.phe_label || node.id;
+            node.category = row?.phe_cat || 'Unknown';
         });
         pheNodes.sort((a, b) => a.category.localeCompare(b.category));
         pheNodes.forEach((node, i) => {
@@ -1043,8 +1162,9 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
         .on('contextmenu', function (event, d) {
             //clear any existing context menus
             d3.selectAll('.context-menu').remove();
-            // if the node is an rsid node:
-            if (!d.id.startsWith('rs')) {
+            // Phenotype nodes only, and never the centre: an edge view of the
+            // centre against itself has nothing to intersect.
+            if (!d.id.startsWith('rs') && d.id !== centerPheno) {
                 event.preventDefault(); // Prevent the default context menu from appearing
         
                 // Create a custom context menu

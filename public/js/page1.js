@@ -18,33 +18,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create a group <g> element to contain all nodes and links
     const content = svg.append('g');
 
-    // // Load the CSV files containing the edgelist and node attributes
+    // Node attributes are static; edge weights come back already narrowed to
+    // the selected ancestry/p-value instead of the full 92-column table.
     Promise.all([
-        d3.csv('/data/edgelist_updated_scaled.csv'),
-        d3.csv('/data/node_attributes.csv')
-    ]).then(([edgelist, nodeAttributes]) => {
-        nodes = nodeAttributes.map(d => {
-            // Start with hardcoded attributes
-            const node = {
-                id: d.id,
-                x: +d.x,
-                y: +d.y,
-                size: +d.size,
-                label: d.label,
-                color: d.hex,
-                category: d.phenotype_category,
-                degree: +d.degree
-            };
-        
-            // Dynamically add any other attributes present in the node attributes file
-            Object.keys(d).forEach(key => {
-                if (!node.hasOwnProperty(key)) {
-                    node[key] = isNaN(+d[key]) ? d[key] : +d[key]; // Convert numeric values to numbers
-                }
-            });
-        
-            return node;
-        });
+        fetch(`/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`).then(r => r.json()),
+        fetch('/api/landing/nodes').then(r => r.json())
+    ]).then(([edgeResponse, nodeResponse]) => {
+        // degrees under the active filter, computed server-side
+        let degrees = edgeResponse.degrees;
+
+        nodes = nodeResponse.nodes.map(d => ({
+            id: d.id,
+            x: +d.x,
+            y: +d.y,
+            size: +d.size,
+            label: d.label,
+            color: d.hex,
+            hex: d.hex,
+            category: d.category,
+            degree: +d.degree
+        }));
 
         const nodeMap = new Map(nodes.map(node => [node.id, node]));
 
@@ -52,17 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return nodeMap.get(id);
         }
         
-        // Add the links, with all attributes from the edgelist
-        links = edgelist.map(d => {
-            const link = { source: d.source, target: d.target }; // Base structure
-            // Dynamically add all other attributes
-            for (const [key, value] of Object.entries(d)) {
-                if (!['source', 'target'].includes(key)) { // Exclude source and target
-                    link[key] = isNaN(+value) ? value : +value; // Convert to number if applicable
-                }
-            }
-            return link;
-        });
+        // Each link carries only the two weights for the active filter
+        // (`same`/`diff`); changing the filter refreshes them in place so the
+        // d3 data binding below stays valid.
+        links = edgeResponse.edges;
 
         // Precompute node neighbors
         const nodeNeighborsMap = new Map();
@@ -79,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add a container for the search bar
         const searchContainer = d3.select('body')
             .append('div')
+            .attr('id', 'search-bar-container')
             .style('position', 'absolute')
             .style('top', '400px')
             .style('left', '10px')
@@ -140,17 +127,23 @@ document.addEventListener('DOMContentLoaded', () => {
             // Filter nodes based on degree threshold
             filteredNodes = nodes.filter(n => n.degree >= degreeThreshold);
 
+            // Membership is tested once per link and once per node below; as a
+            // linear scan of filteredNodes that was ~72M comparisons a keystroke.
+            filteredNodeIds = new Set(filteredNodes.map(n => n.id));
+
             // Filter links based on the condition that both source and target meet the degree threshold
             filteredLinks = links.filter(l =>
-                filteredNodes.some(n => n.id === l.source) &&  // Source node passes filter
-                filteredNodes.some(n => n.id === l.target)    // Target node passes filter
+                filteredNodeIds.has(l.source) &&  // Source node passes filter
+                filteredNodeIds.has(l.target)     // Target node passes filter
             );
+            filteredLinkSet = new Set(filteredLinks);
 
-            // Update node opacity to reflect filtering 
-            node.style('opacity', n => filteredNodes.some(fn => fn.id === n.id) ? 1 : 0.2);
+            // Update node opacity to reflect filtering
+            node.style('opacity', n => filteredNodeIds.has(n.id) ? 1 : 0.2);
 
             // Call highlightNode to reapply the node highlighting logic
             if (activeNode) highlightNode(activeNode);
+            updateSummary();
         }
 
 
@@ -227,6 +220,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p style="font-size: 12px;">(Select one ancestry)</p>
             `);
 
+        // Its own panel, so the layout below can put it last.
+        d3.select('body')
+            .append('div')
+            .attr('id', 'reset-container')
+            .style('position', 'absolute')
+            .style('left', '10px')
+            .style('padding', '10px')
+            .html(`<button id="reset-view" style="background: #444; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px;">Reset view</button>`);
+
+
         // Enforce radio-button-like behavior with checkboxes
         d3.selectAll('.ancestry-option').on('change', function () {
             // Uncheck all checkboxes
@@ -291,8 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div id="edge-checkboxes" style="border: 1px solid white; padding: 5px; max-width: 200px;">
                     <div><input type="checkbox" class="edge-option" value="weight" id="chk-weight"><label for="chk-weight">Weight</label></div>
-                    <div><input type="checkbox" class="edge-option" value="same_dir_weight" id="chk-same"><label for="chk-same">Synergistic Weight</label></div>
-                    <div><input type="checkbox" class="edge-option" value="diff_dir_weight" id="chk-diff"><label for="chk-diff">Antagonistic Weight</label></div>
+                    <div><input type="checkbox" class="edge-option" value="same_dir_weight" id="chk-same"><label for="chk-same">Concordant Weight</label></div>
+                    <div><input type="checkbox" class="edge-option" value="diff_dir_weight" id="chk-diff"><label for="chk-diff">Discordant Weight</label></div>
                 </div>
                 <p style="font-size: 12px;">(Select one edge type)</p>
             `);
@@ -311,106 +314,155 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initialize the first checkbox as checked
         d3.select('#chk-weight').property('checked', true);
+        // Panels were positioned at hand-written offsets and the search bar
+        // sat on top of the ancestry list. Lay them out from measured heights
+        // instead: search second to last, reset last.
+        Panels.stackLeft([
+            degreeFilterContainer.node(),
+            pValueSlider.node(),
+            edgeToggle.node(),
+            ancestryToggle.node(),
+            searchContainer.node(),
+            document.getElementById('reset-container')
+        ]);
 
 
-        function updateEdgeWeights(links, link) {
+        // Pull fresh weights for the current ancestry/p-value and write them
+        // onto the existing link objects, then re-render.
+        async function updateEdgeWeights(links, link) {
             if (!ancestry || !pvalue || !edgeType) {
                 console.warn('One or more variables (ancestry, pvalue, edgeType) are undefined.');
                 return;
             }
-        
-            let columnName;
-            if (edgeType === 'weight') {
-                const sameDirColumn = `${ancestry}_${pvalue}_same_dir_weight`;
-                const diffDirColumn = `${ancestry}_${pvalue}_diff_dir_weight`;
-        
-                // console.log("Checking links data structure:", links.slice(0, 5)); // Debug
-                // console.log("Expected columns:", sameDirColumn, diffDirColumn); // Debug
-        
-                if (!links.some(d => d[sameDirColumn] !== undefined) || !links.some(d => d[diffDirColumn] !== undefined)) {
-                    console.warn(`One or both columns "${sameDirColumn}" and "${diffDirColumn}" do not exist in links data.`);
-                    return;
-                }
-        
-                link.attr('stroke-width', d => {
-                    const sameDirWeight = parseFloat(d[sameDirColumn]) || 0;
-                    const diffDirWeight = parseFloat(d[diffDirColumn]) || 0;
-                    return (sameDirWeight + diffDirWeight);
-                });
-        
-                columnName = sameDirColumn; // Set for later use in degree calculation
-            } else {
-                columnName = `${ancestry}_${pvalue}_${edgeType}`;
-                if (!links.some(d => d[columnName] !== undefined)) {
-                    console.warn(`Column "${columnName}" does not exist in links data.`);
-                    return;
-                }
-        
-                link.attr('stroke-width', d => parseFloat(d[columnName]) || 0);
-                
+
+            let response;
+            try {
+                response = await fetch(
+                    `/api/landing/edges?ancestry=${ancestry}&pvalue=${pvalue}`
+                ).then(r => r.json());
+            } catch (error) {
+                console.error('Error fetching edge weights:', error);
+                return;
             }
-        
-            // Compute node degrees based on links
-            const nodeDegrees = {};
-            links.forEach(d => {
-                const source = d.source;
-                const target = d.target;
-                const sameDirWeight = parseFloat(d[`${ancestry}_${pvalue}_same_dir_weight`]) || 0;
-                const diffDirWeight = parseFloat(d[`${ancestry}_${pvalue}_diff_dir_weight`]) || 0;
-            
-                // If either weight is non-zero, count this link in the degree
-                const hasEdge = (sameDirWeight !== 0 || diffDirWeight !== 0);
-            
-                if (!nodeDegrees[source]) nodeDegrees[source] = 0;
-                if (!nodeDegrees[target]) nodeDegrees[target] = 0;
-            
-                if (hasEdge) {
-                    nodeDegrees[source] += 1;
-                    nodeDegrees[target] += 1;
-                }
+
+            const weights = new Map(
+                response.edges.map(e => [`${e.source}|${e.target}`, e])
+            );
+            links.forEach(l => {
+                const w = weights.get(`${l.source}|${l.target}`);
+                l.same = w ? w.same : 0;
+                l.diff = w ? w.diff : 0;
             });
-        
-            // console.log("Computed node degrees:", nodeDegrees); // Debugging step
-        
-            // Ensure labels are actually selected
-            // console.log("Number of labels found:", svg.selectAll('.label').size());
-        
+            degrees = response.degrees;
+
+            renderEdgeWeights(link);
+        }
+
+        function linkWeight(d) {
+            if (edgeType === 'weight') return (d.same || 0) + (d.diff || 0);
+            if (edgeType === 'same_dir_weight') return d.same || 0;
+            return d.diff || 0;
+        }
+
+        // Rendered radius of a node, matching the `r` attribute set further
+        // down. yHeight is assigned before anything can call this: the only
+        // callers are drawLinks and renderEdgeWeights, and the one call that
+        // happens during setup runs against an empty selection.
+        function nodeRadius(id) {
+            const n = nodeMap.get(id);
+            return n ? n.size / yHeight / 1.1 : Infinity;
+        }
+
+        // Edge weight and node size come from unrelated columns, so an edge
+        // could be drawn wider than the nodes it joins. Clamp to the diameter
+        // of the smaller endpoint. Two map lookups per drawn edge, and only
+        // the selected node's edges are ever drawn, so the cost is nil.
+        function linkStrokeWidth(d) {
+            const cap = 2 * Math.min(nodeRadius(d.source), nodeRadius(d.target));
+            return Math.min(linkWeight(d), cap);
+        }
+
+        /**
+         * Live counts for what the current filters leave on screen. An edge
+         * counts as present when either direction carries weight, matching the
+         * degree calculation the server does. Concordant and discordant are
+         * the same direction-of-effect split the edge-type filter uses, and an
+         * edge can contribute to both, so the two do not sum to the total.
+         */
+        function updateSummary() {
+            let shown = 0, syn = 0, anti = 0;
+            for (const l of filteredLinks) {
+                const same = l.same || 0;
+                const diff = l.diff || 0;
+                if (same === 0 && diff === 0) continue;
+                shown++;
+                if (same > 0) syn++;
+                if (diff > 0) anti++;
+            }
+            Panels.summary([
+                ['Phenotypes', filteredNodes.length],
+                ['Associations', shown],
+                ['\u00a0\u00a0concordant', syn],
+                ['\u00a0\u00a0discordant', anti],
+                activeNode ? ['Selected', activeNode.label] : null,
+                activeNode ? ['\u00a0\u00a0degree', degrees[activeNode.id] || 0] : null
+            ]);
+        }
+
+        // Swatch geometry: kept at the same ratio to the text as before, with
+        // the vertical offset measured so its centre lines up.
+        const SWATCH_FONT = 54;
+        const SWATCH_DY = 0.2415;
+
+        // Hover label, shared by the initial render and every filter redraw so
+        // the two cannot drift apart.
+        //
+        // LABEL_FONT is halfway between the old 20px label and the old 13px
+        // count panel, and panels.js uses the same size, so the two readouts
+        // now match.
+        const LABEL_FONT = 16.5;
+
+        // Left edge of the label block. Normally the screen edge; on a short
+        // window positionLabels moves it beside the control column.
+        let labelX = 0.01 * window.innerWidth;
+
+        function buildLabel(sel, d, degreeValue) {
+            sel.selectAll('tspan').remove();
+
+            const row = (text, dy) => sel.append('tspan')
+                .attr('class', 'row')          // positionLabels moves these
+                .text(text)
+                .attr('x', labelX)
+                .attr('dy', dy)
+                .attr('font-size', `${LABEL_FONT}px`);
+
+            row(`Phenotype: ${d.label}`, 0);
+            row(`Category: ${d.category}`, '1.2em');
+
+            // Colour swatch, sitting on the category line. The bullet glyph's
+            // ink sits well above its own baseline, so at this size a positive
+            // dy pushed it visibly below the text it belongs to; this raises it
+            // back onto the text's centre line.
+            sel.append('tspan')
+                .html('&bull;')
+                .style('fill', d.hex)
+                .attr('dy', `${SWATCH_DY}em`)
+                .style('font-size', `${SWATCH_FONT}px`);
+
+            // Undo the swatch's baseline shift and advance one line. dy is in
+            // units of each tspan's own font-size, so convert between the two.
+            const back = (1.2 * LABEL_FONT - SWATCH_DY * SWATCH_FONT) / LABEL_FONT;
+            row(`Degree under current filters: ${degreeValue}`, `${back}em`);
+        }
+
+        function renderEdgeWeights(link) {
+            link.attr('stroke-width', linkStrokeWidth);
+            updateSummary();
+
             // Update labels to reflect the current degree values
             svg.selectAll('.label')
                 .each(function(d) {
-                    const degreeValue = nodeDegrees[d.id] || 0; // Use node ID to get its degree
-        
-                    // console.log(`Updating label for node ${d.id}: Degree = ${degreeValue}`); // Debug
-        
-                    d3.select(this).selectAll('tspan').remove(); // Clear existing tspans
-        
-                    d3.select(this)
-                        .append('tspan')
-                        .text(`Phenotype: ${d.label}`)
-                        .attr('x', 0.01 * width)
-                        .attr('dy', 0)
-                        .attr('font-size', '20px');
-        
-                    d3.select(this)
-                        .append('tspan')
-                        .text(`Category: ${d.category}`)
-                        .attr('x', 0.01 * width)
-                        .attr('dy', '1.2em')
-                        .attr('font-size', '20px');
-
-                    d3.select(this)
-                        .append('tspan')
-                        .html('&bull;') // Using bullet character as a circle
-                        .style('fill', d.hex) // Set the color from d.hex
-                        .attr('dy', '0.3em')
-                        .style('font-size', '80px'); // Match the font size
-            
-                    d3.select(this)
-                        .append('tspan')
-                        .text(`Degree under current filters: ${degreeValue}`)
-                        .attr('x', 0.01 * width)
-                        .attr('font-size', '20px')
-                        .attr('dy', '0.4em');
+                    buildLabel(d3.select(this), d, degrees[d.id] || 0);
                 });
         
             // Redraw any visible labels
@@ -423,17 +475,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         }
     
-    // Add links to the SVG
-    const link = content.selectAll('.link')
-        .data(links, d => `${d.source}-${d.target}`)
-        .join('line')
-        .attr('class', 'link')
-        .style('stroke', '#999')
-        .style('opacity', 0)
+    // Edges are only ever visible for the node that is currently selected, so
+    // only that node's lines are put in the DOM. Materialising all 54,790 up
+    // front at opacity 0 left the browser laying out and compositing every one
+    // of them on load and on every interaction.
+    //
+    // They go in their own group, created before the node circles below. SVG
+    // paints in document order, so edges drawn on demand would otherwise land
+    // on top of the nodes and swallow clicks meant for them.
+    const linkLayer = content.append('g').attr('class', 'link-layer');
+    let link = linkLayer.selectAll('.link');
+
+    // links incident to each node, for drawLinks
+    const linksByNode = new Map();
+    links.forEach(l => {
+        if (!linksByNode.has(l.source)) linksByNode.set(l.source, []);
+        if (!linksByNode.has(l.target)) linksByNode.set(l.target, []);
+        linksByNode.get(l.source).push(l);
+        linksByNode.get(l.target).push(l);
+    });
+
+    function drawLinks(subset) {
+        link = linkLayer.selectAll('.link')
+            .data(subset, d => `${d.source}-${d.target}`)
+            .join('line')
+            .attr('class', 'link')
+            .style('stroke', '#999')
+            // nothing listens on edges here, and letting them take the pointer
+            // blocks double-clicking a node to open its node view
+            .style('pointer-events', 'none')
+            .style('opacity', 1)
+            .attr('stroke-width', linkStrokeWidth)
+            .attr('x1', d => xScale(nodeMap.get(d.source).x))
+            .attr('y1', d => yScale(nodeMap.get(d.source).y))
+            .attr('x2', d => xScale(nodeMap.get(d.target).x))
+            .attr('y2', d => yScale(nodeMap.get(d.target).y));
+    }
+
         let activeNode = null;  // Store the currently active node reference
         let filteredNodes = nodes
         let filteredLinks = links
-    updateEdgeWeights(links, link);
+        // set mirrors of the two above, so membership tests in updateFilter and
+        // highlightNode are O(1) instead of scanning the whole array each time
+        let filteredNodeIds = new Set(nodes.map(n => n.id))
+        let filteredLinkSet = new Set(links)
+    renderEdgeWeights(link);
 
     const node = content.selectAll('.node')
         .data(nodes, d => d.id)
@@ -456,41 +542,20 @@ document.addEventListener('DOMContentLoaded', () => {
             labels.style('opacity', l => l.id === d.id ? 0 : 0);
         })
         .on('click', (event, d) => {
-            console.log('Clicked node:', d);
             activeNode = d;
             highlightNode(d);
+            updateSummary();
         });
             
 
-// Define nodeDegrees outside of the link processing block to make it globally accessible
-const nodeDegrees = {};
-
-// Compute node degrees based on links
-links.forEach(d => {
-    const source = d.source;
-    const target = d.target;
-    const sameDirWeight = parseFloat(d[`${ancestry}_${pvalue}_same_dir_weight`]) || 0;
-    const diffDirWeight = parseFloat(d[`${ancestry}_${pvalue}_diff_dir_weight`]) || 0;
-
-    // If either weight is non-zero, count this link in the degree
-    const hasEdge = (sameDirWeight !== 0 || diffDirWeight !== 0);
-
-    if (!nodeDegrees[source]) nodeDegrees[source] = 0;
-    if (!nodeDegrees[target]) nodeDegrees[target] = 0;
-
-    if (hasEdge) {
-        nodeDegrees[source] += 1;
-        nodeDegrees[target] += 1;
-    }
-});
-
-console.log("Computed node degrees:", nodeDegrees); // Debugging output
+// `degrees` holds the per-node degree under the active filter and is
+// refreshed by updateEdgeWeights whenever the filter changes.
 
 function highlightNode(selectedNode) {
     if (!selectedNode) {
         // Reset styles when no node is selected
         node.style('opacity', 1);  // Reset node opacity
-        link.style('opacity', 0);  // Hide links
+        drawLinks([]);             // Hide links
         labels.style('opacity', 0); // Hide labels
 
         // Restore original mouseover/mouseout behaviors
@@ -507,27 +572,29 @@ function highlightNode(selectedNode) {
 
     const selectedNodeId = selectedNode.id;
     const neighbors = nodeNeighborsMap.get(selectedNodeId) || [];
+    const neighborSet = new Set(neighbors);
 
     // Highlight only the selected node and its neighbors
     node.style('opacity', d =>
-        (d.id === selectedNodeId || neighbors.includes(d.id)) && filteredNodes.includes(d)
+        (d.id === selectedNodeId || neighborSet.has(d.id)) && filteredNodeIds.has(d.id)
             ? 1 : 0.2
     );
 
-    // Highlight only the relevant links
-    link.style('opacity', l =>
-        filteredLinks.includes(l) &&
-        ((l.source === selectedNodeId && nodeMap.has(l.target)) ||
-         (l.target === selectedNodeId && nodeMap.has(l.source))) ? 1 : 0
-    );
+    // Draw just this node's edges. Previously every link in the graph was
+    // already in the DOM and this restyled all 54,790 of them, testing
+    // membership by scanning an array - about 3e9 comparisons per click.
+    drawLinks((linksByNode.get(selectedNodeId) || []).filter(l =>
+        filteredLinkSet.has(l) &&
+        nodeMap.has(l.source === selectedNodeId ? l.target : l.source)
+    ));
 
     // on double click (only on the selected node) open dendrogram.html in a new tab and pass the ancestry and pvalue variables
     // as query parameters
     node.on('dblclick', function (event, d) {
         // console.log('Double-clicked node:', d);
-        console.log(nodeDegrees[d.id]);
+        console.log(degrees[d.id]);
 
-        if (nodeDegrees[d.id] === undefined) {
+        if (degrees[d.id] === undefined) {
             // warn the user that the node has no edges
             console.log('This node has no edges.');
             alert('This node has no edges.');
@@ -544,8 +611,10 @@ function highlightNode(selectedNode) {
     node.on('contextmenu', function (event, d) {
         // clear any existing context menus
         d3.selectAll('.context-menu').remove();
-        // if there is an active node:
-        if (activeNode) {
+        // Needs two distinct phenotypes. Right-clicking the node that is
+        // already selected would open page 3 with leftPheno === rightPheno,
+        // which has nothing to intersect, so offer nothing there.
+        if (activeNode && d.id !== activeNode.id) {
             event.preventDefault(); // Prevent the default context menu from appearing
 
             // Create a custom context menu
@@ -581,26 +650,27 @@ function highlightNode(selectedNode) {
 
     // Restore mouseover events but only for highlighted nodes
     node.on('mouseover', function(event, d) {
-        if (d.id === selectedNodeId || neighbors.includes(d.id)) {
+        if (d.id === selectedNodeId || neighborSet.has(d.id)) {
             d3.select(this).style('stroke', 'white').style('stroke-width', 2);
             labels.style('opacity', l => l.id === d.id ? 1 : 0);
         }
     }).on('mouseout', function(event, d) {
-        if (d.id === selectedNodeId || neighbors.includes(d.id)) {
+        if (d.id === selectedNodeId || neighborSet.has(d.id)) {
             d3.select(this).style('stroke', 'none');
             labels.style('opacity', 0);
         }
     });
 }
 
-// Escape key event to clear selection
-d3.select('body').on('keydown', function(event) {
-    if (event.key === 'Escape') {
-        activeNode = null;
-        highlightNode(null); // Reset all highlighting
-        content.selectAll('rect').remove();
-    }
-});
+// Clear the selection. This was bound to Escape; it is now the "Reset view"
+// button under the filters.
+function resetView() {
+    activeNode = null;
+    highlightNode(null); // Reset all highlighting
+    content.selectAll('rect').remove();
+    updateSummary();
+}
+d3.select('#reset-view').on('click', resetView);
 
 
 // console.log("Computed node degrees:", nodeDegrees); // Debugging output
@@ -613,55 +683,18 @@ const labels = svg.selectAll('.label')
     .attr('class', 'label')
     .attr('dx', 0)
     .attr('dy', '.35em')
-    .attr('font-size', '32px')
+    .attr('font-size', `${LABEL_FONT}px`)
     .style('fill', 'white')  // Ensure text is visible against the black background
     .style('opacity', 0)
     .each(function(d) {
-    // Use precomputed nodeDegrees instead of an incorrect column reference
-    const degreeValue = nodeDegrees[d.id] || 0;
-
-
-    // console.log(`Updating label for node ${d.id}: Degree = ${degreeValue}`); // Debugging output
-
-    d3.select(this)
-        .append('tspan')
-        .text(`Phenotype: ${d.label}`)
-        .attr('x', 0.01 * width)
-        .attr('dy', 0)
-        .attr('font-size', '20px');
-
-    d3.select(this)
-        .append('tspan')
-        .text(`Category: ${d.category}`)
-        .attr('x', 0.01 * width)
-        .attr('dy', '1.2em')
-        .attr('font-size', '20px'); 
-        
-    d3.select(this)
-        .append('tspan')
-        .html('&bull;') // Using bullet character as a circle
-        .style('fill', d.hex) // Set the color from d.hex
-        .attr('dy', '0.3em')
-        .style('font-size', '80px'); // Match the font size
-
-    d3.select(this)
-        .append('tspan')
-        .text(`Degree under current filters: ${degreeValue}`)
-        .attr('x', 0.01 * width)
-        .attr('font-size', '20px')
-        .attr('dy', '0.4em');
-});
+        buildLabel(d3.select(this), d, degrees[d.id] || 0);
+    });
 
 
 
 
-// Set initial positions for nodes and links
-link
-    .attr('x1', d => nodes.find(node => node.id === d.source).x)
-    .attr('y1', d => nodes.find(node => node.id === d.source).y)
-    .attr('x2', d => nodes.find(node => node.id === d.target).x)
-    .attr('y2', d => nodes.find(node => node.id === d.target).y);
-
+// Link endpoints are set once below, after the scales exist. Positioning them
+// here as well cost a second pass over all 54,790 links for nothing.
 node
     .attr('cx', d => d.x)
     .attr('cy', d => d.y);
@@ -687,11 +720,87 @@ node
 labels
     .attr('x', d => 0.02 * width)
     .attr('y', d => 0.75 * height);
-link
-    .attr('x1', d => xScale(nodes.find(node => node.id === d.source).x))
-    .attr('y1', d => yScale(nodes.find(node => node.id === d.source).y))
-    .attr('x2', d => xScale(nodes.find(node => node.id === d.target).x))
-    .attr('y2', d => yScale(nodes.find(node => node.id === d.target).y));
+
+// Sit the hover label one line above the count panel, measured rather than
+// guessed, so the two readouts read as one block instead of two floating
+// captions. Runs after a frame so the panel has been laid out.
+// Widest label in the set, measured once. Placement has to reason about the
+// worst case, not whichever label happens to be first in the DOM - they all
+// share a position, and the longest phenotype name is ~960px wide.
+let maxLabelWidth = 0;
+function measureLabels() {
+    maxLabelWidth = 0;
+    labels.each(function () {
+        const w = this.getBBox().width;
+        if (w > maxLabelWidth) maxLabelWidth = w;
+    });
+}
+
+function positionLabels() {
+    const readout = document.getElementById('bottom-left-stack');
+    const controls = document.getElementById('left-stack');
+    const sample = labels.node();
+    if (!readout || !sample) return;
+    const box = sample.getBBox();
+    if (!box.height) return;
+    if (!maxLabelWidth) measureLabels();
+
+    // Two line breaks. One was enough until the readout grew: selecting a
+    // phenotype with a long name wraps it onto a second line, pushing the
+    // panel up into the label.
+    const gap = 2 * 1.2 * LABEL_FONT;
+    const margin = 16;
+    const cRect = controls
+        ? controls.getBoundingClientRect()
+        : { bottom: 0, right: 0 };
+
+    // Preferred spot: bottom left, just above the readout.
+    let x = 0.01 * window.innerWidth;
+    let top = readout.getBoundingClientRect().top - gap - box.height;
+
+    // On a short window the control column reaches down into that space and
+    // the label ended up behind the search bar. Put it beside the controls
+    // instead, level with the first filter.
+    if (top < cRect.bottom + margin) {
+        x = cRect.right + margin;
+        top = 14;
+
+        // The longest phenotype name is ~960px wide, which on a narrow window
+        // reaches the About buttons. Drop below them rather than run underneath.
+        const about = document.getElementById('info-container');
+        if (about) {
+            const aRect = about.getBoundingClientRect();
+            if (x + maxLabelWidth > aRect.left - margin) {
+                const below = aRect.bottom + margin;
+                const lowest = window.innerHeight - box.height - 10;
+                if (below <= lowest) top = below;
+            }
+        }
+    }
+
+    labels.attr('y', +labels.attr('y') + (top - box.y));
+    if (x !== labelX) {
+        labelX = x;
+        labels.selectAll('tspan.row').attr('x', x);
+    }
+}
+requestAnimationFrame(() => {
+    measureLabels();
+    // Ask the filter column to leave room for the label block, so the label
+    // keeps its place at the bottom left instead of being bumped aside; it
+    // only moves when even a compressed column cannot spare the space.
+    const h = labels.node() ? labels.node().getBBox().height : 0;
+    Panels.extraReserve = h + 2 * 1.2 * LABEL_FONT + 16;
+    if (Panels.__refit) Panels.__refit();
+    positionLabels();
+});
+window.addEventListener('resize', () => requestAnimationFrame(positionLabels));
+// Panels.summary calls this after the readout re-renders, so the label keeps
+// its distance when the panel grows or shrinks.
+Panels.onResize = positionLabels;
+
+// Link endpoints are positioned in drawLinks, on the handful of lines that are
+// actually on screen.
 // now resize the nodes by dividing the size by the x range divided by the width
 const xRange = maxX - minX;
 const yRange = maxY - minY;
@@ -708,6 +817,9 @@ const zoom = d3.zoom()
     });
 
 svg.call(zoom);
+// Double-click opens the node view; d3.zoom also binds dblclick to zoom in,
+// so the graph jumped as the new tab opened.
+svg.on('dblclick.zoom', null);
 
 // Center and zoom in (1.2x) around graph center
 const dataCenterX = (minX + maxX) / 2;
@@ -780,6 +892,7 @@ if (!localStorage.getItem('welcomeDismissed')) {
 // Create a container div for the button and info text
 const infoContainer = d3.select('body')
     .append('div')
+    .attr('id', 'info-container')
     .style('position', 'absolute')
     .style('top', '10px')
     .style('right', '10px')
@@ -810,7 +923,7 @@ const infoText = infoContainer.append('div')
     .style('border-radius', '5px')
     .style('max-width', '1000px')
     .html(`
-        <h2>Million Veteran Program Phenotype Network</h2>
+        <h2>MVPheWAS Explorer: Phenotype Network</h2>
         <p>
             This network illuminates the shared genetic basis of phenotypes within the VA's 
             Million Veteran Program (MVP). Each node is a phenotype, and each edge is made up
@@ -828,8 +941,8 @@ const infoText = infoContainer.append('div')
             run on different ancestry subgroups within MVP, the ancestry filter can be used to look 
             at each of these subnetworks separately. </p>
         <p>In some cases we are interested only in SNPs that effect both of their assosciated phenotypes 
-            in the same way (a synergistic association), or in SNPs that have opposite effects on their 
-            associated phenotypes (an antagonistic association). The edge type filter can be used to compare 
+            in the same way (a concordant association), or in SNPs that have opposite effects on their 
+            associated phenotypes (an discordant association). The edge type filter can be used to compare 
             these cases</p>
         <p>The p-value slider sets the threshold for a SNP-phenotype association to be included in the network 
         <p>The degree filter can be used to eliminate phenotypes that don't have many connections</p>

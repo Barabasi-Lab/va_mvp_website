@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Network Visualization</title>
     <script src="/js/d3.min.js"></script>
+    <script src="/js/panels.js"></script>
     <script src="/js/page1.js"></script>
 
     <style>
         body {
             font-family: 'Helvetica' , sans-serif;
+            /* the SVG is sized to the window, so the default 8px body margin
+               pushed it out of view and let the page scroll, showing a white
+               ribbon around the graph */
+            margin: 0;
+            overflow: hidden;
+            background-color: #252529;
+        }
+        svg {
+            /* inline elements sit on the text baseline, which left a few px
+               of scrollable overflow below the full-height SVG */
+            display: block;
         }
         .label {
             font-size: 12px;

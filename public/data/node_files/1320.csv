@@ -1,7 +1,0 @@
-rsid,chrom,pval.meta,beta.meta,pval.eur,beta.eur,pval.afr,beta.afr,pval.amr,beta.amr,pval.eas,beta.eas,phe_id,phe_label,phe_hex,rsid_hex,phe_cat
-rs73764912,6,1.0,0.0,1.0,0.0,6.75e-07,-1.515,1.0,0.0,1.0,0.0,1320,Irregular menstrual bleeding,#2ca02c,#3ac5ff,other
-rs78621465,9,7.42e-07,-0.6937,0.4138,0.9921,9.351e-07,-0.7153,1.0,0.0,1.0,0.0,1320,Irregular menstrual bleeding,#2ca02c,#5da2ff,other
-rs538200452,13,1.0,0.0,1.0,0.0,7.394e-07,-2.62,1.0,0.0,1.0,0.0,1320,Irregular menstrual bleeding,#2ca02c,#8b74ff,other
-rs551425485,13,1.0,0.0,1.0,0.0,7.526e-07,-2.62,1.0,0.0,1.0,0.0,1320,Irregular menstrual bleeding,#2ca02c,#8b74ff,other
-rs375907783,13,1.0,0.0,1.0,0.0,5.513e-07,-2.664,1.0,0.0,1.0,0.0,1320,Irregular menstrual bleeding,#2ca02c,#8b74ff,other
-rs142610014,13,1.0,0.0,1.0,0.0,4.161e-07,-2.189,1.0,0.0,1.0,0.0,1320,Irregular menstrual bleeding,#2ca02c,#8b74ff,other
