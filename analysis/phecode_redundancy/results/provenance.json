@@ -1,0 +1,39 @@
+{
+  "generated": "2026-09-30T17:24:03+00:00",
+  "seed": 20260930,
+  "ancestries": [
+    "afr",
+    "eur",
+    "meta"
+  ],
+  "thresholds": [
+    0.0001,
+    1e-08
+  ],
+  "files": {
+    "association_store": {
+      "path": "/home/student/Desktop/va_mvp_website/public/data/db/associations",
+      "shards": 22
+    },
+    "node_attributes": {
+      "path": "/home/student/Desktop/va_mvp_website/public/data/node_attributes.csv",
+      "md5": "1fe4e5d0be82f11c64f2cc37a96392c5",
+      "bytes": 369233
+    },
+    "icd_map": {
+      "path": "/home/student/Downloads/Phecode_map_v1_2_icd9_icd10cm.csv",
+      "md5": "fdd521f64b5a10481054e25e6d355a52",
+      "bytes": 14513607
+    },
+    "labels": {
+      "path": "/home/student/Desktop/phenotype_labels.pkl",
+      "md5": "ea8c809ee731c4ba862e6a658afbb319",
+      "bytes": 75054
+    },
+    "phecode_definitions": {
+      "path": "(not supplied)",
+      "status": "ABSENT",
+      "consequence": "T3 not computable"
+    }
+  }
+}
