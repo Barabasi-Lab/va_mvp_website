@@ -70,8 +70,10 @@ is counted separately in §3 rather than folded into "unrelated".
 | Network-view neighbours of ESRD | AFR 86, EUR 142, META 160 | reproduces exactly against the served edgelist |
 
 The 14 split cleanly by chromosome: seven on chr10 (TCF7L2, including
-rs7903146), each in 54–85 phenotypes, and seven on chr22, each in 22–27
-phenotypes — the APOL1 region. §5 reports what they collapse to as loci.
+rs7903146), each in 54–85 phenotypes, and seven on chr22 at 36.207–36.228 Mb,
+each in 22–27 phenotypes. §5 confirms the chr22 seven are inside the APOL1
+window and collapse to a single clump, which is the most likely source of
+the manuscript's "1".
 
 `network.py` reproduces the served network exactly for ESRD in all three
 ancestries, which is the gate the rest of the analysis rests on.
@@ -245,7 +247,129 @@ META sits between the two throughout and is in the CSV.
 
 ## 5. Locus results (A4)
 
-_(pending — the rsid → GRCh38 lookup is still running)_
+`results/esrd_loci.csv`, `results/esrd_locus_overlap.csv`, and the same two
+for anemia. SNPs are collapsed by greedy ±500 kb distance clumping on the
+target's own p-value ordering: take the strongest unassigned SNP as a lead,
+absorb every unassigned SNP within the window on the same chromosome,
+repeat. No LD reference is installed, so no r²-based clumping was done and
+none was downloaded.
+
+### Positions and the build question
+
+The store has no base-pair column and records no build, so positions were
+resolved by rs number against **SNPlocs.Hsapiens.dbSNP155.GRCh38**:
+**835,375 of 898,972 rsids (92.93%)**. The unresolved 7% are merged or
+retired rs numbers and variants dbSNP155 does not carry as SNVs.
+
+rs numbers are stable across builds, so the lookup does not depend on
+knowing the store's build. The one cross-check the data allows — the
+store's own `chrom` column against the chromosome each rs number resolves
+to — **agrees for 100.00% of the 835,375** (`results/position_qc.json`).
+Across ESRD's and anemia's edges, 91–95% of shared SNPs carry a position,
+so the locus figures below are computed on that subset and the CSV reports
+the covered fraction at every level.
+
+### Loci per edge, and the APOL1 share
+
+| Ancestry | Level | Degree | Loci in edges | Mean loci/edge | APOL1 % of shared SNPs | APOL1 % of edges |
+|---|---|---|---|---|---|---|
+| AFR | L0 | 86 | 11 | 1.58 | **91.5%** | 45.3% |
+| AFR | L1 | 84 | 11 | 1.57 | **91.0%** | 44.0% |
+| AFR | L2 | 80 | 8 | 1.45 | **89.4%** | 41.2% |
+| AFR | L3 / L4 | 69 | 7 | 1.26 | **88.7%** | 33.3% |
+| EUR | L0 | 142 | 11 | 1.71 | 0.0% | 0.0% |
+| EUR | L1 | 140 | 11 | 1.66 | 0.0% | 0.0% |
+| EUR | L2 | 134 | 8 | 1.59 | 0.0% | 0.0% |
+| EUR | L3 | 129 | 8 | 1.61 | 0.0% | 0.0% |
+| EUR | L4 | 120 | 7 | 1.63 | 0.0% | 0.0% |
+| META | L0 | 160 | 13 | 1.84 | 27.1% | 23.1% |
+| META | L2 | 152 | 11 | 1.68 | 25.2% | 20.4% |
+| META | L3 | 141 | 11 | 1.65 | 16.7% | 14.9% |
+
+Two APOL1 columns are given because they answer different questions. "% of
+edges" counts every edge that touches the locus, and an edge can carry SNPs
+elsewhere as well, so it overstates. "% of shared SNPs" is the strict
+version and is the one to quote.
+
+**Edges are close to single-locus objects.** The mean is 1.26–1.84 loci per
+edge and the median is 1 at every ancestry and level. An ESRD edge of 400
+shared SNPs is typically one LD block, not 400 independent signals. Edge
+weights should be read as evidence strength at a locus, not as a count of
+distinct genetic mechanisms.
+
+### Major loci
+
+ESRD, at L0, by the number of edges each locus contributes:
+
+| Ancestry | Locus (GRCh38) | Lead | Span | SNPs | Edges |
+|---|---|---|---|---|---|
+| AFR | chr10:112,998,590 | rs7903146 | 112,998,590–113,057,250 | 6 | **61** |
+| AFR | **chr22:36,260,398** | **rs9622362** | 36,026,856–36,747,187 | **481** | **39** |
+| AFR | chr22:35,695,911 | rs7292101 | 35,196,622–35,734,510 | 78 | 13 |
+| EUR | chr16:53,773,852 | rs17817288 | single SNP | 1 | 90 |
+| EUR | chr10:112,994,312 | rs34872471 | 112,990,477–113,058,995 | 28 | 88 |
+| EUR | chr16:20,356,323 | rs12922822 | 20,339,137–20,381,010 | 32 | 31 |
+| EUR | chr10:58,591,464 | rs4948524 | 58,504,611–58,615,138 | 316 | 20 |
+
+The AFR picture needs both columns to read correctly. **chr10 is the
+broadest locus and APOL1 is the heaviest.** rs7903146 — the canonical TCF7L2
+type-2-diabetes variant — appears on 61 of ESRD's 86 AFR edges but carries
+only 6 SNPs. The APOL1 clump carries 481 SNPs across 39 edges, which is
+where the 91.5% weight share comes from. So APOL1 explains almost all of the
+*weight* of AFR ESRD connectivity, and TCF7L2 explains much of its *breadth*.
+
+The APOL1 clump is centred at chr22:36,260,398, 2 kb inside APOL1
+(36,253,071–36,267,530), and spans 36.03–36.75 Mb, which takes in APOL2/3
+and MYH9. At ±500 kb the clump cannot separate APOL1 from MYH9; both are
+established African-ancestry kidney-disease loci and this analysis does not
+distinguish them.
+
+**A0's open question is now answered.** The seven chr22 SNPs shared between
+AFR and EUR sit at 36.207–36.228 Mb — inside the APOL1 window. A0 guessed
+this from the phenotype counts; the positions confirm it.
+
+### AFR vs EUR at the locus level
+
+The manuscript states that only one SNP is shared and that the SNPs sit on
+different chromosomes. At the locus level:
+
+| Comparison | Loci A | Loci B | Shared (leads within ±500 kb) | % of A | % of B |
+|---|---|---|---|---|---|
+| ESRD AFR vs EUR | 32 | 23 | **2** | 6.3% | 8.7% |
+| ESRD AFR vs META | 32 | 33 | 18 | 56.3% | 54.5% |
+| ESRD EUR vs META | 23 | 33 | 17 | 73.9% | 51.5% |
+| Anemia AFR vs EUR | 21 | 35 | **4** | 19.0% | 11.4% |
+| Anemia AFR vs META | 21 | 38 | 11 | 52.4% | 28.9% |
+| Anemia EUR vs META | 35 | 38 | 30 | 85.7% | 81.6% |
+
+Chromosome distribution of ESRD's loci: AFR is concentrated on chr22 (7 of
+32) with chr1 next (5); EUR has no chr22 concentration at all (1 of 23) and
+spreads across chr10, chr2 and chr4 (3 each).
+
+**The non-overlap is real and survives the locus-level check.** This
+mattered because SNP-level non-overlap can be an LD artefact — the same
+locus tagged by different variants in different ancestries — and that is not
+what is happening here. Only 2 of 32 AFR loci have a EUR lead within
+±500 kb. The manuscript's claim holds at the level that matters, and holds
+better than its SNP-level phrasing suggests.
+
+### Anemia
+
+| Ancestry | Top locus (GRCh38) | Lead | SNPs | Edges | % of shared SNPs |
+|---|---|---|---|---|---|
+| AFR | chr16:249,924 | rs13331259 | 505 | 7 | **86.3%** |
+| AFR | chr11:5,227,100 | rs34598529 | 40 | 23 | — |
+| EUR | chr16:53,772,541 | rs56094641 | 116 | 137 | 72.4% |
+| EUR | chr6:26,104,404 | rs198851 | 330 | 29 | — |
+
+AFR anemia is the two globin clusters: chr16p13.3 at 0.25 Mb (alpha-globin)
+carries 86.3% of the shared SNPs, and chr11p15.4 at 5.23 Mb (beta-globin;
+the lead sits ~100 bp from rs334, the sickle variant) contributes the most
+edges. This is the signal T3 removes wholesale (§7), and it is pleiotropy at
+a known locus rather than definitional overlap.
+
+EUR anemia is led by chr16:53.77 Mb and chr6:26.1 Mb, neither of which
+overlaps the AFR loci.
 
 ---
 
@@ -489,6 +613,20 @@ with any artefact. It is reported because the task asks for it, and it
 should be read as an upper bound on what exclusion can take away, not as an
 estimate. On this data L3 has turned out to be the same kind of thing.
 
+**Clumping is by distance, not LD.** No LD reference is installed and the
+task forbids downloading one, so a ±500 kb window stands in for an LD
+block. It will merge independent signals that happen to sit close together
+— the APOL1 clump spans 36.03–36.75 Mb and takes in MYH9, which this
+analysis cannot separate from APOL1 — and it will split a long-range block.
+Locus counts are therefore approximate, and "APOL1" should be read as "the
+chr22q12.3 region containing APOL1 and MYH9".
+
+**Positions cover 93% of rsids.** 63,597 of 898,972 did not resolve against
+dbSNP155, and 5–9% of the shared SNPs on any given edge have no position.
+Locus metrics are computed on the covered subset and the CSVs report the
+coverage at every level, but a systematically unusual set of unresolved
+variants would bias them.
+
 **Ascertainment.** Every association in the store was significant in some
 ancestry. Edge weights are counts of jointly-significant SNPs and inherit
 that ascertainment; they are not effect-size correlations.
@@ -524,7 +662,13 @@ synergy as exclusions are applied while AFR does not move at all.
 
 **How much of AFR ESRD connectivity is attributable to one locus?**
 
-_(pending §5)_
+By weight, almost all of it: **91.5% of the SNPs shared across ESRD's AFR
+edges sit in the APOL1 clump** (chr22:36.03–36.75 Mb, lead rs9622362), and
+that falls only to 88.7% at L3. By breadth it is a different locus: TCF7L2
+(chr10:113.0 Mb, rs7903146) appears on 61 of the 86 edges but carries 6
+SNPs. In EUR the APOL1 share is 0.0% at every level. The AFR result is
+therefore one locus with many phenotypic consequences rather than a
+polygenic cluster, and that locus is absent from EUR.
 
 **How much of the ESRD cluster is definitional overlap?**
 
