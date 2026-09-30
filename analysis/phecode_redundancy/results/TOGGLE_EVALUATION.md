@@ -480,25 +480,45 @@ have not made it, because the tier set it should quote is still your decision.
 
 ## 6. Diff summary
 
-Branch `hierarchy-mask-toggle`, 6 commits ahead of `main`, **unmerged**.
+Branch `hierarchy-mask-toggle`, **unmerged**, 22 commits ahead of `main`.
 
-Site code:
+The branch was cut from `phecode-redundancy` and so contains Part A as
+well. Part A now has its own branch carrying identical content, so
+`phecode-redundancy` can be reviewed and merged on its own and this one
+merged after it without conflict. **Nothing has been pushed.**
+
+Code that ships to the browser:
 
 | File | Change |
 |---|---|
-| `server.js` | +107 — loads the companion files if present, `rel=1` on the landing edges, three `/api/relations/*` routes |
 | `public/js/hierarchy-mask.js` | +181, new — the toggle, both implementations, state in the query string |
 | `public/js/phecode-relations.js` | +125, new — the A2 classifier, ported |
 | `public/js/page1.js` | +76 / −11 — the mask in `edgePresent()`, the control in the panel stack, state on outgoing links |
 | `public/js/page2.js` | +58 / −5 — `applyHierarchyMask()` after `updateNodes()`, the control, state on outgoing links |
 | `public/index.html`, `public/page2.html` | +2 each — two script tags |
 
-Total site code: **535 insertions, 16 deletions** across 7 files. No
-production data file is written or modified.
+Server:
 
-Tooling and analysis (not shipped to the browser): `build_relations.py`,
-`evaluate_toggle.py`, `scripts/bench_toggle.js`, `scripts/shoot_toggle.js`,
-`scripts/test_phecode_relations.js`, `scripts/test_toggle_state.js`.
+| File | Change |
+|---|---|
+| `server.js` | +107 — loads the companion files if present, `rel=1` on the landing edges, three `/api/relations/*` routes |
+
+Tests and tooling, not shipped:
+
+| File | Change |
+|---|---|
+| `scripts/test_phecode_relations.js` | +145, new — the classifier's unit tests |
+| `scripts/test_toggle_state.js` | +128, new — default-off, tab carry-over, edge view |
+| `scripts/bench_toggle.js` | +321, new — B3 |
+| `scripts/bench_load_signals.js` | +47, new — the networkidle0 follow-up |
+| `scripts/shoot_toggle.js` | +113, new — B4.4 screenshots |
+| `analysis/phecode_redundancy/build_relations.py` | +200, new — companion data for both options |
+| `analysis/phecode_redundancy/evaluate_toggle.py` | +140, new — B4 coverage and over-masking |
+
+**1,289 insertions and 16 deletions across 12 tracked files**, of which 444
+insertions and 16 deletions are code that reaches a browser. **No production
+data file is written or modified**; the four companion files are new and sit
+beside the precomputed data.
 
 ### Payload
 
