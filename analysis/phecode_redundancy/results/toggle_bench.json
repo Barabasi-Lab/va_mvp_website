@@ -1,6 +1,6 @@
 {
-  "runs": 2,
-  "generated": "2026-09-30T17:55:22.380Z",
+  "runs": 10,
+  "generated": "2026-09-30T18:56:36.866Z",
   "base": "http://localhost:3000",
   "baseline": "http://localhost:3001",
   "page2DebounceMs": 200,
@@ -14,18 +14,18 @@
         "n": 0
       },
       "ancestrySwitch": {
-        "n": 2,
-        "median": 1816.7,
-        "p90": 1816.7,
-        "min": 1181.6,
-        "max": 1816.7
+        "n": 10,
+        "median": 599.7,
+        "p90": 644.2,
+        "min": 557.1,
+        "max": 715.5
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 979.1,
-        "p90": 979.1,
-        "min": 698.1,
-        "max": 979.1
+        "n": 10,
+        "median": 573.7,
+        "p90": 593.9,
+        "min": 533.1,
+        "max": 650.3
       },
       "heapOffBytes": {
         "n": 0
@@ -37,91 +37,91 @@
     },
     "default (META, 1e-04, total) | precomputed": {
       "toggleOn": {
-        "n": 2,
-        "median": 512.9,
-        "p90": 512.9,
-        "min": 358.8,
-        "max": 512.9
+        "n": 10,
+        "median": 356,
+        "p90": 365.4,
+        "min": 343.3,
+        "max": 371.2
       },
       "toggleOff": {
-        "n": 2,
-        "median": 532.8,
-        "p90": 532.8,
-        "min": 443.6,
-        "max": 532.8
+        "n": 10,
+        "median": 362.3,
+        "p90": 374.7,
+        "min": 342.6,
+        "max": 382.3
       },
       "ancestrySwitch": {
-        "n": 2,
-        "median": 805.1,
-        "p90": 805.1,
-        "min": 782.4,
-        "max": 805.1
+        "n": 10,
+        "median": 651.5,
+        "p90": 682.9,
+        "min": 607.4,
+        "max": 689.4
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 840.2,
-        "p90": 840.2,
-        "min": 827.5,
-        "max": 840.2
+        "n": 10,
+        "median": 630.3,
+        "p90": 657,
+        "min": 565.5,
+        "max": 664.1
       },
       "heapOffBytes": {
-        "n": 2,
-        "median": 8801534,
-        "p90": 8801534,
-        "min": 8799682,
-        "max": 8801534
+        "n": 10,
+        "median": 8799602,
+        "p90": 8799806,
+        "min": 8798850,
+        "max": 8801518
       },
       "heapOnBytes": {
-        "n": 2,
-        "median": 8783134,
-        "p90": 8783134,
-        "min": 8779354,
-        "max": 8783134
+        "n": 10,
+        "median": 8781030,
+        "p90": 8781342,
+        "min": 8780394,
+        "max": 8783318
       },
       "errors": []
     },
     "default (META, 1e-04, total) | client": {
       "toggleOn": {
-        "n": 2,
-        "median": 434.6,
-        "p90": 434.6,
-        "min": 406.9,
-        "max": 434.6
+        "n": 10,
+        "median": 366.8,
+        "p90": 391,
+        "min": 347.5,
+        "max": 403
       },
       "toggleOff": {
-        "n": 2,
-        "median": 406.8,
-        "p90": 406.8,
-        "min": 376.6,
-        "max": 406.8
+        "n": 10,
+        "median": 361.2,
+        "p90": 371.3,
+        "min": 347.8,
+        "max": 398.3
       },
       "ancestrySwitch": {
-        "n": 2,
-        "median": 735.9,
-        "p90": 735.9,
-        "min": 610.1,
-        "max": 735.9
+        "n": 10,
+        "median": 588,
+        "p90": 631.7,
+        "min": 547.2,
+        "max": 640.2
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 654.8,
-        "p90": 654.8,
-        "min": 583.5,
-        "max": 654.8
+        "n": 10,
+        "median": 543.1,
+        "p90": 547.8,
+        "min": 515.9,
+        "max": 575.2
       },
       "heapOffBytes": {
-        "n": 2,
-        "median": 8638574,
-        "p90": 8638574,
-        "min": 8635390,
-        "max": 8638574
+        "n": 10,
+        "median": 8636234,
+        "p90": 8636478,
+        "min": 8635514,
+        "max": 8639794
       },
       "heapOnBytes": {
-        "n": 2,
-        "median": 8661158,
-        "p90": 8661158,
-        "min": 8647626,
-        "max": 8661158
+        "n": 10,
+        "median": 8649046,
+        "p90": 8680702,
+        "min": 8647406,
+        "max": 8683702
       },
       "errors": []
     },
@@ -133,18 +133,18 @@
         "n": 0
       },
       "ancestrySwitch": {
-        "n": 2,
-        "median": 699.4,
-        "p90": 699.4,
-        "min": 680,
-        "max": 699.4
+        "n": 10,
+        "median": 632.4,
+        "p90": 655.6,
+        "min": 571.4,
+        "max": 667
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 665.8,
-        "p90": 665.8,
-        "min": 619.4,
-        "max": 665.8
+        "n": 10,
+        "median": 515.9,
+        "p90": 547.1,
+        "min": 497.8,
+        "max": 559.1
       },
       "heapOffBytes": {
         "n": 0
@@ -156,91 +156,91 @@
     },
     "densest (EUR, 1e-04, total) | precomputed": {
       "toggleOn": {
-        "n": 2,
-        "median": 3134.4,
-        "p90": 3134.4,
-        "min": 360.4,
-        "max": 3134.4
+        "n": 10,
+        "median": 395.2,
+        "p90": 405,
+        "min": 365.9,
+        "max": 414.2
       },
       "toggleOff": {
-        "n": 2,
-        "median": 611.1,
-        "p90": 611.1,
-        "min": 349.8,
-        "max": 611.1
+        "n": 10,
+        "median": 299.4,
+        "p90": 307.2,
+        "min": 291.2,
+        "max": 349.3
       },
       "ancestrySwitch": {
-        "n": 2,
-        "median": 1738.4,
-        "p90": 1738.4,
-        "min": 665.1,
-        "max": 1738.4
+        "n": 10,
+        "median": 615.8,
+        "p90": 630.9,
+        "min": 600.3,
+        "max": 634.6
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 1227.3,
-        "p90": 1227.3,
-        "min": 578.5,
-        "max": 1227.3
+        "n": 10,
+        "median": 563.3,
+        "p90": 604.8,
+        "min": 545.3,
+        "max": 606
       },
       "heapOffBytes": {
-        "n": 2,
-        "median": 30706267,
-        "p90": 30706267,
-        "min": 9005500,
-        "max": 30706267
+        "n": 10,
+        "median": 30796285,
+        "p90": 30835525,
+        "min": 30699781,
+        "max": 30846689
       },
       "heapOnBytes": {
-        "n": 2,
-        "median": 17618924,
-        "p90": 17618924,
-        "min": 10430319,
-        "max": 17618924
+        "n": 10,
+        "median": 17626132,
+        "p90": 17627624,
+        "min": 17547204,
+        "max": 17628252
       },
       "errors": []
     },
     "densest (EUR, 1e-04, total) | client": {
       "toggleOn": {
-        "n": 2,
-        "median": 1125.3,
-        "p90": 1125.3,
-        "min": 433.9,
-        "max": 1125.3
+        "n": 10,
+        "median": 424.6,
+        "p90": 440.6,
+        "min": 393.3,
+        "max": 473.3
       },
       "toggleOff": {
-        "n": 2,
-        "median": 315.5,
-        "p90": 315.5,
-        "min": 309.6,
-        "max": 315.5
+        "n": 10,
+        "median": 305.5,
+        "p90": 314.1,
+        "min": 288.9,
+        "max": 318.7
       },
       "ancestrySwitch": {
-        "n": 2,
-        "median": 2108.9,
-        "p90": 2108.9,
-        "min": 582.9,
-        "max": 2108.9
+        "n": 10,
+        "median": 556.6,
+        "p90": 583.6,
+        "min": 545.4,
+        "max": 590.6
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 597.9,
-        "p90": 597.9,
-        "min": 594.2,
-        "max": 597.9
+        "n": 10,
+        "median": 522.5,
+        "p90": 603.3,
+        "min": 509.5,
+        "max": 652.9
       },
       "heapOffBytes": {
-        "n": 2,
-        "median": 25348410,
-        "p90": 25348410,
-        "min": 25112494,
-        "max": 25348410
+        "n": 10,
+        "median": 25191734,
+        "p90": 25291688,
+        "min": 25111182,
+        "max": 25310768
       },
       "heapOnBytes": {
-        "n": 2,
-        "median": 17561252,
-        "p90": 17561252,
-        "min": 17453540,
-        "max": 17561252
+        "n": 10,
+        "median": 17553112,
+        "p90": 17780204,
+        "min": 17474820,
+        "max": 17787544
       },
       "errors": []
     }
@@ -254,59 +254,59 @@
         "n": 0
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 3229.5,
-        "p90": 3229.5,
-        "min": 1218.9,
-        "max": 3229.5
+        "n": 10,
+        "median": 1046.2,
+        "p90": 1125.2,
+        "min": 1000.7,
+        "max": 1135.6
       },
       "errors": []
     },
     "Type 2 diabetes (deg 481) | precomputed": {
       "toggleOn": {
-        "n": 2,
-        "median": 282.6,
-        "p90": 282.6,
-        "min": 261.3,
-        "max": 282.6
+        "n": 10,
+        "median": 279.2,
+        "p90": 289.9,
+        "min": 251.7,
+        "max": 317.8
       },
       "toggleOff": {
-        "n": 2,
-        "median": 331.9,
-        "p90": 331.9,
-        "min": 310.9,
-        "max": 331.9
+        "n": 10,
+        "median": 273.8,
+        "p90": 280.6,
+        "min": 264.2,
+        "max": 283
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 1357.9,
-        "p90": 1357.9,
-        "min": 1164.3,
-        "max": 1357.9
+        "n": 10,
+        "median": 1056.7,
+        "p90": 1072.5,
+        "min": 1036.6,
+        "max": 1099.1
       },
       "errors": []
     },
     "Type 2 diabetes (deg 481) | client": {
       "toggleOn": {
-        "n": 2,
-        "median": 294.5,
-        "p90": 294.5,
-        "min": 271.1,
-        "max": 294.5
+        "n": 10,
+        "median": 276.7,
+        "p90": 293.7,
+        "min": 240.7,
+        "max": 308.9
       },
       "toggleOff": {
-        "n": 2,
-        "median": 327.5,
-        "p90": 327.5,
-        "min": 308,
-        "max": 327.5
+        "n": 10,
+        "median": 274.1,
+        "p90": 283.1,
+        "min": 261.5,
+        "max": 283.6
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 2926.8,
-        "p90": 2926.8,
-        "min": 1329.9,
-        "max": 2926.8
+        "n": 10,
+        "median": 1082.3,
+        "p90": 1116.9,
+        "min": 1030.3,
+        "max": 1125.7
       },
       "errors": []
     },
@@ -318,59 +318,59 @@
         "n": 0
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 1309.2,
-        "p90": 1309.2,
-        "min": 1286.1,
-        "max": 1309.2
+        "n": 10,
+        "median": 1063.4,
+        "p90": 1107.1,
+        "min": 1030.3,
+        "max": 1172.6
       },
       "errors": []
     },
     "Diabetes mellitus (deg 476) | precomputed": {
       "toggleOn": {
-        "n": 2,
-        "median": 279.4,
-        "p90": 279.4,
-        "min": 257.8,
-        "max": 279.4
+        "n": 10,
+        "median": 276.8,
+        "p90": 279.3,
+        "min": 251,
+        "max": 291.5
       },
       "toggleOff": {
-        "n": 2,
-        "median": 330.8,
-        "p90": 330.8,
-        "min": 294.6,
-        "max": 330.8
+        "n": 10,
+        "median": 279.2,
+        "p90": 284.8,
+        "min": 269.7,
+        "max": 295.4
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 1187.9,
-        "p90": 1187.9,
-        "min": 1106.1,
-        "max": 1187.9
+        "n": 10,
+        "median": 1049,
+        "p90": 1079.6,
+        "min": 1028.5,
+        "max": 1089.8
       },
       "errors": []
     },
     "Diabetes mellitus (deg 476) | client": {
       "toggleOn": {
-        "n": 2,
-        "median": 282.1,
-        "p90": 282.1,
-        "min": 282,
-        "max": 282.1
+        "n": 10,
+        "median": 280.2,
+        "p90": 298.6,
+        "min": 254.4,
+        "max": 340
       },
       "toggleOff": {
-        "n": 2,
-        "median": 302.5,
-        "p90": 302.5,
-        "min": 288.8,
-        "max": 302.5
+        "n": 10,
+        "median": 273.7,
+        "p90": 289.4,
+        "min": 265.2,
+        "max": 291.4
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 1184,
-        "p90": 1184,
-        "min": 1133.5,
-        "max": 1184
+        "n": 10,
+        "median": 1056.1,
+        "p90": 1090.3,
+        "min": 1014.8,
+        "max": 1132
       },
       "errors": []
     },
@@ -382,59 +382,59 @@
         "n": 0
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 1037.2,
-        "p90": 1037.2,
-        "min": 923.8,
-        "max": 1037.2
+        "n": 10,
+        "median": 848.4,
+        "p90": 862.6,
+        "min": 807.4,
+        "max": 880
       },
       "errors": []
     },
     "Coronary atherosclerosis (deg 399) | precomputed": {
       "toggleOn": {
-        "n": 2,
-        "median": 196.8,
-        "p90": 196.8,
-        "min": 186.1,
-        "max": 196.8
+        "n": 10,
+        "median": 168.8,
+        "p90": 196.4,
+        "min": 165.6,
+        "max": 199.7
       },
       "toggleOff": {
-        "n": 2,
-        "median": 200.5,
-        "p90": 200.5,
-        "min": 177.2,
-        "max": 200.5
+        "n": 10,
+        "median": 189.7,
+        "p90": 192.5,
+        "min": 179.8,
+        "max": 197
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 973.2,
-        "p90": 973.2,
-        "min": 973.2,
-        "max": 973.2
+        "n": 10,
+        "median": 847.5,
+        "p90": 866.2,
+        "min": 807.8,
+        "max": 873.4
       },
       "errors": []
     },
     "Coronary atherosclerosis (deg 399) | client": {
       "toggleOn": {
-        "n": 2,
-        "median": 189.1,
-        "p90": 189.1,
-        "min": 185.7,
-        "max": 189.1
+        "n": 10,
+        "median": 167,
+        "p90": 196.1,
+        "min": 164.6,
+        "max": 197.9
       },
       "toggleOff": {
-        "n": 2,
-        "median": 185.7,
-        "p90": 185.7,
-        "min": 185.4,
-        "max": 185.7
+        "n": 10,
+        "median": 188.6,
+        "p90": 191,
+        "min": 164.8,
+        "max": 191.1
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 916.8,
-        "p90": 916.8,
-        "min": 893.4,
-        "max": 916.8
+        "n": 10,
+        "median": 851.4,
+        "p90": 867.4,
+        "min": 794.4,
+        "max": 877.6
       },
       "errors": []
     },
@@ -446,59 +446,59 @@
         "n": 0
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 863.9,
-        "p90": 863.9,
-        "min": 787.1,
-        "max": 863.9
+        "n": 10,
+        "median": 685.2,
+        "p90": 691.6,
+        "min": 647.5,
+        "max": 699.9
       },
       "errors": []
     },
     "ESRD (585.32) | precomputed": {
       "toggleOn": {
-        "n": 2,
-        "median": 107.6,
-        "p90": 107.6,
-        "min": 106.3,
-        "max": 107.6
+        "n": 10,
+        "median": 96.5,
+        "p90": 115.6,
+        "min": 91.6,
+        "max": 124.5
       },
       "toggleOff": {
-        "n": 2,
-        "median": 119.7,
-        "p90": 119.7,
-        "min": 119.6,
-        "max": 119.7
+        "n": 10,
+        "median": 97.6,
+        "p90": 97.9,
+        "min": 95.9,
+        "max": 97.9
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 776.3,
-        "p90": 776.3,
-        "min": 707.5,
-        "max": 776.3
+        "n": 10,
+        "median": 695.9,
+        "p90": 700.1,
+        "min": 656.1,
+        "max": 718.6
       },
       "errors": []
     },
     "ESRD (585.32) | client": {
       "toggleOn": {
-        "n": 2,
-        "median": 102.1,
-        "p90": 102.1,
-        "min": 100.9,
-        "max": 102.1
+        "n": 10,
+        "median": 96.4,
+        "p90": 127.1,
+        "min": 94.5,
+        "max": 128
       },
       "toggleOff": {
-        "n": 2,
-        "median": 116.8,
-        "p90": 116.8,
-        "min": 110.4,
-        "max": 116.8
+        "n": 10,
+        "median": 101.4,
+        "p90": 101.9,
+        "min": 99.8,
+        "max": 102.2
       },
       "pvalueSwitch": {
-        "n": 2,
-        "median": 837.1,
-        "p90": 837.1,
-        "min": 780.8,
-        "max": 837.1
+        "n": 10,
+        "median": 691.8,
+        "p90": 705.3,
+        "min": 653.8,
+        "max": 709
       },
       "errors": []
     }
@@ -506,18 +506,18 @@
   "load": {
     "baseline page1": {
       "coldMs": {
-        "n": 2,
-        "median": 2147,
-        "p90": 2147,
-        "min": 1493,
-        "max": 2147
+        "n": 10,
+        "median": 1432,
+        "p90": 1643,
+        "min": 1413,
+        "max": 2546
       },
       "warmMs": {
-        "n": 2,
-        "median": 1316,
-        "p90": 1316,
-        "min": 1269,
-        "max": 1316
+        "n": 10,
+        "median": 1286,
+        "p90": 1401,
+        "min": 1251,
+        "max": 1613
       },
       "transferredBytes": 523782,
       "decodedBytes": 4445239,
@@ -526,58 +526,58 @@
     },
     "precomputed page1": {
       "coldMs": {
-        "n": 2,
-        "median": 1564,
-        "p90": 1564,
-        "min": 1501,
-        "max": 1564
+        "n": 10,
+        "median": 1516,
+        "p90": 1558,
+        "min": 1365,
+        "max": 2057
       },
       "warmMs": {
-        "n": 2,
-        "median": 1317,
-        "p90": 1317,
-        "min": 1305,
-        "max": 1317
+        "n": 10,
+        "median": 1336,
+        "p90": 1479,
+        "min": 1289,
+        "max": 1570
       },
-      "transferredBytes": 537465,
-      "decodedBytes": 4898258,
+      "transferredBytes": 538563,
+      "decodedBytes": 4898265,
       "requests": 9,
       "errors": []
     },
     "client page1": {
       "coldMs": {
-        "n": 2,
-        "median": 4128,
-        "p90": 4128,
-        "min": 1436,
-        "max": 4128
+        "n": 10,
+        "median": 1425,
+        "p90": 1468,
+        "min": 1319,
+        "max": 1475
       },
       "warmMs": {
-        "n": 2,
-        "median": 1303,
-        "p90": 1303,
-        "min": 1269,
-        "max": 1303
+        "n": 10,
+        "median": 1288,
+        "p90": 1367,
+        "min": 1250,
+        "max": 1374
       },
-      "transferredBytes": 535031,
-      "decodedBytes": 4480525,
+      "transferredBytes": 535032,
+      "decodedBytes": 4480526,
       "requests": 10,
       "errors": []
     },
     "baseline page2": {
       "coldMs": {
-        "n": 2,
-        "median": 3589,
-        "p90": 3589,
-        "min": 2071,
-        "max": 3589
+        "n": 10,
+        "median": 2054,
+        "p90": 2059,
+        "min": 2051,
+        "max": 2073
       },
       "warmMs": {
-        "n": 2,
-        "median": 2035,
-        "p90": 2035,
-        "min": 2029,
-        "max": 2035
+        "n": 10,
+        "median": 1043,
+        "p90": 2052,
+        "min": 1013,
+        "max": 2054
       },
       "transferredBytes": 219478,
       "decodedBytes": 1425996,
@@ -586,41 +586,41 @@
     },
     "precomputed page2": {
       "coldMs": {
-        "n": 2,
-        "median": 2065,
+        "n": 10,
+        "median": 2060,
         "p90": 2065,
-        "min": 2063,
-        "max": 2065
+        "min": 2054,
+        "max": 2068
       },
       "warmMs": {
-        "n": 2,
-        "median": 2034,
-        "p90": 2034,
-        "min": 2032,
-        "max": 2034
+        "n": 10,
+        "median": 2049,
+        "p90": 2060,
+        "min": 1014,
+        "max": 2066
       },
-      "transferredBytes": 226276,
-      "decodedBytes": 1440509,
+      "transferredBytes": 226418,
+      "decodedBytes": 1440651,
       "requests": 10,
       "errors": []
     },
     "client page2": {
       "coldMs": {
-        "n": 2,
-        "median": 2078,
-        "p90": 2078,
-        "min": 2074,
-        "max": 2078
+        "n": 10,
+        "median": 2064,
+        "p90": 2072,
+        "min": 2053,
+        "max": 2079
       },
       "warmMs": {
-        "n": 2,
-        "median": 2071,
-        "p90": 2071,
-        "min": 2036,
-        "max": 2071
+        "n": 10,
+        "median": 2058,
+        "p90": 2066,
+        "min": 1015,
+        "max": 2127
       },
-      "transferredBytes": 231235,
-      "decodedBytes": 1460990,
+      "transferredBytes": 231236,
+      "decodedBytes": 1460991,
       "requests": 10,
       "errors": []
     }

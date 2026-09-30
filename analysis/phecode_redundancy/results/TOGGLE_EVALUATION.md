@@ -15,7 +15,7 @@ the decision is yours.
 | Does it work? | Yes, on both pages, in both implementations, with identical results. |
 | Which implementation? | **Client-side rule.** It is as fast, ships 5.7 kB gzipped once rather than 14.9 kB gzipped on every filter change, and needs no rebuild of any data file. |
 | Which tier set? | **{T1, T2}.** T1 alone misses obvious sibling duplicates; T4 as defined over-masks. |
-| Does it meet the speed guidelines? | Yes on all three. See §3. |
+| Does it meet the speed guidelines? | Yes on all three, with room. The toggle is *faster* than every filter the pages already have. See §3. |
 | Biggest caveat | In AFR, {T1,T2} leaves **37.9% of phenotypes with no edges at all**. The toggle needs to say so on screen, or the AFR network looks broken. |
 | Why not T3? | It hides psoriasis–ankylosing spondylitis (9,728 shared SNPs) and psoriasis–rheumatoid arthritis (9,569). `phecode_exclude_range` means "do not use as controls for each other", and two diseases land in each other's range *because* they share biology. See §4.3. |
 
@@ -124,7 +124,137 @@ console warning rather than silently ignored.
 
 ## 3. Speed (B3)
 
-_(pending — the benchmark runs on a quiet machine; see `toggle_bench.json`)_
+`scripts/bench_toggle.js --runs 10`, raw numbers in `results/toggle_bench.json`.
+Machine was otherwise idle. `main` ran on :3001 and the feature branch on
+:3000, so before/after is two real servers rather than a feature flag.
+
+**How latency is measured.** Fire the control, then stop the clock once
+mutations inside the `<svg>` have quiesced for two animation frames. Every
+operation below — toggle, ancestry switch, p-value switch — is timed to that
+same finish line, because the guideline is a comparison between them and a
+comparison is only worth reading if both ends are measured the same way.
+Page 2's p-value sliders debounce for 200 ms before refetching, and that sits
+inside their figures, because it sits inside what the user waits through.
+
+### Toggle latency vs the existing filters
+
+Median (p90) of 10 runs, milliseconds.
+
+**Network view (page 1)**
+
+| Config | Implementation | Toggle on | Toggle off | Ancestry switch | P-value switch |
+|---|---|---|---|---|---|
+| default: META, 1e-04, total | baseline | — | — | 600 (644) | 574 (594) |
+| | precomputed | **356 (365)** | 362 | 652 (683) | 630 (657) |
+| | client | **367 (391)** | 361 | 588 (632) | 543 (548) |
+| densest: EUR, 1e-04, total | baseline | — | — | 632 (656) | 516 (547) |
+| | precomputed | **395 (405)** | 299 | 616 (631) | 563 (605) |
+| | client | **425 (441)** | 306 | 557 (584) | 523 (603) |
+
+**Node view (page 2)**, EUR at 1e-04
+
+| Phenotype | Implementation | Toggle on | Toggle off | P-value switch |
+|---|---|---|---|---|
+| Type 2 diabetes (deg 481) | baseline | — | — | 1046 (1125) |
+| | precomputed | **279 (290)** | 274 | 1057 (1073) |
+| | client | **277 (294)** | 274 | 1082 (1117) |
+| Diabetes mellitus (deg 476) | baseline | — | — | 1063 (1107) |
+| | precomputed | **277 (279)** | 279 | 1049 (1080) |
+| | client | **280 (299)** | 274 | 1056 (1090) |
+| Coronary atherosclerosis (deg 399) | baseline | — | — | 848 (863) |
+| | precomputed | **169 (196)** | 190 | 848 (866) |
+| | client | **167 (196)** | 189 | 851 (867) |
+| ESRD (585.32) | baseline | — | — | 685 (692) |
+| | precomputed | **97 (116)** | 98 | 696 (700) |
+| | client | **96 (127)** | 101 | 692 (705) |
+
+**The toggle is faster than every filter the pages already have, in every
+configuration, on both implementations.** Worst case is 425 ms (client, page
+1, densest) against 557 ms for an ancestry switch in the same view. On page
+2 the margin is wider: 97–280 ms against 685–1,082 ms, because the toggle
+re-renders from rows already in the browser while the p-value slider
+refetches.
+
+The two implementations are within noise of each other everywhere. On page 1
+the client rule is 10–30 ms slower, which is the truncation rule running over
+54,790 edges instead of reading a served integer; on page 2 they are
+identical. Neither difference would be visible.
+
+Toggling **off** is consistently a little cheaper than toggling on, and on
+page 1's densest config markedly so (299 vs 395 ms) — restoring edges costs
+less than removing them and recomputing degrees.
+
+### Initial load and payload
+
+Median (p90) of 10 runs; payload is what the browser actually transferred.
+
+| Page | Build | Cold load | Warm load | Transferred | vs baseline | Requests |
+|---|---|---|---|---|---|---|
+| page 1 | baseline | 1432 (1643) | 1286 (1401) | 523,782 B | — | 6 |
+| | precomputed | 1516 (1558) | 1336 (1479) | 538,563 B | **+2.82%** | 9 |
+| | client | 1425 (1468) | 1288 (1367) | 535,032 B | **+2.15%** | 10 |
+| page 2 | baseline | 2054 (2059) | 1043 (2052) | 219,478 B | — | 6 |
+| | precomputed | 2060 (2065) | 2049 (2060) | 226,418 B | **+3.16%** | 10 |
+| | client | 2064 (2072) | 2058 (2066) | 231,236 B | **+5.36%** | 10 |
+
+**Payload is well inside the 10% guideline** on both options and both pages.
+Note the ordering flips between pages: on page 1 the client rule is cheaper
+(it fetches one 20.6 kB lookup instead of a 438 kB `rel=1` edge payload),
+while on page 2 it is dearer (it fetches the whole node→phecode map where the
+precomputed option fetches only the centre's own related pairs).
+
+**The warm page-2 row needs explaining, and it is not a regression.** Warm
+load reads 1,043 ms on baseline against ~2,050 ms on both feature builds,
+which looks like a 1 s regression. It is an artefact of `networkidle0`. A
+focused 20-run rerun measuring three signals:
+
+| Build | networkidle0 | networkidle2 | DOMContentLoaded |
+|---|---|---|---|
+| baseline | 1041 (p90 1045) | 694 (709) | 53 (59) |
+| precomputed | 2068 (2077) | 694 (716) | 39 (57) |
+| client | 2066 (2073) | 695 (743) | 49 (63) |
+
+`networkidle2` and `DOMContentLoaded` are **identical across all three**. The
+toggle issues `/api/relations/status` and then, depending on the
+implementation, a lookup or a pairs request — two serialized round trips.
+Each resets `networkidle0`'s 500 ms idle timer, and on this page that pushes
+detection into a second idle window. Nothing the user perceives changes.
+
+If you want the artefact gone as well as the non-regression: fold the tier
+list into the lookup response so the client makes one request instead of two,
+or issue them in parallel. We have not done it, because it optimises a
+measurement rather than the page.
+
+### Memory
+
+| Config | Implementation | Heap before toggle | Heap after |
+|---|---|---|---|
+| default (META) | precomputed | 8.80 MB | 8.78 MB |
+| default (META) | client | 8.64 MB | 8.65 MB |
+| densest (EUR) | precomputed | 30.80 MB | 17.63 MB |
+| densest (EUR) | client | 25.19 MB | 17.55 MB |
+
+`performance.memory` is not available on the baseline build's runs, so there
+is no before/after comparison against `main` — only before/after toggling
+within each feature build. On the default config the toggle costs nothing
+measurable. On the densest config the heap is *lower* after toggling, which
+is garbage collection timing rather than a real saving; these numbers are too
+noisy to support any claim beyond "no leak or blow-up was observed".
+
+### Errors
+
+Zero page errors across every run of every configuration, on both
+implementations and both pages.
+
+### Against the acceptance guidelines
+
+| Guideline | Result |
+|---|---|
+| Toggle latency no worse than the existing ancestry/threshold filters | **Met, with room.** Worst case 425 ms against 557 ms for the filter it is compared to. |
+| No measurable regression in initial load | **Met.** Cold load is within noise on both pages; the warm page-2 gap is a `networkidle0` artefact and vanishes under two other signals. |
+| Payload increase under 10% | **Met.** +2.15% to +5.36% depending on page and option. |
+
+Neither option misses a guideline, so there is nothing to flag under B3.
 
 ---
 
@@ -372,7 +502,10 @@ Tooling and analysis (not shipped to the browser): `build_relations.py`,
 
 ### Payload
 
-_(see §3 for the measured figures)_
+| Page | Precomputed | Client |
+|---|---|---|
+| page 1 | +14,781 B (+2.82%) | +11,250 B (+2.15%) |
+| page 2 | +6,940 B (+3.16%) | +11,758 B (+5.36%) |
 
 ### Reproducing this
 
