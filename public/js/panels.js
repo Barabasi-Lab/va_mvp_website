@@ -140,7 +140,13 @@
       });
 
       const fit = () => {
+        // Clear both before measuring. The transform does not affect
+        // offsetHeight but maxHeight does, so leaving a previous run's clip
+        // in place makes `natural` the clipped height - the next fit then
+        // decides it fits, removes the clip, and the column overflows again
+        // on the following pass.
         wrap.style.transform = 'none';
+        wrap.style.maxHeight = '';
         const natural = wrap.offsetHeight;
         const readout = document.getElementById('bottom-left-stack');
         // extraReserve lets a page keep room below the column for something
@@ -148,10 +154,26 @@
         const reserved = (readout ? readout.offsetHeight + 20 : 0)
                        + (global.Panels.extraReserve || 0);
         const avail = window.innerHeight - top - reserved - 10;
-        const scale = natural > avail && natural > 0
-          ? Math.max(minScale, avail / natural)
-          : 1;
+        const needed = natural > 0 ? avail / natural : 1;
+        const scale = needed >= 1 ? 1 : Math.max(minScale, needed);
         wrap.style.transform = scale === 1 ? 'none' : `scale(${scale})`;
+
+        // Shrinking stops at minScale, and below that the column used to
+        // keep its full height and run over whatever was beneath it - the
+        // readout on page 2, the hover label on page 1. One more panel was
+        // enough to cross that line on a 1152x560 window. Past the clamp,
+        // scroll instead of overflowing: the text stays readable and the
+        // column stays inside the space it has. maxHeight is applied in
+        // pre-transform units, hence the division.
+        if (scale > needed) {
+          wrap.style.maxHeight = `${Math.max(0, avail / scale)}px`;
+          wrap.style.overflowY = 'auto';
+          wrap.style.overflowX = 'hidden';
+        } else {
+          wrap.style.maxHeight = '';
+          wrap.style.overflowY = '';
+          wrap.style.overflowX = '';
+        }
       };
       fit();
 
@@ -191,6 +213,9 @@
         ? `SNP count exceeds the maximum that can be displayed: ${fmt(limit)} ` +
           `SNPs with strongest evidence shown. Download the data to see all SNPs.`
         : '';
+      // Three lines of warning is a large change in the readout's height,
+      // and the column above it is sized against that height.
+      if (global.Panels.__refit) requestAnimationFrame(global.Panels.__refit);
     }
   };
 })(window);
