@@ -188,7 +188,8 @@ def build_full_associations(full_dataset, gene_annotation=GENE_ANNOTATION):
                       g.gene_distance_bp,
                       coalesce(g.annotation_status, 'position_unknown')
                         AS annotation_status,
-                      g.overlapping_noncoding
+                      g.overlapping_noncoding,
+                      g.grch38_pos
                FROM associations a
                LEFT JOIN gene_annotation g USING (rsid)"""
         )
@@ -207,7 +208,8 @@ def build_full_associations(full_dataset, gene_annotation=GENE_ANNOTATION):
                       CAST(NULL AS VARCHAR) AS nearest_genes_all,
                       CAST(NULL AS INTEGER) AS gene_distance_bp,
                       'position_unknown' AS annotation_status,
-                      CAST(NULL AS VARCHAR) AS overlapping_noncoding
+                      CAST(NULL AS VARCHAR) AS overlapping_noncoding,
+                      CAST(NULL AS BIGINT) AS grch38_pos
                FROM associations a"""
         )
         con.execute("DROP TABLE associations")

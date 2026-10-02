@@ -628,12 +628,19 @@ loadData().then(async (data) => {
         // thickness radios stacked up under each other. Lay the column out
         // from measured heights, with the search bar last. (No reset button
         // here: page 3 holds no selection to clear.)
-        Panels.stackLeft([
+        const stack = () => Panels.stackLeft([
             pValueSlider.node(),
             pValueSlider2.node(),
             compareAncestries.node(),
+            document.getElementById('gene-labels-container'),
             searchContainer.node()
-        ]);
+        ].filter(Boolean));
+        stack();
+
+        GeneLabels.readParams(new URLSearchParams(window.location.search));
+        GeneLabels.control(redraw);
+        stack();
+        if (GeneLabels.enabled) redraw();
 
         // Listen for ancestry checkbox changes
         d3.selectAll('.ancestry-option').on('change', function () {
@@ -1057,7 +1064,7 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
         if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
         if (!geneByRsid.has(d.rsid)) {
             geneByRsid.set(d.rsid, { gene: d.nearest_gene, dist: d.gene_distance_bp,
-                                     nc: d.overlapping_noncoding });
+                                     nc: d.overlapping_noncoding, pos: d.grch38_pos });
         }
     }
 
@@ -1071,8 +1078,16 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
         node.nearestGene = g ? g.gene : null;
         node.geneDistanceBp = g ? g.dist : null;
         node.overlappingNoncoding = g ? g.nc : null;
+        node.grch38Pos = g && g.pos != null ? Number(g.pos) : null;
         });
-    rsidNodes.sort((a, b) => a.category - b.category);
+    // Order by chromosome and then by position on it. Chromosome alone
+    // left SNPs sharing a nearest gene scattered around the ring, so a
+    // run-based gene label fragmented - ESRD in AFR drew five separate
+    // MYH9 brackets. SNPs with no position sort last within their
+    // chromosome rather than disturbing the ones that have one.
+    rsidNodes.sort((a, b) => (a.category - b.category)
+        || ((a.grch38Pos == null) - (b.grch38Pos == null))
+        || ((a.grch38Pos || 0) - (b.grch38Pos || 0)));
         const middle_x = width / 2;
         rsidNodes.forEach((node, i) => {
             node.x = middle_x;
@@ -1226,6 +1241,9 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
         .attr('fill', 'white')
         .attr('opacity', 0.8)
         .attr('rx', 5).attr('ry', 5); // Rounded corners
+
+    // Stage 2 group labels, drawn only while the toggle is on.
+    GeneLabels.drawColumn(svg, nodes.filter(n => String(n.id).startsWith('rs')), {});
 
     // Modify hover interactions to include label groups
     svg.selectAll('circle')

@@ -1,0 +1,160 @@
+{
+ "runs": 10,
+ "generated": "2026-10-02T18:50:30.868Z",
+ "endpoints": {
+  "page2 ESRD AFR": {
+   "baseline": {
+    "ms": {
+     "n": 10,
+     "median": 331,
+     "p90": 446
+    },
+    "gzippedBytes": 1020761
+   },
+   "feature": {
+    "ms": {
+     "n": 10,
+     "median": 375,
+     "p90": 390
+    },
+    "gzippedBytes": 1242401
+   },
+   "latency_delta_pct": 13.3,
+   "payload_delta_pct": 21.7
+  },
+  "page2 Obesity META": {
+   "baseline": {
+    "ms": {
+     "n": 10,
+     "median": 574,
+     "p90": 624
+    },
+    "gzippedBytes": 5126913
+   },
+   "feature": {
+    "ms": {
+     "n": 10,
+     "median": 709,
+     "p90": 719
+    },
+    "gzippedBytes": 6162518
+   },
+   "latency_delta_pct": 23.5,
+   "payload_delta_pct": 20.2
+  },
+  "page2 Asthma META": {
+   "baseline": {
+    "ms": {
+     "n": 10,
+     "median": 412,
+     "p90": 419
+    },
+    "gzippedBytes": 1987482
+   },
+   "feature": {
+    "ms": {
+     "n": 10,
+     "median": 476,
+     "p90": 493
+    },
+    "gzippedBytes": 2554852
+   },
+   "latency_delta_pct": 15.5,
+   "payload_delta_pct": 28.5
+  },
+  "page3 ESRD-588 AFR": {
+   "baseline": {
+    "ms": {
+     "n": 10,
+     "median": 175,
+     "p90": 178
+    },
+    "gzippedBytes": 180825
+   },
+   "feature": {
+    "ms": {
+     "n": 10,
+     "median": 230,
+     "p90": 238
+    },
+    "gzippedBytes": 219647
+   },
+   "latency_delta_pct": 31.4,
+   "payload_delta_pct": 21.5
+  },
+  "page3 Hyperlip-lipoid EUR": {
+   "baseline": {
+    "ms": {
+     "n": 10,
+     "median": 240,
+     "p90": 249
+    },
+    "gzippedBytes": 171520
+   },
+   "feature": {
+    "ms": {
+     "n": 10,
+     "median": 259,
+     "p90": 268
+    },
+    "gzippedBytes": 210424
+   },
+   "latency_delta_pct": 7.9,
+   "payload_delta_pct": 22.7
+  }
+ },
+ "tooltip": {
+  "page2 baseline": {
+   "n": 20,
+   "median": 332.8,
+   "p90": 333.1
+  },
+  "page2 feature": {
+   "n": 20,
+   "median": 329,
+   "p90": 333.1
+  },
+  "page3 baseline": {
+   "n": 20,
+   "median": 332.8,
+   "p90": 333
+  },
+  "page3 feature": {
+   "n": 20,
+   "median": 332.8,
+   "p90": 333.1
+  }
+ },
+ "stage2": {
+  "page2 (150 SNPs) k=2": {
+   "n": 10,
+   "median": 145.3,
+   "p90": 152.7
+  },
+  "page2 (150 SNPs) k=3": {
+   "n": 10,
+   "median": 142.3,
+   "p90": 145.9
+  },
+  "page2 (150 SNPs) k=5": {
+   "n": 10,
+   "median": 141.8,
+   "p90": 155.1
+  },
+  "page3 (250 SNPs) k=2": {
+   "n": 10,
+   "median": 111.1,
+   "p90": 114.2
+  },
+  "page3 (250 SNPs) k=3": {
+   "n": 10,
+   "median": 113.4,
+   "p90": 122.3
+  },
+  "page3 (250 SNPs) k=5": {
+   "n": 10,
+   "median": 110,
+   "p90": 112.6
+  }
+ }
+}
