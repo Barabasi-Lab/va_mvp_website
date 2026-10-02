@@ -840,6 +840,11 @@ function initializeNetwork(data, betaColumn, pColumn, betaColumn2=null, pColumn2
     const centerX = width / 2;
     const centerY = height / 2;
     console.log('data:', data);
+    // One row per (SNP, phenotype). Duplicated pairs otherwise draw twice,
+    // and in comparison mode the two copies can disagree about direction -
+    // see public/js/rows.js.
+    data = Rows.dedupeRows(data, pColumn, comparison_on_off ? pColumn2 : null);
+
     const nodeMap = new Map();
     data.forEach(d => {
         if (!nodeMap.has(d.rsid)) nodeMap.set(d.rsid, { id: d.rsid, color: d.rsid_hex });

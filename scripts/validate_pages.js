@@ -34,6 +34,9 @@ function loadClientFns(file, globals) {
     console: quiet,
     window: { innerWidth: 1920, innerHeight: 1080 },
     d3: { select: () => ({ selectAll: () => ({}) }), selectAll: () => ({}) },
+    // initializeNetwork collapses duplicated (SNP, phenotype) rows through
+    // this; the pages load it from its own script tag.
+    Rows: require(path.join(REPO, 'public', 'js', 'rows.js')),
     // declared above the slice we evaluate, so supply them here; 'max' is the
     // page default (edge thickness = larger of the two ancestries' betas)
     betaSource: 'max',
