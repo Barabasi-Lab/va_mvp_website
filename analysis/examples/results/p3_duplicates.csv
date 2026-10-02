@@ -1,0 +1,2958 @@
+example,phe_id,label,is_target,rsid,n_rows,exact_duplicate
+ESRD,235,Gout and other crystal arthropathies,False,rs77701529,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs10920693,2,False
+ESRD,230,Hyperlipidemia,False,rs34406972,2,False
+ESRD,464,Open-angle glaucoma,False,rs8003876,2,False
+ESRD,673,Hypotension,False,rs12589329,2,False
+ESRD,1147,Hammer toe (acquired),False,rs7503154,2,False
+ESRD,364,Substance addiction and disorders,False,rs71408161,2,False
+ESRD,602,Atrial fibrillation,False,rs71093329,2,False
+ESRD,644,Other aneurysm,False,rs34805961,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs35068861,2,False
+ESRD,181,Type 2 diabetes,False,rs1687597,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs4686926,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs111887672,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs7416991,2,False
+ESRD,900,Renal failure,False,rs7931346,2,False
+ESRD,906,"Chronic Kidney Disease, Stage III",False,rs2103080,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs9270938,2,False
+ESRD,602,Atrial fibrillation,False,rs243928,2,False
+ESRD,264,Obesity,False,rs227198,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs10648232,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs11859460,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs55842857,2,False
+ESRD,822,Umbilical hernia,False,rs1385730,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs147748111,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs572991270,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs2605111,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs6722374,2,False
+ESRD,264,Obesity,False,rs1561491,2,False
+ESRD,175,Diabetes mellitus,False,rs34308646,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs12367888,2,False
+ESRD,265,Morbid obesity,False,rs11105313,2,False
+ESRD,463,Glaucoma,False,rs904646,2,False
+ESRD,181,Type 2 diabetes,False,rs2396002,2,False
+ESRD,560,Coronary atherosclerosis,False,rs115493313,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs10749237,2,False
+ESRD,549,Hypertension,False,rs12295878,2,False
+ESRD,614,Congestive heart failure; nonhypertensive,False,rs202076405,2,False
+ESRD,264,Obesity,False,rs606416,2,False
+ESRD,230,Hyperlipidemia,False,rs6722374,2,False
+ESRD,243,Disorders of calcium/phosphorus metabolism,False,rs35305544,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs11724112,2,False
+ESRD,366,Alcoholism,False,rs894368,2,False
+ESRD,193,Hypoglycemia,False,rs9271476,2,False
+ESRD,907,"Chronic Kidney Disease, Stage IV",False,rs9416706,2,False
+ESRD,550,Essential hypertension,False,rs4582335,2,False
+ESRD,926,Urinary calculus,False,rs28395268,2,False
+ESRD,264,Obesity,False,rs2780658,2,False
+ESRD,181,Type 2 diabetes,False,rs4332133,2,False
+ESRD,553,Hypertensive chronic kidney disease,False,rs1906433,2,False
+ESRD,712,Chronic airway obstruction,False,rs4887093,2,False
+ESRD,1267,"Complications of cardiac/vascular device, implant, and graft",False,rs2811713,2,False
+ESRD,230,Hyperlipidemia,False,rs144141476,2,False
+ESRD,181,Type 2 diabetes,False,rs10839422,2,False
+ESRD,906,"Chronic Kidney Disease, Stage III",False,rs2187780,2,False
+ESRD,472,Myopia,False,rs10193373,2,False
+ESRD,560,Coronary atherosclerosis,False,rs4638157,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs2844584,2,False
+ESRD,550,Essential hypertension,False,rs7944185,2,False
+ESRD,618,Heart failure with preserved EF [Diastolic heart failure],False,rs202076405,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs656417,2,False
+ESRD,551,Hypertensive heart and/or renal disease,False,rs10638515,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs5829764,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs4911378,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs11726722,2,False
+ESRD,181,Type 2 diabetes,False,rs1980383,2,False
+ESRD,51,Dermatophytosis / Dermatomycosis,False,rs9849115,2,False
+ESRD,926,Urinary calculus,False,rs4677903,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs4425388,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2069945,2,False
+ESRD,181,Type 2 diabetes,False,rs11399326,2,False
+ESRD,264,Obesity,False,rs6126635,2,False
+ESRD,913,Disorders resulting from impaired renal function,False,rs2396002,2,False
+ESRD,556,Ischemic Heart Disease,False,rs1613078,2,False
+ESRD,236,Gout,False,rs72714425,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs3028025,2,False
+ESRD,286,Anemia of chronic disease,False,rs2187780,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs34406972,2,False
+ESRD,645,Aortic aneurysm,False,rs34805961,2,False
+ESRD,373,Sleep apnea,False,rs562620,2,False
+ESRD,1165,Osteoarthrosis NOS,False,rs2894697,2,False
+ESRD,666,Varicose veins of lower extremity,False,rs776912,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs150595340,2,False
+ESRD,176,Type 1 diabetes,False,rs9270575,2,False
+ESRD,176,Type 1 diabetes,False,rs9271669,2,False
+ESRD,927,Calculus of kidney,False,rs2696531,2,False
+ESRD,556,Ischemic Heart Disease,False,rs2069945,2,False
+ESRD,465,Primary open angle glaucoma,False,rs4053209,2,False
+ESRD,556,Ischemic Heart Disease,False,rs2811713,2,False
+ESRD,181,Type 2 diabetes,False,rs202076405,2,False
+ESRD,181,Type 2 diabetes,False,rs1990814,2,False
+ESRD,181,Type 2 diabetes,False,rs61792978,2,False
+ESRD,53,Dermatophytosis,False,rs9849115,2,False
+ESRD,175,Diabetes mellitus,False,rs893711,2,False
+ESRD,602,Atrial fibrillation,False,rs10919327,2,False
+ESRD,175,Diabetes mellitus,False,rs34505371,2,False
+ESRD,175,Diabetes mellitus,False,rs62246206,2,False
+ESRD,549,Hypertension,False,rs4582335,2,False
+ESRD,176,Type 1 diabetes,False,rs9270601,2,False
+ESRD,176,Type 1 diabetes,False,rs9272169,2,False
+ESRD,236,Gout,False,rs2466097,2,False
+ESRD,556,Ischemic Heart Disease,False,rs9416706,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs11406312,2,False
+ESRD,181,Type 2 diabetes,False,rs9265067,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs9657438,2,False
+ESRD,181,Type 2 diabetes,False,rs11788527,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs3094324,2,False
+ESRD,464,Open-angle glaucoma,False,rs11416026,2,False
+ESRD,473,Astigmatism,False,rs1440273,2,False
+ESRD,843,Diverticulosis,False,rs10648232,2,False
+ESRD,614,Congestive heart failure; nonhypertensive,False,rs35314801,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs12103700,2,False
+ESRD,175,Diabetes mellitus,False,rs67276929,2,False
+ESRD,175,Diabetes mellitus,False,rs1076293,2,False
+ESRD,900,Renal failure,False,rs7416991,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs2907255,2,False
+ESRD,176,Type 1 diabetes,False,rs9270484,2,False
+ESRD,176,Type 1 diabetes,False,rs9271701,2,False
+ESRD,264,Obesity,False,rs111887672,2,False
+ESRD,560,Coronary atherosclerosis,False,rs9416706,2,False
+ESRD,549,Hypertension,False,rs1123186,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs9270936,2,False
+ESRD,464,Open-angle glaucoma,False,rs184549120,2,False
+ESRD,907,"Chronic Kidney Disease, Stage IV",False,rs2187780,2,False
+ESRD,913,Disorders resulting from impaired renal function,False,rs2187780,2,False
+ESRD,464,Open-angle glaucoma,False,rs36033160,2,False
+ESRD,560,Coronary atherosclerosis,False,rs1613078,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs7928320,2,False
+ESRD,181,Type 2 diabetes,False,rs3028025,2,False
+ESRD,638,Atherosclerosis,False,rs2811713,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs4767935,2,False
+ESRD,464,Open-angle glaucoma,False,rs386683,2,False
+ESRD,176,Type 1 diabetes,False,rs9271734,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs10919327,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs6593394,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs5791908,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs35509795,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2811713,2,False
+ESRD,560,Coronary atherosclerosis,False,rs34694172,2,False
+ESRD,236,Gout,False,rs77701529,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs532036845,2,False
+ESRD,926,Urinary calculus,False,rs12567402,2,False
+ESRD,181,Type 2 diabetes,False,rs62246206,2,False
+ESRD,181,Type 2 diabetes,False,rs893711,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs6936263,2,False
+ESRD,230,Hyperlipidemia,False,rs536695058,2,False
+ESRD,181,Type 2 diabetes,False,rs34505371,2,False
+ESRD,175,Diabetes mellitus,False,rs61792978,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs71542418,2,False
+ESRD,556,Ischemic Heart Disease,False,rs7301040,2,False
+ESRD,175,Diabetes mellitus,False,rs202076405,2,False
+ESRD,175,Diabetes mellitus,False,rs11788527,2,False
+ESRD,465,Primary open angle glaucoma,False,rs2811713,2,False
+ESRD,175,Diabetes mellitus,False,rs6603854,2,False
+ESRD,463,Glaucoma,False,rs2605111,2,False
+ESRD,465,Primary open angle glaucoma,False,rs28649910,2,False
+ESRD,230,Hyperlipidemia,False,rs34366417,2,False
+ESRD,181,Type 2 diabetes,False,rs7416991,2,False
+ESRD,644,Other aneurysm,False,rs2038712,2,False
+ESRD,230,Hyperlipidemia,False,rs77094622,2,False
+ESRD,181,Type 2 diabetes,False,rs62183774,2,False
+ESRD,438,Other retinal disorders,False,rs2284666,2,False
+ESRD,712,Chronic airway obstruction,False,rs12625596,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs5791908,2,False
+ESRD,560,Coronary atherosclerosis,False,rs10151602,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs2378335,2,False
+ESRD,602,Atrial fibrillation,False,rs35068861,2,False
+ESRD,264,Obesity,False,rs62251615,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs34694172,2,False
+ESRD,578,Primary/intrinsic cardiomyopathies,False,rs150595340,2,False
+ESRD,464,Open-angle glaucoma,False,rs7137822,2,False
+ESRD,365,Alcohol-related disorders,False,rs295452,2,False
+ESRD,192,Diabetic retinopathy,False,rs12541360,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs9416706,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2907255,2,False
+ESRD,652,"Peripheral vascular disease, unspecified",False,rs77094622,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs9272412,2,False
+ESRD,175,Diabetes mellitus,False,rs148779624,2,False
+ESRD,175,Diabetes mellitus,False,rs1123186,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs11493798,2,False
+ESRD,230,Hyperlipidemia,False,rs75158858,2,False
+ESRD,464,Open-angle glaucoma,False,rs6445943,2,False
+ESRD,464,Open-angle glaucoma,False,rs11187327,2,False
+ESRD,1077,Chronic ulcer of skin,False,rs6691931,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs12799441,2,False
+ESRD,230,Hyperlipidemia,False,rs656417,2,False
+ESRD,1146,Acquired toe deformities,False,rs202076405,2,False
+ESRD,181,Type 2 diabetes,False,rs3110649,2,False
+ESRD,230,Hyperlipidemia,False,rs5829764,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs1990814,2,False
+ESRD,191,Polyneuropathy in diabetes,False,rs9269008,2,False
+ESRD,602,Atrial fibrillation,False,rs147748111,2,False
+ESRD,181,Type 2 diabetes,False,rs10774570,2,False
+ESRD,843,Diverticulosis,False,rs34788166,2,False
+ESRD,176,Type 1 diabetes,False,rs2844584,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs9416706,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs2902340,2,False
+ESRD,175,Diabetes mellitus,False,rs77094622,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs202076405,2,False
+ESRD,265,Morbid obesity,False,rs6126635,2,False
+ESRD,467,Cataract,False,rs202076405,2,False
+ESRD,51,Dermatophytosis / Dermatomycosis,False,rs202076405,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs138969103,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs71093329,2,False
+ESRD,54,Dermatophytosis of nail,False,rs202076405,2,False
+ESRD,463,Glaucoma,False,rs7378565,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs70982875,2,False
+ESRD,181,Type 2 diabetes,False,rs79939956,2,False
+ESRD,181,Type 2 diabetes,False,rs2977852,2,False
+ESRD,181,Type 2 diabetes,False,rs71209038,2,False
+ESRD,181,Type 2 diabetes,False,rs9265131,2,False
+ESRD,230,Hyperlipidemia,False,rs11788527,2,False
+ESRD,927,Calculus of kidney,False,rs12567402,2,False
+ESRD,233,Mixed hyperlipidemia,False,rs75158858,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs4693943,2,False
+ESRD,365,Alcohol-related disorders,False,rs552890586,2,False
+ESRD,419,Other peripheral nerve disorders,False,rs12033877,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs3842706,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs41285057,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2902340,2,False
+ESRD,375,Obstructive sleep apnea,False,rs6126635,2,False
+ESRD,645,Aortic aneurysm,False,rs75158858,2,False
+ESRD,551,Hypertensive heart and/or renal disease,False,rs2907255,2,False
+ESRD,236,Gout,False,rs7079227,2,False
+ESRD,904,Renal dialysis,False,rs9416706,2,False
+ESRD,549,Hypertension,False,rs7301040,2,False
+ESRD,549,Hypertension,False,rs2085043,2,False
+ESRD,550,Essential hypertension,False,rs77094622,2,False
+ESRD,649,Peripheral vascular disease,False,rs77094622,2,False
+ESRD,181,Type 2 diabetes,False,rs9265008,2,False
+ESRD,464,Open-angle glaucoma,False,rs12882304,2,False
+ESRD,475,Hypermetropia,False,rs28655446,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs1906430,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs62052254,2,False
+ESRD,236,Gout,False,rs2518934,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs10919327,2,False
+ESRD,175,Diabetes mellitus,False,rs12985355,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9271476,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs2516502,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9271476,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs2516502,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2696531,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs9271148,2,False
+ESRD,602,Atrial fibrillation,False,rs9657438,2,False
+ESRD,602,Atrial fibrillation,False,rs150595340,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs34788166,2,False
+ESRD,1120,Peripheral enthesopathies and allied syndromes,False,rs2894697,2,False
+ESRD,665,Varicose veins,False,rs776912,2,False
+ESRD,284,Other anemias,False,rs9416706,2,False
+ESRD,463,Glaucoma,False,rs7083858,2,False
+ESRD,649,Peripheral vascular disease,False,rs7301040,2,False
+ESRD,550,Essential hypertension,False,rs7301040,2,False
+ESRD,549,Hypertension,False,rs77094622,2,False
+ESRD,550,Essential hypertension,False,rs2085043,2,False
+ESRD,560,Coronary atherosclerosis,False,rs5884844,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs11416026,2,False
+ESRD,181,Type 2 diabetes,False,rs4260435,2,False
+ESRD,438,Other retinal disorders,False,rs147277810,2,False
+ESRD,265,Morbid obesity,False,rs1817470,2,False
+ESRD,549,Hypertension,False,rs7944185,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs2103080,2,False
+ESRD,464,Open-angle glaucoma,False,rs2811713,2,False
+ESRD,175,Diabetes mellitus,False,rs2772014,2,False
+ESRD,175,Diabetes mellitus,False,rs7416991,2,False
+ESRD,264,Obesity,False,rs2696531,2,False
+ESRD,53,Dermatophytosis,False,rs2696531,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs746082,2,False
+ESRD,181,Type 2 diabetes,False,rs6603854,2,False
+ESRD,1062,"Diseases of nail, NOS",False,rs202076405,2,False
+ESRD,175,Diabetes mellitus,False,rs62183774,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs3787659,2,False
+ESRD,646,Abdominal aortic aneurysm,False,rs2811713,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270575,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9271669,2,False
+ESRD,556,Ischemic Heart Disease,False,rs9657438,2,False
+ESRD,550,Essential hypertension,False,rs2396002,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs9270109,2,False
+ESRD,230,Hyperlipidemia,False,rs504268,2,False
+ESRD,1216,Pain in limb,False,rs202076405,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs6853922,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs4693064,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs75158858,2,False
+ESRD,51,Dermatophytosis / Dermatomycosis,False,rs12054230,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs713032,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270601,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9272169,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9272169,2,False
+ESRD,905,End stage renal disease,True,rs9416706,2,False
+ESRD,175,Diabetes mellitus,False,rs2451221,2,False
+ESRD,560,Coronary atherosclerosis,False,rs77094622,2,False
+ESRD,464,Open-angle glaucoma,False,rs7378565,2,False
+ESRD,438,Other retinal disorders,False,rs114382848,2,False
+ESRD,230,Hyperlipidemia,False,rs4767935,2,False
+ESRD,175,Diabetes mellitus,False,rs4686926,2,False
+ESRD,556,Ischemic Heart Disease,False,rs6593394,2,False
+ESRD,550,Essential hypertension,False,rs909115,2,False
+ESRD,602,Atrial fibrillation,False,rs3859194,2,False
+ESRD,858,Other chronic nonalcoholic liver disease,False,rs56968095,2,False
+ESRD,1147,Hammer toe (acquired),False,rs2474938,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2605111,2,False
+ESRD,465,Primary open angle glaucoma,False,rs1368494,2,False
+ESRD,237,Gouty arthropathy,False,rs1001218,2,False
+ESRD,181,Type 2 diabetes,False,rs2451221,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs1906433,2,False
+ESRD,822,Umbilical hernia,False,rs2605111,2,False
+ESRD,365,Alcohol-related disorders,False,rs4767935,2,False
+ESRD,550,Essential hypertension,False,rs1123186,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs9268505,2,False
+ESRD,556,Ischemic Heart Disease,False,rs10151602,2,False
+ESRD,556,Ischemic Heart Disease,False,rs2907255,2,False
+ESRD,553,Hypertensive chronic kidney disease,False,rs9416706,2,False
+ESRD,373,Sleep apnea,False,rs3056080,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs7301040,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs536695058,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs1892009,2,False
+ESRD,181,Type 2 diabetes,False,rs898901,2,False
+ESRD,175,Diabetes mellitus,False,rs2696531,2,False
+ESRD,175,Diabetes mellitus,False,rs11416026,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs75158858,2,False
+ESRD,230,Hyperlipidemia,False,rs11493798,2,False
+ESRD,181,Type 2 diabetes,False,rs111895341,2,False
+ESRD,192,Diabetic retinopathy,False,rs149139013,2,False
+ESRD,465,Primary open angle glaucoma,False,rs9943694,2,False
+ESRD,236,Gout,False,rs112340616,2,False
+ESRD,175,Diabetes mellitus,False,rs2464584,2,False
+ESRD,927,Calculus of kidney,False,rs3104382,2,False
+ESRD,230,Hyperlipidemia,False,rs7928320,2,False
+ESRD,365,Alcohol-related disorders,False,rs894368,2,False
+ESRD,181,Type 2 diabetes,False,rs4686926,2,False
+ESRD,1159,Osteoarthrosis,False,rs2894697,2,False
+ESRD,577,Cardiomyopathy,False,rs150595340,2,False
+ESRD,463,Glaucoma,False,rs9943694,2,False
+ESRD,230,Hyperlipidemia,False,rs11216221,2,False
+ESRD,181,Type 2 diabetes,False,rs3775071,2,False
+ESRD,176,Type 1 diabetes,False,rs9264962,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs9270601,2,False
+ESRD,230,Hyperlipidemia,False,rs3094324,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs11216221,2,False
+ESRD,602,Atrial fibrillation,False,rs2907255,2,False
+ESRD,181,Type 2 diabetes,False,rs12054230,2,False
+ESRD,419,Other peripheral nerve disorders,False,rs546730798,2,False
+ESRD,175,Diabetes mellitus,False,rs1705217,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs34763545,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs2518934,2,False
+ESRD,236,Gout,False,rs111887672,2,False
+ESRD,900,Renal failure,False,rs9416706,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs3094324,2,False
+ESRD,264,Obesity,False,rs58903518,2,False
+ESRD,175,Diabetes mellitus,False,rs2605111,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs4638157,2,False
+ESRD,175,Diabetes mellitus,False,rs3775071,2,False
+ESRD,843,Diverticulosis,False,rs185223007,2,False
+ESRD,175,Diabetes mellitus,False,rs10749237,2,False
+ESRD,181,Type 2 diabetes,False,rs4767935,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs4686926,2,False
+ESRD,175,Diabetes mellitus,False,rs11399326,2,False
+ESRD,1144,Acquired foot deformities,False,rs202076405,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs111895341,2,False
+ESRD,905,End stage renal disease,True,rs35305544,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs11461199,2,False
+ESRD,175,Diabetes mellitus,False,rs4260435,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9275640,2,False
+ESRD,560,Coronary atherosclerosis,False,rs112293343,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs7931346,2,False
+ESRD,181,Type 2 diabetes,False,rs2772014,2,False
+ESRD,264,Obesity,False,rs34951907,2,False
+ESRD,550,Essential hypertension,False,rs10151602,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs2236296,2,False
+ESRD,556,Ischemic Heart Disease,False,rs34788166,2,False
+ESRD,857,Chronic liver disease and cirrhosis,False,rs59436064,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs202076405,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs7515727,2,False
+ESRD,464,Open-angle glaucoma,False,rs9943694,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs7631423,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs6930589,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs6930589,2,False
+ESRD,175,Diabetes mellitus,False,rs2977852,2,False
+ESRD,175,Diabetes mellitus,False,rs71209038,2,False
+ESRD,712,Chronic airway obstruction,False,rs1689411,2,False
+ESRD,550,Essential hypertension,False,rs2907255,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs149139013,2,False
+ESRD,927,Calculus of kidney,False,rs2097431,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs72714425,2,False
+ESRD,230,Hyperlipidemia,False,rs138201720,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs7416991,2,False
+ESRD,556,Ischemic Heart Disease,False,rs111996113,2,False
+ESRD,900,Renal failure,False,rs2907255,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs28383263,2,False
+ESRD,560,Coronary atherosclerosis,False,rs11105313,2,False
+ESRD,712,Chronic airway obstruction,False,rs12907372,2,False
+ESRD,556,Ischemic Heart Disease,False,rs202076405,2,False
+ESRD,175,Diabetes mellitus,False,rs2140240,2,False
+ESRD,175,Diabetes mellitus,False,rs152001,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs3859194,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs295452,2,False
+ESRD,181,Type 2 diabetes,False,rs1385730,2,False
+ESRD,175,Diabetes mellitus,False,rs2085043,2,False
+ESRD,187,Insulin pump user,False,rs6930589,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs11943242,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs6848710,2,False
+ESRD,265,Morbid obesity,False,rs4525093,2,False
+ESRD,181,Type 2 diabetes,False,rs10639199,2,False
+ESRD,181,Type 2 diabetes,False,rs67406039,2,False
+ESRD,560,Coronary atherosclerosis,False,rs34788166,2,False
+ESRD,181,Type 2 diabetes,False,rs149139013,2,False
+ESRD,264,Obesity,False,rs280306,2,False
+ESRD,176,Type 1 diabetes,False,rs9264671,2,False
+ESRD,901,Acute renal failure,False,rs2396002,2,False
+ESRD,181,Type 2 diabetes,False,rs2811713,2,False
+ESRD,373,Sleep apnea,False,rs1123186,2,False
+ESRD,181,Type 2 diabetes,False,rs2696531,2,False
+ESRD,556,Ischemic Heart Disease,False,rs2605111,2,False
+ESRD,646,Abdominal aortic aneurysm,False,rs75158858,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs557074465,2,False
+ESRD,1063,Ingrowing nail,False,rs202076405,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs2396002,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs497822,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs2069945,2,False
+ESRD,926,Urinary calculus,False,rs11461199,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270675,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9270675,2,False
+ESRD,438,Other retinal disorders,False,rs2293870,2,False
+ESRD,550,Essential hypertension,False,rs12295878,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs10839422,2,False
+ESRD,175,Diabetes mellitus,False,rs898901,2,False
+ESRD,602,Atrial fibrillation,False,rs2236296,2,False
+ESRD,602,Atrial fibrillation,False,rs7515727,2,False
+ESRD,175,Diabetes mellitus,False,rs1687597,2,False
+ESRD,560,Coronary atherosclerosis,False,rs6593394,2,False
+ESRD,900,Renal failure,False,rs2103080,2,False
+ESRD,927,Calculus of kidney,False,rs202076405,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs6969706,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs2811713,2,False
+ESRD,373,Sleep apnea,False,rs12589329,2,False
+ESRD,236,Gout,False,rs5805961,2,False
+ESRD,192,Diabetic retinopathy,False,rs2085043,2,False
+ESRD,366,Alcoholism,False,rs5876223,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270484,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9271701,2,False
+ESRD,175,Diabetes mellitus,False,rs4332133,2,False
+ESRD,556,Ischemic Heart Disease,False,rs77094622,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs6126635,2,False
+ESRD,926,Urinary calculus,False,rs9268505,2,False
+ESRD,181,Type 2 diabetes,False,rs11416026,2,False
+ESRD,602,Atrial fibrillation,False,rs2696531,2,False
+ESRD,175,Diabetes mellitus,False,rs111895341,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs73188267,2,False
+ESRD,373,Sleep apnea,False,rs79050605,2,False
+ESRD,550,Essential hypertension,False,rs35314801,2,False
+ESRD,900,Renal failure,False,rs1906430,2,False
+ESRD,264,Obesity,False,rs2136713,2,False
+ESRD,264,Obesity,False,rs41285057,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9271734,2,False
+ESRD,181,Type 2 diabetes,False,rs2464584,2,False
+ESRD,560,Coronary atherosclerosis,False,rs9657438,2,False
+ESRD,843,Diverticulosis,False,rs12505736,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs4930308,2,False
+ESRD,602,Atrial fibrillation,False,rs34763545,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs34366417,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs77094622,2,False
+ESRD,602,Atrial fibrillation,False,rs2518934,2,False
+ESRD,652,"Peripheral vascular disease, unspecified",False,rs2811713,2,False
+ESRD,464,Open-angle glaucoma,False,rs35460904,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs2907255,2,False
+ESRD,175,Diabetes mellitus,False,rs9849115,2,False
+ESRD,549,Hypertension,False,rs909115,2,False
+ESRD,464,Open-angle glaucoma,False,rs898901,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs2097431,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs10839422,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs34406972,2,False
+ESRD,233,Mixed hyperlipidemia,False,rs144141476,2,False
+ESRD,905,End stage renal disease,True,rs2187780,2,False
+ESRD,549,Hypertension,False,rs35314801,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs11397177,2,False
+ESRD,465,Primary open angle glaucoma,False,rs9416706,2,False
+ESRD,463,Glaucoma,False,rs7615735,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs1896001,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs7928320,2,False
+ESRD,366,Alcoholism,False,rs4673741,2,False
+ESRD,556,Ischemic Heart Disease,False,rs11578526,2,False
+ESRD,185,Type 2 diabetes with neurological manifestations,False,rs2085043,2,False
+ESRD,175,Diabetes mellitus,False,rs3028025,2,False
+ESRD,1160,Osteoarthritis; localized,False,rs2894697,2,False
+ESRD,464,Open-angle glaucoma,False,rs7083858,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs11381212,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs6126635,2,False
+ESRD,549,Hypertension,False,rs2396002,2,False
+ESRD,438,Other retinal disorders,False,rs33956114,2,False
+ESRD,463,Glaucoma,False,rs12882304,2,False
+ESRD,915,Secondary hyperparathyroidism (of renal origin),False,rs2187780,2,False
+ESRD,365,Alcohol-related disorders,False,rs1822529,2,False
+ESRD,927,Calculus of kidney,False,rs4677903,2,False
+ESRD,181,Type 2 diabetes,False,rs67276929,2,False
+ESRD,373,Sleep apnea,False,rs2505053,2,False
+ESRD,556,Ischemic Heart Disease,False,rs34694172,2,False
+ESRD,181,Type 2 diabetes,False,rs1076293,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9271388,2,False
+ESRD,560,Coronary atherosclerosis,False,rs7301040,2,False
+ESRD,1054,Corns and callosities,False,rs7503154,2,False
+ESRD,1159,Osteoarthrosis,False,rs7503154,2,False
+ESRD,51,Dermatophytosis / Dermatomycosis,False,rs2696531,2,False
+ESRD,230,Hyperlipidemia,False,rs138969103,2,False
+ESRD,472,Myopia,False,rs13120588,2,False
+ESRD,265,Morbid obesity,False,rs2605111,2,False
+ESRD,843,Diverticulosis,False,rs3862388,2,False
+ESRD,192,Diabetic retinopathy,False,rs7503154,2,False
+ESRD,54,Dermatophytosis of nail,False,rs2696531,2,False
+ESRD,264,Obesity,False,rs13086380,2,False
+ESRD,193,Hypoglycemia,False,rs9271734,2,False
+ESRD,265,Morbid obesity,False,rs10749237,2,False
+ESRD,602,Atrial fibrillation,False,rs1896001,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9264962,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9264962,2,False
+ESRD,264,Obesity,False,rs11406312,2,False
+ESRD,549,Hypertension,False,rs11656167,2,False
+ESRD,926,Urinary calculus,False,rs3104382,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs11788527,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs144141476,2,False
+ESRD,602,Atrial fibrillation,False,rs532036845,2,False
+ESRD,463,Glaucoma,False,rs11416026,2,False
+ESRD,53,Dermatophytosis,False,rs12054230,2,False
+ESRD,193,Hypoglycemia,False,rs9271701,2,False
+ESRD,649,Peripheral vascular disease,False,rs2811713,2,False
+ESRD,181,Type 2 diabetes,False,rs12985355,2,False
+ESRD,927,Calculus of kidney,False,rs28395268,2,False
+ESRD,549,Hypertension,False,rs10151602,2,False
+ESRD,192,Diabetic retinopathy,False,rs3028025,2,False
+ESRD,175,Diabetes mellitus,False,rs6126635,2,False
+ESRD,237,Gouty arthropathy,False,rs11461199,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs8058009,2,False
+ESRD,472,Myopia,False,rs9416706,2,False
+ESRD,181,Type 2 diabetes,False,rs10875854,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9269008,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9269008,2,False
+ESRD,549,Hypertension,False,rs2907255,2,False
+ESRD,464,Open-angle glaucoma,False,rs4053209,2,False
+ESRD,181,Type 2 diabetes,False,rs9265893,2,False
+ESRD,284,Other anemias,False,rs10839422,2,False
+ESRD,465,Primary open angle glaucoma,False,rs2696531,2,False
+ESRD,230,Hyperlipidemia,False,rs77370416,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs369052205,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs144742400,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs532036845,2,False
+ESRD,900,Renal failure,False,rs1906433,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs112340616,2,False
+ESRD,265,Morbid obesity,False,rs55842857,2,False
+ESRD,1055,Other hypertrophic and atrophic conditions of skin,False,rs11859460,2,False
+ESRD,712,Chronic airway obstruction,False,rs264959,2,False
+ESRD,602,Atrial fibrillation,False,rs11381212,2,False
+ESRD,175,Diabetes mellitus,False,rs9350317,2,False
+ESRD,915,Secondary hyperparathyroidism (of renal origin),False,rs2396002,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs6849273,2,False
+ESRD,602,Atrial fibrillation,False,rs4693064,2,False
+ESRD,472,Myopia,False,rs28655446,2,False
+ESRD,175,Diabetes mellitus,False,rs1980383,2,False
+ESRD,192,Diabetic retinopathy,False,rs9272412,2,False
+ESRD,287,Anemia in chronic kidney disease,False,rs9416706,2,False
+ESRD,465,Primary open angle glaucoma,False,rs7137822,2,False
+ESRD,176,Type 1 diabetes,False,rs9271476,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs12541360,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs111752868,2,False
+ESRD,181,Type 2 diabetes,False,rs9265046,2,False
+ESRD,175,Diabetes mellitus,False,rs7037844,2,False
+ESRD,175,Diabetes mellitus,False,rs10839422,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs3831742,3,False
+ESRD,264,Obesity,False,rs10920693,2,False
+ESRD,602,Atrial fibrillation,False,rs497822,2,False
+ESRD,463,Glaucoma,False,rs7137822,2,False
+ESRD,240,Disorders of mineral metabolism,False,rs3095156,2,False
+ESRD,1079,Chronic ulcer of leg or foot,False,rs6691931,2,False
+ESRD,638,Atherosclerosis,False,rs202076405,2,False
+ESRD,560,Coronary atherosclerosis,False,rs202076405,2,False
+ESRD,373,Sleep apnea,False,rs6126635,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs1001218,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs115952815,2,False
+ESRD,464,Open-angle glaucoma,False,rs2605111,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs2780658,2,False
+ESRD,556,Ischemic Heart Disease,False,rs11105313,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs2696531,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270582,2,False
+ESRD,230,Hyperlipidemia,False,rs17411024,2,False
+ESRD,560,Coronary atherosclerosis,False,rs111996113,2,False
+ESRD,926,Urinary calculus,False,rs2696531,2,False
+ESRD,237,Gouty arthropathy,False,rs9416706,2,False
+ESRD,236,Gout,False,rs12103700,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs12196237,2,False
+ESRD,264,Obesity,False,rs2605111,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs3862388,2,False
+ESRD,644,Other aneurysm,False,rs75158858,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs11724112,2,False
+ESRD,237,Gouty arthropathy,False,rs11724112,2,False
+ESRD,237,Gouty arthropathy,False,rs881971,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs12505736,2,False
+ESRD,264,Obesity,False,rs10749237,2,False
+ESRD,464,Open-angle glaucoma,False,rs9416706,2,False
+ESRD,175,Diabetes mellitus,False,rs10875854,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs202076405,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs9264671,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs9264671,2,False
+ESRD,175,Diabetes mellitus,False,rs9265893,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs17411024,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs11105313,2,False
+ESRD,463,Glaucoma,False,rs33983525,2,False
+ESRD,926,Urinary calculus,False,rs202076405,2,False
+ESRD,181,Type 2 diabetes,False,rs6126635,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs504268,2,False
+ESRD,1216,Pain in limb,False,rs2696531,2,False
+ESRD,556,Ischemic Heart Disease,False,rs75158858,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs202076405,2,False
+ESRD,375,Obstructive sleep apnea,False,rs2505053,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs56285759,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs34115112,2,False
+ESRD,176,Type 1 diabetes,False,rs9270675,2,False
+ESRD,652,"Peripheral vascular disease, unspecified",False,rs7301040,2,False
+ESRD,181,Type 2 diabetes,False,rs7503154,2,False
+ESRD,264,Obesity,False,rs202076405,2,False
+ESRD,53,Dermatophytosis,False,rs202076405,2,False
+ESRD,553,Hypertensive chronic kidney disease,False,rs2187780,2,False
+ESRD,375,Obstructive sleep apnea,False,rs13106642,2,False
+ESRD,645,Aortic aneurysm,False,rs2038712,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs4704057,2,False
+ESRD,438,Other retinal disorders,False,rs9501393,2,False
+ESRD,181,Type 2 diabetes,False,rs9849115,2,False
+ESRD,236,Gout,False,rs7631423,2,False
+ESRD,463,Glaucoma,False,rs4053209,2,False
+ESRD,181,Type 2 diabetes,False,rs1123186,2,False
+ESRD,602,Atrial fibrillation,False,rs202076405,2,False
+ESRD,903,Chronic renal failure [CKD],False,rs2187780,2,False
+ESRD,181,Type 2 diabetes,False,rs148779624,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs7503154,2,False
+ESRD,191,Polyneuropathy in diabetes,False,rs202076405,2,False
+ESRD,438,Other retinal disorders,False,rs79035749,2,False
+ESRD,901,Acute renal failure,False,rs7301040,2,False
+ESRD,187,Insulin pump user,False,rs34115112,2,False
+ESRD,926,Urinary calculus,False,rs2097431,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs4520043,2,False
+ESRD,263,"Overweight, obesity and other hyperalimentation",False,rs34951907,2,False
+ESRD,236,Gout,False,rs757301,2,False
+ESRD,858,Other chronic nonalcoholic liver disease,False,rs59436064,2,False
+ESRD,560,Coronary atherosclerosis,False,rs75158858,2,False
+ESRD,181,Type 2 diabetes,False,rs34308646,2,False
+ESRD,236,Gout,False,rs295452,2,False
+ESRD,175,Diabetes mellitus,False,rs2396002,2,False
+ESRD,233,Mixed hyperlipidemia,False,rs17411024,2,False
+ESRD,843,Diverticulosis,False,rs4425388,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs881971,2,False
+ESRD,556,Ischemic Heart Disease,False,rs2902340,2,False
+ESRD,464,Open-angle glaucoma,False,rs1368494,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs13204736,2,False
+ESRD,184,Type 2 diabetes with ophthalmic manifestations,False,rs28383417,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs2894257,2,False
+ESRD,465,Primary open angle glaucoma,False,rs202076405,2,False
+ESRD,229,Disorders of lipoid metabolism,False,rs77370416,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs11482052,2,False
+ESRD,366,Alcoholism,False,rs552890586,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs185223007,2,False
+ESRD,560,Coronary atherosclerosis,False,rs2484240,2,False
+ESRD,237,Gouty arthropathy,False,rs4693943,2,False
+ESRD,463,Glaucoma,False,rs62289329,2,False
+ESRD,175,Diabetes mellitus,False,rs10639199,2,False
+ESRD,475,Hypermetropia,False,rs9416706,2,False
+ESRD,175,Diabetes mellitus,False,rs67406039,2,False
+ESRD,175,Diabetes mellitus,False,rs149139013,2,False
+ESRD,176,Type 1 diabetes,False,rs9269008,2,False
+ESRD,175,Diabetes mellitus,False,rs2811713,2,False
+ESRD,181,Type 2 diabetes,False,rs2085043,2,False
+ESRD,551,Hypertensive heart and/or renal disease,False,rs2187780,2,False
+ESRD,912,Kidney replaced by transpant,False,rs2187780,2,False
+ESRD,556,Ischemic Heart Disease,False,rs4638157,2,False
+ESRD,181,Type 2 diabetes,False,rs2140240,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs35068861,2,False
+ESRD,265,Morbid obesity,False,rs903294,2,False
+ESRD,181,Type 2 diabetes,False,rs152001,2,False
+ESRD,463,Glaucoma,False,rs28753058,2,False
+ESRD,645,Aortic aneurysm,False,rs2811713,2,False
+ESRD,601,Atrial fibrillation and flutter,False,rs7416991,2,False
+ESRD,560,Coronary atherosclerosis,False,rs434343,2,False
+ESRD,175,Diabetes mellitus,False,rs1385730,2,False
+ESRD,857,Chronic liver disease and cirrhosis,False,rs56968095,2,False
+ESRD,264,Obesity,False,rs55842857,2,False
+ESRD,906,"Chronic Kidney Disease, Stage III",False,rs9416706,2,False
+ESRD,181,Type 2 diabetes,False,rs1705217,2,False
+ESRD,175,Diabetes mellitus,False,rs12054230,2,False
+ESRD,463,Glaucoma,False,rs6445943,2,False
+ESRD,176,Type 1 diabetes,False,rs6930589,2,False
+ESRD,464,Open-angle glaucoma,False,rs6415643,2,False
+ESRD,578,Primary/intrinsic cardiomyopathies,False,rs61869101,2,False
+ESRD,181,Type 2 diabetes,False,rs77094622,2,False
+ESRD,463,Glaucoma,False,rs35529723,2,False
+ESRD,230,Hyperlipidemia,False,rs35068861,2,False
+ESRD,602,Atrial fibrillation,False,rs56285759,2,False
+ESRD,175,Diabetes mellitus,False,rs10774570,2,False
+ESRD,464,Open-angle glaucoma,False,rs904646,2,False
+ESRD,179,Type 1 diabetes with ophthalmic manifestations,False,rs3104368,2,False
+ESRD,180,Type 1 diabetes with neurological manifestations,False,rs3104368,2,False
+ESRD,577,Cardiomyopathy,False,rs61869101,2,False
+ESRD,175,Diabetes mellitus,False,rs3110649,2,False
+ESRD,561,"Other chronic ischemic heart disease, unspecified",False,rs369052205,2,False
+ESRD,906,"Chronic Kidney Disease, Stage III",False,rs1906433,2,False
+ESRD,464,Open-angle glaucoma,False,rs7615735,2,False
+ESRD,1054,Corns and callosities,False,rs2736218,2,False
+ESRD,577,Cardiomyopathy,False,rs6485719,2,False
+ESRD,465,Primary open angle glaucoma,False,rs898901,2,False
+ESRD,181,Type 2 diabetes,False,rs9350317,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs3104382,2,False
+ESRD,265,Morbid obesity,False,rs58903518,2,False
+ESRD,904,Renal dialysis,False,rs2187780,2,False
+ESRD,235,Gout and other crystal arthropathies,False,rs545108053,2,False
+ESRD,181,Type 2 diabetes,False,rs2605111,2,False
+ESRD,1019,Superficial cellulitis and abscess,False,rs202076405,2,False
+ESRD,556,Ischemic Heart Disease,False,rs2696531,2,False
+ESRD,644,Other aneurysm,False,rs2811713,2,False
+ESRD,181,Type 2 diabetes,False,rs10749237,2,False
+ESRD,175,Diabetes mellitus,False,rs4767935,2,False
+ESRD,842,Diverticulosis and diverticulitis,False,rs34788166,2,False
+ESRD,89,Neoplasm of uncertain behavior of skin,False,rs917982,2,False
+ESRD,290,Encounter for long-term (current) use of anticoagulants,False,rs150595340,2,False
+ESRD,578,Primary/intrinsic cardiomyopathies,False,rs6485719,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265796,2,False
+anemia_280.1,1049,Psoriasis,False,rs673002,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3132487,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9260109,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272608,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs34694172,2,False
+anemia_280.1,236,Gout,False,rs77701529,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs532036845,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9378816,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs7756647,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9265651,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9266557,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9271323,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1140412,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2894257,3,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270575,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271669,2,False
+anemia_280.1,1049,Psoriasis,False,rs1142326,2,False
+anemia_280.1,167,Hypothyroidism,False,rs6930589,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs28383263,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs9270484,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1826961,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs697742,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9271671,2,False
+anemia_280.1,1049,Psoriasis,False,rs13204736,2,False
+anemia_280.1,1049,Psoriasis,False,rs2855805,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2097431,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3104368,2,False
+anemia_280.1,66,"Cancer of larynx, pharynx, nasal cavities",False,rs9270675,2,False
+anemia_280.1,603,Atrial flutter,False,rs532036845,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9271669,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2760982,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs3104382,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271388,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9272337,2,False
+anemia_280.1,1049,Psoriasis,False,rs1055849,2,False
+anemia_280.1,1049,Psoriasis,False,rs4947309,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1611456,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9469195,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs183076319,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs4532479,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9265702,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs13204736,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2855805,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2247179,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs389025,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2523600,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2844631,2,False
+anemia_280.1,926,Urinary calculus,False,rs12567402,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs28379094,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4326984,2,False
+anemia_280.1,1039,Vitiligo,False,rs9270575,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs62246206,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs893711,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs6936263,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs34349134,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9501393,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs28383263,2,False
+anemia_280.1,302,Elevated white blood cell count,False,rs7301040,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs536695058,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs34505371,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs61792978,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs71542418,2,False
+anemia_280.1,1049,Psoriasis,False,rs77897247,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2844631,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs4993691,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9270484,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1071652,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9281384,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs72722089,2,False
+anemia_280.1,536,Hearing loss,False,rs75840714,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs7301040,2,False
+anemia_280.1,95,Cancer of prostate,False,rs3110649,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs202076405,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1391372,2,False
+anemia_280.1,95,Cancer of prostate,False,rs12704978,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs11788527,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs2811713,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs6603854,2,False
+anemia_280.1,463,Glaucoma,False,rs2605111,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs35826341,2,False
+anemia_280.1,1174,"Osteoporosis, osteopenia and pathological fracture",False,rs10151602,2,False
+anemia_280.1,295,Purpura and other hemorrhagic conditions,False,rs59436064,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs28649910,2,False
+anemia_280.1,1039,Vitiligo,False,rs28749140,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2844517,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs2894257,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs34366417,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs7416991,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs77094622,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs62183774,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs673002,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs7743652,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs3104368,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs139451799,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9940698,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265557,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9266196,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265680,2,False
+anemia_280.1,438,Other retinal disorders,False,rs2284666,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs2293870,2,False
+anemia_280.1,712,Chronic airway obstruction,False,rs12625596,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs4911378,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9264255,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9264822,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs499233,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs9657438,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs5791908,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs73388865,2,False
+anemia_280.1,95,Cancer of prostate,False,rs8014133,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs10151602,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs2378335,2,False
+anemia_280.1,860,Liver abscess and sequelae of chronic liver disease,False,rs56968095,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28753048,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9378816,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9271148,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9268505,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs62052254,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs35068861,2,False
+anemia_280.1,264,Obesity,False,rs62251615,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9268505,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs2855805,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9272608,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs114382848,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs34694172,2,False
+anemia_280.1,578,Primary/intrinsic cardiomyopathies,False,rs150595340,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs56344817,3,False
+anemia_280.1,365,Alcohol-related disorders,False,rs295452,2,False
+anemia_280.1,1049,Psoriasis,False,rs9264279,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs34115112,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9275718,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs3095299,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs6926894,2,False
+anemia_280.1,192,Diabetic retinopathy,False,rs12541360,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs9416706,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2907255,2,False
+anemia_280.1,652,"Peripheral vascular disease, unspecified",False,rs77094622,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs9272679,2,False
+anemia_280.1,167,Hypothyroidism,False,rs113565913,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs9272412,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs148779624,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs1123186,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs11493798,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs75158858,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs9271388,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs113589804,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1634766,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265701,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9501132,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265702,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2894257,2,False
+anemia_280.1,1077,Chronic ulcer of skin,False,rs6691931,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs4911378,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2259384,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2263324,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs4947309,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs713031,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9268779,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9272337,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs12799441,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs656417,2,False
+anemia_280.1,1146,Acquired toe deformities,False,rs202076405,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs3110649,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs5829764,2,False
+anemia_280.1,1039,Vitiligo,False,rs6930589,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs13395,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28752856,2,False
+anemia_280.1,83,Skin cancer,False,rs9264255,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs2097431,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs1990814,2,False
+anemia_280.1,191,Polyneuropathy in diabetes,False,rs9269008,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs2894257,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9270575,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9271669,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs147748111,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs10774570,2,False
+anemia_280.1,83,Skin cancer,False,rs917982,2,False
+anemia_280.1,843,Diverticulosis,False,rs34788166,2,False
+anemia_280.1,1049,Psoriasis,False,rs9256980,2,False
+anemia_280.1,1049,Psoriasis,False,rs9275939,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2858894,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1611653,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs2018341,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs2844584,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs9416706,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs2284666,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs2902340,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs11399326,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs77094622,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs202076405,2,False
+anemia_280.1,265,Morbid obesity,False,rs6126635,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9271671,2,False
+anemia_280.1,95,Cancer of prostate,False,rs2350900,2,False
+anemia_280.1,467,Cataract,False,rs202076405,2,False
+anemia_280.1,51,Dermatophytosis / Dermatomycosis,False,rs202076405,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs138969103,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs71093329,2,False
+anemia_280.1,54,Dermatophytosis of nail,False,rs202076405,2,False
+anemia_280.1,463,Glaucoma,False,rs7378565,2,False
+anemia_280.1,536,Hearing loss,False,rs6936263,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs70982875,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs79939956,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs58426930,2,False
+anemia_280.1,1176,Osteoporosis NOS,False,rs9271669,2,False
+anemia_280.1,1049,Psoriasis,False,rs9266057,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9264671,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs4997052,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs499233,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9269008,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs1391372,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2439288,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2977852,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs71209038,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270109,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272478,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2073722,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28752897,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9264279,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9269008,2,False
+anemia_280.1,167,Hypothyroidism,False,rs112878158,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9265131,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs11788527,2,False
+anemia_280.1,662,Other venous embolism and thrombosis,False,rs3094324,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs499233,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2253718,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2894257,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1634766,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3888070,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs34115112,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9275718,2,False
+anemia_280.1,1049,Psoriasis,False,rs1611653,2,False
+anemia_280.1,1049,Psoriasis,False,rs1632891,2,False
+anemia_280.1,167,Hypothyroidism,False,rs34821853,2,False
+anemia_280.1,167,Hypothyroidism,False,rs587495,2,False
+anemia_280.1,167,Hypothyroidism,False,rs713032,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9270601,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9271636,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272169,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs709055,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs2069945,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs13204736,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2596492,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs28383417,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs4959029,2,False
+anemia_280.1,1049,Psoriasis,False,rs2253718,2,False
+anemia_280.1,1049,Psoriasis,False,rs2894257,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9264822,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs805260,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3095229,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs380852,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9271323,2,False
+anemia_280.1,1049,Psoriasis,False,rs1233603,2,False
+anemia_280.1,1049,Psoriasis,False,rs2523541,2,False
+anemia_280.1,1049,Psoriasis,False,rs587495,2,False
+anemia_280.1,1049,Psoriasis,False,rs713032,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3104382,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9271388,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs183076319,2,False
+anemia_280.1,1049,Psoriasis,False,rs2253489,2,False
+anemia_280.1,1049,Psoriasis,False,rs28752961,2,False
+anemia_280.1,1049,Psoriasis,False,rs35608993,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4935356,2,False
+anemia_280.1,167,Hypothyroidism,False,rs7756647,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9270109,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9272478,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1391372,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2395169,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs6925893,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272608,3,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs4520043,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9269129,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271015,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9275640,2,False
+anemia_280.1,1044,Cutaneous lupus erythematosus,False,rs9270613,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1071652,3,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9269129,2,False
+anemia_280.1,1049,Psoriasis,False,rs2516502,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs28383417,2,False
+anemia_280.1,66,"Cancer of larynx, pharynx, nasal cavities",False,rs9271388,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs308440,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs532036845,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9264279,2,False
+anemia_280.1,1049,Psoriasis,False,rs28753048,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2308466,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3129962,2,False
+anemia_280.1,927,Calculus of kidney,False,rs12567402,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs4693943,2,False
+anemia_280.1,365,Alcohol-related disorders,False,rs552890586,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1071816,2,False
+anemia_280.1,419,Other peripheral nerve disorders,False,rs12033877,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9265701,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9501132,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs3842706,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs3997993,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs41285057,2,False
+anemia_280.1,1049,Psoriasis,False,rs9264822,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2516502,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9281347,3,False
+anemia_280.1,1060,Actinic keratosis,False,rs2097431,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2902340,2,False
+anemia_280.1,375,Obstructive sleep apnea,False,rs6126635,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265557,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs572991270,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs77458377,2,False
+anemia_280.1,1039,Vitiligo,False,rs1130117,2,False
+anemia_280.1,1039,Vitiligo,False,rs623327,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs572991270,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2696531,2,False
+anemia_280.1,551,Hypertensive heart and/or renal disease,False,rs2907255,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs909801,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9270675,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs7449585,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs2247179,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3046555,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs11179903,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs11859460,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs11859460,2,False
+anemia_280.1,341,Anxiety disorder,False,rs3078510,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28753048,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs4947309,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9275939,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9265702,2,False
+anemia_280.1,236,Gout,False,rs7079227,2,False
+anemia_280.1,549,Hypertension,False,rs7301040,2,False
+anemia_280.1,549,Hypertension,False,rs2085043,2,False
+anemia_280.1,550,Essential hypertension,False,rs77094622,2,False
+anemia_280.1,649,Peripheral vascular disease,False,rs77094622,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270582,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270613,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs183076319,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9264962,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265702,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9265008,2,False
+anemia_280.1,167,Hypothyroidism,False,rs16799,2,False
+anemia_280.1,1039,Vitiligo,False,rs673002,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs1906430,2,False
+anemia_280.1,83,Skin cancer,False,rs9940698,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs62052254,2,False
+anemia_280.1,236,Gout,False,rs2518934,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs805260,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs28753048,2,False
+anemia_280.1,57,Dermatomycoses,False,rs9270936,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs10919327,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs12985355,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9271476,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs2516502,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9271476,2,False
+anemia_280.1,1049,Psoriasis,False,rs9270575,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9275724,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9272679,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs139451799,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2018341,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs2516502,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs12033877,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2696531,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2378335,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs9271148,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs9657438,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4927636,2,False
+anemia_280.1,859,Cirrhosis of liver without mention of alcohol,False,rs56968095,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs150595340,2,False
+anemia_280.1,83,Skin cancer,False,rs8058009,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs34788166,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9501510,2,False
+anemia_280.1,536,Hearing loss,False,rs2396002,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs1264295,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9281347,2,False
+anemia_280.1,1120,Peripheral enthesopathies and allied syndromes,False,rs2894697,2,False
+anemia_280.1,665,Varicose veins,False,rs776912,2,False
+anemia_280.1,284,Other anemias,False,rs9416706,2,False
+anemia_280.1,1049,Psoriasis,False,rs9270601,2,False
+anemia_280.1,1049,Psoriasis,False,rs9272169,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3997993,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs137854633,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9275924,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs2293870,2,False
+anemia_280.1,463,Glaucoma,False,rs7083858,2,False
+anemia_280.1,649,Peripheral vascular disease,False,rs7301040,2,False
+anemia_280.1,550,Essential hypertension,False,rs7301040,2,False
+anemia_280.1,549,Hypertension,False,rs77094622,2,False
+anemia_280.1,550,Essential hypertension,False,rs2085043,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs4532479,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9264962,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9265702,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs5884844,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs11416026,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1064588,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2524158,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs4520043,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9268505,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9271148,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs62052254,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs4260435,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs80116099,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9263823,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9271148,2,False
+anemia_280.1,438,Other retinal disorders,False,rs147277810,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9264671,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs61765479,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs567259730,2,False
+anemia_280.1,820,Inguinal hernia,False,rs6746804,2,False
+anemia_280.1,1174,"Osteoporosis, osteopenia and pathological fracture",False,rs9271669,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265890,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2844584,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs427995,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265769,3,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs28749140,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs6596838,2,False
+anemia_280.1,265,Morbid obesity,False,rs1817470,2,False
+anemia_280.1,167,Hypothyroidism,False,rs112146857,2,False
+anemia_280.1,549,Hypertension,False,rs7944185,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs2103080,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265046,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9270938,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs2855805,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2772014,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs7416991,2,False
+anemia_280.1,264,Obesity,False,rs2696531,2,False
+anemia_280.1,53,Dermatophytosis,False,rs2696531,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs746082,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs6603854,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs8058009,2,False
+anemia_280.1,1062,"Diseases of nail, NOS",False,rs202076405,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs62183774,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs3787659,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs9270675,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9270601,2,False
+anemia_280.1,646,Abdominal aortic aneurysm,False,rs2811713,2,False
+anemia_280.1,167,Hypothyroidism,False,rs7301040,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270575,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9271669,2,False
+anemia_280.1,1049,Psoriasis,False,rs9281347,3,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9264822,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs4532479,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs9657438,2,False
+anemia_280.1,550,Essential hypertension,False,rs2396002,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs9270109,2,False
+anemia_280.1,443,Macular puckering of retina,False,rs2811713,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs504268,2,False
+anemia_280.1,1216,Pain in limb,False,rs202076405,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs6853922,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1142326,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs4693064,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs4959110,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs139451799,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272412,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2247179,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265557,2,False
+anemia_280.1,1049,Psoriasis,False,rs2844517,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1547422,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9260304,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9265769,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3095299,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9265715,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9271148,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2844631,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs4993691,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270484,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs79941607,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9268487,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9264962,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265702,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs138477983,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs673002,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1071650,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272263,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272337,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs75158858,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9940698,2,False
+anemia_280.1,299,Diseases of white blood cells,False,rs34763545,2,False
+anemia_280.1,51,Dermatophytosis / Dermatomycosis,False,rs12054230,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9257328,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9265680,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9270575,2,False
+anemia_280.1,441,"Macular degeneration, wet",False,rs9501393,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs713032,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270601,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9272169,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9272169,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1611653,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1632891,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs2247179,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs2284666,2,False
+anemia_280.1,905,End stage renal disease,False,rs9416706,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2451221,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs77094622,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs369052205,2,False
+anemia_280.1,83,Skin cancer,False,rs2378335,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs762320,2,False
+anemia_280.1,95,Cancer of prostate,False,rs2524087,2,False
+anemia_280.1,1200,Cervicalgia,False,rs202076405,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs74169643,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs28749140,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9270109,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs56344817,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9270109,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272478,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9277754,2,False
+anemia_280.1,438,Other retinal disorders,False,rs114382848,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs4767935,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs62052254,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs4686926,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265651,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9266557,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs3997998,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9275658,2,False
+anemia_280.1,536,Hearing loss,False,rs12133645,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs6593394,2,False
+anemia_280.1,550,Essential hypertension,False,rs909115,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1071816,3,False
+anemia_280.1,602,Atrial fibrillation,False,rs3859194,2,False
+anemia_280.1,858,Other chronic nonalcoholic liver disease,False,rs56968095,2,False
+anemia_280.1,83,Skin cancer,False,rs9268505,2,False
+anemia_280.1,1147,Hammer toe (acquired),False,rs2474938,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs3104374,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs9264279,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2605111,2,False
+anemia_280.1,1049,Psoriasis,False,rs9264671,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9266057,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9271671,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9269129,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs1368494,2,False
+anemia_280.1,839,Symptoms involving digestive system,False,rs202076405,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265067,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs7383388,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9264671,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9265957,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs9270675,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs2378335,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs9272679,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3132487,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs35121819,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs6925893,2,False
+anemia_280.1,1049,Psoriasis,False,rs1131223,2,False
+anemia_280.1,1049,Psoriasis,False,rs1611446,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9265796,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs9270601,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265203,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265629,2,False
+anemia_280.1,1049,Psoriasis,False,rs209156,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9263852,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1071650,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9281347,3,False
+anemia_280.1,1049,Psoriasis,False,rs1071652,3,False
+anemia_280.1,167,Hypothyroidism,False,rs9270938,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs4935356,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265651,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9266557,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9272679,2,False
+anemia_280.1,1049,Psoriasis,False,rs28482016,2,False
+anemia_280.1,1049,Psoriasis,False,rs28753032,2,False
+anemia_280.1,1049,Psoriasis,False,rs3095156,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2844631,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs112878158,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2523600,2,False
+anemia_280.1,66,"Cancer of larynx, pharynx, nasal cavities",False,rs28383333,2,False
+anemia_280.1,711,Asthma with exacerbation,False,rs9270601,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9264671,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9265769,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs28383263,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs4993691,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9270484,2,False
+anemia_280.1,1049,Psoriasis,False,rs1071743,2,False
+anemia_280.1,1049,Psoriasis,False,rs1140412,2,False
+anemia_280.1,167,Hypothyroidism,False,rs7449585,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272679,2,False
+anemia_280.1,237,Gouty arthropathy,False,rs1001218,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs805260,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265701,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9501132,2,False
+anemia_280.1,1049,Psoriasis,False,rs2596490,2,False
+anemia_280.1,1049,Psoriasis,False,rs4997052,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs499233,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2451221,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9270601,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs1906433,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9265796,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs9270109,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs1055849,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs4947309,2,False
+anemia_280.1,365,Alcohol-related disorders,False,rs4767935,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs8058009,2,False
+anemia_280.1,1049,Psoriasis,False,rs9264962,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265702,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2247179,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs389025,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2855805,2,False
+anemia_280.1,550,Essential hypertension,False,rs1123186,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs587495,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs713032,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270601,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271636,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9378230,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3104382,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs9268505,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs10151602,2,False
+anemia_280.1,1039,Vitiligo,False,rs499233,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9264255,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs2907255,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9265957,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs1547422,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs34839184,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs6456615,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs1055849,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs4947309,2,False
+anemia_280.1,553,Hypertensive chronic kidney disease,False,rs9416706,2,False
+anemia_280.1,373,Sleep apnea,False,rs3056080,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs7301040,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs28414505,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs536695058,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs917982,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2517531,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2517863,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9272679,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265724,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9275724,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs3104368,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2247179,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs1892009,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs898901,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2696531,2,False
+anemia_280.1,536,Hearing loss,False,rs6044095,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs369052205,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2428489,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs7383388,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9501510,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs2811713,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs11416026,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs75158858,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs11493798,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs2570581,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs508318,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9270938,2,False
+anemia_280.1,83,Skin cancer,False,rs4002397,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs111895341,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9270938,2,False
+anemia_280.1,192,Diabetic retinopathy,False,rs149139013,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs4097270,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs6926894,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs28383333,2,False
+anemia_280.1,1180,Pain in joint,False,rs2894697,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs9943694,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs62052254,2,False
+anemia_280.1,1049,Psoriasis,False,rs9266144,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1634771,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1793893,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28753058,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3132598,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs6925893,2,False
+anemia_280.1,236,Gout,False,rs112340616,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs6999833,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2464584,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs10093547,2,False
+anemia_280.1,714,Chronic bronchitis,False,rs12907372,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272263,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272337,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9263823,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265715,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9271148,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9501393,2,False
+anemia_280.1,927,Calculus of kidney,False,rs3104382,2,False
+anemia_280.1,95,Cancer of prostate,False,rs10645898,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs7928320,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs11512276,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs264959,2,False
+anemia_280.1,365,Alcohol-related disorders,False,rs894368,2,False
+anemia_280.1,1039,Vitiligo,False,rs9272679,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2516502,2,False
+anemia_280.1,83,Skin cancer,False,rs9270109,2,False
+anemia_280.1,302,Elevated white blood cell count,False,rs6503531,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs4686926,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9263852,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs28383333,2,False
+anemia_280.1,1159,Osteoarthrosis,False,rs2894697,2,False
+anemia_280.1,577,Cardiomyopathy,False,rs150595340,2,False
+anemia_280.1,463,Glaucoma,False,rs9943694,2,False
+anemia_280.1,83,Skin cancer,False,rs80116099,2,False
+anemia_280.1,1049,Psoriasis,False,rs9269129,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1071816,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs499233,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs77897247,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs11216221,2,False
+anemia_280.1,862,Ascites (non malignant),False,rs59436064,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs3775071,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2517531,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2517863,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9268505,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs4520043,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs61765479,2,False
+anemia_280.1,603,Atrial flutter,False,rs35068861,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs34115112,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3132487,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs35121819,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs6925893,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs1634771,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs28753058,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs3104374,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9265893,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9264962,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2439288,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3104374,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265893,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9270936,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs9270601,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs3094324,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs11216221,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs2907255,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2844631,2,False
+anemia_280.1,83,Skin cancer,False,rs3104382,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs2247179,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs572991270,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs11859460,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs12054230,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs4935356,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs145649164,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9270601,2,False
+anemia_280.1,419,Other peripheral nerve disorders,False,rs546730798,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs1705217,2,False
+anemia_280.1,571,Nonspecific chest pain,False,rs10877804,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs34763545,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs2518934,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265796,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9264822,2,False
+anemia_280.1,236,Gout,False,rs111887672,2,False
+anemia_280.1,900,Renal failure,False,rs9416706,2,False
+anemia_280.1,132,Benign neoplasm of colon,False,rs4053209,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2069945,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2308466,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265008,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs9264671,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs3094324,2,False
+anemia_280.1,264,Obesity,False,rs58903518,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2605111,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs544743405,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs4638157,2,False
+anemia_280.1,571,Nonspecific chest pain,False,rs61765479,2,False
+anemia_280.1,1039,Vitiligo,False,rs9270613,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs113589804,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1634766,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs1130117,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4912012,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs557074465,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9270938,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1142326,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2073722,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9269008,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1130117,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs28383333,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs623327,3,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2894257,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9270575,2,False
+anemia_280.1,167,Hypothyroidism,False,rs499233,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272068,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272518,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs28383333,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs9271671,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs3104374,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270936,2,False
+anemia_280.1,1049,Psoriasis,False,rs34115112,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9265893,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9270936,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2524087,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2428489,2,False
+anemia_280.1,1049,Psoriasis,False,rs112179621,2,False
+anemia_280.1,1049,Psoriasis,False,rs28749140,2,False
+anemia_280.1,1049,Psoriasis,False,rs398756,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs3775071,2,False
+anemia_280.1,843,Diverticulosis,False,rs185223007,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9269008,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270938,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs138477983,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs555111717,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs673002,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265715,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9501393,2,False
+anemia_280.1,1049,Psoriasis,False,rs137854633,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2263324,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9268779,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9277755,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2524158,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3128962,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs34166683,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270582,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270613,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs13204736,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2596492,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs28383417,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs4959029,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28482016,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28753032,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3095156,2,False
+anemia_280.1,1049,Psoriasis,False,rs2517531,2,False
+anemia_280.1,1049,Psoriasis,False,rs2517863,2,False
+anemia_280.1,167,Hypothyroidism,False,rs28383337,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9264962,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9265702,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1071742,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3104374,2,False
+anemia_280.1,1049,Psoriasis,False,rs3130572,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2308466,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3129962,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9257328,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9265680,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs139451799,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272068,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272518,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs3104382,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs985985,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs3104374,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs10749237,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs4767935,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs4686926,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs697742,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9271671,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs4993691,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9270484,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9271701,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs11399326,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9268486,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3095299,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9270109,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs544743405,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs77079227,2,False
+anemia_280.1,1144,Acquired foot deformities,False,rs202076405,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs111895341,2,False
+anemia_280.1,867,Abnormal results of function study of liver,False,rs56968095,2,False
+anemia_280.1,905,End stage renal disease,False,rs35305544,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs11461199,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2253718,2,False
+anemia_280.1,83,Skin cancer,False,rs9271148,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4912012,2,False
+anemia_280.1,83,Skin cancer,False,rs62052254,2,False
+anemia_280.1,95,Cancer of prostate,False,rs6799422,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs2250292,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9264279,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs4260435,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9275640,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1611719,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9276016,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs28482016,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs3095156,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs112293343,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs7931346,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1131115,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs6926894,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1547422,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2844584,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265769,3,False
+anemia_280.1,181,Type 2 diabetes,False,rs2772014,2,False
+anemia_280.1,264,Obesity,False,rs34951907,2,False
+anemia_280.1,550,Essential hypertension,False,rs10151602,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs2236296,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs34788166,2,False
+anemia_280.1,857,Chronic liver disease and cirrhosis,False,rs59436064,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1611653,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1632891,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs557074465,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs202076405,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs113589804,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs7515727,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs7631423,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs6930589,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs6930589,2,False
+anemia_280.1,1049,Psoriasis,False,rs9275718,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1142326,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9264279,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9272337,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs4935356,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs3104374,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2977852,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs71209038,2,False
+anemia_280.1,712,Chronic airway obstruction,False,rs1689411,2,False
+anemia_280.1,550,Essential hypertension,False,rs2907255,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271671,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2253288,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9264671,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs149139013,2,False
+anemia_280.1,927,Calculus of kidney,False,rs2097431,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs72714425,2,False
+anemia_280.1,859,Cirrhosis of liver without mention of alcohol,False,rs59436064,2,False
+anemia_280.1,83,Skin cancer,False,rs9378816,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs138201720,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs508318,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs7416991,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs111996113,2,False
+anemia_280.1,900,Renal failure,False,rs2907255,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs13437,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs28383263,2,False
+anemia_280.1,1049,Psoriasis,False,rs9279402,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3104374,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265893,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265890,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs1391372,2,False
+anemia_280.1,177,Type 1 diabetes with ketoacidosis,False,rs6930589,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs11105313,2,False
+anemia_280.1,712,Chronic airway obstruction,False,rs12907372,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3132487,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs183076319,2,False
+anemia_280.1,167,Hypothyroidism,False,rs199927211,2,False
+anemia_280.1,83,Skin cancer,False,rs2894257,2,False
+anemia_280.1,83,Skin cancer,False,rs9271669,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs202076405,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2140240,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs152001,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs3842706,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs3859194,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs295452,2,False
+anemia_280.1,1049,Psoriasis,False,rs9275924,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28397310,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2523565,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs587495,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9270601,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9272169,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1385730,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs11591684,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2085043,2,False
+anemia_280.1,83,Skin cancer,False,rs4911378,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2097431,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265203,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265629,2,False
+anemia_280.1,187,Insulin pump user,False,rs6930589,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs11943242,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs6848710,2,False
+anemia_280.1,83,Skin cancer,False,rs9270601,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9281347,2,False
+anemia_280.1,265,Morbid obesity,False,rs4525093,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs572991270,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs10639199,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2011877,2,False
+anemia_280.1,95,Cancer of prostate,False,rs71615969,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272412,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9271388,2,False
+anemia_280.1,1103,Spinal stenosis,False,rs4424758,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs67406039,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs11859460,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs4785633,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs34788166,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs149139013,2,False
+anemia_280.1,264,Obesity,False,rs280306,2,False
+anemia_280.1,1049,Psoriasis,False,rs9272679,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1131223,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1611446,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2253718,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9270575,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9264671,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs12133645,2,False
+anemia_280.1,95,Cancer of prostate,False,rs477298,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2905720,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs1142326,2,False
+anemia_280.1,901,Acute renal failure,False,rs2396002,2,False
+anemia_280.1,95,Cancer of prostate,False,rs11773905,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2811713,2,False
+anemia_280.1,373,Sleep apnea,False,rs1123186,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2696531,2,False
+anemia_280.1,1039,Vitiligo,False,rs7756647,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs2605111,2,False
+anemia_280.1,646,Abdominal aortic aneurysm,False,rs75158858,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs557074465,2,False
+anemia_280.1,1063,Ingrowing nail,False,rs202076405,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs2396002,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs760865,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs183076319,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9265701,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs10278715,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs497822,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs8058009,2,False
+anemia_280.1,83,Skin cancer,False,rs2069945,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2894257,3,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270575,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271669,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1140412,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs209156,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9266144,2,False
+anemia_280.1,167,Hypothyroidism,False,rs28383417,2,False
+anemia_280.1,708,Asthma,False,rs2253718,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs2069945,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs369052205,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9264822,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs587495,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs713032,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9270601,2,False
+anemia_280.1,1049,Psoriasis,False,rs3132487,2,False
+anemia_280.1,1049,Psoriasis,False,rs35121819,2,False
+anemia_280.1,1049,Psoriasis,False,rs6925893,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9265825,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28397310,2,False
+anemia_280.1,1049,Psoriasis,False,rs1130117,2,False
+anemia_280.1,1049,Psoriasis,False,rs623327,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3095299,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9270109,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272478,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9277754,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1547422,2,False
+anemia_280.1,926,Urinary calculus,False,rs11461199,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9265651,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1826961,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270675,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9270675,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2428489,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs380852,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs13202749,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9272679,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2396002,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs3104382,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs1121615,2,False
+anemia_280.1,438,Other retinal disorders,False,rs2293870,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs2284666,2,False
+anemia_280.1,550,Essential hypertension,False,rs12295878,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs10839422,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs898901,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2734588,2,False
+anemia_280.1,83,Skin cancer,False,rs2811713,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs2236296,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs917982,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2247179,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs7515727,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs1687597,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9270675,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs7301040,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265203,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265629,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs6923284,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9266262,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9270582,2,False
+anemia_280.1,178,Type 1 diabetes with renal manifestations,False,rs6930589,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs6593394,2,False
+anemia_280.1,900,Renal failure,False,rs2103080,2,False
+anemia_280.1,715,Obstructive chronic bronchitis,False,rs4887093,2,False
+anemia_280.1,927,Calculus of kidney,False,rs202076405,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271636,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs6969706,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs2811713,2,False
+anemia_280.1,373,Sleep apnea,False,rs12589329,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1131223,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1611446,2,False
+anemia_280.1,83,Skin cancer,False,rs113565913,2,False
+anemia_280.1,95,Cancer of prostate,False,rs59333593,2,False
+anemia_280.1,236,Gout,False,rs5805961,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs557074465,2,False
+anemia_280.1,192,Diabetic retinopathy,False,rs2085043,2,False
+anemia_280.1,366,Alcoholism,False,rs5876223,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs28749140,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270484,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9271701,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28482016,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28753032,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3095156,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs4332133,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs77094622,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs6126635,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2853979,2,False
+anemia_280.1,167,Hypothyroidism,False,rs138477983,2,False
+anemia_280.1,926,Urinary calculus,False,rs9268505,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs11416026,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs2696531,2,False
+anemia_280.1,167,Hypothyroidism,False,rs74169643,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs111895341,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs7567525,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs73188267,2,False
+anemia_280.1,83,Skin cancer,False,rs9270938,2,False
+anemia_280.1,373,Sleep apnea,False,rs79050605,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs4002397,2,False
+anemia_280.1,550,Essential hypertension,False,rs35314801,2,False
+anemia_280.1,900,Renal failure,False,rs1906430,2,False
+anemia_280.1,264,Obesity,False,rs2136713,2,False
+anemia_280.1,264,Obesity,False,rs41285057,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9260304,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9265769,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9270484,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs147277810,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9271734,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265715,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9501393,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9256982,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2464584,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs9657438,2,False
+anemia_280.1,83,Skin cancer,False,rs10093547,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1050685,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1634771,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28753058,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs67420880,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs380852,2,False
+anemia_280.1,1049,Psoriasis,False,rs2844584,2,False
+anemia_280.1,1049,Psoriasis,False,rs427995,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1130117,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs28383333,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs623327,3,False
+anemia_280.1,711,Asthma with exacerbation,False,rs3104368,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9272337,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs9272337,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs3095156,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9469143,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs499233,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272518,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2858894,2,False
+anemia_280.1,1049,Psoriasis,False,rs3095299,2,False
+anemia_280.1,167,Hypothyroidism,False,rs28383333,2,False
+anemia_280.1,167,Hypothyroidism,False,rs623327,3,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs508318,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs3132598,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2097431,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3104368,2,False
+anemia_280.1,66,"Cancer of larynx, pharynx, nasal cavities",False,rs9270601,2,False
+anemia_280.1,843,Diverticulosis,False,rs12505736,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9256982,2,False
+anemia_280.1,1049,Psoriasis,False,rs3997993,2,False
+anemia_280.1,685,Nasal polyps,False,rs9271669,2,False
+anemia_280.1,708,Asthma,False,rs2428489,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs369052205,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2523600,2,False
+anemia_280.1,1049,Psoriasis,False,rs139451799,2,False
+anemia_280.1,1049,Psoriasis,False,rs28753055,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs7449585,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs13202749,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272479,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9391773,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2253489,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28752961,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs35608993,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265890,2,False
+anemia_280.1,1049,Psoriasis,False,rs1064588,2,False
+anemia_280.1,1049,Psoriasis,False,rs2524158,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1611456,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271931,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9281347,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs587495,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs713032,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9270601,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9272169,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2853979,2,False
+anemia_280.1,132,Benign neoplasm of colon,False,rs7129804,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs4930308,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs34763545,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs10023685,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs34366417,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs77094622,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs2518934,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs2524087,2,False
+anemia_280.1,652,"Peripheral vascular disease, unspecified",False,rs2811713,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs2907255,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs9849115,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265769,3,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2253489,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28752961,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs35608993,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265890,2,False
+anemia_280.1,549,Hypertension,False,rs909115,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9270575,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs2097431,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs10839422,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs34406972,2,False
+anemia_280.1,280,Other hemoglobinopathies,False,rs78322860,2,False
+anemia_280.1,905,End stage renal disease,False,rs2187780,2,False
+anemia_280.1,1039,Vitiligo,False,rs587495,2,False
+anemia_280.1,83,Skin cancer,False,rs4520043,2,False
+anemia_280.1,549,Hypertension,False,rs35314801,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs11397177,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs198835,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs9416706,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs2972278,2,False
+anemia_280.1,463,Glaucoma,False,rs7615735,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs13395,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28752856,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9272337,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1142326,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs28752897,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9264279,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs12196237,2,False
+anemia_280.1,663,Deep vein thrombosis [DVT],False,rs7301040,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs1896001,2,False
+anemia_280.1,565,Pulmonary heart disease,False,rs2378335,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs10947138,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2596490,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1130117,2,False
+anemia_280.1,95,Cancer of prostate,False,rs183076319,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs7928320,2,False
+anemia_280.1,536,Hearing loss,False,rs2749885,2,False
+anemia_280.1,366,Alcoholism,False,rs4673741,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1611719,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs2097431,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs11578526,2,False
+anemia_280.1,185,Type 2 diabetes with neurological manifestations,False,rs2085043,2,False
+anemia_280.1,299,Diseases of white blood cells,False,rs3859194,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs3028025,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs3104374,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9271388,2,False
+anemia_280.1,1160,Osteoarthritis; localized,False,rs2894697,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs11381212,2,False
+anemia_280.1,1049,Psoriasis,False,rs9275724,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2253718,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2894257,3,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9270575,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1611446,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9270582,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9270613,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs1634766,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs6126635,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2524158,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs34166683,2,False
+anemia_280.1,549,Hypertension,False,rs2396002,2,False
+anemia_280.1,438,Other retinal disorders,False,rs33956114,2,False
+anemia_280.1,463,Glaucoma,False,rs12882304,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs56095903,2,False
+anemia_280.1,365,Alcohol-related disorders,False,rs1822529,2,False
+anemia_280.1,1039,Vitiligo,False,rs9272263,2,False
+anemia_280.1,1039,Vitiligo,False,rs9272337,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs113565913,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs2247179,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs572991270,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs11859460,2,False
+anemia_280.1,927,Calculus of kidney,False,rs4677903,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs67276929,2,False
+anemia_280.1,373,Sleep apnea,False,rs2505053,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs34694172,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1076293,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs35513605,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9271388,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1233603,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2072899,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2523541,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs587495,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs713032,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9270601,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9272169,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs7301040,2,False
+anemia_280.1,1054,Corns and callosities,False,rs7503154,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28753055,2,False
+anemia_280.1,1159,Osteoarthrosis,False,rs7503154,2,False
+anemia_280.1,51,Dermatophytosis / Dermatomycosis,False,rs2696531,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs138969103,2,False
+anemia_280.1,472,Myopia,False,rs13120588,2,False
+anemia_280.1,1039,Vitiligo,False,rs9271671,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1233621,2,False
+anemia_280.1,265,Morbid obesity,False,rs2605111,2,False
+anemia_280.1,843,Diverticulosis,False,rs3862388,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs8058009,2,False
+anemia_280.1,192,Diabetic retinopathy,False,rs7503154,2,False
+anemia_280.1,54,Dermatophytosis of nail,False,rs2696531,2,False
+anemia_280.1,264,Obesity,False,rs13086380,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272679,2,False
+anemia_280.1,193,Hypoglycemia,False,rs9271734,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9270675,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9265557,2,False
+anemia_280.1,265,Morbid obesity,False,rs10749237,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs1896001,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9264962,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9264962,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265957,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9270582,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9270613,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9266262,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs2894257,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9270575,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs2642902,2,False
+anemia_280.1,264,Obesity,False,rs11406312,2,False
+anemia_280.1,549,Hypertension,False,rs11656167,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs2378335,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2378335,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs34632463,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs3132487,2,False
+anemia_280.1,926,Urinary calculus,False,rs3104382,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs11788527,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs144141476,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs12285234,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs532036845,2,False
+anemia_280.1,443,Macular puckering of retina,False,rs2103080,2,False
+anemia_280.1,463,Glaucoma,False,rs11416026,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs1041246,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9940698,2,False
+anemia_280.1,53,Dermatophytosis,False,rs12054230,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9469195,2,False
+anemia_280.1,193,Hypoglycemia,False,rs9271701,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs4959110,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9264962,2,False
+anemia_280.1,649,Peripheral vascular disease,False,rs2811713,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs12985355,2,False
+anemia_280.1,927,Calculus of kidney,False,rs28395268,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs380852,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2428489,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9270601,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs75840714,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265724,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs9271671,2,False
+anemia_280.1,739,Shortness of breath,False,rs2987090,2,False
+anemia_280.1,549,Hypertension,False,rs10151602,2,False
+anemia_280.1,192,Diabetic retinopathy,False,rs3028025,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1233603,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2072899,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2523541,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9270109,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs6126635,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9268505,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs2395521,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs41293539,2,False
+anemia_280.1,1049,Psoriasis,False,rs1611174,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2853979,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs4520043,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9269129,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271015,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9275640,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1391372,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs6923284,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9266262,2,False
+anemia_280.1,1049,Psoriasis,False,rs1634771,2,False
+anemia_280.1,1049,Psoriasis,False,rs1793893,2,False
+anemia_280.1,1049,Psoriasis,False,rs28753058,2,False
+anemia_280.1,1049,Psoriasis,False,rs3132598,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4997052,2,False
+anemia_280.1,66,"Cancer of larynx, pharynx, nasal cavities",False,rs3104374,2,False
+anemia_280.1,237,Gouty arthropathy,False,rs11461199,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270109,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9264822,2,False
+anemia_280.1,1049,Psoriasis,False,rs1071816,2,False
+anemia_280.1,1049,Psoriasis,False,rs499233,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9260539,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4997052,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs28383263,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9266057,2,False
+anemia_280.1,1049,Psoriasis,False,rs2247179,2,False
+anemia_280.1,1049,Psoriasis,False,rs389025,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272412,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs28383337,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265651,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9266557,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2524158,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3128962,2,False
+anemia_280.1,167,Hypothyroidism,False,rs34166683,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2263324,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28753055,2,False
+anemia_280.1,1049,Psoriasis,False,rs1233621,2,False
+anemia_280.1,1049,Psoriasis,False,rs2523600,2,False
+anemia_280.1,167,Hypothyroidism,False,rs508318,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3095156,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs3104374,2,False
+anemia_280.1,820,Inguinal hernia,False,rs12295878,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs8058009,2,False
+anemia_280.1,167,Hypothyroidism,False,rs202076405,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs56095903,2,False
+anemia_280.1,545,Nonrheumatic aortic valve disorders,False,rs1980383,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9270484,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs147277810,2,False
+anemia_280.1,57,Dermatomycoses,False,rs2097431,2,False
+anemia_280.1,472,Myopia,False,rs9416706,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs10875854,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs557074465,2,False
+anemia_280.1,1175,Osteoporosis,False,rs9271669,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9269008,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9269008,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs113565913,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9256982,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265715,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9501393,2,False
+anemia_280.1,549,Hypertension,False,rs2907255,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9264671,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9270582,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9270613,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9265893,2,False
+anemia_280.1,284,Other anemias,False,rs10839422,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs2749885,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs2696531,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs77370416,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs369052205,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs144742400,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs532036845,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1071817,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs1391372,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs4002397,2,False
+anemia_280.1,900,Renal failure,False,rs1906433,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs202076405,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs112340616,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs1826961,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs147277810,2,False
+anemia_280.1,265,Morbid obesity,False,rs55842857,2,False
+anemia_280.1,1055,Other hypertrophic and atrophic conditions of skin,False,rs11859460,2,False
+anemia_280.1,712,Chronic airway obstruction,False,rs264959,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs11381212,2,False
+anemia_280.1,1049,Psoriasis,False,rs9260042,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265825,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3997998,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9275658,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265651,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9266557,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9271734,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs113565913,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs9350317,2,False
+anemia_280.1,150,"Benign neoplasm of eye, uveal",False,rs59928368,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs6925893,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272608,3,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs673002,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265131,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs9265957,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs6849273,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs4693064,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9270109,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1217383,2,False
+anemia_280.1,472,Myopia,False,rs28655446,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs1980383,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9260539,2,False
+anemia_280.1,192,Diabetic retinopathy,False,rs9272412,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs28383263,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs9501393,2,False
+anemia_280.1,287,Anemia in chronic kidney disease,False,rs9416706,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs7137822,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs209156,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9266144,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9394038,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs1130117,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs4520043,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9271476,2,False
+anemia_280.1,178,Type 1 diabetes with renal manifestations,False,rs9272169,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs12541360,2,False
+anemia_280.1,83,Skin cancer,False,rs10956402,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs111752868,2,False
+anemia_280.1,714,Chronic bronchitis,False,rs4887093,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272478,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9265046,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs2396002,2,False
+anemia_280.1,545,Nonrheumatic aortic valve disorders,False,rs9657438,2,False
+anemia_280.1,95,Cancer of prostate,False,rs2035637,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs7037844,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs10839422,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs3831742,3,False
+anemia_280.1,264,Obesity,False,rs10920693,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs497822,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9501393,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs28383263,2,False
+anemia_280.1,463,Glaucoma,False,rs7137822,2,False
+anemia_280.1,341,Anxiety disorder,False,rs11713048,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1071652,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9269129,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2844631,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9270484,2,False
+anemia_280.1,240,Disorders of mineral metabolism,False,rs3095156,2,False
+anemia_280.1,1079,Chronic ulcer of leg or foot,False,rs6691931,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1217383,2,False
+anemia_280.1,638,Atherosclerosis,False,rs202076405,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs202076405,2,False
+anemia_280.1,373,Sleep apnea,False,rs6126635,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1050686,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1131115,3,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2844517,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs2442413,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs1001218,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs115952815,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2097431,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs3104368,2,False
+anemia_280.1,299,Diseases of white blood cells,False,rs6503531,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs2780658,2,False
+anemia_280.1,441,"Macular degeneration, wet",False,rs147277810,2,False
+anemia_280.1,57,Dermatomycoses,False,rs9270109,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs11105313,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs2696531,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9270582,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9264962,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265702,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1634766,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs17411024,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs111996113,2,False
+anemia_280.1,926,Urinary calculus,False,rs2696531,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9275613,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28753048,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs28471056,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs9265893,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs1142326,2,False
+anemia_280.1,663,Deep vein thrombosis [DVT],False,rs3094324,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs199927211,2,False
+anemia_280.1,83,Skin cancer,False,rs9501132,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs572991270,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs11859460,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9268779,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9277755,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9270582,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs2011877,2,False
+anemia_280.1,1049,Psoriasis,False,rs9266196,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265557,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1071817,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs41293539,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs3104382,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9281347,2,False
+anemia_280.1,237,Gouty arthropathy,False,rs9416706,2,False
+anemia_280.1,236,Gout,False,rs12103700,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2516502,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs66885069,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9281347,3,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs12196237,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4742725,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs139451799,2,False
+anemia_280.1,83,Skin cancer,False,rs28749140,2,False
+anemia_280.1,264,Obesity,False,rs2605111,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs3862388,2,False
+anemia_280.1,83,Skin cancer,False,rs56344817,3,False
+anemia_280.1,302,Elevated white blood cell count,False,rs3859194,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs35068861,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs11724112,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1130117,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs28383333,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs623327,3,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9268486,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1142326,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2073722,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9269008,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3997993,2,False
+anemia_280.1,1049,Psoriasis,False,rs113565913,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9264279,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs28471056,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3104374,2,False
+anemia_280.1,663,Deep vein thrombosis [DVT],False,rs2378335,2,False
+anemia_280.1,237,Gouty arthropathy,False,rs11724112,2,False
+anemia_280.1,237,Gouty arthropathy,False,rs881971,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs508318,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9275724,2,False
+anemia_280.1,1049,Psoriasis,False,rs1611719,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4520043,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9271015,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9275640,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs12505736,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs4935356,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs7756647,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9265651,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3095299,2,False
+anemia_280.1,1049,Psoriasis,False,rs2858894,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272479,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs113589804,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs673002,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs77897247,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4532479,2,False
+anemia_280.1,67,Cancer of oropharynx,False,rs9271388,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs4911378,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs28383333,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs2844517,2,False
+anemia_280.1,264,Obesity,False,rs10749237,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs10875854,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs202076405,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs9264671,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs9264671,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1634771,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1793893,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs28753058,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs9265893,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs17411024,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs11105313,2,False
+anemia_280.1,463,Glaucoma,False,rs33983525,2,False
+anemia_280.1,713,Emphysema,False,rs4887093,2,False
+anemia_280.1,926,Urinary calculus,False,rs202076405,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs6126635,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2854000,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs3129962,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs9265680,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs3997993,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs504268,2,False
+anemia_280.1,1216,Pain in limb,False,rs2696531,2,False
+anemia_280.1,1049,Psoriasis,False,rs56095903,2,False
+anemia_280.1,296,Thrombocytopenia,False,rs59436064,2,False
+anemia_280.1,83,Skin cancer,False,rs2395169,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs3104374,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9270936,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs75158858,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs202076405,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9270936,2,False
+anemia_280.1,375,Obstructive sleep apnea,False,rs2505053,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs1793893,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9272518,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs6799422,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs56285759,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs34115112,2,False
+anemia_280.1,1049,Psoriasis,False,rs9256982,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1130117,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs623327,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9270675,2,False
+anemia_280.1,652,"Peripheral vascular disease, unspecified",False,rs7301040,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2428492,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2523600,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs139451799,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1142326,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs7503154,2,False
+anemia_280.1,264,Obesity,False,rs202076405,2,False
+anemia_280.1,53,Dermatophytosis,False,rs202076405,2,False
+anemia_280.1,553,Hypertensive chronic kidney disease,False,rs2187780,2,False
+anemia_280.1,375,Obstructive sleep apnea,False,rs13106642,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs4704057,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9266144,2,False
+anemia_280.1,438,Other retinal disorders,False,rs9501393,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9849115,2,False
+anemia_280.1,236,Gout,False,rs7631423,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs12196237,2,False
+anemia_280.1,463,Glaucoma,False,rs4053209,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28752961,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3134783,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs33956114,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1123186,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs202076405,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs2187780,2,False
+anemia_280.1,83,Skin cancer,False,rs9281347,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9270601,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs148779624,2,False
+anemia_280.1,83,Skin cancer,False,rs2011877,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs7503154,2,False
+anemia_280.1,191,Polyneuropathy in diabetes,False,rs202076405,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs2247179,2,False
+anemia_280.1,628,Occlusion and stenosis of precerebral arteries,False,rs2811713,2,False
+anemia_280.1,438,Other retinal disorders,False,rs79035749,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs4947309,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9256980,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9275939,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs28753048,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2524158,2,False
+anemia_280.1,662,Other venous embolism and thrombosis,False,rs7301040,2,False
+anemia_280.1,901,Acute renal failure,False,rs7301040,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1634766,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9265701,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9501132,2,False
+anemia_280.1,167,Hypothyroidism,False,rs13202749,2,False
+anemia_280.1,187,Insulin pump user,False,rs34115112,2,False
+anemia_280.1,926,Urinary calculus,False,rs2097431,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs4520043,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs34951907,2,False
+anemia_280.1,236,Gout,False,rs757301,2,False
+anemia_280.1,858,Other chronic nonalcoholic liver disease,False,rs59436064,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2894257,3,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9271669,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs75158858,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs34308646,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9264962,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs137854633,2,False
+anemia_280.1,820,Inguinal hernia,False,rs2605111,2,False
+anemia_280.1,236,Gout,False,rs295452,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265796,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1071743,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9281347,3,False
+anemia_280.1,1052,Sarcoidosis,False,rs13204736,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2396002,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs709055,2,False
+anemia_280.1,95,Cancer of prostate,False,rs72725854,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2808670,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs623327,2,False
+anemia_280.1,1049,Psoriasis,False,rs28397310,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs139451799,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272412,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs4959110,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265957,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9270582,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9270613,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1391372,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3132487,2,False
+anemia_280.1,843,Diverticulosis,False,rs4425388,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9265715,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9271148,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3997998,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9275658,2,False
+anemia_280.1,1049,Psoriasis,False,rs2308466,2,False
+anemia_280.1,1049,Psoriasis,False,rs3129962,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9270601,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs7449585,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3130572,2,False
+anemia_280.1,1049,Psoriasis,False,rs3104374,2,False
+anemia_280.1,167,Hypothyroidism,False,rs28383263,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9268505,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs113565913,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs6930589,2,False
+anemia_280.1,708,Asthma,False,rs7749543,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs881971,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9268487,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2844631,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs4993691,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270484,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9266196,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9265890,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs1130117,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs138477983,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs555111717,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs673002,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270938,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs137854633,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9275924,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272263,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9272337,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs77701529,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2524087,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9263852,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271671,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs112179621,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28749140,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs398756,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9279402,2,False
+anemia_280.1,1049,Psoriasis,False,rs2428489,2,False
+anemia_280.1,167,Hypothyroidism,False,rs709055,2,False
+anemia_280.1,167,Hypothyroidism,False,rs909801,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9270675,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs34821853,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs587495,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs713032,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs10920693,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs34406972,2,False
+anemia_280.1,1147,Hammer toe (acquired),False,rs7503154,2,False
+anemia_280.1,364,Substance addiction and disorders,False,rs71408161,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1130117,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs3104382,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs71093329,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs35068861,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1687597,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9271323,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs6936263,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs4752570,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs4686926,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs56285759,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs137854633,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9275924,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs3997993,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs111887672,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs11773905,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs4912012,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs7416991,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs2293870,2,False
+anemia_280.1,900,Renal failure,False,rs7931346,2,False
+anemia_280.1,906,"Chronic Kidney Disease, Stage III",False,rs2103080,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9266262,2,False
+anemia_280.1,95,Cancer of prostate,False,rs2104118,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs9270938,2,False
+anemia_280.1,444,Drusen (degenerative) of retina,False,rs33956114,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4326984,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs243928,2,False
+anemia_280.1,83,Skin cancer,False,rs3104374,2,False
+anemia_280.1,83,Skin cancer,False,rs9270936,2,False
+anemia_280.1,264,Obesity,False,rs227198,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs10648232,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs11859460,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9260109,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272608,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs28383263,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs9501393,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs55842857,2,False
+anemia_280.1,1174,"Osteoporosis, osteopenia and pathological fracture",False,rs112143344,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1233621,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2523600,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9266144,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2844631,2,False
+anemia_280.1,441,"Macular degeneration, wet",False,rs2284666,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs147748111,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs572991270,2,False
+anemia_280.1,713,Emphysema,False,rs12907372,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs587495,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9270601,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs2605111,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs6722374,2,False
+anemia_280.1,860,Liver abscess and sequelae of chronic liver disease,False,rs59436064,2,False
+anemia_280.1,264,Obesity,False,rs1561491,2,False
+anemia_280.1,83,Skin cancer,False,rs9265702,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9272679,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs8058009,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs34308646,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9270582,2,False
+anemia_280.1,95,Cancer of prostate,False,rs61849383,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs12367888,2,False
+anemia_280.1,265,Morbid obesity,False,rs11105313,2,False
+anemia_280.1,463,Glaucoma,False,rs904646,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2396002,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265680,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1071817,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs41293539,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265557,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs3135348,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs4307216,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs2439288,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs115493313,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs10749237,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs11591684,2,False
+anemia_280.1,549,Hypertension,False,rs12295878,2,False
+anemia_280.1,614,Congestive heart failure; nonhypertensive,False,rs202076405,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272679,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1140412,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs4307216,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9270484,2,False
+anemia_280.1,150,"Benign neoplasm of eye, uveal",False,rs600208,2,False
+anemia_280.1,264,Obesity,False,rs606416,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs6722374,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs11724112,2,False
+anemia_280.1,366,Alcoholism,False,rs894368,2,False
+anemia_280.1,443,Macular puckering of retina,False,rs10839422,2,False
+anemia_280.1,95,Cancer of prostate,False,rs5811727,2,False
+anemia_280.1,83,Skin cancer,False,rs557074465,2,False
+anemia_280.1,193,Hypoglycemia,False,rs9271476,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs3095156,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs114382848,2,False
+anemia_280.1,444,Drusen (degenerative) of retina,False,rs9270601,2,False
+anemia_280.1,736,Other symptoms of respiratory system,False,rs61765479,2,False
+anemia_280.1,907,"Chronic Kidney Disease, Stage IV",False,rs9416706,2,False
+anemia_280.1,550,Essential hypertension,False,rs4582335,2,False
+anemia_280.1,926,Urinary calculus,False,rs28395268,2,False
+anemia_280.1,264,Obesity,False,rs2780658,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs112179621,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28749140,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs398756,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9279402,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265769,3,False
+anemia_280.1,1052,Sarcoidosis,False,rs1130117,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs4332133,2,False
+anemia_280.1,553,Hypertensive chronic kidney disease,False,rs1906433,2,False
+anemia_280.1,712,Chronic airway obstruction,False,rs4887093,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28753032,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs713032,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs9272679,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs144141476,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs10839422,2,False
+anemia_280.1,906,"Chronic Kidney Disease, Stage III",False,rs2187780,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9270938,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs3104374,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9270936,2,False
+anemia_280.1,95,Cancer of prostate,False,rs12362593,2,False
+anemia_280.1,302,Elevated white blood cell count,False,rs34763545,2,False
+anemia_280.1,472,Myopia,False,rs10193373,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272263,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272337,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs28383337,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs4638157,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs2844584,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265651,2,False
+anemia_280.1,1049,Psoriasis,False,rs9266557,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2844517,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9260042,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265825,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs10093547,2,False
+anemia_280.1,550,Essential hypertension,False,rs7944185,2,False
+anemia_280.1,618,Heart failure with preserved EF [Diastolic heart failure],False,rs202076405,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs6044095,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1071652,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs4520043,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9281384,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs656417,2,False
+anemia_280.1,551,Hypertensive heart and/or renal disease,False,rs10638515,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs5829764,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs4911378,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs11726722,2,False
+anemia_280.1,132,Benign neoplasm of colon,False,rs7324664,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1980383,2,False
+anemia_280.1,51,Dermatophytosis / Dermatomycosis,False,rs9849115,2,False
+anemia_280.1,926,Urinary calculus,False,rs4677903,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9265890,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9272518,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs2902340,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265715,2,False
+anemia_280.1,1049,Psoriasis,False,rs9501393,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1130117,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs623327,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1633008,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9266144,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs13204736,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs28383417,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs2894257,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs33956114,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs202076405,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs77370416,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs11482052,2,False
+anemia_280.1,366,Alcoholism,False,rs552890586,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs2378335,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs185223007,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs28753058,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3132598,2,False
+anemia_280.1,1049,Psoriasis,False,rs6923284,2,False
+anemia_280.1,167,Hypothyroidism,False,rs1634766,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3888070,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9501132,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2253718,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2894257,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9281347,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9275613,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1611174,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9260042,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265825,2,False
+anemia_280.1,1049,Psoriasis,False,rs1071817,2,False
+anemia_280.1,1049,Psoriasis,False,rs41293539,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9501510,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs3104382,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2484240,2,False
+anemia_280.1,83,Skin cancer,False,rs369052205,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9281347,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs1131223,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs4997052,2,False
+anemia_280.1,1049,Psoriasis,False,rs113589804,2,False
+anemia_280.1,1049,Psoriasis,False,rs1634766,2,False
+anemia_280.1,237,Gouty arthropathy,False,rs4693943,2,False
+anemia_280.1,463,Glaucoma,False,rs62289329,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9391773,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs13202749,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs28397310,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9272479,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1071743,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1140412,2,False
+anemia_280.1,1049,Psoriasis,False,rs2844631,2,False
+anemia_280.1,1049,Psoriasis,False,rs4993691,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3095156,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs508318,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs1131115,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs6926894,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs3104374,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9270936,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs4947309,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9256980,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9275939,2,False
+anemia_280.1,1049,Psoriasis,False,rs13395,2,False
+anemia_280.1,1049,Psoriasis,False,rs28752856,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9263823,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9271148,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4935356,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs7756647,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs9270601,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs10639199,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2696531,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9270601,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9271636,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272169,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs1611446,2,False
+anemia_280.1,57,Dermatomycoses,False,rs9270938,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3046555,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs67406039,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3130572,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2524158,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs34166683,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs9469195,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs149139013,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9269008,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1131223,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs2811713,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2085043,2,False
+anemia_280.1,551,Hypertensive heart and/or renal disease,False,rs2187780,2,False
+anemia_280.1,867,Abnormal results of function study of liver,False,rs59436064,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1634771,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1793893,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9265702,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs2894257,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs4638157,2,False
+anemia_280.1,443,Macular puckering of retina,False,rs9651629,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2140240,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs35068861,2,False
+anemia_280.1,265,Morbid obesity,False,rs903294,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs152001,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs3997993,2,False
+anemia_280.1,463,Glaucoma,False,rs28753058,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs7416991,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs2011877,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs434343,2,False
+anemia_280.1,1049,Psoriasis,False,rs9266262,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265203,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265629,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs1385730,2,False
+anemia_280.1,83,Skin cancer,False,rs11591684,2,False
+anemia_280.1,715,Obstructive chronic bronchitis,False,rs12907372,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28397310,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs1130117,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs623327,2,False
+anemia_280.1,95,Cancer of prostate,False,rs1121615,2,False
+anemia_280.1,565,Pulmonary heart disease,False,rs3094324,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4927636,2,False
+anemia_280.1,857,Chronic liver disease and cirrhosis,False,rs56968095,2,False
+anemia_280.1,827,Ulcerative colitis,False,rs9272169,2,False
+anemia_280.1,83,Skin cancer,False,rs2247179,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs3104382,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9271388,2,False
+anemia_280.1,391,Multiple sclerosis,False,rs499233,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs9272412,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9265203,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9265629,2,False
+anemia_280.1,57,Dermatomycoses,False,rs4520043,2,False
+anemia_280.1,264,Obesity,False,rs55842857,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs4630211,2,False
+anemia_280.1,906,"Chronic Kidney Disease, Stage III",False,rs9416706,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1705217,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs12054230,2,False
+anemia_280.1,463,Glaucoma,False,rs6445943,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2308466,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3129962,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265680,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9266196,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs6930589,2,False
+anemia_280.1,578,Primary/intrinsic cardiomyopathies,False,rs61869101,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs2413986,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs2378335,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271931,2,False
+anemia_280.1,163,Thyrotoxicosis with or without goiter,False,rs673002,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs77094622,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs16799,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2596490,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9272479,2,False
+anemia_280.1,463,Glaucoma,False,rs35529723,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs1041246,2,False
+anemia_280.1,597,Cardiac dysrhythmias,False,rs71093329,2,False
+anemia_280.1,230,Hyperlipidemia,False,rs35068861,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs56285759,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9264822,2,False
+anemia_280.1,241,Disorders of iron metabolism,False,rs429230,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs805260,2,False
+anemia_280.1,1061,Seborrheic keratosis,False,rs1669902,2,False
+anemia_280.1,299,Diseases of white blood cells,False,rs7301040,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs10774570,2,False
+anemia_280.1,715,Obstructive chronic bronchitis,False,rs264959,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs917982,2,False
+anemia_280.1,95,Cancer of prostate,False,rs262502,2,False
+anemia_280.1,179,Type 1 diabetes with ophthalmic manifestations,False,rs3104368,2,False
+anemia_280.1,180,Type 1 diabetes with neurological manifestations,False,rs3104368,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265701,2,False
+anemia_280.1,1049,Psoriasis,False,rs9501132,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2855805,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2247179,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs389025,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs28383337,2,False
+anemia_280.1,577,Cardiomyopathy,False,rs61869101,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs3110649,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs369052205,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2069945,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs2811713,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs3104374,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9270936,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9270938,2,False
+anemia_280.1,906,"Chronic Kidney Disease, Stage III",False,rs1906433,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs2844517,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs28383333,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs557074465,2,False
+anemia_280.1,1049,Psoriasis,False,rs9270484,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs673002,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs77897247,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs1071816,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9268505,2,False
+anemia_280.1,1054,Corns and callosities,False,rs2736218,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs10093547,2,False
+anemia_280.1,577,Cardiomyopathy,False,rs6485719,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs898901,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs3997998,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9268505,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs9264962,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9350317,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs3104382,2,False
+anemia_280.1,265,Morbid obesity,False,rs58903518,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs545108053,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs1055849,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs113565913,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9256982,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs112146857,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs2605111,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs4002397,2,False
+anemia_280.1,167,Hypothyroidism,False,rs2147161,2,False
+anemia_280.1,1019,Superficial cellulitis and abscess,False,rs202076405,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs2696531,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs3110649,2,False
+anemia_280.1,445,Macular degeneration (senile) of retina NOS,False,rs114382848,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs10749237,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs4767935,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs34788166,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs917982,2,False
+anemia_280.1,1049,Psoriasis,False,rs9271734,2,False
+anemia_280.1,1049,Psoriasis,False,rs9272337,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs3095299,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9275718,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs150595340,2,False
+anemia_280.1,302,Elevated white blood cell count,False,rs1748379,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs4908277,2,False
+anemia_280.1,578,Primary/intrinsic cardiomyopathies,False,rs6485719,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs9265769,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2395521,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2855805,2,False
+anemia_280.1,1049,Psoriasis,False,rs697742,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9266144,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs4520043,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9265715,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271148,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9501393,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2308466,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs3129962,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265680,2,False
+anemia_280.1,1049,Psoriasis,False,rs3997998,2,False
+anemia_280.1,167,Hypothyroidism,False,rs28471056,2,False
+anemia_280.1,167,Hypothyroidism,False,rs3104374,2,False
+anemia_280.1,167,Hypothyroidism,False,rs9270936,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs1142326,2,False
+anemia_280.1,741,Other dyspnea,False,rs12625596,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs499233,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272518,2,False
+anemia_280.1,167,Hypothyroidism,False,rs4532479,2,False
+anemia_280.1,711,Asthma with exacerbation,False,rs3104374,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs4425388,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs2760982,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs3104382,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9271388,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs2844584,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs427995,2,False
+anemia_280.1,1048,Psoriasis and related disorders,False,rs9265769,3,False
+anemia_280.1,1049,Psoriasis,False,rs380852,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs13202749,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2069945,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs7449585,2,False
+anemia_280.1,1094,Rheumatoid arthritis and other inflammatory polyarthropathies,False,rs9272679,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs11399326,2,False
+anemia_280.1,264,Obesity,False,rs6126635,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2524087,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9263852,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9263945,2,False
+anemia_280.1,913,Disorders resulting from impaired renal function,False,rs2396002,2,False
+anemia_280.1,95,Cancer of prostate,False,rs1485744,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs1613078,2,False
+anemia_280.1,279,Hereditary hemolytic anemias,False,rs10838375,2,False
+anemia_280.1,236,Gout,False,rs72714425,2,False
+anemia_280.1,184,Type 2 diabetes with ophthalmic manifestations,False,rs3028025,2,False
+anemia_280.1,286,Anemia of chronic disease,False,rs2187780,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9271148,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs9378816,2,False
+anemia_280.1,87,Basal cell carcinoma,False,rs4520043,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs34406972,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs62052254,2,False
+anemia_280.1,373,Sleep apnea,False,rs562620,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9271015,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9275640,2,False
+anemia_280.1,537,Sensorineural hearing loss,False,rs2396002,2,False
+anemia_280.1,57,Dermatomycoses,False,rs3104382,2,False
+anemia_280.1,1165,Osteoarthrosis NOS,False,rs2894697,2,False
+anemia_280.1,666,Varicose veins of lower extremity,False,rs776912,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs150595340,2,False
+anemia_280.1,368,Tobacco use disorder,False,rs1689411,2,False
+anemia_280.1,714,Chronic bronchitis,False,rs264959,2,False
+anemia_280.1,1049,Psoriasis,False,rs9271671,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2596490,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs4997052,2,False
+anemia_280.1,1052,Sarcoidosis,False,rs673002,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9272337,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9270575,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9271669,2,False
+anemia_280.1,441,"Macular degeneration, wet",False,rs2293870,2,False
+anemia_280.1,927,Calculus of kidney,False,rs2696531,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs2069945,2,False
+anemia_280.1,465,Primary open angle glaucoma,False,rs4053209,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs1071650,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2250292,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs28752856,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs2811713,2,False
+anemia_280.1,739,Shortness of breath,False,rs2026659,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs202076405,2,False
+anemia_280.1,827,Ulcerative colitis,False,rs6930589,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs1990814,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs61792978,2,False
+anemia_280.1,53,Dermatophytosis,False,rs9849115,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs893711,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9264279,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs1793893,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs28753058,2,False
+anemia_280.1,602,Atrial fibrillation,False,rs10919327,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs34505371,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs62246206,2,False
+anemia_280.1,549,Hypertension,False,rs4582335,2,False
+anemia_280.1,1049,Psoriasis,False,rs9275658,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1611174,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9260042,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs9265825,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2230991,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2844517,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9270484,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9270601,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9272169,2,False
+anemia_280.1,178,Type 1 diabetes with renal manifestations,False,rs2516502,2,False
+anemia_280.1,236,Gout,False,rs2466097,2,False
+anemia_280.1,86,Other non-epithelial cancer of skin,False,rs10956402,2,False
+anemia_280.1,536,Hearing loss,False,rs12033877,2,False
+anemia_280.1,556,Ischemic Heart Disease,False,rs9416706,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs11406312,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs3095156,2,False
+anemia_280.1,1095,Rheumatoid arthritis,False,rs9469143,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2844631,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs9265067,2,False
+anemia_280.1,601,Atrial fibrillation and flutter,False,rs9657438,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs11788527,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs3094324,2,False
+anemia_280.1,473,Astigmatism,False,rs1440273,2,False
+anemia_280.1,83,Skin cancer,False,rs572991270,2,False
+anemia_280.1,843,Diverticulosis,False,rs10648232,2,False
+anemia_280.1,614,Congestive heart failure; nonhypertensive,False,rs35314801,2,False
+anemia_280.1,83,Skin cancer,False,rs11859460,2,False
+anemia_280.1,235,Gout and other crystal arthropathies,False,rs12103700,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs67276929,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs137854633,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs9266196,2,False
+anemia_280.1,441,"Macular degeneration, wet",False,rs114382848,2,False
+anemia_280.1,57,Dermatomycoses,False,rs9271148,2,False
+anemia_280.1,175,Diabetes mellitus,False,rs1076293,2,False
+anemia_280.1,900,Renal failure,False,rs7416991,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs2907255,2,False
+anemia_280.1,1049,Psoriasis,False,rs9265957,2,False
+anemia_280.1,1049,Psoriasis,False,rs9270582,2,False
+anemia_280.1,1049,Psoriasis,False,rs9270613,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs139451799,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs28753055,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265203,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs9265629,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9270601,2,False
+anemia_280.1,1060,Actinic keratosis,False,rs4307216,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9270484,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9271701,2,False
+anemia_280.1,264,Obesity,False,rs111887672,2,False
+anemia_280.1,536,Hearing loss,False,rs4908277,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs9416706,2,False
+anemia_280.1,549,Hypertension,False,rs1123186,2,False
+anemia_280.1,736,Other symptoms of respiratory system,False,rs202076405,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2523541,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2523565,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs713032,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9270601,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs9378230,2,False
+anemia_280.1,1293,Atopic/contact dermatitis due to other or unspecified,False,rs3130629,2,False
+anemia_280.1,89,Neoplasm of uncertain behavior of skin,False,rs9270936,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs2808670,2,False
+anemia_280.1,439,Degeneration of macula and posterior pole of retina,False,rs33956114,2,False
+anemia_280.1,861,Portal hypertension,False,rs59436064,2,False
+anemia_280.1,907,"Chronic Kidney Disease, Stage IV",False,rs2187780,2,False
+anemia_280.1,913,Disorders resulting from impaired renal function,False,rs2187780,2,False
+anemia_280.1,83,Skin cancer,False,rs2097431,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs9264255,2,False
+anemia_280.1,443,Macular puckering of retina,False,rs4882187,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs1613078,2,False
+anemia_280.1,842,Diverticulosis and diverticulitis,False,rs7928320,2,False
+anemia_280.1,181,Type 2 diabetes,False,rs3028025,2,False
+anemia_280.1,170,Hypothyroidism NOS,False,rs9272479,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs13204736,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs28383417,2,False
+anemia_280.1,25,Viral warts &#38; HPV,False,rs4959029,2,False
+anemia_280.1,440,"Macular degeneration, dry",False,rs2247179,2,False
+anemia_280.1,444,Drusen (degenerative) of retina,False,rs9501393,2,False
+anemia_280.1,638,Atherosclerosis,False,rs2811713,2,False
+anemia_280.1,229,Disorders of lipoid metabolism,False,rs4767935,2,False
+anemia_280.1,84,"Melanomas of skin, dx or hx",False,rs917982,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs1064588,2,False
+anemia_280.1,1050,Psoriasis vulgaris,False,rs2524158,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs2905720,2,False
+anemia_280.1,1051,Psoriatic arthropathy,False,rs3130572,2,False
+anemia_280.1,1059,Degenerative skin conditions and other dermatoses,False,rs9270575,2,False
+anemia_280.1,176,Type 1 diabetes,False,rs9271734,2,False
+anemia_280.1,290,Encounter for long-term (current) use of anticoagulants,False,rs10919327,2,False
+anemia_280.1,561,"Other chronic ischemic heart disease, unspecified",False,rs6593394,2,False
+anemia_280.1,903,Chronic renal failure [CKD],False,rs5791908,2,False
+anemia_280.1,150,"Benign neoplasm of eye, uveal",False,rs141683783,2,False
+anemia_280.1,840,Diarrhea,False,rs202076405,2,False
+anemia_280.1,263,"Overweight, obesity and other hyperalimentation",False,rs35509795,2,False
+anemia_280.1,1098,Ankylosing spondylitis,False,rs2894257,2,False
+anemia_280.1,1232,Elevated prostate specific antigen [PSA],False,rs9263823,2,False
+anemia_280.1,95,Cancer of prostate,False,rs7795059,2,False
+anemia_280.1,560,Coronary atherosclerosis,False,rs2811713,2,False

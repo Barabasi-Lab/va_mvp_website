@@ -1,0 +1,79 @@
+{
+ "generated": "2026-10-02T16:45:22+00:00",
+ "seed": 20261002,
+ "python": "3.14.7",
+ "duckdb": "1.5.5",
+ "files": {
+  "edgelist": {
+   "path": "/home/student/Desktop/va_mvp_website/public/data/edgelist_updated_scaled.csv",
+   "md5": "f6590ea4bb73f1f27f54dff0462c28ca",
+   "bytes": 29274537
+  },
+  "node_attributes": {
+   "path": "/home/student/Desktop/va_mvp_website/public/data/node_attributes.csv",
+   "md5": "1fe4e5d0be82f11c64f2cc37a96392c5",
+   "bytes": 369233
+  },
+  "snp_positions": {
+   "path": "/home/student/Desktop/va_mvp_website/analysis/phecode_redundancy/results/snp_positions.csv",
+   "md5": "f7910589444c8cfea80eb7de870220df",
+   "bytes": 18558618
+  },
+  "landing_db": {
+   "path": "/home/student/Desktop/va_mvp_website/public/data/db/landing_page.duckdb",
+   "md5": "292333366be44f38519e7a1a7d7abc0f",
+   "bytes": 17575936
+  },
+  "association_store": {
+   "path": "/home/student/Desktop/va_mvp_website/public/data/db/associations",
+   "shards": 22
+  }
+ },
+ "p1_scaling": {
+  "form": "each weight column independently max-normalised to 50",
+  "meta_1e-04_k_same_raw_per_stored": 979.2612726405328,
+  "meta_1e-04_k_diff_raw_per_stored": 183.15500807678112
+ },
+ "p3": {
+  "pairs_with_multiple_rows": 36693,
+  "merged_node_pairs_not_duplicates": 34003,
+  "true_duplicate_pairs": 2690,
+  "true_exact": 0,
+  "true_disagreeing": 2690,
+  "merged_nodes": {
+   "1175": "Osteoporosis",
+   "236": "Gout",
+   "373": "Sleep apnea",
+   "463": "Glaucoma",
+   "708": "Asthma"
+  },
+  "by_example": {
+   "ESRD": {
+    "neighbours": 169,
+    "true_duplicate_pairs_in_scope": 717,
+    "exact": 0,
+    "disagreeing": 717,
+    "on_the_target_itself": 3,
+    "merged_nodes_in_scope": [
+     "236 Gout",
+     "373 Sleep apnea",
+     "463 Glaucoma"
+    ]
+   },
+   "anemia_280.1": {
+    "neighbours": 252,
+    "true_duplicate_pairs_in_scope": 2240,
+    "exact": 0,
+    "disagreeing": 2240,
+    "on_the_target_itself": 0,
+    "merged_nodes_in_scope": [
+     "1175 Osteoporosis",
+     "236 Gout",
+     "373 Sleep apnea",
+     "463 Glaucoma",
+     "708 Asthma"
+    ]
+   }
+  }
+ }
+}
