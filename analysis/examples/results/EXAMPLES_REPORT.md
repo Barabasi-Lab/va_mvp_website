@@ -312,8 +312,19 @@ At genome-wide significance: AFR 456 SNPs / 4 loci, EUR 752 / 13, META
 ESRD** — and it is a different locus in each ancestry. AFR's second locus
 is chr11:5,227,100, inside **HBB**, about 100 bp from rs334 (the sickle
 variant), reaching the most neighbours. These are the loci driving the
-AFR-specific neighbours in A4 and A6; EUR's FTO and HFE loci drive the
-EUR-specific ones in A5.
+AFR-specific neighbours in A4 and A6; EUR's FTO and chr6:26.1 Mb loci
+drive the EUR-specific ones in A5.
+
+> **Correction.** An earlier version of this section described EUR's
+> chr6:26.1 Mb locus as "HFE — hereditary haemochromatosis, i.e. iron
+> overload", reading a mechanism out of a nearest-gene label. The lead
+> rs198851 sits inside *HFE-AS1*, a non-coding RNA; its nearest
+> protein-coding gene is the histone gene **H4C3 at 66 bp**, and **HFE is
+> 6,060 bp away**. The locus is in the histone cluster adjacent to HFE.
+> HFE may well be the relevant gene — the region is strongly associated
+> with iron traits — but the annotation does not establish that, and the
+> earlier wording implied it did. The loci are named here by coordinate
+> and nearest gene only; no causal gene is assigned.
 
 ### A-C. Cross-ancestry lookup
 
