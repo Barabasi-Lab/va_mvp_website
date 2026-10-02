@@ -435,22 +435,37 @@ function topSnpCte(a1, a2, thresholds, limit = TOP_SNPS) {
   }
 
   // Backfilled: skip SNPs the page would then drop, so the view fills up to
-  // TOP_SNPS whenever that many actually qualify. A SNP survives only if at
-  // least two of its links clear the p-value and |beta| filters - one to the
-  // centre and one to a neighbour - which is the same rule updateNodes
-  // applies client-side. That test is per-SNP: a SNP's own link count does
-  // not depend on which other SNPs are shown, so deciding it here gives the
-  // same answer the client would.
+  // TOP_SNPS whenever that many actually qualify.
+  //
+  // A SNP qualifies only if its link TO THE CENTRE clears the p-value and
+  // |beta| filters. The rule used to be "at least two surviving links,
+  // wherever they go", which let through SNPs whose centre link had been
+  // filtered out but which still reached two other phenotypes - 143 of the
+  // 150 drawn for ESRD in AFR+EUR were of that kind, inflating the SNP count
+  // with variants that say nothing about the centre.
+  //
+  // Among the SNPs that do reach the centre, those that also reach an outer
+  // phenotype are taken first. They are what the view is for, and the cap
+  // should not be spent on spokes before they are all in. Centre-only SNPs
+  // fill whatever is left, so they appear exactly when the limit is not
+  // already used up - which is how the APOL1 SNPs on ESRD become visible.
+  //
+  // Both tests are per-SNP, so deciding them here gives the same answer
+  // updateNodes() would reach client-side.
   return `WITH ${candidates},
           surviving AS (
-            SELECT a.rsid FROM associations a
+            SELECT a.rsid,
+                   count(*) FILTER (WHERE a.phe_id = $1) AS centre_links,
+                   count(*) FILTER (WHERE a.phe_id <> $1) AS outer_links
+            FROM associations a
             WHERE a.rsid IN (SELECT rsid FROM cand)
               AND ${linkFilterSql(a1, a2, 2)}
-            GROUP BY a.rsid HAVING count(*) >= 2
+            GROUP BY a.rsid
+            HAVING count(*) FILTER (WHERE a.phe_id = $1) > 0
           ),
           top_rsids AS (
             SELECT c.rsid FROM cand c JOIN surviving v USING (rsid)
-            ORDER BY c.s DESC, c.src_row
+            ORDER BY (v.outer_links > 0) DESC, c.s DESC, c.src_row
             LIMIT ${limit})`;
 }
 

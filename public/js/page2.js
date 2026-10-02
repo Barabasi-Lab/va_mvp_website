@@ -440,6 +440,12 @@ loadData().then(async (data) => {
             associated with those same SNPs, arranged and colored by category; these
             are the center phenotype's nearest neighbors in the larger graph.</p>
 
+            <p>SNPs only to an outer phenotype will not be shown in this view. SNPs
+            connected only to the center phenotype may be shown, but only when there
+            are less than 150 SNPs connecting the center phenotype to an outer
+            phenotype. We prioritize these type of edges because they are what the
+            phenotype view was designed to explore.</p>
+
             <h3>Reading the links</h3>
             <p>Links are colored by the direction of the association with the
             phenotype, blue for positive and red for negative, and their thickness
@@ -789,17 +795,31 @@ function updateNodes(edges, nodes) {
     // sit on both of its ends, matching the original `source || target` test
     const degree = new Map();
     const bump = id => degree.set(id, (degree.get(id) || 0) + 1);
+    // SNPs whose surviving links include one to the centre. This, and not the
+    // link count, is what decides whether a SNP belongs in a phenotype view.
+    const reachesCentre = new Set();
     for (const edge of edges) {
         const s = edge.source.id;
         const t = edge.target.id;
         bump(s);
         if (t !== s) bump(t);
+        if (s === centerPheno && t.startsWith('rs')) reachesCentre.add(t);
+        else if (t === centerPheno && s.startsWith('rs')) reachesCentre.add(s);
     }
 
     // find all the nodes that have ids starting with rs
     const rsidNodes = nodes.filter(node => node.id.startsWith('rs'));
-    // eliminate any rsid nodes that have less than 2 edges
-    const rsidNodesFiltered = rsidNodes.filter(node => (degree.get(node.id) || 0) >= 2);
+    // Keep a SNP only if one of its surviving links reaches the centre. The
+    // old rule was "two or more surviving links, to anywhere", which kept
+    // SNPs whose centre link had been filtered out but that still joined two
+    // outer phenotypes - most of what the comparison view was drawing. It
+    // also dropped SNPs whose only link is to the centre, which is the
+    // opposite error: those are the centre's own evidence.
+    //
+    // The ordering that puts SNPs reaching an outer phenotype ahead of
+    // centre-only ones lives in topSnpCte() server-side, where the 150 cap
+    // is applied; by the time rows arrive here the set already honours it.
+    const rsidNodesFiltered = rsidNodes.filter(node => reachesCentre.has(node.id));
     const rsidKept = new Set(rsidNodesFiltered.map(n => n.id));
 
     // ids with at least one edge to a surviving rsid node
