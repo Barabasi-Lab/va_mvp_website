@@ -4,6 +4,18 @@ let ancestry = 'meta'; // Default ancestry
 let pvalue = '1e-04'; // Default p-value
 let edgeType = 'weight'; // Default edge type
 
+// Floor for drawn edge width, in the same units as the scaled edge weights.
+// The weights span four orders of magnitude - under the default filters the
+// thinnest present edge is 0.001 against a maximum of 50.9 - so the bottom
+// of the range rendered at a few thousandths of a pixel and was invisible,
+// which made a real edge look like no edge at all.
+//
+// Calibrated to the edge between Other aneurysm and Other abnormal glucose
+// under the default filters (META, 1e-04, total weight), which is the
+// thinnest edge still comfortably readable on screen. Anything below it is
+// drawn at this width instead.
+const MIN_STROKE_WIDTH = 0.083;
+
 // The hierarchy-mask toggle carries over from a page that opened this one,
 // the same way ancestry and pvalue would; absent means off.
 HierarchyMask.readParams(new URLSearchParams(window.location.search));
@@ -196,6 +208,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
+        /**
+         * Make a node the selection: draw its edges, and write it into the
+         * info panel. Clicking a node and picking it out of the search
+         * results are the same act and now run the same code; the search
+         * path used to set activeNode and call highlightNode by hand and
+         * leave updateSummary out, so a searched node drew its edges but
+         * did not appear as selected until it was clicked again.
+         */
+        function selectNode(d) {
+            activeNode = d;
+            highlightNode(d);
+            updateSummary();
+        }
+
         const searchBar = d3.select('#node-search');
         const dropdown = d3.select('#search-results');
 
@@ -217,9 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         .style('padding', '5px')
                         .style('cursor', 'pointer')
                         .on('click', function (event, d) {
-                            // set the active node to the selected node
-                            activeNode = d;
-                            highlightNode(d);
+                            // Picking a result is a selection, the same as
+                            // clicking the node: highlightNode draws the
+                            // edges but the info panel is written by
+                            // updateSummary, which was never called, so the
+                            // node had to be clicked a second time before it
+                            // showed up as selected.
+                            selectNode(d);
                             searchBar.node().value = d.label;
                             dropdown.style('display', 'none');
                         })
@@ -239,8 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const match = nodes.find(n => n.label.toLowerCase().includes(query));
 
                 if (match) {
-                    activeNode = match;
-                    highlightNode(match);
+                    selectNode(match);
                     dropdown.style('display', 'none');
                 }
             }
@@ -464,7 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // the selected node's edges are ever drawn, so the cost is nil.
         function linkStrokeWidth(d) {
             const cap = 2 * Math.min(nodeRadius(d.source), nodeRadius(d.target));
-            return Math.min(linkWeight(d), cap);
+            // Floor last, so a thin edge is visible even where the node cap
+            // would be thinner still. Only edges that carry weight are ever
+            // drawn, so this never conjures a line for an absent edge.
+            return Math.max(MIN_STROKE_WIDTH, Math.min(linkWeight(d), cap));
         }
 
         /**
@@ -628,11 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // make the label opacity of the selected node 0
             labels.style('opacity', l => l.id === d.id ? 0 : 0);
         })
-        .on('click', (event, d) => {
-            activeNode = d;
-            highlightNode(d);
-            updateSummary();
-        });
+        .on('click', (event, d) => selectNode(d));
             
 
 // `degrees` holds the per-node degree under the active filter and is
