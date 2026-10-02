@@ -446,7 +446,7 @@ loadData().then(async (data) => {
             "Download Data" returns every shared SNP rather than just those on
             screen.</p>
 
-            <p>Nearest gene is the closest protein-coding gene by genomic position (GRCh38, TxDb.Hsapiens.UCSC.hg38.knownGene 3.22.0 with org.Hs.eg.db 3.23.1) and does not indicate the causal gene.</p>
+            <p>Nearest gene is the closest protein-coding gene by genomic position (GRCh38, TxDb.Hsapiens.UCSC.hg38.knownGene 3.22.0 with org.Hs.eg.db 3.23.1) and does not indicate the causal gene. Inside the extended MHC (chr6:25726777-33409896) the gene is replaced by "MHC region", because genes there are packed too densely and linkage disequilibrium runs too far for a nearest gene to mean much.</p>
 
             <h3>Reading the links</h3>
             <p>Links are colored by the direction of the association and given a
@@ -766,7 +766,26 @@ function updateEdges(pThreshold, betaThreshold, betaSign, links, data, pThreshol
  */
 function nearestGeneLine(d) {
     if (!d || !d.nearestGene || !String(d.id).startsWith('rs')) return '';
+    // the MHC string already carries its own "nearest", so prefixing it
+    // again reads "Nearest gene: MHC region (nearest: H4C3)"
+    if (d.nearestGene.startsWith('MHC region')) {
+        return d.nearestGene.replace('nearest:', 'nearest gene:');
+    }
     return `Nearest gene: ${d.nearestGene}`;
+}
+
+/**
+ * A second tooltip line naming the non-coding gene a SNP sits inside, when
+ * it does. Secondary on purpose: the headline label stays protein-coding so
+ * it agrees with the paper, while a reader looking at, say, rs198851 can
+ * still see it is inside HFE-AS1 rather than only that the nearest coding
+ * gene is 66 bp away.
+ */
+function overlappingNoncodingLine(d) {
+    if (!d || !d.overlappingNoncoding || !String(d.id).startsWith('rs')) return '';
+    const all = String(d.overlappingNoncoding).split('|');
+    const shown = all[0] + (all.length > 1 ? ` +${all.length - 1}` : '');
+    return `Within: ${shown} (non-coding)`;
 }
 
 
@@ -1037,7 +1056,8 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
     for (const d of data) {
         if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
         if (!geneByRsid.has(d.rsid)) {
-            geneByRsid.set(d.rsid, { gene: d.nearest_gene, dist: d.gene_distance_bp });
+            geneByRsid.set(d.rsid, { gene: d.nearest_gene, dist: d.gene_distance_bp,
+                                     nc: d.overlapping_noncoding });
         }
     }
 
@@ -1050,6 +1070,7 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
         const g = geneByRsid.get(node.id);
         node.nearestGene = g ? g.gene : null;
         node.geneDistanceBp = g ? g.dist : null;
+        node.overlappingNoncoding = g ? g.nc : null;
         });
     rsidNodes.sort((a, b) => a.category - b.category);
         const middle_x = width / 2;
@@ -1177,14 +1198,16 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
             // two lines for an annotated SNP, one for everything else
             const head = d.label ? `${d.label}\n(${d.category})` : d.id;
             const gene = nearestGeneLine(d);
+            const nc = overlappingNoncodingLine(d);
+            const extra = [gene, nc].filter(Boolean);
             const t = d3.select(this);
-            t.append('tspan').attr('x', d?.x || 0).attr('dy', gene ? '-0.45em' : '0')
-                .text(head);
-            if (gene) {
+            t.append('tspan').attr('x', d?.x || 0)
+                .attr('dy', extra.length ? `${-0.45 * extra.length}em` : '0').text(head);
+            extra.forEach(line => {
                 t.append('tspan').attr('x', d?.x || 0).attr('dy', '1.15em')
                     .attr('font-size', Math.max(10, fontSize - 4))
-                    .attr('fill', '#333').text(gene);
-            }
+                    .attr('fill', '#333').text(line);
+            });
         })
         .each(function (d) {
             const bbox = this.getBBox(); // Get text size

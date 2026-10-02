@@ -6,6 +6,8 @@
   "SNPlocs.Hsapiens.dbSNP155.GRCh38": "0.99.24",
   "genome_build": "GRCh38",
   "far_threshold_bp": "1e+06",
-  "protein_coding_genes": "18276",
-  "with_lncrna_genes": "33503"
+  "protein_coding_genes": "19651",
+  "with_lncrna_genes": "35265",
+  "mhc_region": "chr6:25726777-33409896",
+  "mhc_definition": "extended MHC, Horton et al. 2004 Nat Rev Genet 5:889; anchored on H2BC1 and KIFC1 in this gene build"
 }

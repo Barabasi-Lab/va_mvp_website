@@ -354,7 +354,8 @@ const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
          ${RSID_HEX_SQL} AS rsid_hex,
          n.phenotype_category AS phe_cat,
          a.nearest_gene,
-         a.gene_distance_bp
+         a.gene_distance_bp,
+         a.overlapping_noncoding
   FROM associations a
   JOIN node_attributes n ON n.id = a.phe_id`;
 
@@ -703,7 +704,8 @@ app.get('/api/page3/rows', async (req, res, next) => {
 // DOWNLOAD_SELECT has to be added here too or it is silently dropped.
 const DOWNLOAD_COLS = ['phe_id', 'phe_label', 'rsid', 'chrom'].concat(
   ANCESTRIES.flatMap(a => [`pval.${a.toLowerCase()}`, `beta.${a.toLowerCase()}`, `se.${a.toLowerCase()}`]),
-  ['nearest_gene', 'nearest_genes_all', 'gene_distance_bp', 'annotation_status']);
+  ['nearest_gene', 'nearest_genes_all', 'gene_distance_bp', 'annotation_status',
+   'overlapping_noncoding']);
 
 function toCsv(rows) {
   const esc = v => {
@@ -725,7 +727,7 @@ const DOWNLOAD_SELECT = `SELECT a.phe_id, n.label AS phe_label, a.rsid, a.chrom,
            `a."pval.${a.toLowerCase()}"`, `a."beta.${a.toLowerCase()}"`, `a."se.${a.toLowerCase()}"`
          ]).join(', ')},
          a.nearest_gene, a.nearest_genes_all, a.gene_distance_bp,
-         a.annotation_status
+         a.annotation_status, a.overlapping_noncoding
   FROM associations a
   JOIN node_attributes n ON n.id = a.phe_id`;
 
