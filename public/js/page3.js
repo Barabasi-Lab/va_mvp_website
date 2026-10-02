@@ -51,6 +51,19 @@ pThreshold = Math.pow(10, parseFloat(params.pvalue));
 // backfill from further down the ranking, keeping the view full whenever
 // enough SNPs qualify. That makes the response depend on the sliders, so they
 // re-fetch (debounced) rather than re-rendering in place.
+// The nearest-gene annotation, keyed by rsID, as sent once per response in
+// payload.genes. Empty against a server that predates the side map, in
+// which case the pages simply draw no gene line.
+let geneLookup = new Map();
+
+function setGeneLookup(genes) {
+    geneLookup = new Map();
+    for (const rsid of Object.keys(genes || {})) {
+        const [gene, dist, nc, pos] = genes[rsid];
+        geneLookup.set(rsid, { gene: gene, dist: dist, nc: nc, pos: pos });
+    }
+}
+
 async function fetchRows() {
     const params = new URLSearchParams({
         left: leftPheno,
@@ -70,6 +83,7 @@ async function fetchRows() {
         return null;
     }
     const payload = await response.json();
+    setGeneLookup(payload.genes);
     snpTotals = {
         shared: payload.sharedSnps,      // SNPs the two phenotypes share
         fetched: payload.shownSnps,      // how many of those the server sent
@@ -113,8 +127,12 @@ function updatePanels(rsidNodes, pheNodes, links, comparisonOn) {
         ['SNPs', drawn],
         ['Phenotypes', pheNodes.length],
         ['Associations', links.length],
-        [comparisonOn ? '\u00a0\u00a0concordant' : '\u00a0\u00a0positive', same],
-        [comparisonOn ? '\u00a0\u00a0discordant' : '\u00a0\u00a0negative', links.length - same],
+        // "concordant" and "discordant" are reserved for agreement between
+        // two PHENOTYPES. In comparison mode the two sides are two
+        // ancestries, so the panel says so instead of reusing the words.
+        [comparisonOn ? '\u00a0\u00a0same direction' : '\u00a0\u00a0positive', same],
+        [comparisonOn ? '\u00a0\u00a0opposite direction' : '\u00a0\u00a0negative',
+         links.length - same],
         ['SNPs in this edge', shared]
     ]);
 
@@ -453,8 +471,11 @@ loadData().then(async (data) => {
             thickness based on the effect size.</p>
 
             <p>Selecting a second ancestry switches to a comparison: only SNPs
-            significant in both are kept, and links turn green where the association
-            runs the same way in both ancestries and orange where it runs opposite.
+            significant in both are kept, and links turn green where the
+            association runs in the same direction across ancestries and orange
+            where it runs in the opposite direction across ancestries. These are
+            not the concordant and discordant labels used elsewhere, which
+            compare two phenotypes rather than two ancestries.
             The two p-value thresholds move independently, SNPs are ranked by whichever
             ancestry supports them less, and the edge thickness control chooses which
             ancestry's effect size sets the width.</p>
@@ -1058,14 +1079,13 @@ function renderNetwork(nodes, links, data, width, height, leftPheno, rightPheno,
 
     // chromosome per rsid, looked up once rather than scanning every data row
     const chromByRsid = new Map();
-    // nearest gene is a property of the SNP, so one row per rsid is enough
-    const geneByRsid = new Map();
+    // the annotation arrives once per SNP in payload.genes, not on each
+    // row; geneLookup is set by fetchRows and is empty if the server
+    // predates the side map
+    const geneByRsid = geneLookup;
     for (const d of data) {
         if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
-        if (!geneByRsid.has(d.rsid)) {
-            geneByRsid.set(d.rsid, { gene: d.nearest_gene, dist: d.gene_distance_bp,
-                                     nc: d.overlapping_noncoding, pos: d.grch38_pos });
-        }
+
     }
 
     rsidNodes.forEach((node, i) => {
