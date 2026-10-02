@@ -397,37 +397,39 @@ loadData().then(async (data) => {
 
         // Add the info text (initially hidden)
         const infoText = infoContainer.append('div')
+        .attr('class', 'about-panel')
         .style('display', 'none')
-        .style('margin-top', '10px')
-        .style('padding', '10px')
-        .style('background', 'rgba(0, 0, 0, 0.8)')
-        .style('border-radius', '5px')
-        .style('max-width', '600px')
         .html(`
             <h2>Phenotype View</h2>
-            <p>
-                The center node is the phenotype that was selected from the overall graph.<br><br>
-                The inner ring of nodes are its top 150 associated SNPs, ranked by p value.
-                That is a hard limit: loosening the p-value filter will not reveal more
-                than 150.<br><br>
-                With two ancestries selected, they are ranked by the weaker of the two
-                p-values, so every one of the 150 is a SNP that clears both filters.<br><br>
-                These nodes are arranged and colored by chromosome. The chromosome number is also 
-                listed in the label, which can be seen by hovering over a node.<br><br>
-                The outer ring of nodes are the other phenotypes associated with the same SNPs.<br><br>
-                These nodes are arranged and colored by category, and are the center node's 
-                nearest neighbors in the larger graph.<br><br>
-                Click on a node to highlight its connections. Clicking on the center 
-                phenotype will reveal the full network.<br><br>
-                Links are colored based on the direction of their association with the 
-                phenotype (blue for positive, red for negative). The thickness corresponds to the effect size.<br><br>
-                Selecting a second ancestry re-colors the links so that they are green if the association is the same
-                direction in both ancestries, and orange if they are different directions. The p-values can be toggled independently for 
-                the two ancestries<br><br>
-                Double-click on a phenotype node to open a new dendrogram.<br><br>
-                Right click on an outer node to open an edge view between it and the center node.<br><br>
-                Use the 'Reset view' button under the filters to clear the selection.
-            </p>
+            <p>The center node is the phenotype selected from the overall graph. The
+            inner ring is its 150 most strongly associated SNPs, ranked by z-score
+            (the effect size divided by its standard error). That is a hard limit:
+            loosening the p-value filter will not show more than 150, and the note at
+            the bottom left says so whenever more SNPs qualify than fit.</p>
+
+            <p>SNPs are arranged and colored by chromosome, which also appears in the
+            label when you hover over one. The outer ring is the other phenotypes
+            associated with those same SNPs, arranged and colored by category; these
+            are the center phenotype's nearest neighbors in the larger graph.</p>
+
+            <h3>Reading the links</h3>
+            <p>Links are colored by the direction of the association with the
+            phenotype, blue for positive and red for negative, and their thickness
+            follows the effect size.</p>
+
+            <p>Selecting a second ancestry switches to a comparison: only SNPs
+            significant in both are kept, and links turn green where the association
+            runs the same way in both ancestries and orange where it runs opposite.
+            The two p-value thresholds move independently, SNPs are ranked by whichever
+            ancestry supports them less, and the edge thickness control chooses which
+            ancestry's effect size sets the width.</p>
+
+            <h3>Exploring</h3>
+            <p>Click a node to highlight its connections; clicking the center phenotype
+            brings back the full network. Double-click a phenotype to open its own
+            Phenotype view, or right-click one to open the SNP view for the edge
+            between it and the center. "Reset view" clears the selection, and the panel
+            at the bottom left counts what is currently drawn.</p>
         `);
 
         // // add a download button to download data as a csv file

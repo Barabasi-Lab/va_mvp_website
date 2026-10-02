@@ -1,0 +1,121 @@
+target,ancestry,level,neighbor_id,phecode,label,category,weight,synergistic,antagonistic,t1,t2,t3,t4,classifiable
+iron_deficiency_anemia,AFR,L0,270,280,Iron deficiency anemias,hematopoietic,551,551,0,True,False,True,False,True
+iron_deficiency_anemia,AFR,L0,280,282.8,Other hemoglobinopathies,hematopoietic,456,456,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L0,284,285,Other anemias,hematopoietic,438,438,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L0,279,282,Hereditary hemolytic anemias,hematopoietic,363,363,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L0,150,224.1,"Benign neoplasm of eye, uveal",neoplasms,11,0,11,False,False,False,False,True
+iron_deficiency_anemia,AFR,L0,181,250.2,Type 2 diabetes,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L0,175,250,Diabetes mellitus,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L0,95,185,Cancer of prostate,other,9,9,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L0,149,224,Benign neoplasm of eye,neoplasms,5,0,5,False,False,False,False,True
+iron_deficiency_anemia,AFR,L0,900,585,Renal failure,genitourinary system,4,4,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,280,282.8,Other hemoglobinopathies,hematopoietic,456,456,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L1,284,285,Other anemias,hematopoietic,438,438,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L1,279,282,Hereditary hemolytic anemias,hematopoietic,363,363,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L1,150,224.1,"Benign neoplasm of eye, uveal",neoplasms,11,0,11,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,181,250.2,Type 2 diabetes,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,175,250,Diabetes mellitus,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,95,185,Cancer of prostate,other,9,9,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,149,224,Benign neoplasm of eye,neoplasms,5,0,5,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,900,585,Renal failure,genitourinary system,4,4,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L1,903,585.3,Chronic renal failure [CKD],genitourinary system,3,3,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,280,282.8,Other hemoglobinopathies,hematopoietic,456,456,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L2,284,285,Other anemias,hematopoietic,438,438,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L2,279,282,Hereditary hemolytic anemias,hematopoietic,363,363,0,False,False,True,False,True
+iron_deficiency_anemia,AFR,L2,150,224.1,"Benign neoplasm of eye, uveal",neoplasms,11,0,11,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,181,250.2,Type 2 diabetes,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,175,250,Diabetes mellitus,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,95,185,Cancer of prostate,other,9,9,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,149,224,Benign neoplasm of eye,neoplasms,5,0,5,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,900,585,Renal failure,genitourinary system,4,4,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L2,903,585.3,Chronic renal failure [CKD],genitourinary system,3,3,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,150,224.1,"Benign neoplasm of eye, uveal",neoplasms,11,0,11,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,181,250.2,Type 2 diabetes,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,175,250,Diabetes mellitus,endocrine or metabolic,10,10,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,95,185,Cancer of prostate,other,9,9,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,149,224,Benign neoplasm of eye,neoplasms,5,0,5,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,900,585,Renal failure,genitourinary system,4,4,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,903,585.3,Chronic renal failure [CKD],genitourinary system,3,3,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,308,289.9,Abnormality of red blood cells,hematopoietic,2,2,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,553,401.22,Hypertensive chronic kidney disease,circulatory system,2,2,0,False,False,False,False,True
+iron_deficiency_anemia,AFR,L3,185,250.24,Type 2 diabetes with neurological manifestations,endocrine or metabolic,2,0,2,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,270,280,Iron deficiency anemias,hematopoietic,1110,1110,0,True,False,True,False,True
+iron_deficiency_anemia,EUR,L0,284,285,Other anemias,hematopoietic,551,551,0,False,False,True,False,True
+iron_deficiency_anemia,EUR,L0,236,274.1,Gout,endocrine or metabolic,392,32,360,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,241,275.1,Disorders of iron metabolism,hematopoietic,390,1,389,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,235,274,Gout and other crystal arthropathies,endocrine or metabolic,365,0,365,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,240,275,Disorders of mineral metabolism,endocrine or metabolic,344,0,344,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,549,401,Hypertension,circulatory system,264,206,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,550,401.1,Essential hypertension,circulatory system,256,198,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,175,250,Diabetes mellitus,endocrine or metabolic,187,187,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L0,181,250.2,Type 2 diabetes,endocrine or metabolic,186,186,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,284,285,Other anemias,hematopoietic,551,551,0,False,False,True,False,True
+iron_deficiency_anemia,EUR,L1,236,274.1,Gout,endocrine or metabolic,392,32,360,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,241,275.1,Disorders of iron metabolism,hematopoietic,390,1,389,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,235,274,Gout and other crystal arthropathies,endocrine or metabolic,365,0,365,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,240,275,Disorders of mineral metabolism,endocrine or metabolic,344,0,344,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,549,401,Hypertension,circulatory system,264,206,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,550,401.1,Essential hypertension,circulatory system,256,198,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,175,250,Diabetes mellitus,endocrine or metabolic,187,187,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,181,250.2,Type 2 diabetes,endocrine or metabolic,186,186,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L1,53,110.1,Dermatophytosis,infectious diseases,178,122,56,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,284,285,Other anemias,hematopoietic,551,551,0,False,False,True,False,True
+iron_deficiency_anemia,EUR,L2,236,274.1,Gout,endocrine or metabolic,392,32,360,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,241,275.1,Disorders of iron metabolism,hematopoietic,390,1,389,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,235,274,Gout and other crystal arthropathies,endocrine or metabolic,365,0,365,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,240,275,Disorders of mineral metabolism,endocrine or metabolic,344,0,344,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,549,401,Hypertension,circulatory system,264,206,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,550,401.1,Essential hypertension,circulatory system,256,198,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,175,250,Diabetes mellitus,endocrine or metabolic,187,187,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,181,250.2,Type 2 diabetes,endocrine or metabolic,186,186,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L2,53,110.1,Dermatophytosis,infectious diseases,178,122,56,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,236,274.1,Gout,endocrine or metabolic,392,32,360,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,241,275.1,Disorders of iron metabolism,hematopoietic,390,1,389,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,235,274,Gout and other crystal arthropathies,endocrine or metabolic,365,0,365,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,240,275,Disorders of mineral metabolism,endocrine or metabolic,344,0,344,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,549,401,Hypertension,circulatory system,264,206,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,550,401.1,Essential hypertension,circulatory system,256,198,58,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,175,250,Diabetes mellitus,endocrine or metabolic,187,187,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,181,250.2,Type 2 diabetes,endocrine or metabolic,186,186,0,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,53,110.1,Dermatophytosis,infectious diseases,178,122,56,False,False,False,False,True
+iron_deficiency_anemia,EUR,L3,51,110,Dermatophytosis / Dermatomycosis,infectious diseases,178,122,56,False,False,False,False,True
+iron_deficiency_anemia,META,L0,270,280,Iron deficiency anemias,hematopoietic,1459,1459,0,True,False,True,False,True
+iron_deficiency_anemia,META,L0,284,285,Other anemias,hematopoietic,840,840,0,False,False,True,False,True
+iron_deficiency_anemia,META,L0,241,275.1,Disorders of iron metabolism,hematopoietic,376,0,376,False,False,False,False,True
+iron_deficiency_anemia,META,L0,235,274,Gout and other crystal arthropathies,endocrine or metabolic,353,1,352,False,False,False,False,True
+iron_deficiency_anemia,META,L0,236,274.1,Gout,endocrine or metabolic,350,9,341,False,False,False,False,True
+iron_deficiency_anemia,META,L0,240,275,Disorders of mineral metabolism,endocrine or metabolic,332,0,332,False,False,False,False,True
+iron_deficiency_anemia,META,L0,279,282,Hereditary hemolytic anemias,hematopoietic,283,283,0,False,False,True,False,True
+iron_deficiency_anemia,META,L0,549,401,Hypertension,circulatory system,230,177,53,False,False,False,False,True
+iron_deficiency_anemia,META,L0,550,401.1,Essential hypertension,circulatory system,206,158,48,False,False,False,False,True
+iron_deficiency_anemia,META,L0,280,282.8,Other hemoglobinopathies,hematopoietic,205,205,0,False,False,True,False,True
+iron_deficiency_anemia,META,L1,284,285,Other anemias,hematopoietic,840,840,0,False,False,True,False,True
+iron_deficiency_anemia,META,L1,241,275.1,Disorders of iron metabolism,hematopoietic,376,0,376,False,False,False,False,True
+iron_deficiency_anemia,META,L1,235,274,Gout and other crystal arthropathies,endocrine or metabolic,353,1,352,False,False,False,False,True
+iron_deficiency_anemia,META,L1,236,274.1,Gout,endocrine or metabolic,350,9,341,False,False,False,False,True
+iron_deficiency_anemia,META,L1,240,275,Disorders of mineral metabolism,endocrine or metabolic,332,0,332,False,False,False,False,True
+iron_deficiency_anemia,META,L1,279,282,Hereditary hemolytic anemias,hematopoietic,283,283,0,False,False,True,False,True
+iron_deficiency_anemia,META,L1,549,401,Hypertension,circulatory system,230,177,53,False,False,False,False,True
+iron_deficiency_anemia,META,L1,550,401.1,Essential hypertension,circulatory system,206,158,48,False,False,False,False,True
+iron_deficiency_anemia,META,L1,280,282.8,Other hemoglobinopathies,hematopoietic,205,205,0,False,False,True,False,True
+iron_deficiency_anemia,META,L1,307,289.8,"Polycythemia vera, secondary",other,166,0,166,False,False,False,False,True
+iron_deficiency_anemia,META,L2,284,285,Other anemias,hematopoietic,840,840,0,False,False,True,False,True
+iron_deficiency_anemia,META,L2,241,275.1,Disorders of iron metabolism,hematopoietic,376,0,376,False,False,False,False,True
+iron_deficiency_anemia,META,L2,235,274,Gout and other crystal arthropathies,endocrine or metabolic,353,1,352,False,False,False,False,True
+iron_deficiency_anemia,META,L2,236,274.1,Gout,endocrine or metabolic,350,9,341,False,False,False,False,True
+iron_deficiency_anemia,META,L2,240,275,Disorders of mineral metabolism,endocrine or metabolic,332,0,332,False,False,False,False,True
+iron_deficiency_anemia,META,L2,279,282,Hereditary hemolytic anemias,hematopoietic,283,283,0,False,False,True,False,True
+iron_deficiency_anemia,META,L2,549,401,Hypertension,circulatory system,230,177,53,False,False,False,False,True
+iron_deficiency_anemia,META,L2,550,401.1,Essential hypertension,circulatory system,206,158,48,False,False,False,False,True
+iron_deficiency_anemia,META,L2,280,282.8,Other hemoglobinopathies,hematopoietic,205,205,0,False,False,True,False,True
+iron_deficiency_anemia,META,L2,307,289.8,"Polycythemia vera, secondary",other,166,0,166,False,False,False,False,True
+iron_deficiency_anemia,META,L3,241,275.1,Disorders of iron metabolism,hematopoietic,376,0,376,False,False,False,False,True
+iron_deficiency_anemia,META,L3,235,274,Gout and other crystal arthropathies,endocrine or metabolic,353,1,352,False,False,False,False,True
+iron_deficiency_anemia,META,L3,236,274.1,Gout,endocrine or metabolic,350,9,341,False,False,False,False,True
+iron_deficiency_anemia,META,L3,240,275,Disorders of mineral metabolism,endocrine or metabolic,332,0,332,False,False,False,False,True
+iron_deficiency_anemia,META,L3,549,401,Hypertension,circulatory system,230,177,53,False,False,False,False,True
+iron_deficiency_anemia,META,L3,550,401.1,Essential hypertension,circulatory system,206,158,48,False,False,False,False,True
+iron_deficiency_anemia,META,L3,307,289.8,"Polycythemia vera, secondary",other,166,0,166,False,False,False,False,True
+iron_deficiency_anemia,META,L3,51,110,Dermatophytosis / Dermatomycosis,infectious diseases,166,114,52,False,False,False,False,True
+iron_deficiency_anemia,META,L3,53,110.1,Dermatophytosis,infectious diseases,166,114,52,False,False,False,False,True
+iron_deficiency_anemia,META,L3,54,110.11,Dermatophytosis of nail,infectious diseases,162,114,48,False,False,False,False,True

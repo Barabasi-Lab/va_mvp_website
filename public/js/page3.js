@@ -430,26 +430,36 @@ loadData().then(async (data) => {
 
         // Add the info text (initially hidden)
         const infoText = infoContainer.append('div')
+        .attr('class', 'about-panel')
         .style('display', 'none')
-        .style('margin-top', '10px') 
-        .style('padding', '10px')
-        .style('background', 'rgba(0, 0, 0, 0.8)')
-        .style('border-radius', '5px')
-        .style('max-width', '600px')
         .html(`
             <h2>SNP View</h2>
-            <p>
-                The nodes on the left and right are the phenotypes you selected.</p>
-            <p>The nodes in the middle are the SNPs associated with both phenotypes.<br>
-                These nodes are colored and ordered by the chromosome they are located on. <br>
-                The chromosome also appears in the label when hovering over the node.</p>
-            <p>The edges are colored based on the direction of their association, and given<br>
-                a thickness based on the effect size.</p>
-            <p>Selecting a second ancestry re-colors the links so that they are green if the association is the same
-                direction in both ancestries, and orange if they are different directions. The p-values can be toggled independently for 
-                the two ancestries</p>
-            <p>Double click a phenotype to enter its node view.</p>
-            </p>
+            <p>The nodes on the left and right are the two phenotypes you selected.
+            The nodes down the middle are the SNPs associated with both of them,
+            colored and ordered by the chromosome they sit on, which also appears in
+            the label when you hover over one.</p>
+
+            <p>Pairs of phenotypes can share thousands of SNPs, more than this layout
+            can show, so the view is limited to the 250 with the strongest evidence,
+            ranked by z-score (the effect size divided by its standard error). The
+            note at the bottom left says so whenever more SNPs qualify than fit, and
+            "Download Data" returns every shared SNP rather than just those on
+            screen.</p>
+
+            <h3>Reading the links</h3>
+            <p>Links are colored by the direction of the association and given a
+            thickness based on the effect size.</p>
+
+            <p>Selecting a second ancestry switches to a comparison: only SNPs
+            significant in both are kept, and links turn green where the association
+            runs the same way in both ancestries and orange where it runs opposite.
+            The two p-value thresholds move independently, SNPs are ranked by whichever
+            ancestry supports them less, and the edge thickness control chooses which
+            ancestry's effect size sets the width.</p>
+
+            <h3>Exploring</h3>
+            <p>Double-click a phenotype to open its Phenotype view. The panel at the
+            bottom left counts what is currently drawn.</p>
         `);
 
         // --- Persistent search bar container ---
