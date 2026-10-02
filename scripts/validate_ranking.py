@@ -40,10 +40,25 @@ def get(route, params):
         return json.load(fh)
 
 
+# Which statistic the server ranks by. Mirrors RANK_METRIC in server.js,
+# including its default, so this checks the selection the site actually
+# makes rather than one particular setting.
+RANK_METRIC = os.environ.get("RANK_METRIC", "pval").lower()
+
+
+def strength_sql(a):
+    if RANK_METRIC == "pval":
+        # -log10(p), with p = 0 the strongest, as server.js does
+        return (f'CASE WHEN "pval.{a}" IS NULL THEN -1 '
+                f'WHEN "pval.{a}" <= 0 THEN 1e308 '
+                f'ELSE -log10("pval.{a}") END')
+    return f'coalesce(abs("beta.{a}" / "se.{a}"), -1)'
+
+
 def rows_for(con, phe_id, ancestries):
-    """(rsid, src_row, [|z| per ancestry]) for one phenotype, rows with a
-    usable beta in every requested ancestry."""
-    zs = ", ".join(f'abs("beta.{a}" / "se.{a}")' for a in ancestries)
+    """(rsid, src_row, [strength per ancestry]) for one phenotype, rows with
+    a usable beta in every requested ancestry."""
+    zs = ", ".join(strength_sql(a) for a in ancestries)
     where = " AND ".join(f'"beta.{a}" IS NOT NULL' for a in ancestries)
     return con.execute(
         f"SELECT rsid, src_row, {zs} FROM associations "
