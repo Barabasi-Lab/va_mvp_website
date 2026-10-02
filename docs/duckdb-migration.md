@@ -78,6 +78,46 @@ To publish a rebuild to production, upload it to the volume:
 railway volume files -v va_mvp_website-volume upload public/data/db /db
 ```
 
+## Gene labels
+
+Every association row carries the nearest protein-coding gene to its SNP:
+`nearest_gene` (the display string), `nearest_genes_all` (every symbol when
+the SNP sits inside more than one), `gene_distance_bp` (signed, negative
+when the SNP lies before the gene on the reference strand),
+`annotation_status`, `overlapping_noncoding`, and `grch38_pos`.
+
+The annotation is built separately, by `scripts/build_gene_annotation.R`,
+into a date-versioned file that `build_dbs.py` LEFT JOINs on rsid. It is
+versioned because the gene set moves with the Bioconductor release and the
+paper quotes the same names: `snp_gene_annotation_grch38_<date>.parquet`,
+with the package versions beside it in `*_versions.json`. A missing
+annotation file is allowed — the columns come through as
+`position_unknown` and the pages simply draw no gene line.
+
+Three things about the rule are not obvious:
+
+- **Protein-coding only**, from `org.Hs.eg.db`'s `GENETYPE`. Adding lncRNA
+  would change 34.6% of labels, so this is a real choice rather than a
+  default, and it is what the paper's gene names now follow.
+- **The gene universe is restricted to the primary assembly** before
+  `genes()` is called. TxDb carries 711 sequences including the GRCh38 alt
+  haplotypes, and a gene that also maps to an alt scaffold spans several
+  sequences, so `single.strand.genes.only = TRUE` silently drops it. Left
+  alone that removed 1,375 protein-coding genes, including most of the MHC.
+- **The extended MHC gets no gene name.** SNPs in
+  chr6:25,726,777–33,409,896 read `MHC region (nearest gene: X)`. The
+  boundary is computed from the anchor genes Horton et al. 2004 bound the
+  region with, H2BC1 and KIFC1, rather than from a copied coordinate.
+
+`grch38_pos` exists because the SNP ring is ordered by chromosome *and*
+position. Ordering by chromosome alone left SNPs sharing a gene scattered,
+which broke the Stage 2 group labels; the store had never carried
+base-pair positions before this.
+
+Stage 2, the bracketed group labels, is behind a toggle that is off by
+default. See `docs/gene-labels-evaluation.md` for the evaluation and the
+outstanding payload fix.
+
 ## Endpoints
 
 | Route | Query params | Returns |
