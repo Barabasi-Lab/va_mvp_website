@@ -1216,7 +1216,6 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
             node.geneDistanceBp = g ? g.dist : null;
             node.overlappingNoncoding = g ? g.nc : null;
             node.grch38Pos = g && g.pos != null ? Number(g.pos) : null;
-        node.grch38Pos = g && g.pos != null ? Number(g.pos) : null;
         });
         // Order by chromosome and then by position on it. Chromosome alone
     // left SNPs sharing a nearest gene scattered around the ring, so a
