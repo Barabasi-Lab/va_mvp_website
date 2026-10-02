@@ -6,11 +6,11 @@ definitional overlap rather than pleiotropy.
 Nothing here writes to production data, the precomputed network files or the
 served site; everything it produces lands in `results/`.
 
-The "Hide edges between related phecodes" toggle built on the back of this
-analysis lives on the **`hierarchy-mask-toggle`** branch, which adds
-`build_relations.py`, `evaluate_toggle.py` and
-`results/TOGGLE_EVALUATION.md` here plus the site changes. It is unmerged
-and awaiting sign-off.
+The "Hide edges between related phecodes" toggle was built on the back of
+this analysis and is now part of the site. `build_relations.py` produces the
+companion data it reads, `evaluate_toggle.py` scores the candidate tier
+sets, and `results/TOGGLE_EVALUATION.md` is the evaluation it was signed off
+on.
 
 ## Reports
 
@@ -18,6 +18,8 @@ and awaiting sign-off.
 |---|---|
 | `results/A0_RECON.md` | reconnaissance, baseline reproduction, and the inputs that were missing |
 | `results/REPORT.md` | the sensitivity analysis (Part A) |
+| `results/ESRD_OVERLAP_INVESTIGATION.md` | why the ESRD AFR/EUR shared-SNP count changed |
+| `results/TOGGLE_EVALUATION.md` | the toggle's speed and effectiveness evaluation (Part B) |
 
 ## Running it
 
@@ -30,6 +32,13 @@ python3 -m pytest analysis/phecode_redundancy/test_phecode_relations.py -q
 # SNPlocs.Hsapiens.dbSNP155.GRCh38; takes about an hour and ~10 GB.
 Rscript analysis/phecode_redundancy/snp_positions.R \
         results/rsids.txt results/snp_positions.csv
+Rscript analysis/phecode_redundancy/annotate_loci.R results/esrd_loci.csv
+
+# The toggle's data and evaluation.
+python3 analysis/phecode_redundancy/build_relations.py
+python3 analysis/phecode_redundancy/evaluate_toggle.py
+node scripts/test_phecode_relations.js
+node scripts/test_toggle_state.js       # needs a dev server on :3000
 ```
 
 ## Files
@@ -42,6 +51,8 @@ Rscript analysis/phecode_redundancy/snp_positions.R \
 | `run_analysis.py` | entry point for A2–A6 |
 | `snp_positions.R` | rsid → GRCh38, via SNPlocs/dbSNP155 |
 | `annotate_loci.R` | nearest gene per lead SNP, TxDb + org.Hs.eg.db |
+| `build_relations.py` | the toggle's companion data, both implementation options |
+| `evaluate_toggle.py` | the toggle's coverage, over-masking and spot-check samples |
 
 ## Inputs that are not in the repo
 
