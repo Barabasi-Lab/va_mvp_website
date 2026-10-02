@@ -1,0 +1,6 @@
+ancestry,neighbour,phecode,label,tier,removed_at,shared_snps
+AFR,271,280.1,"Iron deficiency anemias, unspecified or not due to blood loss",T1,L1,551
+EUR,271,280.1,"Iron deficiency anemias, unspecified or not due to blood loss",T1,L1,1110
+EUR,272,280.2,Iron deficiency anemia secondary to blood loss (chronic),T1,L1,55
+META,271,280.1,"Iron deficiency anemias, unspecified or not due to blood loss",T1,L1,1459
+META,272,280.2,Iron deficiency anemia secondary to blood loss (chronic),T1,L1,49
