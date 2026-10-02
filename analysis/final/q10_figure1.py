@@ -29,17 +29,25 @@ THRESHOLDS = {"5e-08": 5e-8, "1e-04": 1e-4, "any row": None}
 
 def build(con):
     """One narrow table of the columns the counts need, so the 3.6 GB CSV is
-    scanned once instead of once per query."""
+    scanned once instead of once per query.
+
+    The p-value columns arrive as VARCHAR because the download writes "NA"
+    for a missing ancestry, so they are cast once here; TRY_CAST turns "NA"
+    into NULL, which every count below already treats as not significant.
+    """
     cols = ", ".join(f'"pval.{a}"' for a in ANCS)
-    con.execute(f"""CREATE TABLE IF NOT EXISTS raw AS
+    con.execute(f"""CREATE TABLE IF NOT EXISTS raw_text AS
         SELECT phenotype, rsid, {cols},
                row_number() OVER () AS src_row
         FROM read_csv('{SRC}', header = true, sample_size = -1)""")
+    cast = ", ".join(f'TRY_CAST("pval.{a}" AS DOUBLE) AS "pval.{a}"' for a in ANCS)
+    con.execute(f"""CREATE TABLE IF NOT EXISTS raw AS
+        SELECT phenotype, rsid, {cast}, src_row FROM raw_text""")
     # the dedupe the store uses: smallest META p wins, ties by source order
     con.execute("""CREATE OR REPLACE VIEW dedup AS
         SELECT * EXCLUDE (rn) FROM (
           SELECT *, row_number() OVER (PARTITION BY phenotype, rsid
-                     ORDER BY coalesce("pval.META", 2), src_row) AS rn
+                     ORDER BY coalesce("pval.META", 2.0), src_row) AS rn
           FROM raw)
         WHERE rn = 1""")
 
