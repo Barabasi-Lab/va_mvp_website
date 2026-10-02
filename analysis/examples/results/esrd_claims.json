@@ -1,0 +1,373 @@
+{
+ "E1": {
+  "AFR": {
+   "snps_p_lt_5e-8": 389
+  },
+  "EUR": {
+   "snps_p_lt_5e-8": 372
+  },
+  "META": {
+   "snps_p_lt_5e-8": 467
+  }
+ },
+ "E5_snps_p_lt_1e-4": {
+  "AFR": 713,
+  "EUR": 554,
+  "META": 912
+ },
+ "E6_chromosome_distribution": {
+  "AFR": {
+   "22": 653,
+   "1": 13,
+   "10": 8,
+   "19": 6,
+   "16": 5,
+   "9": 4,
+   "13": 4,
+   "8": 3,
+   "11": 3,
+   "2": 3,
+   "3": 2,
+   "5": 2,
+   "7": 2,
+   "4": 2,
+   "6": 1,
+   "18": 1,
+   "17": 1
+  },
+  "EUR": {
+   "10": 386,
+   "4": 45,
+   "16": 39,
+   "5": 38,
+   "17": 13,
+   "3": 8,
+   "6": 7,
+   "22": 7,
+   "2": 6,
+   "15": 2,
+   "7": 1,
+   "11": 1,
+   "21": 1
+  },
+  "META": {
+   "22": 438,
+   "10": 384,
+   "16": 43,
+   "1": 8,
+   "6": 7,
+   "19": 5,
+   "2": 5,
+   "13": 4,
+   "5": 4,
+   "8": 3,
+   "7": 3,
+   "17": 2,
+   "9": 2,
+   "3": 1,
+   "11": 1,
+   "4": 1,
+   "15": 1
+  }
+ },
+ "E7_shared_afr_eur": {
+  "shared": 14,
+  "shared_with_ui_beta_rule": 14,
+  "afr_only": 699,
+  "eur_only": 540,
+  "union": 1253,
+  "jaccard_pct": 1.117
+ },
+ "E2_E3_E4_network": {
+  "AFR": {
+   "neighbours": 86,
+   "shared_snp_weight": 4755,
+   "concordant_weight_fraction": 0.9977,
+   "discordant_weight_fraction": 0.0023,
+   "within_cluster_neighbours": 18,
+   "within_cluster_neighbour_fraction": 0.2093,
+   "within_cluster_weight_fraction": 0.7028,
+   "neighbours_with_any_discordant_snp": 7,
+   "fraction_neighbours_with_any_discordant": 0.0814,
+   "neighbours_majority_discordant": 6,
+   "fraction_neighbours_majority_discordant": 0.0698,
+   "ui_rule_neighbours": 86,
+   "ui_rule_concordant_weight_fraction": 0.9977
+  },
+  "EUR": {
+   "neighbours": 142,
+   "shared_snp_weight": 8128,
+   "concordant_weight_fraction": 0.8003,
+   "discordant_weight_fraction": 0.1997,
+   "within_cluster_neighbours": 27,
+   "within_cluster_neighbour_fraction": 0.1901,
+   "within_cluster_weight_fraction": 0.3684,
+   "neighbours_with_any_discordant_snp": 44,
+   "fraction_neighbours_with_any_discordant": 0.3099,
+   "neighbours_majority_discordant": 34,
+   "fraction_neighbours_majority_discordant": 0.2394,
+   "ui_rule_neighbours": 142,
+   "ui_rule_concordant_weight_fraction": 0.8003
+  },
+  "META": {
+   "neighbours": 160,
+   "shared_snp_weight": 10227,
+   "concordant_weight_fraction": 0.8453,
+   "discordant_weight_fraction": 0.1547,
+   "within_cluster_neighbours": 32,
+   "within_cluster_neighbour_fraction": 0.2,
+   "within_cluster_weight_fraction": 0.4891,
+   "neighbours_with_any_discordant_snp": 43,
+   "fraction_neighbours_with_any_discordant": 0.2687,
+   "neighbours_majority_discordant": 33,
+   "fraction_neighbours_majority_discordant": 0.2062,
+   "ui_rule_neighbours": 160,
+   "ui_rule_concordant_weight_fraction": 0.8453
+  }
+ },
+ "E2_neighbour_categories": {
+  "AFR": {
+   "genitourinary system": {
+    "neighbours": 16,
+    "weight": 2731
+   },
+   "endocrine or metabolic": {
+    "neighbours": 32,
+    "weight": 756
+   },
+   "hematopoietic": {
+    "neighbours": 2,
+    "weight": 611
+   },
+   "circulatory system": {
+    "neighbours": 8,
+    "weight": 501
+   },
+   "injuries and poisonings": {
+    "neighbours": 2,
+    "weight": 81
+   },
+   "other": {
+    "neighbours": 2,
+    "weight": 37
+   },
+   "sense organs": {
+    "neighbours": 8,
+    "weight": 11
+   },
+   "musculoskeletal system": {
+    "neighbours": 7,
+    "weight": 11
+   },
+   "dermatological system": {
+    "neighbours": 4,
+    "weight": 9
+   },
+   "infectious diseases": {
+    "neighbours": 4,
+    "weight": 6
+   },
+   "symptoms": {
+    "neighbours": 1,
+    "weight": 1
+   }
+  },
+  "EUR": {
+   "genitourinary system": {
+    "neighbours": 21,
+    "weight": 2198
+   },
+   "endocrine or metabolic": {
+    "neighbours": 29,
+    "weight": 1840
+   },
+   "sense organs": {
+    "neighbours": 13,
+    "weight": 1575
+   },
+   "circulatory system": {
+    "neighbours": 26,
+    "weight": 1317
+   },
+   "hematopoietic": {
+    "neighbours": 6,
+    "weight": 796
+   },
+   "musculoskeletal system": {
+    "neighbours": 14,
+    "weight": 159
+   },
+   "dermatological system": {
+    "neighbours": 8,
+    "weight": 71
+   },
+   "digestive system": {
+    "neighbours": 6,
+    "weight": 47
+   },
+   "infectious diseases": {
+    "neighbours": 5,
+    "weight": 43
+   },
+   "other": {
+    "neighbours": 5,
+    "weight": 40
+   },
+   "neurological": {
+    "neighbours": 5,
+    "weight": 33
+   },
+   "respiratory system": {
+    "neighbours": 1,
+    "weight": 6
+   },
+   "symptoms": {
+    "neighbours": 2,
+    "weight": 2
+   },
+   "injuries and poisonings": {
+    "neighbours": 1,
+    "weight": 1
+   }
+  },
+  "META": {
+   "genitourinary system": {
+    "neighbours": 27,
+    "weight": 3843
+   },
+   "endocrine or metabolic": {
+    "neighbours": 38,
+    "weight": 2260
+   },
+   "sense organs": {
+    "neighbours": 13,
+    "weight": 1568
+   },
+   "hematopoietic": {
+    "neighbours": 5,
+    "weight": 1159
+   },
+   "circulatory system": {
+    "neighbours": 28,
+    "weight": 930
+   },
+   "musculoskeletal system": {
+    "neighbours": 14,
+    "weight": 147
+   },
+   "other": {
+    "neighbours": 5,
+    "weight": 74
+   },
+   "dermatological system": {
+    "neighbours": 8,
+    "weight": 73
+   },
+   "injuries and poisonings": {
+    "neighbours": 3,
+    "weight": 52
+   },
+   "digestive system": {
+    "neighbours": 6,
+    "weight": 44
+   },
+   "infectious diseases": {
+    "neighbours": 5,
+    "weight": 43
+   },
+   "neurological": {
+    "neighbours": 5,
+    "weight": 29
+   },
+   "respiratory system": {
+    "neighbours": 1,
+    "weight": 3
+   },
+   "symptoms": {
+    "neighbours": 2,
+    "weight": 2
+   }
+  }
+ },
+ "E_B_loci": {
+  "shared_loci_afr_eur": [
+   {
+    "afr_lead": "rs9622362",
+    "eur_lead": "rs7291184",
+    "chrom": "22",
+    "afr_pos": 36260398,
+    "eur_pos": 36207941,
+    "afr_snps": 481,
+    "eur_snps": 6,
+    "afr_neighbours": 39,
+    "eur_neighbours": 0,
+    "is_apol1": true,
+    "is_tcf7l2": false
+   },
+   {
+    "afr_lead": "rs7903146",
+    "eur_lead": "rs34872471",
+    "chrom": "10",
+    "afr_pos": 112998590,
+    "eur_pos": 112994312,
+    "afr_snps": 6,
+    "eur_snps": 28,
+    "afr_neighbours": 61,
+    "eur_neighbours": 88,
+    "is_apol1": false,
+    "is_tcf7l2": true
+   }
+  ],
+  "locus_counts": {
+   "AFR": 32,
+   "EUR": 23,
+   "META": 33
+  },
+  "position_coverage": {
+   "AFR": {
+    "with_position": 661,
+    "total": 713
+   },
+   "EUR": {
+    "with_position": 506,
+    "total": 554
+   },
+   "META": {
+    "with_position": 841,
+    "total": 912
+   }
+  }
+ },
+ "E_C_cross_ancestry": {
+  "AFR": {
+   "loci": 32,
+   "consistent and nominally significant": 3,
+   "missing": 16,
+   "inconsistent direction": 6,
+   "consistent but not significant": 7,
+   "apol1_leads": [
+    {
+     "rsid": "rs9622362",
+     "beta_other": -0.4004,
+     "p_other": 0.02103,
+     "classification": "consistent and nominally significant"
+    }
+   ]
+  },
+  "EUR": {
+   "loci": 23,
+   "consistent and nominally significant": 6,
+   "inconsistent direction": 10,
+   "consistent but not significant": 5,
+   "missing": 2,
+   "apol1_leads": [
+    {
+     "rsid": "rs7291184",
+     "beta_other": -0.209,
+     "p_other": 1.473e-18,
+     "classification": "consistent and nominally significant"
+    }
+   ]
+  }
+ }
+}
