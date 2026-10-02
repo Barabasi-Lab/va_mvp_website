@@ -119,13 +119,33 @@ function plain(value) {
   return typeof value === 'bigint' ? Number(value) : value;
 }
 
-async function query(conn, sql, params = []) {
+/**
+ * `geneSink`, when given, pulls the nearest-gene columns out of each row
+ * into a map keyed by rsID and leaves them off the row object.
+ *
+ * Three ways of getting the annotation to the client were measured on the
+ * five benchmark cases. Per row: payload +11% to +21%. A second, narrow
+ * query for the map: a second Parquet scan with no chromosome pruning, and
+ * the worst latency of the three. Collecting it here during row
+ * construction: one scan, and the rows are built without the columns
+ * rather than having them deleted afterwards, which matters because V8
+ * moves a deleted-from object into dictionary mode and there are 14,307
+ * rows on the Obesity view.
+ */
+async function query(conn, sql, params = [], geneSink = null) {
   const reader = params.length
     ? await conn.runAndReadAll(sql, params)
     : await conn.runAndReadAll(sql);
   return reader.getRowObjects().map(row => {
     const out = {};
-    for (const [k, v] of Object.entries(row)) out[k] = plain(v);
+    for (const [k, v] of Object.entries(row)) {
+      if (geneSink && GENE_COLS.has(k)) continue;
+      out[k] = plain(v);
+    }
+    if (geneSink && geneSink[row.rsid] === undefined) {
+      geneSink[row.rsid] = [row.nearest_gene, plain(row.gene_distance_bp),
+                            row.overlapping_noncoding, plain(row.grch38_pos)];
+    }
     return out;
   });
 }
@@ -344,9 +364,14 @@ function linkFilterSql(a1, a2, p1Index) {
 // per-node CSVs were in exactly that order, and the client's comparison mode
 // keeps the *last* row it sees for a duplicated (SNP, phenotype) pair, so the
 // order is load-bearing wherever the raw data has duplicates.
-// Nearest-gene columns ride along on the row select rather than a second
-// query: the tooltip needs them on every SNP already on screen, and they
-// are two small columns against the fifteen statistics each row carries.
+// The nearest-gene annotation is a property of the SNP, not of the
+// (SNP, phenotype) row, and page 2 returns 19 rows per SNP on ESRD and 95
+// on Obesity. Sending it per row cost 11-21% of the gzipped payload.
+//
+// It is still fetched on the row query - a second query for it meant a
+// second scan of the Parquet with no chromosome pruning, which cost more
+// latency than the payload was worth - and liftGeneMap() moves it into a
+// per-SNP side map and strips it from the rows before they go out.
 const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
          a.phe_id,
          n.label AS phe_label,
@@ -366,11 +391,11 @@ const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
 const TOP_SNPS = 150;
 
 // Which statistic ranks SNPs for the top-N cut on pages 2 and 3.
-//   'z'    - |beta / se|, the Wald statistic (default, per review)
-//   'pval' - the reported p-value, the previous behaviour
+//   'pval' - the reported p-value (default; this is what the paper states)
+//   'z'    - |beta / se|, the Wald statistic
 // Set RANK_METRIC=pval to switch back without a code change. See the note on
 // strength() for why the two disagree more than you might expect.
-const RANK_METRIC = (process.env.RANK_METRIC || 'z').toLowerCase();
+const RANK_METRIC = (process.env.RANK_METRIC || 'pval').toLowerCase();
 
 /**
  * Association strength for one ancestry, computed at query time. Larger is
@@ -548,17 +573,18 @@ app.get('/api/page2/rows', async (req, res, next) => {
     const more = picked.length > TOP_SNPS;
     const keep = picked.slice(0, TOP_SNPS);
 
+    const genes = {};
     const rows = keep.length === 0 ? [] : await query(assocConn,
       `${ROW_SELECT}
        WHERE a.rsid IN (${rsidList(keep)})
          AND ${betaPresent.join(' AND ')}
-       ORDER BY a.src_row`,
-      []);
+       ORDER BY a.src_row`, [], genes);
 
     res.json({
       node,
       center: meta || null,
       rows,
+      genes,                             // once per SNP, not once per row
       availableSnps: Number(total),      // every SNP this phenotype has
       fetchedSnps: keep.length,
       moreAvailable: more,               // more qualify than fit on screen
@@ -673,15 +699,16 @@ app.get('/api/page3/rows', async (req, res, next) => {
     const more = picked.length > limit;
     const keep = picked.slice(0, limit);
 
+    const genes = {};
     const rows = keep.length === 0 ? [] : await query(assocConn,
       `${ROW_SELECT}
        WHERE a.phe_id IN ($1, $2)
          AND a.rsid IN (${rsidList(keep)})
-       ORDER BY a.src_row`,
-      [left, right]);
+       ORDER BY a.src_row`, [left, right], genes);
 
     res.json({
       left, right, rows,
+      genes,                           // once per SNP, not once per row
       sharedSnps: Number(total),   // SNPs the two phenotypes share
       shownSnps: keep.length,
       moreAvailable: more,         // more qualify than fit on screen
@@ -723,6 +750,11 @@ function toCsv(rows) {
 // the status, so a reader can tell "inside APOL1" from "45 kb from APOL1"
 // from "we have no position for this rsID" without guessing from the
 // display string.
+const GENE_COLS = new Set(['nearest_gene', 'gene_distance_bp',
+                           'overlapping_noncoding', 'grch38_pos']);
+
+
+
 const DOWNLOAD_SELECT = `SELECT a.phe_id, n.label AS phe_label, a.rsid, a.chrom,
          ${ANCESTRIES.flatMap(a => [
            `a."pval.${a.toLowerCase()}"`, `a."beta.${a.toLowerCase()}"`, `a."se.${a.toLowerCase()}"`
