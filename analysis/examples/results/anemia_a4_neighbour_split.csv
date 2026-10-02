@@ -1,0 +1,241 @@
+neighbour,label,category,shared_meta_snps,afr_only,eur_only,both,neither,afr_share_of_single_ancestry
+270,Iron deficiency anemias,hematopoietic,1459,405,1045,9,0,0.2793
+284,Other anemias,hematopoietic,840,321,514,5,0,0.3844
+241,Disorders of iron metabolism,hematopoietic,376,0,364,12,0,0.0
+235,Gout and other crystal arthropathies,endocrine or metabolic,353,1,352,0,0,0.0028
+236,Gout,endocrine or metabolic,350,1,349,0,0,0.0029
+240,Disorders of mineral metabolism,endocrine or metabolic,332,0,332,0,0,0.0
+279,Hereditary hemolytic anemias,hematopoietic,283,282,1,0,0,0.9965
+549,Hypertension,circulatory system,230,0,204,26,0,0.0
+550,Essential hypertension,circulatory system,206,0,180,26,0,0.0
+280,Other hemoglobinopathies,hematopoietic,205,205,0,0,0,1.0
+51,Dermatophytosis / Dermatomycosis,infectious diseases,166,0,166,0,0,0.0
+307,"Polycythemia vera, secondary",other,166,0,166,0,0,0.0
+53,Dermatophytosis,infectious diseases,166,0,166,0,0,0.0
+54,Dermatophytosis of nail,infectious diseases,162,0,162,0,0,0.0
+903,Chronic renal failure [CKD],genitourinary system,156,42,114,0,0,0.2692
+900,Renal failure,genitourinary system,150,36,114,0,0,0.24
+665,Varicose veins,circulatory system,145,0,145,0,0,0.0
+175,Diabetes mellitus,endocrine or metabolic,134,9,85,40,0,0.0957
+181,Type 2 diabetes,endocrine or metabolic,133,9,84,40,0,0.0968
+230,Hyperlipidemia,endocrine or metabolic,131,0,131,0,0,0.0
+229,Disorders of lipoid metabolism,endocrine or metabolic,131,0,131,0,0,0.0
+669,Chronic venous insufficiency [CVI],circulatory system,128,0,128,0,0,0.0
+666,Varicose veins of lower extremity,circulatory system,124,0,124,0,0,0.0
+176,Type 1 diabetes,endocrine or metabolic,122,0,122,0,0,0.0
+185,Type 2 diabetes with neurological manifestations,endocrine or metabolic,121,0,87,34,0,0.0
+184,Type 2 diabetes with ophthalmic manifestations,endocrine or metabolic,120,0,120,0,0,0.0
+191,Polyneuropathy in diabetes,endocrine or metabolic,120,0,120,0,0,0.0
+192,Diabetic retinopathy,endocrine or metabolic,120,0,92,28,0,0.0
+1054,Corns and callosities,dermatological system,120,0,120,0,0,0.0
+187,Insulin pump user,endocrine or metabolic,120,0,119,1,0,0.0
+556,Ischemic Heart Disease,circulatory system,119,0,92,25,2,0.0
+560,Coronary atherosclerosis,circulatory system,117,0,97,20,0,0.0
+1219,Edema,symptoms,116,0,89,27,0,0.0
+1077,Chronic ulcer of skin,dermatological system,115,0,115,0,0,0.0
+553,Hypertensive chronic kidney disease,circulatory system,115,1,114,0,0,0.0087
+183,Type 2 diabetes with renal manifestations,endocrine or metabolic,115,1,114,0,0,0.0087
+264,Obesity,endocrine or metabolic,115,0,75,40,0,0.0
+1062,"Diseases of nail, NOS",dermatological system,114,0,114,0,0,0.0
+1084,"Osteomyelitis, periostitis, and other infections involving bone",musculoskeletal system,114,0,114,0,0,0.0
+1085,Osteomyelitis,musculoskeletal system,114,0,114,0,0,0.0
+1147,Hammer toe (acquired),musculoskeletal system,114,0,114,0,0,0.0
+1160,Osteoarthritis; localized,musculoskeletal system,114,0,114,0,0,0.0
+615,Congestive heart failure (CHF) NOS,circulatory system,114,0,113,1,0,0.0
+617,Heart failure with reduced EF [Systolic or combined heart failure],circulatory system,114,0,114,0,0,0.0
+618,Heart failure with preserved EF [Diastolic heart failure],circulatory system,114,0,114,0,0,0.0
+1088,Unspecified osteomyelitis,musculoskeletal system,114,0,114,0,0,0.0
+174,Secondary diabetes mellitus,endocrine or metabolic,114,0,114,0,0,0.0
+373,Sleep apnea,neurological,114,0,87,27,0,0.0
+375,Obstructive sleep apnea,neurological,114,0,75,39,0,0.0
+601,Atrial fibrillation and flutter,circulatory system,114,0,114,0,0,0.0
+1023,"Cellulitis and abscess of leg, except foot",dermatological system,114,0,114,0,0,0.0
+614,Congestive heart failure; nonhypertensive,circulatory system,114,0,113,1,0,0.0
+667,"Varicose veins of lower extremity, symptomtic",circulatory system,114,0,114,0,0,0.0
+265,Morbid obesity,endocrine or metabolic,114,0,75,39,0,0.0
+263,"Overweight, obesity and other hyperalimentation",endocrine or metabolic,114,0,74,40,0,0.0
+1063,Ingrowing nail,dermatological system,114,0,114,0,0,0.0
+1144,Acquired foot deformities,musculoskeletal system,114,0,114,0,0,0.0
+1159,Osteoarthrosis,musculoskeletal system,114,0,114,0,0,0.0
+365,Alcohol-related disorders,other,114,0,114,0,0,0.0
+438,Other retinal disorders,sense organs,114,0,114,0,0,0.0
+901,Acute renal failure,genitourinary system,114,0,114,0,0,0.0
+186,Diabetes type 2 with peripheral circulatory disorders,endocrine or metabolic,114,0,114,0,0,0.0
+1079,Chronic ulcer of leg or foot,dermatological system,114,0,114,0,0,0.0
+1146,Acquired toe deformities,musculoskeletal system,114,0,114,0,0,0.0
+366,Alcoholism,other,114,0,114,0,0,0.0
+467,Cataract,sense organs,114,0,114,0,0,0.0
+471,Disorders of refraction and accommodation; blindness and low vision,sense organs,114,0,114,0,0,0.0
+474,Presbyopia,sense organs,114,0,114,0,0,0.0
+551,Hypertensive heart and/or renal disease,circulatory system,114,0,114,0,0,0.0
+1019,Superficial cellulitis and abscess,dermatological system,114,0,114,0,0,0.0
+416,Abnormality of gait,neurological,114,0,114,0,0,0.0
+602,Atrial fibrillation,circulatory system,113,0,113,0,0,0.0
+652,"Peripheral vascular disease, unspecified",circulatory system,113,0,113,0,0,0.0
+815,Bariatric surgery,digestive system,113,0,113,0,0,0.0
+414,Abnormal movement,neurological,113,0,113,0,0,0.0
+1165,Osteoarthrosis NOS,musculoskeletal system,113,0,113,0,0,0.0
+49,1089,other,113,0,113,0,0,0.0
+251,Hyperpotassemia,endocrine or metabolic,113,0,113,0,0,0.0
+561,"Other chronic ischemic heart disease, unspecified",circulatory system,112,0,112,0,0,0.0
+419,Other peripheral nerve disorders,neurological,112,0,112,0,0,0.0
+221,Proteinuria,endocrine or metabolic,112,0,112,0,0,0.0
+1055,Other hypertrophic and atrophic conditions of skin,dermatological system,111,0,111,0,0,0.0
+906,"Chronic Kidney Disease, Stage III",genitourinary system,111,1,110,0,0,0.009
+286,Anemia of chronic disease,hematopoietic,110,1,109,0,0,0.0091
+1166,Symptoms and disorders of the joints,musculoskeletal system,110,0,110,0,0,0.0
+1274,Open wounds of extremities,injuries and poisonings,110,0,110,0,0,0.0
+9,Bacterial infection NOS,infectious diseases,109,0,109,0,0,0.0
+287,Anemia in chronic kidney disease,hematopoietic,107,1,106,0,0,0.0093
+649,Peripheral vascular disease,circulatory system,107,0,107,0,0,0.0
+1161,"Osteoarthrosis, localized, primary",musculoskeletal system,106,0,106,0,0,0.0
+469,Senile cataract,sense organs,105,0,105,0,0,0.0
+545,Nonrheumatic aortic valve disorders,circulatory system,104,0,104,0,0,0.0
+1078,Decubitus ulcer,dermatological system,103,0,103,0,0,0.0
+364,Substance addiction and disorders,other,103,0,103,0,0,0.0
+290,Encounter for long-term (current) use of anticoagulants,hematopoietic,102,0,102,0,0,0.0
+1226,Gangrene,symptoms,101,0,101,0,0,0.0
+640,Atherosclerosis of native arteries of the extremities with ulceration or gangrene,circulatory system,101,0,101,0,0,0.0
+1087,Chronic osteomyelitis,musculoskeletal system,99,0,99,0,0,0.0
+1169,Difficulty in walking,musculoskeletal system,99,0,99,0,0,0.0
+842,Diverticulosis and diverticulitis,digestive system,98,0,98,0,0,0.0
+1208,Swelling of limb,symptoms,98,0,98,0,0,0.0
+898,Nephritis and nephropathy in diseases classified elsewhere,genitourinary system,97,0,97,0,0,0.0
+1086,Acute osteomyelitis,musculoskeletal system,96,0,96,0,0,0.0
+1080,Chronic ulcer of unspecified site,dermatological system,96,0,96,0,0,0.0
+568,Chronic pulmonary heart disease,circulatory system,95,0,95,0,0,0.0
+1056,"Keratoderma, acquired",dermatological system,95,0,95,0,0,0.0
+664,Chronic venous hypertension,circulatory system,93,0,93,0,0,0.0
+1285,Blister,injuries and poisonings,91,0,91,0,0,0.0
+583,Cardiac conduction disorders,circulatory system,88,0,88,0,0,0.0
+257,Fluid overload,endocrine or metabolic,88,0,88,0,0,0.0
+907,"Chronic Kidney Disease, Stage IV",genitourinary system,83,0,83,0,0,0.0
+123,Polycythemia vera,neoplasms,82,0,82,0,0,0.0
+843,Diverticulosis,digestive system,77,0,77,0,0,0.0
+578,Primary/intrinsic cardiomyopathies,circulatory system,77,0,77,0,0,0.0
+1277,Open wound of foot except toe(s) alone,injuries and poisonings,75,0,75,0,0,0.0
+712,Chronic airway obstruction,respiratory system,75,0,75,0,0,0.0
+258,Other disorders of metabolism,endocrine or metabolic,70,0,70,0,0,0.0
+577,Cardiomyopathy,circulatory system,69,0,69,0,0,0.0
+443,Macular puckering of retina,sense organs,68,0,68,0,0,0.0
+603,Atrial flutter,circulatory system,66,0,66,0,0,0.0
+543,Heart valve disorders,circulatory system,61,0,61,0,0,0.0
+715,Obstructive chronic bronchitis,respiratory system,58,0,58,0,0,0.0
+368,Tobacco use disorder,other,58,3,55,0,0,0.0517
+714,Chronic bronchitis,respiratory system,57,0,57,0,0,0.0
+95,Cancer of prostate,other,57,0,57,0,0,0.0
+1020,Cellulitis and abscess of fingers/toes,dermatological system,56,0,56,0,0,0.0
+304,Other diseases of blood and blood-forming organs,other,50,0,50,0,0,0.0
+57,Dermatomycoses,infectious diseases,49,0,49,0,0,0.0
+237,Gouty arthropathy,endocrine or metabolic,46,1,45,0,0,0.0217
+839,Symptoms involving digestive system,digestive system,46,0,46,0,0,0.0
+272,Iron deficiency anemia secondary to blood loss (chronic),hematopoietic,44,0,42,2,0,0.0
+179,Type 1 diabetes with ophthalmic manifestations,endocrine or metabolic,42,0,40,2,0,0.0
+439,Degeneration of macula and posterior pole of retina,sense organs,34,0,34,0,0,0.0
+536,Hearing loss,sense organs,32,0,32,0,0,0.0
+739,Shortness of breath,respiratory system,30,0,30,0,0,0.0
+820,Inguinal hernia,digestive system,29,0,29,0,0,0.0
+55,Althete's foot,infectious diseases,29,0,29,0,0,0.0
+897,Nephritis and nephropathy without mention of glomerulonephritis,other,29,0,29,0,0,0.0
+440,"Macular degeneration, dry",sense organs,23,0,22,1,0,0.0
+892,Nephritis; nephrosis; renal sclerosis,genitourinary system,22,0,22,0,0,0.0
+1216,Pain in limb,symptoms,22,0,22,0,0,0.0
+1060,Actinic keratosis,dermatological system,21,0,21,0,0,0.0
+857,Chronic liver disease and cirrhosis,digestive system,20,0,20,0,0,0.0
+5,Septicemia,infectious diseases,20,0,20,0,0,0.0
+132,Benign neoplasm of colon,neoplasms,19,0,19,0,0,0.0
+858,Other chronic nonalcoholic liver disease,digestive system,17,0,17,0,0,0.0
+736,Other symptoms of respiratory system,respiratory system,16,0,16,0,0,0.0
+938,Other symptoms/disorders or the urinary system,genitourinary system,15,0,15,0,0,0.0
+295,Purpura and other hemorrhagic conditions,hematopoietic,11,1,10,0,0,0.0909
+1174,"Osteoporosis, osteopenia and pathological fracture",musculoskeletal system,10,0,10,0,0,0.0
+1048,Psoriasis and related disorders,dermatological system,8,0,8,0,0,0.0
+473,Astigmatism,sense organs,8,0,8,0,0,0.0
+859,Cirrhosis of liver without mention of alcohol,digestive system,7,0,7,0,0,0.0
+913,Disorders resulting from impaired renal function,genitourinary system,7,0,7,0,0,0.0
+1049,Psoriasis,dermatological system,7,0,7,0,0,0.0
+646,Abdominal aortic aneurysm,circulatory system,7,0,7,0,0,0.0
+170,Hypothyroidism NOS,endocrine or metabolic,7,0,7,0,0,0.0
+1050,Psoriasis vulgaris,dermatological system,7,0,7,0,0,0.0
+167,Hypothyroidism,endocrine or metabolic,7,0,7,0,0,0.0
+178,Type 1 diabetes with renal manifestations,endocrine or metabolic,6,0,6,0,0,0.0
+177,Type 1 diabetes with ketoacidosis,endocrine or metabolic,6,0,0,6,0,
+66,"Cancer of larynx, pharynx, nasal cavities",neoplasms,6,0,6,0,0,0.0
+1052,Sarcoidosis,dermatological system,6,6,0,0,0,1.0
+1039,Vitiligo,dermatological system,6,0,6,0,0,0.0
+597,Cardiac dysrhythmias,circulatory system,6,0,6,0,0,0.0
+89,Neoplasm of uncertain behavior of skin,neoplasms,6,0,6,0,0,0.0
+180,Type 1 diabetes with neurological manifestations,endocrine or metabolic,6,0,6,0,0,0.0
+685,Nasal polyps,respiratory system,6,0,6,0,0,0.0
+1095,Rheumatoid arthritis,musculoskeletal system,6,0,0,6,0,
+1043,Lupus (localized and systemic),dermatological system,6,0,6,0,0,0.0
+1213,Muscle weakness,symptoms,6,0,6,0,0,0.0
+1180,Pain in joint,musculoskeletal system,6,0,6,0,0,0.0
+84,"Melanomas of skin, dx or hx",neoplasms,6,0,6,0,0,0.0
+1293,Atopic/contact dermatitis due to other or unspecified,dermatological system,6,0,6,0,0,0.0
+86,Other non-epithelial cancer of skin,neoplasms,6,0,6,0,0,0.0
+827,Ulcerative colitis,digestive system,6,0,6,0,0,0.0
+87,Basal cell carcinoma,neoplasms,6,0,6,0,0,0.0
+391,Multiple sclerosis,neurological,6,0,6,0,0,0.0
+1094,Rheumatoid arthritis and other inflammatory polyarthropathies,musculoskeletal system,6,0,5,1,0,0.0
+67,Cancer of oropharynx,neoplasms,6,0,6,0,0,0.0
+1051,Psoriatic arthropathy,dermatological system,6,0,6,0,0,0.0
+708,Asthma,respiratory system,6,0,6,0,0,0.0
+1059,Degenerative skin conditions and other dermatoses,dermatological system,6,0,6,0,0,0.0
+711,Asthma with exacerbation,respiratory system,6,0,6,0,0,0.0
+25,Viral warts &#38; HPV,infectious diseases,6,0,6,0,0,0.0
+709,Chronic obstructive asthma,respiratory system,6,0,6,0,0,0.0
+193,Hypoglycemia,endocrine or metabolic,6,0,6,0,0,0.0
+83,Skin cancer,neoplasms,6,0,6,0,0,0.0
+1044,Cutaneous lupus erythematosus,dermatological system,6,0,6,0,0,0.0
+567,"Pulmonary embolism and infarction, acute",circulatory system,5,1,4,0,0,0.2
+465,Primary open angle glaucoma,sense organs,5,5,0,0,0,1.0
+1179,Osteopenia or other disorder of bone and cartilage,musculoskeletal system,5,0,5,0,0,0.0
+566,Acute pulmonary heart disease,circulatory system,5,1,4,0,0,0.2
+694,Chronic sinusitis,respiratory system,5,0,5,0,0,0.0
+163,Thyrotoxicosis with or without goiter,endocrine or metabolic,5,0,5,0,0,0.0
+445,Macular degeneration (senile) of retina NOS,sense organs,4,0,4,0,0,0.0
+182,Type 2 diabetes with ketoacidosis,endocrine or metabolic,4,0,4,0,0,0.0
+1176,Osteoporosis NOS,musculoskeletal system,4,0,4,0,0,0.0
+441,"Macular degeneration, wet",sense organs,4,0,4,0,0,0.0
+1175,Osteoporosis,musculoskeletal system,4,0,4,0,0,0.0
+862,Ascites (non malignant),digestive system,3,0,3,0,0,0.0
+867,Abnormal results of function study of liver,digestive system,3,0,3,0,0,0.0
+831,Angiodysplasia of intestine (without mention of hemorrhage),digestive system,3,0,3,0,0,0.0
+1316,Sepsis and SIRS,injuries and poisonings,3,0,3,0,0,0.0
+222,Disorders of protein plasma/amino-acid transport and metabolism,endocrine or metabolic,3,0,3,0,0,0.0
+628,Occlusion and stenosis of precerebral arteries,circulatory system,3,0,3,0,0,0.0
+224,Disorders of plasma protein metabolism,endocrine or metabolic,3,0,3,0,0,0.0
+730,"Respiratory failure, insufficiency, arrest",respiratory system,3,0,3,0,0,0.0
+1232,Elevated prostate specific antigen [PSA],other,3,0,3,0,0,0.0
+713,Emphysema,respiratory system,3,0,3,0,0,0.0
+741,Other dyspnea,respiratory system,3,0,3,0,0,0.0
+748,Solitary pulmonary nodule,respiratory system,2,0,2,0,0,0.0
+731,Respiratory failure,respiratory system,2,0,2,0,0,0.0
+1103,Spinal stenosis,musculoskeletal system,2,0,2,0,0,0.0
+565,Pulmonary heart disease,circulatory system,2,1,1,0,0,0.5
+1061,Seborrheic keratosis,dermatological system,2,0,2,0,0,0.0
+861,Portal hypertension,digestive system,2,0,2,0,0,0.0
+1318,Sepsis,injuries and poisonings,2,0,2,0,0,0.0
+923,Hematuria,genitourinary system,2,0,2,0,0,0.0
+1282,Non-healing surgical wound,injuries and poisonings,2,0,2,0,0,0.0
+299,Diseases of white blood cells,hematopoietic,2,0,2,0,0,0.0
+662,Other venous embolism and thrombosis,circulatory system,2,0,2,0,0,0.0
+308,Abnormality of red blood cells,hematopoietic,2,2,0,0,0,1.0
+296,Thrombocytopenia,hematopoietic,2,1,1,0,0,0.5
+905,End stage renal disease,genitourinary system,2,1,1,0,0,0.5
+638,Atherosclerosis,circulatory system,2,0,2,0,0,0.0
+663,Deep vein thrombosis [DVT],circulatory system,2,0,2,0,0,0.0
+1221,Abdominal pain,symptoms,2,0,2,0,0,0.0
+860,Liver abscess and sequelae of chronic liver disease,digestive system,2,0,2,0,0,0.0
+227,Disorders of carbohydrate transport and metabolism,endocrine or metabolic,1,0,1,0,0,0.0
+1098,Ankylosing spondylitis,musculoskeletal system,1,0,1,0,0,0.0
+925,Microscopic hematuria,genitourinary system,1,1,0,0,0,1.0
+927,Calculus of kidney,genitourinary system,1,1,0,0,0,1.0
+228,Intestinal disaccharidase deficiencies and disaccharide malabsorption,endocrine or metabolic,1,0,1,0,0,0.0
+444,Drusen (degenerative) of retina,sense organs,1,1,0,0,0,1.0
+926,Urinary calculus,genitourinary system,1,1,0,0,0,1.0
+472,Myopia,sense organs,1,0,1,0,0,0.0
+1200,Cervicalgia,symptoms,1,0,1,0,0,0.0
+840,Diarrhea,digestive system,1,0,1,0,0,0.0
+302,Elevated white blood cell count,hematopoietic,1,0,1,0,0,0.0

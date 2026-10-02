@@ -1,0 +1,57 @@
+locus_ancestry,other_ancestry,lead_rsid,chrom,lead_pos,n_snps,is_hbb,is_hba,beta_own,se_own,p_own,beta_other,se_other,p_other,classification
+AFR,EUR,rs13331259,16,249924,505,False,True,-0.2743,0.02081,1.845e-38,-0.1599,0.2262,0.4796,consistent but not significant
+AFR,EUR,rs34598529,11,5227100,40,True,False,-0.9463,0.1038,2.895e-17,,,,missing
+AFR,EUR,rs12252337,10,19621016,2,False,False,-0.09511,0.01661,1.079e-08,0.01617,0.0373,0.6646,inconsistent direction
+AFR,EUR,rs980349,8,126058923,9,False,False,0.08521,0.01533,2.837e-08,0.006102,0.01309,0.6411,consistent but not significant
+AFR,EUR,rs140396646,19,16913259,3,False,False,-0.1839,0.03487,1.139e-07,,,,missing
+AFR,EUR,rs570671228,2,112348334,3,False,False,-1.422,0.252,1.152e-07,,,,missing
+AFR,EUR,rs13023380,2,162297853,1,False,False,0.1369,0.02579,1.324e-07,-0.002045,0.009013,0.8205,inconsistent direction
+AFR,EUR,rs375473499,7,148365742,1,False,False,-0.12,0.02348,2.532e-07,0.002346,0.01284,0.855,inconsistent direction
+AFR,EUR,rs116390012,6,150146001,1,False,False,0.1935,0.03808,3.559e-07,-0.1342,0.1836,0.465,inconsistent direction
+AFR,EUR,rs2612618,8,64394004,3,False,False,-1.424,0.2632,4.224e-07,-0.1133,0.08795,0.1978,consistent but not significant
+AFR,EUR,rs309132,2,135875441,1,False,False,-0.0701,0.01384,4.346e-07,0.01133,0.01483,0.4446,inconsistent direction
+AFR,EUR,rs115672286,10,26924757,1,False,False,-0.155,0.03028,4.924e-07,-0.2519,0.1887,0.1819,consistent but not significant
+AFR,EUR,rs141719071,6,118708702,1,False,False,-0.3072,0.06098,5.119e-07,-0.5618,0.4628,0.2248,consistent but not significant
+AFR,EUR,rs143926560,17,7200498,3,False,False,-0.3443,0.06824,6.025e-07,-0.1959,0.3371,0.5611,consistent but not significant
+AFR,EUR,rs540746044,3,147724326,1,False,False,-2.521,0.4778,6.081e-07,,,,missing
+AFR,EUR,rs7190680,16,786482,1,False,False,-0.3109,0.06172,6.37e-07,,,,missing
+AFR,EUR,rs825272,2,221710549,2,False,False,-0.2137,0.04287,6.484e-07,-0.01046,0.01393,0.4527,consistent but not significant
+AFR,EUR,rs6854183,4,102758311,1,False,False,0.1746,0.03512,7.631e-07,,,,missing
+AFR,EUR,rs896372434,4,113874066,1,False,False,-1.396,0.2727,7.743e-07,,,,missing
+AFR,EUR,rs1193571398,12,113563948,1,False,False,-1.616,0.3142,7.952e-07,,,,missing
+AFR,EUR,rs3874239,15,45039491,11,False,False,0.06898,0.01559,9.331e-06,0.07721,0.01368,1.227e-08,consistent and nominally significant
+EUR,AFR,rs2076085,22,37074001,139,False,False,0.09863,0.008337,3.969e-34,0.03566,0.01485,0.01628,consistent and nominally significant
+EUR,AFR,rs2024050,7,75831075,20,False,False,0.1265,0.01306,3.519e-23,0.04111,0.04731,0.3848,consistent but not significant
+EUR,AFR,rs198851,6,26104404,330,False,False,-0.1058,0.01207,3.157e-19,-0.1166,0.04237,0.005821,consistent and nominally significant
+EUR,AFR,rs56094641,16,53772541,116,False,False,-0.06633,0.008463,7.5e-16,-0.04045,0.02333,0.08302,consistent but not significant
+EUR,AFR,rs17492120,6,25590083,42,False,False,0.09995,0.01363,4.471e-14,0.113,0.04939,0.02108,consistent and nominally significant
+EUR,AFR,rs11549407,11,5226774,2,True,False,-1.223,0.1641,8.476e-12,,,,missing
+EUR,AFR,rs2645490,17,59801148,107,False,False,-0.06046,0.009908,4.034e-10,-0.02102,0.01443,0.1452,consistent but not significant
+EUR,AFR,rs11453468,15,44962327,223,False,False,-0.1099,0.01855,1.042e-09,0.1104,0.07382,0.1347,inconsistent direction
+EUR,AFR,rs142427808,18,33686688,1,False,False,-0.2757,0.04831,7.209e-09,0.3028,0.1975,0.1252,inconsistent direction
+EUR,AFR,rs113219764,17,4426882,1,False,False,0.1602,0.0294,1.595e-08,-0.05779,0.09885,0.5588,inconsistent direction
+EUR,AFR,rs7819197,8,23521365,17,False,False,0.04982,0.009064,2.076e-08,0.03897,0.01492,0.008298,consistent and nominally significant
+EUR,AFR,rs4083754,20,63644522,66,False,False,-0.05625,0.01046,2.481e-08,0.02618,0.02993,0.3819,inconsistent direction
+EUR,AFR,rs117258678,7,27486654,10,False,False,-0.2285,0.04142,4.816e-08,0.04325,0.1767,0.8066,inconsistent direction
+EUR,AFR,rs201556157,10,5370700,25,False,False,0.06323,0.01221,7.929e-08,0.01641,0.02303,0.4762,consistent but not significant
+EUR,AFR,rs13417744,2,117095508,25,False,False,0.04389,0.008669,1.458e-07,0.01704,0.01418,0.2297,consistent but not significant
+EUR,AFR,rs12057256,1,184574548,2,False,False,-0.7272,0.1309,1.5e-07,0.002525,0.01971,0.8981,inconsistent direction
+EUR,AFR,rs7320713,13,104895519,18,False,False,0.04745,0.009455,1.694e-07,0.02321,0.01682,0.1675,consistent but not significant
+EUR,AFR,rs190942379,6,26910015,3,False,False,0.1032,0.02038,1.852e-07,0.1369,0.06871,0.04248,consistent and nominally significant
+EUR,AFR,rs6794370,3,133771490,1,False,False,-0.05563,0.01098,2.065e-07,-0.04855,0.02263,0.03348,consistent and nominally significant
+EUR,AFR,rs10886430,10,119250744,2,False,False,0.07416,0.0149,2.149e-07,0.03009,0.05366,0.575,consistent but not significant
+EUR,AFR,rs28360043,6,31117957,1,False,False,-0.255,0.04956,2.87e-07,-0.06696,0.06775,0.323,consistent but not significant
+EUR,AFR,rs577382962,3,36725096,1,False,False,-1.175,0.2223,3.1e-07,,,,missing
+EUR,AFR,rs17499330,2,117757355,2,False,False,-0.06039,0.01217,3.233e-07,-0.02213,0.02113,0.2949,consistent but not significant
+EUR,AFR,rs564508379,3,76752925,1,False,False,-0.7,0.135,3.622e-07,0.1765,0.8028,0.826,inconsistent direction
+EUR,AFR,rs78837720,6,32548607,6,False,False,-0.05624,0.01114,3.842e-07,0.01158,0.02455,0.6372,inconsistent direction
+EUR,AFR,rs116661434,3,132280927,2,False,False,-1.522,0.275,4.074e-07,0.02583,0.05741,0.6528,inconsistent direction
+EUR,AFR,rs181747846,6,154625929,1,False,False,-1.951,0.3488,4.422e-07,,,,missing
+EUR,AFR,rs9343434,6,62961888,1,False,False,0.04805,0.009855,4.799e-07,-0.03259,0.03171,0.3041,inconsistent direction
+EUR,AFR,rs757460,16,317174,9,False,True,-0.04548,0.009217,5.986e-07,-0.01823,0.01407,0.1952,consistent but not significant
+EUR,AFR,rs112635299,14,94371805,3,False,False,0.1619,0.03365,6.075e-07,-0.1045,0.1247,0.402,inconsistent direction
+EUR,AFR,rs146281756,17,72736327,1,False,False,-0.3879,0.07874,6.104e-07,-0.05716,0.3562,0.8725,consistent but not significant
+EUR,AFR,rs191924544,10,104017541,1,False,False,-0.9153,0.1825,6.244e-07,,,,missing
+EUR,AFR,rs34523089,17,58358748,3,False,False,0.05524,0.01141,6.798e-07,0.09511,0.03933,0.01535,consistent and nominally significant
+EUR,AFR,rs6690731,1,189922418,1,False,False,-0.9242,0.1766,7.718e-07,0.0116,0.02475,0.6393,inconsistent direction
+EUR,AFR,rs7506515,18,5835139,1,False,False,0.05954,0.01274,9.723e-07,-0.06716,0.04276,0.1162,inconsistent direction

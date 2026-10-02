@@ -1,0 +1,170 @@
+{
+ "A2": {
+  "AFR": {
+   "snps_p_lt_1e-4": 620,
+   "positive_beta": 62,
+   "negative_beta": 558,
+   "neighbours": 35,
+   "shared_snp_weight": 1890,
+   "concordant_weight_fraction": 0.9884,
+   "hematopoietic_neighbours": 9,
+   "hematopoietic_weight_fraction": 0.9598
+  },
+  "EUR": {
+   "snps_p_lt_1e-4": 1256,
+   "positive_beta": 611,
+   "negative_beta": 645,
+   "neighbours": 238,
+   "shared_snp_weight": 18183,
+   "concordant_weight_fraction": 0.8399,
+   "hematopoietic_neighbours": 13,
+   "hematopoietic_weight_fraction": 0.1351
+  },
+  "META": {
+   "snps_p_lt_1e-4": 1627,
+   "positive_beta": 608,
+   "negative_beta": 1019,
+   "neighbours": 240,
+   "shared_snp_weight": 18257,
+   "concordant_weight_fraction": 0.8502,
+   "hematopoietic_neighbours": 14,
+   "hematopoietic_weight_fraction": 0.1941
+  }
+ },
+ "A1": {
+  "shared_snps_afr_eur": 17,
+  "neighbours_surviving_intersection": 1,
+  "neighbour_ids": [
+   "270"
+  ],
+  "neighbour_labels": [
+   "Iron deficiency anemias"
+  ],
+  "afr_neighbours": 35,
+  "eur_neighbours": 238
+ },
+ "A3": {
+  "AFR": {
+   "snps": 620,
+   "snps_also_meta_significant": 457,
+   "snp_fraction_kept": 0.7371,
+   "neighbours": 35,
+   "neighbours_kept": 27,
+   "neighbour_fraction_kept": 0.7714
+  },
+  "EUR": {
+   "snps": 1256,
+   "snps_also_meta_significant": 1187,
+   "snp_fraction_kept": 0.9451,
+   "neighbours": 238,
+   "neighbours_kept": 231,
+   "neighbour_fraction_kept": 0.9706
+  }
+ },
+ "A4": {
+  "cutoff_80%": {
+   "neighbours_scored": 238,
+   "predominantly_AFR": 9,
+   "predominantly_EUR": 220,
+   "mixed": 9
+  },
+  "cutoff_60%": {
+   "neighbours_scored": 238,
+   "predominantly_AFR": 9,
+   "predominantly_EUR": 226,
+   "mixed": 3
+  },
+  "cutoff_90%": {
+   "neighbours_scored": 238,
+   "predominantly_AFR": 9,
+   "predominantly_EUR": 220,
+   "mixed": 9
+  }
+ },
+ "A5_A6": {
+  "peripheral vascular disease": {
+   "phe_id": "649",
+   "label": "Peripheral vascular disease",
+   "shared_with_280.1_in_META": 107,
+   "AFR": {
+    "edge_snps_in_this_ancestry": 0,
+    "of_the_META_edge_also_significant_here": 0,
+    "share_of_META_edge": 0.0,
+    "share_of_own_edge_kept_by_META": null
+   },
+   "EUR": {
+    "edge_snps_in_this_ancestry": 110,
+    "of_the_META_edge_also_significant_here": 107,
+    "share_of_META_edge": 1.0,
+    "share_of_own_edge_kept_by_META": 0.9727
+   }
+  },
+  "other hemoglobinopathies": {
+   "phe_id": "280",
+   "label": "Other hemoglobinopathies",
+   "shared_with_280.1_in_META": 205,
+   "AFR": {
+    "edge_snps_in_this_ancestry": 456,
+    "of_the_META_edge_also_significant_here": 205,
+    "share_of_META_edge": 1.0,
+    "share_of_own_edge_kept_by_META": 0.4496
+   },
+   "EUR": {
+    "edge_snps_in_this_ancestry": 2,
+    "of_the_META_edge_also_significant_here": 0,
+    "share_of_META_edge": 0.0,
+    "share_of_own_edge_kept_by_META": 0.0
+   }
+  }
+ },
+ "A7": {
+  "phe_id": "264",
+  "label": "Obesity",
+  "meta_significant_snps": 29949,
+  "eur_share_of_meta": 0.9853,
+  "afr_share_of_meta": 0.0973,
+  "amr_share_of_meta": 0.0336
+ },
+ "A_B_dominant_locus": {
+  "AFR": {
+   "lead_rsid": "rs13331259",
+   "chrom": "16",
+   "lead_pos": 249924,
+   "n_snps": 505,
+   "neighbours_reached": 7,
+   "share_of_mapped_edge_weight": 0.8627
+  },
+  "EUR": {
+   "lead_rsid": "rs56094641",
+   "chrom": "16",
+   "lead_pos": 53772541,
+   "n_snps": 116,
+   "neighbours_reached": 137,
+   "share_of_mapped_edge_weight": 0.7236
+  },
+  "META": {
+   "lead_rsid": "rs55872725",
+   "chrom": "16",
+   "lead_pos": 53775211,
+   "n_snps": 108,
+   "neighbours_reached": 136,
+   "share_of_mapped_edge_weight": 0.6777
+  }
+ },
+ "A_C": {
+  "AFR": {
+   "loci": 21,
+   "consistent but not significant": 7,
+   "missing": 8,
+   "inconsistent direction": 5,
+   "consistent and nominally significant": 1
+  },
+  "EUR": {
+   "loci": 35,
+   "consistent and nominally significant": 7,
+   "consistent but not significant": 11,
+   "missing": 4,
+   "inconsistent direction": 13
+  }
+ }
+}

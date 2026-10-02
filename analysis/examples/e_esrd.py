@@ -19,9 +19,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from common import (ANCESTRIES, BETA_THRESHOLD, CLUMP_WINDOW, ESRD,
-                    PRIMARY_THRESHOLD, RESULTS, SNP_POSITIONS, connect, log,
-                    significant, write_csv)
+from common import (ANCESTRIES, CLUMP_WINDOW, ESRD, PRIMARY_THRESHOLD, RESULTS,
+                    SNP_POSITIONS, clump, connect, in_region, log, meta_for,
+                    neighbours, positions, significant, target_snps, write_csv)
 
 GENOME_WIDE = 5e-8
 TARGET = ESRD
@@ -33,79 +33,6 @@ TCF7L2 = ("10", 112_950_247, 113_167_678)   # GRCh38
 
 # ------------------------------------------------------------------ helpers
 
-def positions(con):
-    """rsid -> (chrom, pos), from the previous task's dbSNP155/GRCh38 dump."""
-    if not os.path.exists(SNP_POSITIONS):
-        return None
-    con.execute(f"""CREATE OR REPLACE TEMP TABLE pos AS
-        SELECT rsid, CAST(chrom AS VARCHAR) AS chrom, CAST(pos AS BIGINT) AS pos
-        FROM read_csv('{SNP_POSITIONS}')""")
-    return con.execute("SELECT count(*) FROM pos").fetchone()[0]
-
-
-def clump(snps, window=CLUMP_WINDOW):
-    """Greedy distance clumping: strongest unassigned SNP leads, absorbs
-    everything within +/- window on its chromosome, repeat.
-
-    `snps` is [(rsid, chrom, pos, pval)]. Same rule as the previous task.
-    """
-    order = sorted(snps, key=lambda r: (r[3], r[0]))
-    locus_of, loci, taken = {}, [], set()
-    for rsid, chrom, pos, _p in order:
-        if rsid in taken:
-            continue
-        members = [s for s in snps
-                   if s[0] not in taken and s[1] == chrom and abs(s[2] - pos) <= window]
-        idx = len(loci)
-        for m in members:
-            taken.add(m[0])
-            locus_of[m[0]] = idx
-        ps = [m[2] for m in members]
-        loci.append({"index": idx, "lead_rsid": rsid, "chrom": chrom, "lead_pos": pos,
-                     "span_start": min(ps), "span_end": max(ps), "n_snps": len(members)})
-    return locus_of, loci
-
-
-def in_region(locus, region, window=CLUMP_WINDOW):
-    chrom, a, b = region
-    return (str(locus["chrom"]) == chrom
-            and locus["span_end"] >= a - window and locus["span_start"] <= b + window)
-
-
-def target_snps(con, ancestry, threshold, node=TARGET, beta_filter=False):
-    return con.execute(f"""SELECT rsid, CAST(chrom AS VARCHAR), "pval.{ancestry}",
-                                  "beta.{ancestry}"
-        FROM assoc WHERE phe_id = ? AND {significant(ancestry, threshold,
-                                                     beta_filter=beta_filter)}""",
-        [node]).fetchall()
-
-
-def neighbours(con, ancestry, threshold, node=TARGET, beta_filter=False):
-    """Neighbour -> (shared SNPs, concordant, discordant, [rsids]).
-
-    Concordant / discordant is the sign of beta across the two PHENOTYPES in
-    one ancestry - not across ancestries.
-    """
-    con.execute(f"""CREATE OR REPLACE TEMP TABLE sig AS
-        SELECT phe_id, rsid, sign("beta.{ancestry}") AS sgn FROM assoc
-        WHERE {significant(ancestry, threshold, beta_filter=beta_filter)}""")
-    rows = con.execute("""SELECT n.phe_id,
-               count(*) AS shared,
-               count(*) FILTER (WHERE c.sgn = n.sgn) AS concordant,
-               count(*) FILTER (WHERE c.sgn <> n.sgn) AS discordant,
-               list(c.rsid) AS rsids
-        FROM sig c JOIN sig n USING (rsid)
-        WHERE c.phe_id = ? AND n.phe_id <> ? GROUP BY n.phe_id""",
-        [node, node]).fetchall()
-    return {r[0]: {"shared": r[1], "concordant": r[2], "discordant": r[3],
-                   "rsids": list(r[4])} for r in rows}
-
-
-def meta_for(con):
-    return {r[0]: {"label": r[1], "category": r[2]} for r in con.execute(
-        "SELECT CAST(id AS VARCHAR), label, phenotype_category FROM nodes").fetchall()}
-
-
 # ------------------------------------------------------------ E-A: claims
 
 def e_a_claims(con, meta):
@@ -116,14 +43,14 @@ def e_a_claims(con, meta):
     # E1 - genome-wide significant SNPs and loci per ancestry
     e1 = {}
     for anc in ANCESTRIES:
-        snps = target_snps(con, anc, GENOME_WIDE)
+        snps = target_snps(con, anc, GENOME_WIDE, TARGET)
         e1[anc.upper()] = {"snps_p_lt_5e-8": len(snps)}
     out["E1"] = e1
 
     # E5 - >100 SNPs at p < 1e-4 in both; E6 - chromosome spread
     e5, e6 = {}, {}
     for anc in ANCESTRIES:
-        snps = target_snps(con, anc, PRIMARY_THRESHOLD)
+        snps = target_snps(con, anc, PRIMARY_THRESHOLD, TARGET)
         e5[anc.upper()] = len(snps)
         by_chrom = {}
         for _, chrom, _, _ in snps:
@@ -149,7 +76,7 @@ def e_a_claims(con, meta):
     # E2/E3/E4 - the network level, per ancestry
     net = {}
     for anc in ANCESTRIES:
-        nb = neighbours(con, anc, PRIMARY_THRESHOLD)
+        nb = neighbours(con, anc, PRIMARY_THRESHOLD, TARGET)
         total_w = sum(v["shared"] for v in nb.values())
         conc_w = sum(v["concordant"] for v in nb.values())
         in_cluster = {k: v for k, v in nb.items()
@@ -172,7 +99,7 @@ def e_a_claims(con, meta):
             "fraction_neighbours_majority_discordant": round(majority_disc / len(nb), 4) if nb else None,
         }
         # and the same under the UI's display rule, for reconciling screenshots
-        nb_ui = neighbours(con, anc, PRIMARY_THRESHOLD, beta_filter=True)
+        nb_ui = neighbours(con, anc, PRIMARY_THRESHOLD, TARGET, beta_filter=True)
         tw = sum(v["shared"] for v in nb_ui.values())
         cw = sum(v["concordant"] for v in nb_ui.values())
         net[anc.upper()]["ui_rule_neighbours"] = len(nb_ui)
@@ -183,7 +110,7 @@ def e_a_claims(con, meta):
     # E2 - what categories ESRD's neighbours actually fall in
     cats = {}
     for anc in ANCESTRIES:
-        nb = neighbours(con, anc, PRIMARY_THRESHOLD)
+        nb = neighbours(con, anc, PRIMARY_THRESHOLD, TARGET)
         c = {}
         for k, v in nb.items():
             cat = meta.get(k, {}).get("category", "?")
@@ -206,7 +133,7 @@ def e_b_loci(con, meta):
             WHERE a.phe_id = ? AND {significant(anc, PRIMARY_THRESHOLD, 'a.')}""",
             [TARGET]).fetchall()
         locus_of, loci = clump(snps)
-        nb = neighbours(con, anc, PRIMARY_THRESHOLD)
+        nb = neighbours(con, anc, PRIMARY_THRESHOLD, TARGET)
         # how many neighbours and how much weight each locus reaches
         for L in loci:
             L["is_apol1"] = in_region(L, APOL1)
@@ -221,7 +148,7 @@ def e_b_loci(con, meta):
             L["shared_snp_weight"] = weight
             L["_nbrs"] = hit_nb
         mapped = sum(1 for r in snps)
-        total = len(target_snps(con, anc, PRIMARY_THRESHOLD))
+        total = len(target_snps(con, anc, PRIMARY_THRESHOLD, TARGET))
         per_anc[anc] = {"loci": loci, "locus_of": locus_of, "nb": nb,
                         "mapped": mapped, "total": total}
         for L in sorted(loci, key=lambda x: -x["shared_snp_weight"]):

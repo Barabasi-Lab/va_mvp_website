@@ -5,8 +5,8 @@ AFR,APOL1,circulatory system,4,39,3993
 AFR,APOL1,injuries and poisonings,2,39,3993
 AFR,APOL1,musculoskeletal system,2,39,3993
 AFR,APOL1,hematopoietic,2,39,3993
-AFR,APOL1,sense organs,1,39,3993
 AFR,APOL1,other,1,39,3993
+AFR,APOL1,sense organs,1,39,3993
 AFR,TCF7L2,endocrine or metabolic,23,61,131
 AFR,TCF7L2,sense organs,8,61,131
 AFR,TCF7L2,genitourinary system,7,61,131
@@ -18,22 +18,22 @@ AFR,TCF7L2,other,2,61,131
 AFR,TCF7L2,hematopoietic,2,61,131
 AFR,TCF7L2,symptoms,1,61,131
 AFR,other,genitourinary system,9,14,239
-AFR,other,hematopoietic,2,14,239
 AFR,other,endocrine or metabolic,2,14,239
+AFR,other,hematopoietic,2,14,239
 AFR,other,musculoskeletal system,1,14,239
 EUR,TCF7L2,endocrine or metabolic,26,88,1560
 EUR,TCF7L2,circulatory system,12,88,1560
 EUR,TCF7L2,sense organs,11,88,1560
-EUR,TCF7L2,genitourinary system,9,88,1560
 EUR,TCF7L2,musculoskeletal system,9,88,1560
+EUR,TCF7L2,genitourinary system,9,88,1560
 EUR,TCF7L2,digestive system,5,88,1560
 EUR,TCF7L2,infectious diseases,4,88,1560
 EUR,TCF7L2,dermatological system,3,88,1560
 EUR,TCF7L2,hematopoietic,3,88,1560
-EUR,TCF7L2,neurological,2,88,1560
 EUR,TCF7L2,other,2,88,1560
-EUR,TCF7L2,respiratory system,1,88,1560
+EUR,TCF7L2,neurological,2,88,1560
 EUR,TCF7L2,symptoms,1,88,1560
+EUR,TCF7L2,respiratory system,1,88,1560
 EUR,other,endocrine or metabolic,23,114,5902
 EUR,other,circulatory system,22,114,5902
 EUR,other,genitourinary system,19,114,5902
@@ -42,18 +42,18 @@ EUR,other,sense organs,9,114,5902
 EUR,other,dermatological system,8,114,5902
 EUR,other,hematopoietic,6,114,5902
 EUR,other,neurological,5,114,5902
-EUR,other,other,4,114,5902
 EUR,other,infectious diseases,4,114,5902
+EUR,other,other,4,114,5902
+EUR,other,digestive system,1,114,5902
 EUR,other,injuries and poisonings,1,114,5902
 EUR,other,symptoms,1,114,5902
-EUR,other,digestive system,1,114,5902
 META,APOL1,genitourinary system,15,37,2540
 META,APOL1,endocrine or metabolic,12,37,2540
 META,APOL1,circulatory system,4,37,2540
 META,APOL1,injuries and poisonings,2,37,2540
 META,APOL1,hematopoietic,2,37,2540
-META,APOL1,sense organs,1,37,2540
 META,APOL1,other,1,37,2540
+META,APOL1,sense organs,1,37,2540
 META,TCF7L2,endocrine or metabolic,26,91,1535
 META,TCF7L2,circulatory system,13,91,1535
 META,TCF7L2,sense organs,11,91,1535
@@ -63,20 +63,20 @@ META,TCF7L2,digestive system,5,91,1535
 META,TCF7L2,dermatological system,4,91,1535
 META,TCF7L2,infectious diseases,4,91,1535
 META,TCF7L2,hematopoietic,3,91,1535
-META,TCF7L2,neurological,2,91,1535
 META,TCF7L2,other,2,91,1535
-META,TCF7L2,respiratory system,1,91,1535
+META,TCF7L2,neurological,2,91,1535
 META,TCF7L2,symptoms,1,91,1535
+META,TCF7L2,respiratory system,1,91,1535
 META,other,endocrine or metabolic,24,116,5291
 META,other,genitourinary system,22,116,5291
 META,other,circulatory system,21,116,5291
 META,other,musculoskeletal system,11,116,5291
 META,other,sense organs,9,116,5291
 META,other,dermatological system,8,116,5291
-META,other,hematopoietic,5,116,5291
 META,other,neurological,5,116,5291
-META,other,other,4,116,5291
+META,other,hematopoietic,5,116,5291
 META,other,infectious diseases,4,116,5291
+META,other,other,4,116,5291
+META,other,digestive system,1,116,5291
 META,other,injuries and poisonings,1,116,5291
 META,other,symptoms,1,116,5291
-META,other,digestive system,1,116,5291

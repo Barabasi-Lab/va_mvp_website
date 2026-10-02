@@ -137,3 +137,78 @@ def write_csv(rows, path, fieldnames=None):
         w.writeheader()
         w.writerows(rows)
     log(f"  wrote {os.path.relpath(path, REPO)} ({len(rows):,} rows)")
+
+
+# ------------------------------------------- shared analysis helpers
+
+def positions(con):
+    """rsid -> (chrom, pos), from the previous task's dbSNP155/GRCh38 dump."""
+    if not os.path.exists(SNP_POSITIONS):
+        return None
+    con.execute(f"""CREATE OR REPLACE TEMP TABLE pos AS
+        SELECT rsid, CAST(chrom AS VARCHAR) AS chrom, CAST(pos AS BIGINT) AS pos
+        FROM read_csv('{SNP_POSITIONS}')""")
+    return con.execute("SELECT count(*) FROM pos").fetchone()[0]
+
+
+def clump(snps, window=CLUMP_WINDOW):
+    """Greedy distance clumping: strongest unassigned SNP leads, absorbs
+    everything within +/- window on its chromosome, repeat.
+
+    `snps` is [(rsid, chrom, pos, pval)]. Same rule as the previous task.
+    """
+    order = sorted(snps, key=lambda r: (r[3], r[0]))
+    locus_of, loci, taken = {}, [], set()
+    for rsid, chrom, pos, _p in order:
+        if rsid in taken:
+            continue
+        members = [s for s in snps
+                   if s[0] not in taken and s[1] == chrom and abs(s[2] - pos) <= window]
+        idx = len(loci)
+        for m in members:
+            taken.add(m[0])
+            locus_of[m[0]] = idx
+        ps = [m[2] for m in members]
+        loci.append({"index": idx, "lead_rsid": rsid, "chrom": chrom, "lead_pos": pos,
+                     "span_start": min(ps), "span_end": max(ps), "n_snps": len(members)})
+    return locus_of, loci
+
+
+def in_region(locus, region, window=CLUMP_WINDOW):
+    chrom, a, b = region
+    return (str(locus["chrom"]) == chrom
+            and locus["span_end"] >= a - window and locus["span_start"] <= b + window)
+
+
+def target_snps(con, ancestry, threshold, node, beta_filter=False):
+    return con.execute(f"""SELECT rsid, CAST(chrom AS VARCHAR), "pval.{ancestry}",
+                                  "beta.{ancestry}"
+        FROM assoc WHERE phe_id = ? AND {significant(ancestry, threshold,
+                                                     beta_filter=beta_filter)}""",
+        [node]).fetchall()
+
+
+def neighbours(con, ancestry, threshold, node, beta_filter=False):
+    """Neighbour -> (shared SNPs, concordant, discordant, [rsids]).
+
+    Concordant / discordant is the sign of beta across the two PHENOTYPES in
+    one ancestry - not across ancestries.
+    """
+    con.execute(f"""CREATE OR REPLACE TEMP TABLE sig AS
+        SELECT phe_id, rsid, sign("beta.{ancestry}") AS sgn FROM assoc
+        WHERE {significant(ancestry, threshold, beta_filter=beta_filter)}""")
+    rows = con.execute("""SELECT n.phe_id,
+               count(*) AS shared,
+               count(*) FILTER (WHERE c.sgn = n.sgn) AS concordant,
+               count(*) FILTER (WHERE c.sgn <> n.sgn) AS discordant,
+               list(c.rsid) AS rsids
+        FROM sig c JOIN sig n USING (rsid)
+        WHERE c.phe_id = ? AND n.phe_id <> ? GROUP BY n.phe_id""",
+        [node, node]).fetchall()
+    return {r[0]: {"shared": r[1], "concordant": r[2], "discordant": r[3],
+                   "rsids": list(r[4])} for r in rows}
+
+
+def meta_for(con):
+    return {r[0]: {"label": r[1], "category": r[2]} for r in con.execute(
+        "SELECT CAST(id AS VARCHAR), label, phenotype_category FROM nodes").fetchall()}
