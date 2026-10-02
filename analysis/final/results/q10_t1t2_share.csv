@@ -1,0 +1,2 @@
+ancestry,l0_edge_weight_all_pairs,l0_edge_weight_positioned,l2_edge_weight_positioned,t1_t2_share_of_positioned_weight,basis,drafted
+AFR,4755,4363,3122,0.2844,SNP-neighbour pairs whose SNP has a GRCh38 position; L2 drops T1 and T2 neighbours,0.28

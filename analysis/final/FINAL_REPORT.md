@@ -8,7 +8,7 @@ come from the store, never from a screenshot.
 
 ## 0. What contradicts the manuscript draft
 
-Seven things. The first two change drafted sentences outright.
+Eight things. The first two change drafted sentences outright.
 
 ### 0.1 The anemia example used phecode 280.1, not 280
 
@@ -67,7 +67,15 @@ inside the APOL1 *locus* under 500 kb clumping, so calling it an APOL1-locus
 lead is fine; calling the gene APOL1 is not. rs73885319 and rs9622362 are
 both inside APOL1 at 0 bp.
 
-### 0.7 The two discordant-locus counts hold only over the phenotypes named
+### 0.7 Three of the Figure 1 numbers cannot be reproduced
+
+Everything else in the Figure 1 text reproduces exactly at p < 1e-4 with the
+duplicate rows kept — EAS to the digit at 37,388, and all six pleiotropy
+percentages. But **12,558 SNPs significant in all four ancestries, 328,152 in
+all but EAS, and 945,657 EUR-only** do not come out under any threshold
+tried, and they are mutually inconsistent with each other. See §2.5.
+
+### 0.8 The two discordant-locus counts hold only over the phenotypes named
 
 chr10 BICC1 → three eye phenotypes, 1,026 discordant shared associations, and
 chr16 UMOD → five kidney-stone phenotypes, 187: both exact. But ten
@@ -114,7 +122,7 @@ narrower than they read (`q10_discordant_loci.csv`).
 | EUR neighbours, majority discordant | 23.9% (34/142) | 23.94% (34/142) | ✓ |
 | chr10 BICC1 → eye phenotypes | 3 phenotypes, 1,026 | 3, 1,026 | ✓ |
 | chr16 UMOD → kidney-stone phenotypes | 5 phenotypes, 187 | 5, 187 | ✓ |
-| AFR T1+T2 share of edge weight | 28% | 28.4% | ✓ |
+| AFR T1+T2 share of edge weight | 28% | 28.4% (positioned basis) | ✓ |
 | AFR degree L0–L3 | 86 → 84 → 80 → 69 | identical | ✓ |
 | AFR within-cluster weight L0–L3 | 70.3 → 67.8 → 58.5 → 30.7% | identical | ✓ |
 | AFR concordant weight L0–L3 | 99.8 → 99.7 → 99.7 → 99.5% | 99.77 → 99.75 → 99.71 → 99.50 | ✓ |
@@ -132,15 +140,15 @@ narrower than they read (`q10_discordant_loci.csv`).
 
 Sources: `esrd_claims.json`, `q2_esrd_redundancy.csv`, `esrd_l2_locus_split.csv`,
 `esrd_neighbours_by_locus_group.csv`, `q10_discordant_loci.csv`,
-`q3_effect_comparison.csv`, `q4_apol1_share.csv`.
+`q3_effect_comparison.csv`, `q4_apol1_share.csv`, `q10_t1t2_share.csv`.
 
 **Nothing in the ESRD table is wrong.** The two qualifications are the APOL1
 denominator (§0.4) and the locus-count scoping (§0.7).
 
 ### 2.2 Figure 1 text
 
-See §2.5 — these could not be checked against the store, and are reported
-separately.
+See §2.5. These are over the whole download, not the store, so they needed a
+separate pass.
 
 ### 2.3 Q3, per-allele effect comparison
 
@@ -184,7 +192,58 @@ five"*. Source: `q5_duplicate_robustness.csv`.
 
 ### 2.5 Figure 1 text numbers
 
-<!--FIGURE1-->
+These are over the **whole download** — `/home/student/Desktop/full_dataset.csv`,
+**24,026,422 rows** — not the store, which holds only the filtered 3,060,080
+rows the site serves. They cannot be checked against the store at all.
+
+**The threshold is p < 1e-4, and the duplicate rows are kept.** That is not a
+guess: every count was produced at 5e-08, 1e-04 and "any row", under both
+duplicate conventions, and only one combination reproduces the drafted
+numbers — several of them exactly.
+
+| Drafted | At p < 1e-4, duplicates kept | |
+|---|---|---|
+| 21.3 million EUR associations | 21,329,976 | ✓ |
+| **37,388 EAS associations** | **37,388** | ✓ exact |
+| 13.2 million META associations | 13,181,839 | ✓ |
+| 1,748 EUR phenotypes with ≥1 association | 1,748 | ✓ |
+| 441 EAS phenotypes | 441 | ✓ |
+| 1,746 META phenotypes | 1,746 | ✓ |
+| 18.8% META SNPs with ≥10 phenotypes | 18.79% | ✓ |
+| 1.1% META SNPs with ≥50 | 1.051% | ✓ |
+| 17.3% EUR with ≥10 | 17.337% | ✓ |
+| 1.6% EAS with ≥10 | 1.561% | ✓ |
+| 5.8% AMR with ≥10 | 5.779% | ✓ |
+| 1.05% META vs 0.93% EUR, ≥50 | 1.051% vs 0.930% | ✓ |
+
+**Answer to "with or without the duplicate rows": with them.** Removing them
+changes EAS from 37,388 to 37,337 and EUR from 21,329,976 to 21,312,032, so
+the drafted figures are the duplicate-inclusive ones. The pleiotropy
+percentages are unaffected to three decimals.
+
+#### The three SNP-overlap numbers do not reproduce
+
+| Drafted | Closest value found | |
+|---|---|---|
+| 12,558 SNPs significant in all four ancestries | 5,836 at 1e-4; 19,640 at 1e-3 | ✗ |
+| 328,152 in all but EAS | 157,530 at 1e-4; 259,539 at 1e-3 | ✗ |
+| 945,657 EUR-only | 2,694,055 at 1e-4; 1,291,313 at 0.05 | ✗ |
+
+Two definitions were tried — "all four significant in the same row" and "the
+SNP is significant in that ancestry for any phenotype" — across seven
+thresholds from 5e-08 to 0.05 (`q10_figure1_overlap_sweep.json`). **No single
+threshold can produce all three**, and they are mutually inconsistent: 12,558
+implies a threshold near 3e-4, 328,152 implies near 3e-3, and 945,657 is
+lower than the EUR-only count at 0.05, so it implies something looser still.
+
+Since everything else in the Figure 1 text reproduces exactly at 1e-4, the
+difference is a definition rather than a threshold — a restricted SNP
+universe, a different ancestry set, or a different sense of "significant".
+**The authors should supply the definition used for these three numbers**;
+they are the only Figure 1 figures this check could not confirm.
+
+Source: `q10_figure1.json`, `q10_figure1_overlap_sweep.json`.
+
 
 ---
 
@@ -343,7 +402,7 @@ Current state, which is safe:
 - `/db` — the **old** store, untouched, still serving the live site;
 - `/db/db` — the **new** store, complete and inert;
 - production code — `f0680f9`, unchanged;
-- local `main` — `720324e`, 42 commits ahead of `origin/main`, not pushed.
+- local `main` — 43 commits ahead of `origin/main`, not pushed.
 
 The production commit hash to record once this completes will be whatever
 `main` is at the time of the push; it is **not yet** that commit.
