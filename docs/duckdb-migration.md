@@ -162,6 +162,31 @@ Stage 2, the bracketed group labels, is behind a toggle that is off by
 default. See `docs/gene-labels-evaluation.md` for the evaluation and the
 outstanding payload fix.
 
+## The gene annotation on the wire
+
+The four annotation columns are a property of the SNP, not of the row, so
+sending them on every row of a page-2 or page-3 response repeated them once
+per phenotype the SNP touches. They now travel once, in a `genes` side map
+keyed by rsid, and are omitted from the row objects.
+
+The map is filled during row construction - the same pass that converts
+DuckDB values to plain JavaScript - rather than in a second pass or a second
+query. Four arrangements were measured; this one was the cheapest, and it
+needs no extra read of the store.
+
+`setGeneLookup(payload.genes)` on each page installs it before the graph is
+built. A server that predates the side map sends no `genes` key, the lookup
+stays empty, and the pages draw no gene line rather than failing.
+
+## Comparison legend wording
+
+With two ancestries selected the summary panel used to label the two edge
+counts "concordant" and "discordant". Those words mean sign agreement across
+two *phenotypes* everywhere else in the paper, and in comparison mode the
+quantity being described is sign agreement across two *ancestries*. The
+labels now read "same direction" and "opposite direction", which leaves
+concordant/discordant to mean one thing only.
+
 ## Endpoints
 
 | Route | Query params | Returns |
@@ -200,8 +225,15 @@ filter client-side with no round trip.
 ### How SNPs are ranked
 
 Pages 2 and 3 keep only the strongest SNPs, and the statistic that decides
-"strongest" is **|z| = |beta / se|**, computed at query time. `RANK_METRIC=pval`
-switches back to ranking by the reported p-value without a code change.
+"strongest" is the **reported p-value**. `RANK_METRIC=z` switches to
+|z| = |beta / se|, computed at query time, without a code change.
+
+The default used to be `z`. It was changed to `pval` because the paper says
+SNPs are ranked by p-value and production had never set the variable, so the
+site and the manuscript disagreed. The rest of this section is why `z` was
+tried, and is kept because it is the argument against going back.
+`scripts/validate_ranking.py` reads `RANK_METRIC` the same way the server
+does, so it checks whichever metric is configured.
 
 z is computed on the fly rather than baked into the Parquet. Benchmarked on
 the shipped shards across nine representative queries: **-1.7 ms median,

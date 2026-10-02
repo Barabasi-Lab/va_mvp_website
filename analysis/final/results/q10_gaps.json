@@ -1,0 +1,84 @@
+{
+ "q6_regenerated": {
+  "rows": 57041,
+  "distinct_unordered_pairs": 57041,
+  "self_pairs": 0,
+  "weight_columns": 90,
+  "rows_with_any_nonzero_weight": 55100,
+  "non_monotone_columns": []
+ },
+ "discordant_loci": [
+  {
+   "chrom": "10",
+   "lead": "rs4948524",
+   "drafted_group": "eye phenotypes (sense organs)",
+   "neighbours_in_group": 3,
+   "discordant_in_group": 1026,
+   "phenotypes_in_group": "Myopia; Primary open angle glaucoma; Open-angle glaucoma",
+   "neighbours_at_locus": 10,
+   "discordant_at_locus": 1088,
+   "others_at_locus": "Gout; Gout and other crystal arthropathies; Hypertensive chronic kidney disease; Ischemic Heart Disease; Chronic renal failure [CKD]; Renal dialysis; Coronary atherosclerosis"
+  },
+  {
+   "chrom": "16",
+   "lead": "rs12922822",
+   "drafted_group": "kidney-stone phenotypes",
+   "neighbours_in_group": 5,
+   "discordant_in_group": 187,
+   "phenotypes_in_group": "Urinary calculus; Calculus of kidney; Hydronephrosis; Calculus of ureter; Calculus of lower urinary tract",
+   "neighbours_at_locus": 8,
+   "discordant_at_locus": 259,
+   "others_at_locus": "Urinary tract infection; Hematuria; Gross hematuria"
+  }
+ ],
+ "lead_genes": [
+  {
+   "rsid": "rs73885319",
+   "nearest_gene": "APOL1",
+   "gene_distance_bp": 0,
+   "overlapping_noncoding": null,
+   "chrom": 22,
+   "grch38_pos": 36265860
+  },
+  {
+   "rsid": "rs7291184",
+   "nearest_gene": "APOL4 (3 kb)",
+   "gene_distance_bp": 3100,
+   "overlapping_noncoding": null,
+   "chrom": 22,
+   "grch38_pos": 36207941
+  },
+  {
+   "rsid": "rs9622362",
+   "nearest_gene": "APOL1",
+   "gene_distance_bp": 0,
+   "overlapping_noncoding": null,
+   "chrom": 22,
+   "grch38_pos": 36260398
+  },
+  {
+   "rsid": "rs4948524",
+   "nearest_gene": "BICC1",
+   "gene_distance_bp": 0,
+   "overlapping_noncoding": null,
+   "chrom": 10,
+   "grch38_pos": 58591464
+  },
+  {
+   "rsid": "rs7903146",
+   "nearest_gene": "TCF7L2",
+   "gene_distance_bp": 0,
+   "overlapping_noncoding": null,
+   "chrom": 10,
+   "grch38_pos": 112998590
+  },
+  {
+   "rsid": "rs12922822",
+   "nearest_gene": "UMOD (21 bp)",
+   "gene_distance_bp": 21,
+   "overlapping_noncoding": null,
+   "chrom": 16,
+   "grch38_pos": 20356323
+  }
+ ]
+}

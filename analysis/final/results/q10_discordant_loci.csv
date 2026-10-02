@@ -1,0 +1,3 @@
+chrom,lead,drafted_group,neighbours_in_group,discordant_in_group,phenotypes_in_group,neighbours_at_locus,discordant_at_locus,others_at_locus
+10,rs4948524,eye phenotypes (sense organs),3,1026,Myopia; Primary open angle glaucoma; Open-angle glaucoma,10,1088,Gout; Gout and other crystal arthropathies; Hypertensive chronic kidney disease; Ischemic Heart Disease; Chronic renal failure [CKD]; Renal dialysis; Coronary atherosclerosis
+16,rs12922822,kidney-stone phenotypes,5,187,Urinary calculus; Calculus of kidney; Hydronephrosis; Calculus of ureter; Calculus of lower urinary tract,8,259,Urinary tract infection; Hematuria; Gross hematuria
