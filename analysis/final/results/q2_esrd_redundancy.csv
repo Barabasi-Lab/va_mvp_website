@@ -1,0 +1,9 @@
+ancestry,level,degree,within_cluster_weight_share,concordant_weight_share
+EUR,L0,142,0.3684,0.8003
+EUR,L1,140,0.2996,0.7787
+EUR,L2,134,0.1851,0.7427
+EUR,L3,129,0.1713,0.737
+AFR,L0,86,0.7028,0.9977
+AFR,L1,84,0.6778,0.9975
+AFR,L2,80,0.5849,0.9971
+AFR,L3,69,0.3073,0.995

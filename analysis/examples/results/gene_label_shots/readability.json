@@ -1,0 +1,288 @@
+[
+ {
+  "view": "page 2 — ESRD, AFR",
+  "k": 2,
+  "file": "p2_esrd_afr_k2.png",
+  "groups": 5,
+  "drawn": 5,
+  "hidden": 0,
+  "snpsCovered": 135,
+  "snpsTotal": 150,
+  "labels": [
+   "MYH9 (60)",
+   "APOL2 (28)",
+   "APOL1 (24)",
+   "APOL4 (14)",
+   "MYH9 (9)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — ESRD, AFR",
+  "k": 3,
+  "file": "p2_esrd_afr_k3.png",
+  "groups": 5,
+  "drawn": 5,
+  "hidden": 0,
+  "snpsCovered": 135,
+  "snpsTotal": 150,
+  "labels": [
+   "MYH9 (60)",
+   "APOL2 (28)",
+   "APOL1 (24)",
+   "APOL4 (14)",
+   "MYH9 (9)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — ESRD, AFR",
+  "k": 5,
+  "file": "p2_esrd_afr_k5.png",
+  "groups": 5,
+  "drawn": 5,
+  "hidden": 0,
+  "snpsCovered": 135,
+  "snpsTotal": 150,
+  "labels": [
+   "MYH9 (60)",
+   "APOL2 (28)",
+   "APOL1 (24)",
+   "APOL4 (14)",
+   "MYH9 (9)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — ESRD, EUR",
+  "k": 2,
+  "file": "p2_esrd_eur_k2.png",
+  "groups": 5,
+  "drawn": 5,
+  "hidden": 0,
+  "snpsCovered": 141,
+  "snpsTotal": 150,
+  "labels": [
+   "BICC1 (70)",
+   "BICC1 (52)",
+   "TCF7L2 (7)",
+   "UMOD (6)",
+   "ANAPC10 (6)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — ESRD, EUR",
+  "k": 3,
+  "file": "p2_esrd_eur_k3.png",
+  "groups": 5,
+  "drawn": 5,
+  "hidden": 0,
+  "snpsCovered": 141,
+  "snpsTotal": 150,
+  "labels": [
+   "BICC1 (70)",
+   "BICC1 (52)",
+   "TCF7L2 (7)",
+   "UMOD (6)",
+   "ANAPC10 (6)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — ESRD, EUR",
+  "k": 5,
+  "file": "p2_esrd_eur_k5.png",
+  "groups": 5,
+  "drawn": 5,
+  "hidden": 0,
+  "snpsCovered": 141,
+  "snpsTotal": 150,
+  "labels": [
+   "BICC1 (70)",
+   "BICC1 (52)",
+   "TCF7L2 (7)",
+   "UMOD (6)",
+   "ANAPC10 (6)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — 280.1, AFR",
+  "k": 2,
+  "file": "p2_anemia_afr_k2.png",
+  "groups": 11,
+  "drawn": 11,
+  "hidden": 0,
+  "snpsCovered": 142,
+  "snpsTotal": 150,
+  "labels": [
+   "FAM234A (37)",
+   "LUC7L (30)",
+   "NPRL3 (23)",
+   "LUC7L (16)",
+   "HBM (10)",
+   "HBA2 (8)",
+   "HBQ1 (8)",
+   "MPG (4)",
+   "POLR3K (2)",
+   "HBZ (2)",
+   "HBA1 (2)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — 280.1, AFR",
+  "k": 3,
+  "file": "p2_anemia_afr_k3.png",
+  "groups": 8,
+  "drawn": 8,
+  "hidden": 0,
+  "snpsCovered": 136,
+  "snpsTotal": 150,
+  "labels": [
+   "FAM234A (37)",
+   "LUC7L (30)",
+   "NPRL3 (23)",
+   "LUC7L (16)",
+   "HBM (10)",
+   "HBA2 (8)",
+   "HBQ1 (8)",
+   "MPG (4)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — 280.1, AFR",
+  "k": 5,
+  "file": "p2_anemia_afr_k5.png",
+  "groups": 7,
+  "drawn": 7,
+  "hidden": 0,
+  "snpsCovered": 132,
+  "snpsTotal": 150,
+  "labels": [
+   "FAM234A (37)",
+   "LUC7L (30)",
+   "NPRL3 (23)",
+   "LUC7L (16)",
+   "HBM (10)",
+   "HBA2 (8)",
+   "HBQ1 (8)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — Obesity, META",
+  "k": 2,
+  "file": "p2_obesity_meta_k2.png",
+  "groups": 4,
+  "drawn": 4,
+  "hidden": 0,
+  "snpsCovered": 140,
+  "snpsTotal": 150,
+  "labels": [
+   "FTO (68)",
+   "FTO (55)",
+   "TMEM18 (12)",
+   "GNPDA2 (5)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — Obesity, META",
+  "k": 3,
+  "file": "p2_obesity_meta_k3.png",
+  "groups": 4,
+  "drawn": 4,
+  "hidden": 0,
+  "snpsCovered": 140,
+  "snpsTotal": 150,
+  "labels": [
+   "FTO (68)",
+   "FTO (55)",
+   "TMEM18 (12)",
+   "GNPDA2 (5)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 2 — Obesity, META",
+  "k": 5,
+  "file": "p2_obesity_meta_k5.png",
+  "groups": 4,
+  "drawn": 4,
+  "hidden": 0,
+  "snpsCovered": 140,
+  "snpsTotal": 150,
+  "labels": [
+   "FTO (68)",
+   "FTO (55)",
+   "TMEM18 (12)",
+   "GNPDA2 (5)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 3 — ESRD vs 588 (heaviest AFR edge)",
+  "k": 2,
+  "file": "p3_esrd_heaviest_afr_k2.png",
+  "groups": 9,
+  "drawn": 8,
+  "hidden": 1,
+  "snpsCovered": 227,
+  "snpsTotal": 250,
+  "labels": [
+   "MYH9 (114)",
+   "APOL2 (35)",
+   "APOL1 (24)",
+   "APOL4 (19)",
+   "RBFOX2 (16)",
+   "TXN2 (11)",
+   "APOL3 (5)",
+   "HMGXB4 (3)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 3 — ESRD vs 588 (heaviest AFR edge)",
+  "k": 3,
+  "file": "p3_esrd_heaviest_afr_k3.png",
+  "groups": 9,
+  "drawn": 8,
+  "hidden": 1,
+  "snpsCovered": 227,
+  "snpsTotal": 250,
+  "labels": [
+   "MYH9 (114)",
+   "APOL2 (35)",
+   "APOL1 (24)",
+   "APOL4 (19)",
+   "RBFOX2 (16)",
+   "TXN2 (11)",
+   "APOL3 (5)",
+   "HMGXB4 (3)"
+  ],
+  "errors": []
+ },
+ {
+  "view": "page 3 — ESRD vs 588 (heaviest AFR edge)",
+  "k": 5,
+  "file": "p3_esrd_heaviest_afr_k5.png",
+  "groups": 7,
+  "drawn": 7,
+  "hidden": 0,
+  "snpsCovered": 224,
+  "snpsTotal": 250,
+  "labels": [
+   "MYH9 (114)",
+   "APOL2 (35)",
+   "APOL1 (24)",
+   "APOL4 (19)",
+   "RBFOX2 (16)",
+   "TXN2 (11)",
+   "APOL3 (5)"
+  ],
+  "errors": []
+ }
+]

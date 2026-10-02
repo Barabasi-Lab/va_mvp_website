@@ -1,0 +1,5 @@
+phecode,ancestry,snps,snps_also_meta,snp_share_kept,loci,loci_shared_with_meta,locus_share_kept,neighbours,neighbour_share_kept
+280,AFR,597,441,0.7387,33,16,0.4848,35,0.7714
+280,EUR,1245,1155,0.9277,40,29,0.725,217,0.9493
+280.1,AFR,620,457,0.7371,21,11,0.5238,35,0.7714
+280.1,EUR,1256,1187,0.9451,35,30,0.8571,238,0.9706

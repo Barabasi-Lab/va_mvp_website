@@ -446,6 +446,8 @@ loadData().then(async (data) => {
             phenotype. We prioritize these type of edges because they are what the
             phenotype view was designed to explore.</p>
 
+            <p>Nearest gene is the closest protein-coding gene by genomic position (GRCh38, TxDb.Hsapiens.UCSC.hg38.knownGene 3.22.0 with org.Hs.eg.db 3.23.1) and does not indicate the causal gene. Inside the extended MHC (chr6:25726777-33409896) the gene is replaced by "MHC region", because genes there are packed too densely and linkage disequilibrium runs too far for a nearest gene to mean much.</p>
+
             <h3>Reading the links</h3>
             <p>Links are colored by the direction of the association with the
             phenotype, blue for positive and red for negative, and their thickness
@@ -645,10 +647,16 @@ loadData().then(async (data) => {
             pValueSlider2.node(),
             compareAncestries.node(),
             document.getElementById('hierarchy-mask-container'),
+            document.getElementById('gene-labels-container'),
             searchContainer.node(),
             document.getElementById('reset-container')
         ].filter(Boolean));
         stack();
+
+        GeneLabels.readParams(new URLSearchParams(window.location.search));
+        GeneLabels.control(redraw);
+        stack();
+        if (GeneLabels.enabled) redraw();
 
         // Same as page 1: the control appears only if the relation data was
         // built, and a mask=1 that the server cannot honour is turned off
@@ -785,6 +793,41 @@ function updateEdges(pThreshold, betaThreshold, betaSign, links, data, pThreshol
     // return the filtered edges
     return filteredEdgesDirection;
     }
+
+/**
+ * The hover label's second line for a SNP: its nearest gene.
+ *
+ * Always says "Nearest gene", never "gene". The annotation is the closest
+ * protein-coding gene by position; it is not a causal assignment and the
+ * wording has to keep saying so.
+ *
+ * Returns '' for a phenotype node or an unannotated SNP, and the caller
+ * skips the line entirely rather than drawing an empty one.
+ */
+function nearestGeneLine(d) {
+    if (!d || !d.nearestGene || !String(d.id).startsWith('rs')) return '';
+    // the MHC string already carries its own "nearest", so prefixing it
+    // again reads "Nearest gene: MHC region (nearest: H4C3)"
+    if (d.nearestGene.startsWith('MHC region')) {
+        return d.nearestGene.replace('nearest:', 'nearest gene:');
+    }
+    return `Nearest gene: ${d.nearestGene}`;
+}
+
+/**
+ * A second tooltip line naming the non-coding gene a SNP sits inside, when
+ * it does. Secondary on purpose: the headline label stays protein-coding so
+ * it agrees with the paper, while a reader looking at, say, rs198851 can
+ * still see it is inside HFE-AS1 rather than only that the nearest coding
+ * gene is 66 bp away.
+ */
+function overlappingNoncodingLine(d) {
+    if (!d || !d.overlappingNoncoding || !String(d.id).startsWith('rs')) return '';
+    const all = String(d.overlappingNoncoding).split('|');
+    const shown = all[0] + (all.length > 1 ? ` +${all.length - 1}` : '');
+    return `Within: ${shown} (non-coding)`;
+}
+
 
 function updateNodes(edges, nodes) {
     // Same result as before, but in two passes over the edges instead of
@@ -1131,9 +1174,15 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     // Row lookups built once instead of scanning every row per node below.
     const chromByRsid = new Map();
     const pheRowById = new Map();
+    // nearest gene is a property of the SNP, so one row per rsid is enough
+    const geneByRsid = new Map();
     for (const d of data) {
         if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
         if (!pheRowById.has(d.phe_id)) pheRowById.set(d.phe_id, d);
+        if (!geneByRsid.has(d.rsid)) {
+            geneByRsid.set(d.rsid, { gene: d.nearest_gene, dist: d.gene_distance_bp,
+                                     nc: d.overlapping_noncoding, pos: d.grch38_pos });
+        }
     }
 
     // Sort rsidNodes by chromosome
@@ -1142,8 +1191,21 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
             node.label = node.id;
             const chromValue = chromByRsid.get(node.id);
             node.category = chromValue ? parseFloat(chromValue) : null;
+            const g = geneByRsid.get(node.id);
+            node.nearestGene = g ? g.gene : null;
+            node.geneDistanceBp = g ? g.dist : null;
+            node.overlappingNoncoding = g ? g.nc : null;
+            node.grch38Pos = g && g.pos != null ? Number(g.pos) : null;
+        node.grch38Pos = g && g.pos != null ? Number(g.pos) : null;
         });
-        rsidNodes.sort((a, b) => a.category - b.category);
+        // Order by chromosome and then by position on it. Chromosome alone
+    // left SNPs sharing a nearest gene scattered around the ring, so a
+    // run-based gene label fragmented - ESRD in AFR drew five separate
+    // MYH9 brackets. SNPs with no position sort last within their
+    // chromosome rather than disturbing the ones that have one.
+    rsidNodes.sort((a, b) => (a.category - b.category)
+        || ((a.grch38Pos == null) - (b.grch38Pos == null))
+        || ((a.grch38Pos || 0) - (b.grch38Pos || 0)));
         rsidNodes.forEach((node, i) => {
             const angle = (i * 2 * Math.PI) / rsidNodes.length;
             node.x = centerX + radius * Math.cos(angle);
@@ -1300,13 +1362,25 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     labels.append('text')
         .attr('text-anchor', 'middle')
         .attr('font-size', 20)
-        .text(d => d.label ? `${d.label} (${d.category})` : d.id)
+        .each(function (d) {
+            // two lines for an annotated SNP, one for everything else
+            const head = d.label ? `${d.label} (${d.category})` : d.id;
+            const gene = nearestGeneLine(d);
+            const nc = overlappingNoncodingLine(d);
+            const extra = [gene, nc].filter(Boolean);
+            const t = d3.select(this);
+            t.append('tspan').attr('x', d?.x || 0)
+                .attr('dy', extra.length ? `${-0.45 * extra.length}em` : '0').text(head);
+            extra.forEach(line => {
+                t.append('tspan').attr('x', d?.x || 0).attr('dy', '1.15em')
+                    .attr('font-size', 16).attr('fill', '#333').text(line);
+            });
+        })
         .each(function (d) {
             const bbox = this.getBBox();
             d.textWidth = bbox.width;
             d.textHeight = bbox.height;
         })
-        .attr('x', d => d?.x || 0) // Check for undefined x
         .attr('y', d => d?.y + 4 || 0); // Check for undefined y
 
     labels.insert('rect', 'text')
@@ -1317,6 +1391,10 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
         .attr('fill', 'white')
         .attr('opacity', 0.8)
         .attr('rx', 5).attr('ry', 5);
+
+    // Stage 2 group labels, drawn only while the toggle is on.
+    GeneLabels.drawRing(svg, nodes.filter(n => String(n.id).startsWith('rs')),
+                        { centerX: centerX, centerY: centerY });
 
     // Modify hover interactions to include label groups
     svg.selectAll('circle')

@@ -78,6 +78,90 @@ To publish a rebuild to production, upload it to the volume:
 railway volume files -v va_mvp_website-volume upload public/data/db /db
 ```
 
+## The regenerated edgelist
+
+`public/data/edgelist_updated_scaled.csv` was rebuilt by
+`scripts/rebuild_edgelist.py` because its columns at 1e-07 and below were
+wrong: the edge counts and the weight distributions were right, but the
+values sat on the wrong phenotype pairs. Agreement with a recomputation
+was 1-7% per column from 1e-07 down, against 93-99% at 1e-04 to 1e-06.
+Page 1's p-value slider therefore drew a network that did not correspond
+to its setting below 1e-06.
+
+The regeneration uses the definition Phase 0 validated against the
+surviving columns: no promiscuous-SNP filter, survey phenotypes excluded,
+one row per (phenotype, SNP) keeping the smallest META p-value,
+concordant and discordant by the sign of beta across the two phenotypes
+within one ancestry, and each column max-normalised to 50 on its own.
+
+**The 1e-04 to 1e-06 columns did not reproduce exactly, and the whole file
+was regenerated rather than patched.** Best agreement was 99.1% on
+eur_1e-04 using the generating notebook's duplicate rule, and 89.8% using
+the rule the rest of the analysis uses. The residual is duplicates: pairs
+with no duplicated SNP agree at 99.96%, pairs touching one at 95.13%. The
+notebook kept whichever row came first in its per-ancestry pickle, and the
+store's `src_row` is the order of the combined CSV, so that ordering
+cannot be reconstructed. Numbers taken from page 1 before this change can
+differ by a few per cent on pairs touching a duplicate.
+
+The pair universe grew from 54,790 to 57,041, adding 2,321 pairs over 85
+nodes the old file never carried. Node positions are unchanged - the
+layout comes from META at 1e-04 and is stored in `node_attributes.csv`,
+which was not rebuilt.
+
+Checks that pass on the regenerated file: column names identical to the
+old one; no negative components; no edge whose weight at a stricter
+threshold exceeds its weight at a looser one, over all 80 adjacent pairs;
+no edge present at a stricter threshold and absent at a looser one; and
+the summary panel's edge and node counts equal to a direct recomputation
+at 1e-08, 1e-10 and 1e-12 in META, EUR and AFR.
+
+Two properties of the format are worth stating because they surprise
+people. Each weight column is normalised independently, so concordant and
+discordant weights are not on the same scale and do not sum to a total,
+and weights are not comparable across ancestries or thresholds. Both were
+already true of the old file; the regeneration preserves them.
+
+## Gene labels
+
+Every association row carries the nearest protein-coding gene to its SNP:
+`nearest_gene` (the display string), `nearest_genes_all` (every symbol when
+the SNP sits inside more than one), `gene_distance_bp` (signed, negative
+when the SNP lies before the gene on the reference strand),
+`annotation_status`, `overlapping_noncoding`, and `grch38_pos`.
+
+The annotation is built separately, by `scripts/build_gene_annotation.R`,
+into a date-versioned file that `build_dbs.py` LEFT JOINs on rsid. It is
+versioned because the gene set moves with the Bioconductor release and the
+paper quotes the same names: `snp_gene_annotation_grch38_<date>.parquet`,
+with the package versions beside it in `*_versions.json`. A missing
+annotation file is allowed — the columns come through as
+`position_unknown` and the pages simply draw no gene line.
+
+Three things about the rule are not obvious:
+
+- **Protein-coding only**, from `org.Hs.eg.db`'s `GENETYPE`. Adding lncRNA
+  would change 34.6% of labels, so this is a real choice rather than a
+  default, and it is what the paper's gene names now follow.
+- **The gene universe is restricted to the primary assembly** before
+  `genes()` is called. TxDb carries 711 sequences including the GRCh38 alt
+  haplotypes, and a gene that also maps to an alt scaffold spans several
+  sequences, so `single.strand.genes.only = TRUE` silently drops it. Left
+  alone that removed 1,375 protein-coding genes, including most of the MHC.
+- **The extended MHC gets no gene name.** SNPs in
+  chr6:25,726,777–33,409,896 read `MHC region (nearest gene: X)`. The
+  boundary is computed from the anchor genes Horton et al. 2004 bound the
+  region with, H2BC1 and KIFC1, rather than from a copied coordinate.
+
+`grch38_pos` exists because the SNP ring is ordered by chromosome *and*
+position. Ordering by chromosome alone left SNPs sharing a gene scattered,
+which broke the Stage 2 group labels; the store had never carried
+base-pair positions before this.
+
+Stage 2, the bracketed group labels, is behind a toggle that is off by
+default. See `docs/gene-labels-evaluation.md` for the evaluation and the
+outstanding payload fix.
+
 ## Endpoints
 
 | Route | Query params | Returns |

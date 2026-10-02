@@ -1,0 +1,82 @@
+{
+ "page2 ESRD AFR": {
+  "baseline": {
+   "median_ms": 584.7,
+   "p90_ms": 612.4,
+   "transferred_bytes": 115548,
+   "content_encoding": "gzip"
+  },
+  "feature": {
+   "median_ms": 590.3,
+   "p90_ms": 685.1,
+   "transferred_bytes": 135465,
+   "content_encoding": "gzip"
+  },
+  "latency_delta_pct": 1.0,
+  "payload_delta_pct": 17.2
+ },
+ "page2 Obesity META": {
+  "baseline": {
+   "median_ms": 558.9,
+   "p90_ms": 568.7,
+   "transferred_bytes": 550928,
+   "content_encoding": "gzip"
+  },
+  "feature": {
+   "median_ms": 716.3,
+   "p90_ms": 723.8,
+   "transferred_bytes": 613536,
+   "content_encoding": "gzip"
+  },
+  "latency_delta_pct": 28.2,
+  "payload_delta_pct": 11.4
+ },
+ "page2 Asthma META": {
+  "baseline": {
+   "median_ms": 408.7,
+   "p90_ms": 414.6,
+   "transferred_bytes": 186772,
+   "content_encoding": "gzip"
+  },
+  "feature": {
+   "median_ms": 495.5,
+   "p90_ms": 505.3,
+   "transferred_bytes": 225859,
+   "content_encoding": "gzip"
+  },
+  "latency_delta_pct": 21.2,
+  "payload_delta_pct": 20.9
+ },
+ "page3 ESRD-588 AFR": {
+  "baseline": {
+   "median_ms": 173.8,
+   "p90_ms": 185.9,
+   "transferred_bytes": 19054,
+   "content_encoding": "gzip"
+  },
+  "feature": {
+   "median_ms": 206.1,
+   "p90_ms": 207.5,
+   "transferred_bytes": 23013,
+   "content_encoding": "gzip"
+  },
+  "latency_delta_pct": 18.6,
+  "payload_delta_pct": 20.8
+ },
+ "page3 Hyperlip-lipoid EUR": {
+  "baseline": {
+   "median_ms": 237.0,
+   "p90_ms": 243.0,
+   "transferred_bytes": 21279,
+   "content_encoding": "gzip"
+  },
+  "feature": {
+   "median_ms": 245.8,
+   "p90_ms": 254.6,
+   "transferred_bytes": 24773,
+   "content_encoding": "gzip"
+  },
+  "latency_delta_pct": 3.7,
+  "payload_delta_pct": 16.4
+ }
+}

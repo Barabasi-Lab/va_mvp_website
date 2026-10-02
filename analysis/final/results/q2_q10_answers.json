@@ -1,0 +1,366 @@
+{
+ "Q2": [
+  {
+   "ancestry": "EUR",
+   "level": "L0",
+   "degree": 142,
+   "within_cluster_weight_share": 0.3684,
+   "concordant_weight_share": 0.8003
+  },
+  {
+   "ancestry": "EUR",
+   "level": "L1",
+   "degree": 140,
+   "within_cluster_weight_share": 0.2996,
+   "concordant_weight_share": 0.7787
+  },
+  {
+   "ancestry": "EUR",
+   "level": "L2",
+   "degree": 134,
+   "within_cluster_weight_share": 0.1851,
+   "concordant_weight_share": 0.7427
+  },
+  {
+   "ancestry": "EUR",
+   "level": "L3",
+   "degree": 129,
+   "within_cluster_weight_share": 0.1713,
+   "concordant_weight_share": 0.737
+  },
+  {
+   "ancestry": "AFR",
+   "level": "L0",
+   "degree": 86,
+   "within_cluster_weight_share": 0.7028,
+   "concordant_weight_share": 0.9977
+  },
+  {
+   "ancestry": "AFR",
+   "level": "L1",
+   "degree": 84,
+   "within_cluster_weight_share": 0.6778,
+   "concordant_weight_share": 0.9975
+  },
+  {
+   "ancestry": "AFR",
+   "level": "L2",
+   "degree": 80,
+   "within_cluster_weight_share": 0.5849,
+   "concordant_weight_share": 0.9971
+  },
+  {
+   "ancestry": "AFR",
+   "level": "L3",
+   "degree": 69,
+   "within_cluster_weight_share": 0.3073,
+   "concordant_weight_share": 0.995
+  }
+ ],
+ "Q3": [
+  {
+   "rsid": "rs9622362",
+   "beta_afr": -0.3252,
+   "se_afr": 0.02303,
+   "p_afr": 1.681e-45,
+   "beta_eur": -0.4004,
+   "se_eur": 0.1675,
+   "p_eur": 0.02103,
+   "z_difference": 0.4448,
+   "p_difference": 0.6564853345484001,
+   "ci95_afr": "[-0.3703, -0.2801]",
+   "ci95_eur": "[-0.7287, -0.0721]",
+   "ci_overlap": true
+  },
+  {
+   "rsid": "rs73885319",
+   "beta_afr": -0.3368,
+   "se_afr": 0.02464,
+   "p_afr": 2.84e-40,
+   "beta_eur": -1.038,
+   "se_eur": 0.2793,
+   "p_eur": 0.0009224,
+   "z_difference": 2.5008,
+   "p_difference": 0.012389595825842148,
+   "ci95_afr": "[-0.3851, -0.2885]",
+   "ci95_eur": "[-1.5854, -0.4906]",
+   "ci_overlap": false
+  },
+  {
+   "rsid": "rs7291184",
+   "beta_afr": -0.209,
+   "se_afr": 0.02368,
+   "p_afr": 1.473e-18,
+   "beta_eur": -1.062,
+   "se_eur": 0.1945,
+   "p_eur": 1.118e-06,
+   "z_difference": 4.3535,
+   "p_difference": 1.3400676088480121e-05,
+   "ci95_afr": "[-0.2554, -0.1626]",
+   "ci95_eur": "[-1.4432, -0.6808]",
+   "ci_overlap": false
+  }
+ ],
+ "Q4": [
+  {
+   "ancestry": "AFR",
+   "edge_weight_total_snp_neighbour_pairs": 4755,
+   "edge_weight_with_a_position": 4363,
+   "apol1_snp_neighbour_pairs": 3993,
+   "apol1_share_of_all_edge_weight": 0.8397,
+   "apol1_share_of_positioned_edge_weight": 0.9152,
+   "apol1_unique_snps_in_edges": 422,
+   "apol1_neighbours": 39
+  },
+  {
+   "ancestry": "EUR",
+   "edge_weight_total_snp_neighbour_pairs": 8128,
+   "edge_weight_with_a_position": 7462,
+   "apol1_snp_neighbour_pairs": 0,
+   "apol1_share_of_all_edge_weight": 0.0,
+   "apol1_share_of_positioned_edge_weight": 0.0,
+   "apol1_unique_snps_in_edges": 0,
+   "apol1_neighbours": 0
+  }
+ ],
+ "loci_summary": {
+  "AFR": {
+   "loci": 32
+  },
+  "EUR": {
+   "loci": 23
+  },
+  "META": {
+   "loci": 33
+  },
+  "shared_afr_eur": 2,
+  "union_afr_eur": 53
+ },
+ "Q6": {
+  "rows": 54790,
+  "distinct_unordered_pairs": 54790,
+  "weight_columns": 90,
+  "rows_with_any_nonzero_weight": 54790,
+  "self_pairs": 0
+ },
+ "Q7": {
+  "store_columns": [
+   "phe_id",
+   "phenotype",
+   "rsid",
+   "src_row",
+   "pval.meta",
+   "beta.meta",
+   "se.meta",
+   "pval.eur",
+   "beta.eur",
+   "se.eur",
+   "pval.afr",
+   "beta.afr",
+   "se.afr",
+   "pval.amr",
+   "beta.amr",
+   "se.amr",
+   "pval.eas",
+   "beta.eas",
+   "se.eas",
+   "nearest_gene",
+   "nearest_genes_all",
+   "gene_distance_bp",
+   "annotation_status",
+   "overlapping_noncoding",
+   "grch38_pos",
+   "chrom"
+  ],
+  "store_has_allele_column": [],
+  "source_file": "/home/student/Desktop/full_dataset.csv",
+  "source_columns": [
+   "phenotype",
+   "rsid",
+   "chrom",
+   "pval.META",
+   "beta.META",
+   "se.META",
+   "pval.EUR",
+   "beta.EUR",
+   "se.EUR",
+   "pval.AFR",
+   "beta.AFR",
+   "se.AFR",
+   "pval.AMR",
+   "beta.AMR",
+   "se.AMR",
+   "pval.EAS",
+   "beta.EAS",
+   "se.EAS"
+  ],
+  "source_has_allele_column": []
+ },
+ "Q8": {
+  "RANK_METRIC_default_in_code": "const RANK_METRIC = (process.env.RANK_METRIC || 'z').toLowerCase();",
+  "railway_vars": null
+ },
+ "Q9": {
+  "python_running_this": "3.14.7",
+  "shebang_build_dbs": "#!/usr/bin/env python3",
+  "requirements.txt": "absent",
+  "pyproject.toml": "absent",
+  ".python-version": "absent",
+  "runtime.txt": "absent"
+ },
+ "Q10_primary": {
+  "AFR": {
+   "neighbours": 86,
+   "weight": 4755,
+   "within_cluster_neighbour_share": 0.2093,
+   "within_cluster_weight_share": 0.7028,
+   "concordant_weight_share": 0.9977,
+   "discordant_weight_share": 0.0023,
+   "neighbours_any_discordant": 7,
+   "neighbours_majority_discordant": 6,
+   "snps": 713,
+   "top_chrom": "22",
+   "top_chrom_share": 0.9158
+  },
+  "EUR": {
+   "neighbours": 142,
+   "weight": 8128,
+   "within_cluster_neighbour_share": 0.1901,
+   "within_cluster_weight_share": 0.3684,
+   "concordant_weight_share": 0.8003,
+   "discordant_weight_share": 0.1997,
+   "neighbours_any_discordant": 44,
+   "neighbours_majority_discordant": 34,
+   "snps": 554,
+   "top_chrom": "10",
+   "top_chrom_share": 0.6968
+  },
+  "shared_snps": 14,
+  "union_snps": 1253
+ },
+ "Q5_drop_both": {
+  "AFR": {
+   "neighbours": 86,
+   "weight": 4719,
+   "within_cluster_neighbour_share": 0.2093,
+   "within_cluster_weight_share": 0.7033,
+   "concordant_weight_share": 0.9979,
+   "discordant_weight_share": 0.0021,
+   "neighbours_any_discordant": 6,
+   "neighbours_majority_discordant": 6,
+   "snps": 711,
+   "top_chrom": "22",
+   "top_chrom_share": 0.9156
+  },
+  "EUR": {
+   "neighbours": 142,
+   "weight": 8110,
+   "within_cluster_neighbour_share": 0.1901,
+   "within_cluster_weight_share": 0.3683,
+   "concordant_weight_share": 0.8006,
+   "discordant_weight_share": 0.1994,
+   "neighbours_any_discordant": 39,
+   "neighbours_majority_discordant": 34,
+   "snps": 552,
+   "top_chrom": "10",
+   "top_chrom_share": 0.6975
+  },
+  "shared_snps": 13,
+  "union_snps": 1250
+ },
+ "Q5_drop_both_loci": {
+  "AFR": {
+   "loci": 32
+  },
+  "EUR": {
+   "loci": 23
+  },
+  "META": {
+   "loci": 33
+  },
+  "shared_afr_eur": 2,
+  "union_afr_eur": 53
+ },
+ "Q5_diffs": [
+  {
+   "field": "AFR.weight",
+   "primary": 4755,
+   "drop_both": 4719
+  },
+  {
+   "field": "AFR.within_cluster_weight_share",
+   "primary": 0.7028,
+   "drop_both": 0.7033
+  },
+  {
+   "field": "AFR.concordant_weight_share",
+   "primary": 0.9977,
+   "drop_both": 0.9979
+  },
+  {
+   "field": "AFR.discordant_weight_share",
+   "primary": 0.0023,
+   "drop_both": 0.0021
+  },
+  {
+   "field": "AFR.neighbours_any_discordant",
+   "primary": 7,
+   "drop_both": 6
+  },
+  {
+   "field": "AFR.snps",
+   "primary": 713,
+   "drop_both": 711
+  },
+  {
+   "field": "AFR.top_chrom_share",
+   "primary": 0.9158,
+   "drop_both": 0.9156
+  },
+  {
+   "field": "EUR.weight",
+   "primary": 8128,
+   "drop_both": 8110
+  },
+  {
+   "field": "EUR.within_cluster_weight_share",
+   "primary": 0.3684,
+   "drop_both": 0.3683
+  },
+  {
+   "field": "EUR.concordant_weight_share",
+   "primary": 0.8003,
+   "drop_both": 0.8006
+  },
+  {
+   "field": "EUR.discordant_weight_share",
+   "primary": 0.1997,
+   "drop_both": 0.1994
+  },
+  {
+   "field": "EUR.neighbours_any_discordant",
+   "primary": 44,
+   "drop_both": 39
+  },
+  {
+   "field": "EUR.snps",
+   "primary": 554,
+   "drop_both": 552
+  },
+  {
+   "field": "EUR.top_chrom_share",
+   "primary": 0.6968,
+   "drop_both": 0.6975
+  },
+  {
+   "field": "shared_snps",
+   "primary": 14,
+   "drop_both": 13
+  },
+  {
+   "field": "union_snps",
+   "primary": 1253,
+   "drop_both": 1250
+  }
+ ]
+}

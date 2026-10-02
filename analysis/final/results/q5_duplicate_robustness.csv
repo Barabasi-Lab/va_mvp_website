@@ -1,0 +1,17 @@
+field,primary,drop_both
+AFR.weight,4755,4719
+AFR.within_cluster_weight_share,0.7028,0.7033
+AFR.concordant_weight_share,0.9977,0.9979
+AFR.discordant_weight_share,0.0023,0.0021
+AFR.neighbours_any_discordant,7,6
+AFR.snps,713,711
+AFR.top_chrom_share,0.9158,0.9156
+EUR.weight,8128,8110
+EUR.within_cluster_weight_share,0.3684,0.3683
+EUR.concordant_weight_share,0.8003,0.8006
+EUR.discordant_weight_share,0.1997,0.1994
+EUR.neighbours_any_discordant,44,39
+EUR.snps,554,552
+EUR.top_chrom_share,0.6968,0.6975
+shared_snps,14,13
+union_snps,1253,1250

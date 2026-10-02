@@ -1,0 +1,74 @@
+{
+ "280": {
+  "peripheral vascular disease": {
+   "phe_id": "649",
+   "label": "Peripheral vascular disease",
+   "shared_with_280.1_in_META": 107,
+   "AFR": {
+    "edge_snps_in_this_ancestry": 0,
+    "of_the_META_edge_also_significant_here": 0,
+    "share_of_META_edge": 0.0,
+    "share_of_own_edge_kept_by_META": null
+   },
+   "EUR": {
+    "edge_snps_in_this_ancestry": 110,
+    "of_the_META_edge_also_significant_here": 107,
+    "share_of_META_edge": 1.0,
+    "share_of_own_edge_kept_by_META": 0.9727
+   }
+  },
+  "other hemoglobinopathies": {
+   "phe_id": "280",
+   "label": "Other hemoglobinopathies",
+   "shared_with_280.1_in_META": 193,
+   "AFR": {
+    "edge_snps_in_this_ancestry": 430,
+    "of_the_META_edge_also_significant_here": 193,
+    "share_of_META_edge": 1.0,
+    "share_of_own_edge_kept_by_META": 0.4488
+   },
+   "EUR": {
+    "edge_snps_in_this_ancestry": 2,
+    "of_the_META_edge_also_significant_here": 0,
+    "share_of_META_edge": 0.0,
+    "share_of_own_edge_kept_by_META": 0.0
+   }
+  }
+ },
+ "280.1": {
+  "peripheral vascular disease": {
+   "phe_id": "649",
+   "label": "Peripheral vascular disease",
+   "shared_with_280.1_in_META": 107,
+   "AFR": {
+    "edge_snps_in_this_ancestry": 0,
+    "of_the_META_edge_also_significant_here": 0,
+    "share_of_META_edge": 0.0,
+    "share_of_own_edge_kept_by_META": null
+   },
+   "EUR": {
+    "edge_snps_in_this_ancestry": 110,
+    "of_the_META_edge_also_significant_here": 107,
+    "share_of_META_edge": 1.0,
+    "share_of_own_edge_kept_by_META": 0.9727
+   }
+  },
+  "other hemoglobinopathies": {
+   "phe_id": "280",
+   "label": "Other hemoglobinopathies",
+   "shared_with_280.1_in_META": 205,
+   "AFR": {
+    "edge_snps_in_this_ancestry": 456,
+    "of_the_META_edge_also_significant_here": 205,
+    "share_of_META_edge": 1.0,
+    "share_of_own_edge_kept_by_META": 0.4496
+   },
+   "EUR": {
+    "edge_snps_in_this_ancestry": 2,
+    "of_the_META_edge_also_significant_here": 0,
+    "share_of_META_edge": 0.0,
+    "share_of_own_edge_kept_by_META": 0.0
+   }
+  }
+ }
+}
