@@ -344,12 +344,17 @@ function linkFilterSql(a1, a2, p1Index) {
 // per-node CSVs were in exactly that order, and the client's comparison mode
 // keeps the *last* row it sees for a duplicated (SNP, phenotype) pair, so the
 // order is load-bearing wherever the raw data has duplicates.
+// Nearest-gene columns ride along on the row select rather than a second
+// query: the tooltip needs them on every SNP already on screen, and they
+// are two small columns against the fifteen statistics each row carries.
 const ROW_SELECT = `SELECT a.rsid, a.chrom, ${STAT_COLS},
          a.phe_id,
          n.label AS phe_label,
          n.hex AS phe_hex,
          ${RSID_HEX_SQL} AS rsid_hex,
-         n.phenotype_category AS phe_cat
+         n.phenotype_category AS phe_cat,
+         a.nearest_gene,
+         a.gene_distance_bp
   FROM associations a
   JOIN node_attributes n ON n.id = a.phe_id`;
 
@@ -694,8 +699,11 @@ app.get('/api/page3/rows', async (req, res, next) => {
 // not in scope, so it threw, and it would only have exported the rows already
 // on screen - the opposite of what the message promises.)
 
+// toCsv writes exactly these columns in this order, so a column added to
+// DOWNLOAD_SELECT has to be added here too or it is silently dropped.
 const DOWNLOAD_COLS = ['phe_id', 'phe_label', 'rsid', 'chrom'].concat(
-  ANCESTRIES.flatMap(a => [`pval.${a.toLowerCase()}`, `beta.${a.toLowerCase()}`, `se.${a.toLowerCase()}`]));
+  ANCESTRIES.flatMap(a => [`pval.${a.toLowerCase()}`, `beta.${a.toLowerCase()}`, `se.${a.toLowerCase()}`]),
+  ['nearest_gene', 'nearest_genes_all', 'gene_distance_bp', 'annotation_status']);
 
 function toCsv(rows) {
   const esc = v => {
@@ -708,10 +716,16 @@ function toCsv(rows) {
   return out.join('\n') + '\n';
 }
 
+// Downloads carry all four annotation columns, including the raw list and
+// the status, so a reader can tell "inside APOL1" from "45 kb from APOL1"
+// from "we have no position for this rsID" without guessing from the
+// display string.
 const DOWNLOAD_SELECT = `SELECT a.phe_id, n.label AS phe_label, a.rsid, a.chrom,
          ${ANCESTRIES.flatMap(a => [
            `a."pval.${a.toLowerCase()}"`, `a."beta.${a.toLowerCase()}"`, `a."se.${a.toLowerCase()}"`
-         ]).join(', ')}
+         ]).join(', ')},
+         a.nearest_gene, a.nearest_genes_all, a.gene_distance_bp,
+         a.annotation_status
   FROM associations a
   JOIN node_attributes n ON n.id = a.phe_id`;
 

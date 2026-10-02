@@ -446,6 +446,8 @@ loadData().then(async (data) => {
             phenotype. We prioritize these type of edges because they are what the
             phenotype view was designed to explore.</p>
 
+            <p>Nearest gene is the closest protein-coding gene by genomic position (GRCh38, TxDb.Hsapiens.UCSC.hg38.knownGene 3.22.0 with org.Hs.eg.db 3.23.1) and does not indicate the causal gene.</p>
+
             <h3>Reading the links</h3>
             <p>Links are colored by the direction of the association with the
             phenotype, blue for positive and red for negative, and their thickness
@@ -785,6 +787,22 @@ function updateEdges(pThreshold, betaThreshold, betaSign, links, data, pThreshol
     // return the filtered edges
     return filteredEdgesDirection;
     }
+
+/**
+ * The hover label's second line for a SNP: its nearest gene.
+ *
+ * Always says "Nearest gene", never "gene". The annotation is the closest
+ * protein-coding gene by position; it is not a causal assignment and the
+ * wording has to keep saying so.
+ *
+ * Returns '' for a phenotype node or an unannotated SNP, and the caller
+ * skips the line entirely rather than drawing an empty one.
+ */
+function nearestGeneLine(d) {
+    if (!d || !d.nearestGene || !String(d.id).startsWith('rs')) return '';
+    return `Nearest gene: ${d.nearestGene}`;
+}
+
 
 function updateNodes(edges, nodes) {
     // Same result as before, but in two passes over the edges instead of
@@ -1131,9 +1149,14 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     // Row lookups built once instead of scanning every row per node below.
     const chromByRsid = new Map();
     const pheRowById = new Map();
+    // nearest gene is a property of the SNP, so one row per rsid is enough
+    const geneByRsid = new Map();
     for (const d of data) {
         if (!chromByRsid.has(d.rsid)) chromByRsid.set(d.rsid, d.chrom);
         if (!pheRowById.has(d.phe_id)) pheRowById.set(d.phe_id, d);
+        if (!geneByRsid.has(d.rsid)) {
+            geneByRsid.set(d.rsid, { gene: d.nearest_gene, dist: d.gene_distance_bp });
+        }
     }
 
     // Sort rsidNodes by chromosome
@@ -1142,6 +1165,9 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
             node.label = node.id;
             const chromValue = chromByRsid.get(node.id);
             node.category = chromValue ? parseFloat(chromValue) : null;
+            const g = geneByRsid.get(node.id);
+            node.nearestGene = g ? g.gene : null;
+            node.geneDistanceBp = g ? g.dist : null;
         });
         rsidNodes.sort((a, b) => a.category - b.category);
         rsidNodes.forEach((node, i) => {
@@ -1300,13 +1326,23 @@ function renderNetwork(nodes, links, data, width, height, centerPheno, centerX, 
     labels.append('text')
         .attr('text-anchor', 'middle')
         .attr('font-size', 20)
-        .text(d => d.label ? `${d.label} (${d.category})` : d.id)
+        .each(function (d) {
+            // two lines for an annotated SNP, one for everything else
+            const head = d.label ? `${d.label} (${d.category})` : d.id;
+            const gene = nearestGeneLine(d);
+            const t = d3.select(this);
+            t.append('tspan').attr('x', d?.x || 0).attr('dy', gene ? '-0.45em' : '0')
+                .text(head);
+            if (gene) {
+                t.append('tspan').attr('x', d?.x || 0).attr('dy', '1.15em')
+                    .attr('font-size', 16).attr('fill', '#333').text(gene);
+            }
+        })
         .each(function (d) {
             const bbox = this.getBBox();
             d.textWidth = bbox.width;
             d.textHeight = bbox.height;
         })
-        .attr('x', d => d?.x || 0) // Check for undefined x
         .attr('y', d => d?.y + 4 || 0); // Check for undefined y
 
     labels.insert('rect', 'text')

@@ -1,0 +1,11 @@
+{
+  "R": "R version 4.6.1 (2026-06-24)",
+  "TxDb.Hsapiens.UCSC.hg38.knownGene": "3.22.0",
+  "org.Hs.eg.db": "3.23.1",
+  "GenomicFeatures": "1.64.0",
+  "SNPlocs.Hsapiens.dbSNP155.GRCh38": "0.99.24",
+  "genome_build": "GRCh38",
+  "far_threshold_bp": "1e+06",
+  "protein_coding_genes": "18276",
+  "with_lncrna_genes": "33503"
+}

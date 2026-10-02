@@ -101,7 +101,16 @@ def build_landing_page():
     log(f"landing_page: {n_e} edges, {n_n} nodes -> {out}")
 
 
-def build_full_associations(full_dataset):
+# Nearest-gene annotation, built by scripts/build_gene_annotation.R. Versioned
+# by date because the gene set moves with the Bioconductor release: the paper
+# and the site must quote the same file. Absent is allowed - the columns come
+# through as position_unknown and the pages degrade to no gene line.
+GENE_ANNOTATION = os.path.join(
+    REPO, "public", "data", "annotation",
+    "snp_gene_annotation_grch38_20261002.parquet")
+
+
+def build_full_associations(full_dataset, gene_annotation=GENE_ANNOTATION):
     # Built in a scratch DuckDB file, then exported to Parquet. A single
     # .duckdb (358 MB) or single Parquet (140 MB) both exceed GitHub's 100 MB
     # per-file limit; partitioning by chromosome keeps the largest shard at
@@ -161,6 +170,46 @@ def build_full_associations(full_dataset):
     )
     n = con.sql("SELECT count(*) FROM associations").fetchone()[0]
     log(f"full_associations: {n} rows loaded")
+
+    # Nearest protein-coding gene, joined on rsid. LEFT JOIN so an rsID the
+    # annotation does not cover keeps its row and is labelled
+    # position_unknown rather than disappearing.
+    if gene_annotation and os.path.exists(gene_annotation):
+        log(f"full_associations: joining {os.path.basename(gene_annotation)}")
+        con.execute(
+            f"""CREATE TABLE gene_annotation AS
+                SELECT * FROM read_parquet('{gene_annotation}')"""
+        )
+        con.execute(
+            """CREATE TABLE associations_annotated AS
+               SELECT a.*,
+                      coalesce(g.nearest_gene, 'position unknown') AS nearest_gene,
+                      g.nearest_genes_all,
+                      g.gene_distance_bp,
+                      coalesce(g.annotation_status, 'position_unknown')
+                        AS annotation_status
+               FROM associations a
+               LEFT JOIN gene_annotation g USING (rsid)"""
+        )
+        con.execute("DROP TABLE associations")
+        con.execute("ALTER TABLE associations_annotated RENAME TO associations")
+        counts = con.sql("""SELECT annotation_status, count(*)
+                            FROM associations GROUP BY 1 ORDER BY 2 DESC""").fetchall()
+        log("full_associations: annotation_status " +
+            ", ".join(f"{k}={v:,}" for k, v in counts))
+    else:
+        log(f"full_associations: NO gene annotation at {gene_annotation}; "
+            f"adding empty columns")
+        con.execute(
+            """CREATE TABLE associations_annotated AS
+               SELECT a.*, 'position unknown' AS nearest_gene,
+                      CAST(NULL AS VARCHAR) AS nearest_genes_all,
+                      CAST(NULL AS INTEGER) AS gene_distance_bp,
+                      'position_unknown' AS annotation_status
+               FROM associations a"""
+        )
+        con.execute("DROP TABLE associations")
+        con.execute("ALTER TABLE associations_annotated RENAME TO associations")
 
     assoc_dir = os.path.join(DB_DIR, "associations")
     shutil.rmtree(assoc_dir, ignore_errors=True)
