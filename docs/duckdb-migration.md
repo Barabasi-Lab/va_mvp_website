@@ -78,6 +78,50 @@ To publish a rebuild to production, upload it to the volume:
 railway volume files -v va_mvp_website-volume upload public/data/db /db
 ```
 
+## The regenerated edgelist
+
+`public/data/edgelist_updated_scaled.csv` was rebuilt by
+`scripts/rebuild_edgelist.py` because its columns at 1e-07 and below were
+wrong: the edge counts and the weight distributions were right, but the
+values sat on the wrong phenotype pairs. Agreement with a recomputation
+was 1-7% per column from 1e-07 down, against 93-99% at 1e-04 to 1e-06.
+Page 1's p-value slider therefore drew a network that did not correspond
+to its setting below 1e-06.
+
+The regeneration uses the definition Phase 0 validated against the
+surviving columns: no promiscuous-SNP filter, survey phenotypes excluded,
+one row per (phenotype, SNP) keeping the smallest META p-value,
+concordant and discordant by the sign of beta across the two phenotypes
+within one ancestry, and each column max-normalised to 50 on its own.
+
+**The 1e-04 to 1e-06 columns did not reproduce exactly, and the whole file
+was regenerated rather than patched.** Best agreement was 99.1% on
+eur_1e-04 using the generating notebook's duplicate rule, and 89.8% using
+the rule the rest of the analysis uses. The residual is duplicates: pairs
+with no duplicated SNP agree at 99.96%, pairs touching one at 95.13%. The
+notebook kept whichever row came first in its per-ancestry pickle, and the
+store's `src_row` is the order of the combined CSV, so that ordering
+cannot be reconstructed. Numbers taken from page 1 before this change can
+differ by a few per cent on pairs touching a duplicate.
+
+The pair universe grew from 54,790 to 57,041, adding 2,321 pairs over 85
+nodes the old file never carried. Node positions are unchanged - the
+layout comes from META at 1e-04 and is stored in `node_attributes.csv`,
+which was not rebuilt.
+
+Checks that pass on the regenerated file: column names identical to the
+old one; no negative components; no edge whose weight at a stricter
+threshold exceeds its weight at a looser one, over all 80 adjacent pairs;
+no edge present at a stricter threshold and absent at a looser one; and
+the summary panel's edge and node counts equal to a direct recomputation
+at 1e-08, 1e-10 and 1e-12 in META, EUR and AFR.
+
+Two properties of the format are worth stating because they surprise
+people. Each weight column is normalised independently, so concordant and
+discordant weights are not on the same scale and do not sum to a total,
+and weights are not comparable across ancestries or thresholds. Both were
+already true of the old file; the regeneration preserves them.
+
 ## Gene labels
 
 Every association row carries the nearest protein-coding gene to its SNP:
