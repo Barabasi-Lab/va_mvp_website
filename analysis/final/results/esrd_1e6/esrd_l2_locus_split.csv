@@ -1,0 +1,10 @@
+ancestry,level,locus_group,shared_snp_weight,fraction_of_mapped_weight,neighbours_remaining
+AFR,L2 (T1+T2 dropped),APOL1,2791,0.9151,65
+AFR,L2 (T1+T2 dropped),TCF7L2,44,0.0144,65
+AFR,L2 (T1+T2 dropped),other,215,0.0705,65
+EUR,L2 (T1+T2 dropped),APOL1,0,0.0,133
+EUR,L2 (T1+T2 dropped),TCF7L2,1446,0.2501,133
+EUR,L2 (T1+T2 dropped),other,4336,0.7499,133
+META,L2 (T1+T2 dropped),APOL1,1249,0.2329,109
+META,L2 (T1+T2 dropped),TCF7L2,1191,0.2221,109
+META,L2 (T1+T2 dropped),other,2922,0.5449,109

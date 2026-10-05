@@ -1,0 +1,53 @@
+item,p<1e-4,p<1e-6,holds
+AFR neighbours,86,71,no
+AFR edge weight (SNP-neighbour pairs),4755,4655,no
+AFR within-cluster neighbours,18,17,no
+AFR within-cluster neighbour share,0.2093,0.2394,no
+AFR within-cluster weight share,0.7028,0.7141,no
+AFR concordant weight share,0.9977,0.9983,no
+AFR discordant weight share,0.0023,0.0017,no
+AFR neighbours with any discordant SNP,7,4,no
+AFR majority-discordant share,0.0698,0.0423,no
+AFR significant SNPs,713,708,no
+AFR top chromosome,chr22 653/713 (91.6%),chr22 653/708 (92.2%),no
+EUR neighbours,142,141,no
+EUR edge weight (SNP-neighbour pairs),8128,8116,no
+EUR within-cluster neighbours,27,27,yes
+EUR within-cluster neighbour share,0.1901,0.1915,no
+EUR within-cluster weight share,0.3684,0.3687,no
+EUR concordant weight share,0.8003,0.8,no
+EUR discordant weight share,0.1997,0.2,no
+EUR neighbours with any discordant SNP,44,44,yes
+EUR majority-discordant share,0.2394,0.2411,no
+EUR significant SNPs,554,547,no
+EUR top chromosome,chr10 386/554 (69.7%),chr10 386/547 (70.6%),no
+AFR-EUR shared SNPs,14,2,no
+AFR-EUR union SNPs,1253,1253,yes
+AFR-EUR Jaccard %,1.117,0.16,no
+loci per ancestry,"{""AFR"": 32, ""EUR"": 23, ""META"": 33}","{""AFR"": 32, ""EUR"": 22, ""META"": 23}",no
+shared AFR-EUR loci,2,1,no
+shared loci identities,chr10/TCF7L2; chr22/APOL1,chr10/TCF7L2,no
+EUR L0 degree,142,141,no
+EUR L0 within-cluster weight share,0.3684,0.3687,no
+EUR L0 concordant weight share,0.8003,0.8,no
+EUR L1 degree,140,139,no
+EUR L1 within-cluster weight share,0.2996,0.2998,no
+EUR L1 concordant weight share,0.7787,0.7784,no
+EUR L2 degree,134,133,no
+EUR L2 within-cluster weight share,0.1851,0.1852,no
+EUR L2 concordant weight share,0.7427,0.7422,no
+EUR L3 degree,129,128,no
+EUR L3 within-cluster weight share,0.1713,0.1715,no
+EUR L3 concordant weight share,0.737,0.7365,no
+AFR L0 degree,86,71,no
+AFR L0 within-cluster weight share,0.7028,0.7141,no
+AFR L0 concordant weight share,0.9977,0.9983,no
+AFR L1 degree,84,69,no
+AFR L1 within-cluster weight share,0.6778,0.6901,no
+AFR L1 concordant weight share,0.9975,0.9981,no
+AFR L2 degree,80,65,no
+AFR L2 within-cluster weight share,0.5849,0.599,no
+AFR L2 concordant weight share,0.9971,0.9979,no
+AFR L3 degree,69,55,no
+AFR L3 within-cluster weight share,0.3073,0.32,no
+AFR L3 concordant weight share,0.995,0.9963,no
