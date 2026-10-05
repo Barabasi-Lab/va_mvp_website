@@ -171,13 +171,6 @@ def panel_b(fig, gs, data):
             y = np.convolve(pad, k, mode="same")[HALF:-HALF]
         ax.plot(x, y, color=COLOUR[a], linewidth=1.3, label=a,
                 solid_capstyle="round")
-    # Every ancestry except META steps at p = 1e-6, by 140x in EUR. It is a
-    # property of the source data, not of this plot, so it is marked rather
-    # than smoothed away. See FIG1_REPORT.md.
-    ax.axvline(6, color=MUTED, linewidth=0.5, zorder=0)
-    ax.annotate(r"$p=10^{-6}$", xy=(6, 0.0), xycoords=("data", "axes fraction"),
-                xytext=(3, 3), textcoords="offset points", fontsize=5.5,
-                color=MUTED, ha="left", va="bottom")
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlim(4, 310)

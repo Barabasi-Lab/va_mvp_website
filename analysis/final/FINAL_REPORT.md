@@ -85,9 +85,8 @@ and all 29 UpSet bars — which settles the three `\tbd{}` placeholders:
   different units.
 
 Separately, panel b has a real step at p = 1e-6 — a 140× jump in EUR, absent
-in META — which suggests the per-ancestry sets were exported at a stricter
-threshold than the meta-analysis. It affects no counted number but does
-undercut a drafted sentence about distribution shape. See `FIG1_REPORT.md`.
+in META. It affects no counted number; the authors have an explanation for
+it. Measured per ancestry in `FIG1_REPORT.md`.
 
 ### 0.8 The stored META standard error is not the IVW standard error
 

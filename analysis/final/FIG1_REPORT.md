@@ -159,7 +159,9 @@ Panel a's full values (pairs; raw-row counts in `fig1_data.json` under
 ## 3. The p-value discontinuity at 1e-6
 
 Panel b steps at **p = 1e-6** in every ancestry except META, by 140× in EUR.
-It is in the data, so the figure marks it rather than smoothing it away.
+It is in the data rather than an artefact of the plot, and it is recorded
+here only so the numbers are on the table; the authors have an explanation
+for it.
 
 | Ancestry | pairs in (1e-6, 1e-4] | at p ≤ 1e-6 | step |
 |---|---|---|---|
@@ -170,15 +172,12 @@ It is in the data, so the figure marks it rather than smoothing it away.
 | META | 5,237,906 | 7,935,232 | 0.9× (none) |
 
 META is smooth across 1e-6; EUR jumps two orders of magnitude at exactly
-that point. That is the shape you would get if the per-ancestry sets were
-exported at a stricter threshold than the meta-analysis, with the few EUR
-rows above 1e-6 present only because another ancestry met the retention rule
-for that pair.
+that point.
 
 It affects **no counted number** — those are all at p < 1e-4 and counted
-directly. It does undercut the drafted sentence that "larger cohorts exhibit
-broader distributions", which is partly describing a filtering artefact.
-Worth confirming the export threshold per file before that sentence ships.
+directly. Whether it bears on the drafted sentence that "larger cohorts
+exhibit broader distributions" depends on the explanation, which is the
+authors'.
 
 ---
 
