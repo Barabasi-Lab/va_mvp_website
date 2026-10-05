@@ -105,18 +105,29 @@ def build_landing_page():
 # by date because the gene set moves with the Bioconductor release: the paper
 # and the site must quote the same file. Absent is allowed - the columns come
 # through as position_unknown and the pages degrade to no gene line.
-GENE_ANNOTATION = os.path.join(
-    REPO, "public", "data", "annotation",
-    "snp_gene_annotation_grch38_20261002.parquet")
+#
+# It lives with the rest of the data rather than in the repo: at 93 MB the
+# annotation directory was the largest thing in the checkout and it is a
+# build input, never read at runtime. Resolution mirrors DB_DIR in server.js
+# - an explicit override, else the Railway volume, else the local copy, which
+# is gitignored.
+ANNOTATION_FILE = "snp_gene_annotation_grch38_20261002.parquet"
+ANNOTATION_DIR = (
+    os.environ.get("ANNOTATION_DIR")
+    or (os.path.join(os.environ["RAILWAY_VOLUME_MOUNT_PATH"], "annotation")
+        if os.environ.get("RAILWAY_VOLUME_MOUNT_PATH")
+        else os.path.join(DATA, "annotation")))
+GENE_ANNOTATION = os.path.join(ANNOTATION_DIR, ANNOTATION_FILE)
 
 
 def build_full_associations(full_dataset, gene_annotation=GENE_ANNOTATION):
     # Built in a scratch DuckDB file, then exported to Parquet. A single
     # .duckdb (358 MB) or single Parquet (140 MB) both exceed GitHub's 100 MB
     # per-file limit; partitioning by chromosome keeps the largest shard at
-    # ~34 MB so the data can ship as ordinary repo files, with no Git LFS and
-    # no Railway volume. DuckDB queries the partitioned set directly and the
-    # cost over an indexed table is ~30 ms.
+    # ~34 MB. The store now ships on the Railway volume rather than in the
+    # repo, but the partitioning is kept: DuckDB queries the partitioned set
+    # directly, the cost over an indexed table is ~30 ms, and it keeps the
+    # upload resumable file by file.
     scratch = os.path.join(DB_DIR, "_build.duckdb")
     for stale in (scratch, scratch + ".wal"):
         if os.path.exists(stale):
