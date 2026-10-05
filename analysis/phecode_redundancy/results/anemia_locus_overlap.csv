@@ -1,7 +1,0 @@
-target,comparison,kind,n_loci_a,n_loci_b,n_shared,frac_a_shared,frac_b_shared,chrom_distribution
-iron_deficiency_anemia,AFR,count,21,,,,,2:4;16:2;10:2;8:2;6:2;4:2;11:1;19:1;7:1;17:1;3:1;12:1;15:1
-iron_deficiency_anemia,EUR,count,35,,,,,6:7;17:4;3:4;10:3;7:2;16:2;18:2;2:2;1:2;22:1;11:1;15:1;8:1;20:1;13:1;14:1
-iron_deficiency_anemia,META,count,38,,,,,6:8;17:5;10:5;16:3;3:3;7:2;2:2;22:1;11:1;15:1;8:1;19:1;4:1;20:1;14:1;13:1;18:1
-iron_deficiency_anemia,AFR_vs_EUR,overlap,21,35,4,0.19047619047619047,0.08571428571428572,
-iron_deficiency_anemia,AFR_vs_META,overlap,21,38,11,0.5238095238095238,0.2894736842105263,
-iron_deficiency_anemia,EUR_vs_META,overlap,35,38,30,0.8571428571428571,0.8157894736842105,

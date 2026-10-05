@@ -1,11 +1,26 @@
 node_modules/
 .DS_Store
-public/data/db/_build.duckdb
-public/data/db/_build.duckdb.wal
-public/data/db/tmp/
+
+# Data. None of this is in the repo: the store, the edgelists and the
+# nearest-gene annotation all live on the Railway volume, which server.js
+# finds through RAILWAY_VOLUME_MOUNT_PATH. Keeping them out holds the
+# deployment to the code that actually serves the site.
+public/data/db/
+public/data/annotation/
+public/data/node_files/
+public/data/edgelist_updated_scaled.csv
+public/data/edgelist_rebuilt.csv
+public/data/edgelist_rebuilt_raw.csv
+public/data/node_attributes.csv
+
+# Analysis, build tooling and internal docs. Reproducibility material for
+# the manuscript, not part of the deployed application. Preserved on the
+# analysis-archive branch.
+analysis/
+docs/
+scripts/*
+# except the startup data check, which package.json runs as prestart
+!scripts/ensure-db.js
+
 __pycache__/
 *.pyc
-public/data/edgelist_updated_scaled.csv
-public/data/node_attributes.csv
-public/data/node_files/
-public/data/db/

@@ -1,38 +1,137 @@
-# VA MVP Data visualization website
-This repository is deployed through railway at [appliedintegrativeanalytics.com](appliedintegrativeanalytics.com)
+# MVPheWAS Explorer
 
-## Running locally
-```bash
-npm install
-npm start          # http://localhost:3000
+An interactive browser for the multi-ancestry genome-wide phenome-wide
+association study (gwPheWAS) run on the VA Million Veteran Program cohort —
+635,969 participants, 2,068 phecodes, five ancestry groups (EUR, AFR, AMR,
+EAS and a fixed-effects meta-analysis).
+
+Live at **[appliedintegrativeanalytics.com](https://www.appliedintegrativeanalytics.com)**,
+deployed from this repository through Railway.
+
+The site answers one question in three views: *which phenotypes share genetic
+signal, and which variants carry it?*
+
+---
+
+## The three views
+
+| View | Shows | Nodes |
+|---|---|---|
+| **Network** (`/`) | every phenotype pair linked by SNPs associated with both | ~1,300 phenotypes |
+| **Phenotype** (`/page2.html`) | one phenotype, its strongest SNPs, and the other phenotypes those SNPs reach | 1 centre + SNPs + neighbours |
+| **SNP** (`/page3.html`) | the SNPs two phenotypes share | 2 phenotypes + shared SNPs |
+
+All three filter by ancestry and p-value threshold, and all three can
+compare two ancestries at once, in which case only associations present in
+both are drawn.
+
+Two distinctions are used consistently and mean different things:
+
+- **concordant / discordant** — the effect has the same or opposite sign
+  across the two **phenotypes** joined by a SNP.
+- **same direction / opposite direction** — the effect has the same or
+  opposite sign across the two **ancestries** being compared.
+
+---
+
+## How it works
+
+### Data layer
+
+The pages do not download CSVs and filter them in the browser. They query
+DuckDB over chromosome-partitioned Parquet through endpoints in
+`server.js`.
+
+**The data is not in this repository.** In production it lives on a Railway
+volume, which `server.js` finds through `RAILWAY_VOLUME_MOUNT_PATH`;
+locally it falls back to `public/data/db/` (gitignored), and `DB_DIR`
+overrides both.
+
+```
+<volume>/db/
+  associations/chrom={1..22}/data_0.parquet   association rows + gene annotation
+  landing_page.duckdb                          precomputed network-view edge weights
+  node_attributes.parquet                      phenotype layout, colour, category
+  edge_relations.parquet                       phecode relatedness, network view
+  pair_relations.parquet                       phecode relatedness, phenotype view
+  node_phecodes.json, pair_relations_t34.json
+<volume>/annotation/                           nearest-gene build input
 ```
 
-## Data layer
-The pages no longer download CSVs and filter them in the browser; they query
-DuckDB/Parquet files through endpoints in `server.js`. Those files are not in
-the repo: in production they live on a Railway volume at `/data/db`, and
-locally in `public/data/db/` (gitignored). See
-[docs/duckdb-migration.md](docs/duckdb-migration.md) for the schema, the
-endpoint list, how to rebuild the files, and the validation scripts.
+`scripts/ensure-db.js` runs as npm's `prestart` and names any missing file at
+boot. It never fails the start: the site comes up and the API reports 503, so
+a data problem cannot become a total outage.
 
-## Code structure and logic
-The website has 3 pages, each has a .js file in ```public/js```. The following is meant as a high level overview of the code logic, not an in depth guide. 
-### Page 1
-Page 1 is the landing page of the website, and shows a network of <1,000 phenotypes, where pairs of phenotypes linked by bundles of SNPs that are associated with both. Computing this network from the raw associations is resource intensive and takes several minutes, so networks have been precalculated for a variety of different filtering criteria, and the edge weights have been saved in ```public/data/edgelist_updated_scaled.csv```. 
-The basic logic of the code is to use the edgelist and the node attributes (```public/data/node_attributes.csv```) to build a 'maximally connected' network (not fully connected, but containing every edge that appears under any filtering criteria). Then we apply a column from the edgelist as edge weights. Many of these weights will be 0, turning those edges into 'ghost edges'. 
+### Network view
 
-This means that almost all of the functionality of page 1 is contained in the filtering functions, and the update edge weights function. The workflow is as follows.
-1. A filter is changed. It returns a string corresponding to its new value, for example ```1e-04``` for the p value slider. 
-2. The other filters also send their current values to the update edge weights function
-3. The update edge weights function requests ```/api/landing/edges``` with the current ancestry and p value. The server concatenates the strings into a column name (for example, ```amr_1e-04_same_dir_weight```) and returns just that pair of weight columns, plus the node degrees under that filter.
-4. It writes the returned weights onto the existing links and applies them, finishing the network update.
-### Pages 2 and 3
-These two pages have the exact same structure, because they visualize very similar information. The networks here are much simpler to construct, so the workflow is as follows
-1. Request the association rows for the relevant node (given by the user selection) from ```/api/page2/rows``` or ```/api/page3/rows```. The server returns only the rows the page can actually draw — for page 2 the centre phenotype's 150 strongest SNPs and everything associated with them, for page 3 the SNPs the two phenotypes share.
-2. Build the network based on the default settings of the filters
-3. Render the network based on a set of layout rules (spacing between nodes, positioning of different types of nodes, etc)
-4. Repeat 2 and 3 every time a filter is changed. On page 2 the p value sliders re-filter the rows already loaded; only an ancestry change needs a new request.
+Computing the phenotype network from raw associations takes minutes, so the
+edge weights are precomputed for every combination of ancestry, threshold and
+direction — 90 columns — and held in `landing_page.duckdb`.
 
-The networks in pages 2 and 3 are bipartite, meaning that the two types of nodes (SNPs and phenotypes) do not have edges to nodes of the same type. This means that our csv of phenotype-SNP associations is just an edgelist, and the network can be constructed very quickly and easily by filtering this csv. 
+The page builds one maximally connected network (every edge that appears
+under *any* filter) and then swaps weights onto it. Changing a filter costs
+one request for a single pair of weight columns plus the node degrees under
+that filter; edges whose weight is zero are dropped rather than drawn.
 
-Much of the complexity in this relatively simple workflow comes from the option to compare 2 ancestries. When a second ancestry is selected, the visualization switches to an intersection network, where edges are only displayed if they appear in both ancestries. A different color scheme is applied to show the different meanings of the edges, and the filters have to be run on two different sets of edges to create the network before it can be rendered. 
+### Phenotype and SNP views
+
+Both are bipartite — SNPs connect only to phenotypes — so the network is just
+the association rows. The server returns only what the page can draw: the
+centre phenotype's 150 strongest SNPs and everything they touch, or the SNPs
+two phenotypes share. Changing a p-value threshold re-filters rows already
+loaded; only an ancestry change costs a request.
+
+SNPs are ranked by reported p-value. `RANK_METRIC=z` switches to |beta/se|.
+
+### Gene annotation
+
+Every SNP carries its nearest protein-coding gene, the distance in base
+pairs, any overlapping non-coding gene, and its GRCh38 position. The
+annotation travels once per response in a map keyed by rsID rather than
+repeated on every row. SNPs in the extended MHC are labelled as such rather
+than given a single gene name.
+
+---
+
+## Running locally
+
+```bash
+npm install
+npm start                       # http://localhost:3000
+```
+
+With no data present the site serves but the API returns 503. Point it at a
+copy of the store:
+
+```bash
+DB_DIR=/path/to/db npm start
+```
+
+| Variable | Default | Does |
+|---|---|---|
+| `PORT` | 3000 | listen port |
+| `DB_DIR` | volume, else `public/data/db` | where the data lives |
+| `RAILWAY_VOLUME_MOUNT_PATH` | – | set by Railway; `<path>/db` is used |
+| `RANK_METRIC` | `pval` | SNP ranking; `z` for \|beta/se\| |
+
+---
+
+## Repository layout
+
+This repository holds the deployed application only:
+
+```
+server.js              API and static serving
+public/                the three pages and their JavaScript
+scripts/ensure-db.js   startup data check (npm prestart)
+```
+
+The analysis code, build tooling, internal documentation and the manuscript
+reproducibility material are **not** on this branch — they are preserved on
+the **`analysis-archive`** branch, which carries the full
+`analysis/`, `docs/` and `scripts/` trees, including the data-layer
+documentation (`docs/duckdb-migration.md`), the store build (`build_dbs.py`),
+the gene annotation build (`build_gene_annotation.R`) and the validation
+suite.
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in the current release.
