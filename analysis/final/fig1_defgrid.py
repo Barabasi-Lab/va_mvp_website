@@ -12,6 +12,10 @@ EUR-only. This evaluates each of them under every combination of
 and, where META is a set, under both readings of "all four ancestries":
 META also significant, and META not significant.
 
+The unit now in fig1_data.json is the distinct phenotype-SNP pair with
+duplicates collapsed by the minimum p in each ancestry, which is what
+reproduces the published figure; "association" below means that pair.
+
 Every cell is a sum over the 30 membership patterns fig1_extract.py already
 counted, so this costs no further pass over the 3.6 GB source.
 
@@ -70,7 +74,7 @@ def grid(data):
                     else:
                         af_req, abe_req, eo_req = list(ANCS), ["EUR", "AFR", "AMR"], ["EUR"]
                     rows.append({
-                        "unit": "unique SNP" if unit == "snp" else "association",
+                        "unit": "unique SNP" if unit == "snp" else "pair",
                         "sets": sets, "type": kind,
                         "meta_reading": meta_read or "-",
                         "all_four": total(pats, af_req, af_forbid),

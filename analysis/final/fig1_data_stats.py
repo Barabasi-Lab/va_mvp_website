@@ -39,9 +39,15 @@ RESULTS = os.path.join(HERE, "results")
 OUT = os.path.join(HERE, "figures")
 DPI = 400                      # the brief asks for at least 300
 
-ANCS = ["EUR", "AFR", "AMR", "EAS", "META"]
+# Panel a reads smallest cohort to largest, as the published figure does.
+ANCS = ["EAS", "AMR", "AFR", "EUR", "META"]
+# The UpSet stacks its rows by set size, largest at the bottom - also as
+# published, where META sits between AFR and EUR.
+UPSET_ORDER = ["EAS", "AMR", "AFR", "META", "EUR"]
 COLOUR = {"EUR": "#0072B2", "AFR": "#D55E00", "AMR": "#009E73",
           "EAS": "#56B4E9", "META": "#CC79A7"}
+
+HALF = 12              # half-width of the panel b smoothing kernel, in bins
 
 INK = "#1a1a1a"
 MUTED = "#6b6b6b"
@@ -151,22 +157,27 @@ def panel_b(fig, gs, data):
         keep = x < 300
         x, y = x[keep], y[keep]
         y = y / y.sum() / 0.25                        # density over log10 p
-        # light smoothing so the 0.25-wide exact bins read as a KDE would.
-        # Reflect at the ends - zero padding pulled the first bins down and
-        # put a false dip at the left edge of the EUR curve.
-        if len(y) > 11:
-            k = np.ones(5) / 5.0
-            pad = np.r_[y[4:0:-1], y, y[-2:-6:-1]]
-            y = np.convolve(pad, k, mode="same")[4:-4]
+        # Smooth so the 0.25-wide exact bins read as a KDE would. The deep
+        # tail is where the counts get small and the raw bins get spiky, so
+        # the kernel is wide enough to settle it: a Gaussian over +/-12 bins,
+        # sigma 3, rather than the 5-bin box this started with.
+        if len(y) > 2 * HALF + 1:
+            t = np.arange(-HALF, HALF + 1)
+            k = np.exp(-0.5 * (t / 3.0) ** 2)
+            k /= k.sum()
+            # reflect at the ends; zero padding put a false dip at the left
+            # edge of the EUR curve
+            pad = np.r_[y[HALF:0:-1], y, y[-2:-HALF - 2:-1]]
+            y = np.convolve(pad, k, mode="same")[HALF:-HALF]
         ax.plot(x, y, color=COLOUR[a], linewidth=1.3, label=a,
                 solid_capstyle="round")
     # Every ancestry except META steps at p = 1e-6, by 140x in EUR. It is a
     # property of the source data, not of this plot, so it is marked rather
     # than smoothed away. See FIG1_REPORT.md.
     ax.axvline(6, color=MUTED, linewidth=0.5, zorder=0)
-    ax.annotate(r"$p=10^{-6}$", xy=(6, 1.0), xycoords=("data", "axes fraction"),
-                xytext=(3, -8), textcoords="offset points", fontsize=5.5,
-                color=MUTED, ha="left", va="top")
+    ax.annotate(r"$p=10^{-6}$", xy=(6, 0.0), xycoords=("data", "axes fraction"),
+                xytext=(3, 3), textcoords="offset points", fontsize=5.5,
+                color=MUTED, ha="left", va="bottom")
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlim(4, 310)
@@ -183,19 +194,20 @@ def panel_b(fig, gs, data):
     return ax
 
 
-def panel_d(fig, gs, data):
+def panel_c(fig, gs, data):
+    """Pleiotropy. Panel c under the current layout."""
     ax = fig.add_subplot(gs)
     styles = {"1e-04": ("-", 1.3), "5e-08": ((0, (3, 1.5)), 1.0)}
     for tname, (ls, lw) in styles.items():
         for a in ANCS:
             d = data["panel_d"][f"{a}|{tname}"]
             n = np.array(d["n"], dtype=float)
-            s = np.array(d["snps"], dtype=float)
-            tot = s.sum()
+            sn = np.array(d["snps"], dtype=float)
+            tot = sn.sum()
             if not tot:
                 continue
             # reverse cumulative: share of SNPs with at least n phenotypes
-            rev = np.cumsum(s[::-1])[::-1] / tot * 100
+            rev = np.cumsum(sn[::-1])[::-1] / tot * 100
             ax.plot(n, rev, linestyle=ls, color=COLOUR[a], linewidth=lw)
     ax.set_xscale("log")
     ax.set_yscale("log")
@@ -205,7 +217,8 @@ def panel_d(fig, gs, data):
     ax.xaxis.set_major_formatter(FMT)
     ax.yaxis.set_major_formatter(FMT)
     tidy(ax, grid_axis="both")
-    anc_keys = [Line2D([], [], color=COLOUR[a], lw=1.3, label=a) for a in ANCS]
+    anc_keys = [Line2D([], [], color=COLOUR[a], lw=1.3, label=a)
+                for a in reversed(ANCS)]
     thr_keys = [Line2D([], [], color=MUTED, lw=1.3, ls="-", label=r"$p<10^{-4}$"),
                 Line2D([], [], color=MUTED, lw=1.0, ls=(0, (3, 1.5)),
                        label=r"$p<5\times10^{-8}$")]
@@ -214,76 +227,114 @@ def panel_d(fig, gs, data):
     ax.add_artist(first)
     ax.legend(handles=thr_keys, fontsize=6, loc="lower left",
               handlelength=1.8, labelcolor=INK)
-    ax.text(-0.16, 1.1, "d", transform=ax.transAxes, fontsize=12,
+    ax.text(-0.16, 1.1, "c", transform=ax.transAxes, fontsize=12,
             fontweight="bold", va="top")
     ax.set_title("pleiotropy", fontsize=7, pad=4)
     return ax
 
 
-def panel_c(fig, gs, data, unit="association", top=13, highlight=()):
-    """UpSet over the four ancestries and META.
+def panel_d(fig, gs, data, unit="association", highlight=()):
+    """UpSet over the four ancestries and META. Panel d.
 
-    Exclusive intersections, the UpSet default: each bar counts the records
-    significant in exactly that set of groups and in no other.
+    Every non-empty combination is drawn, not a top-n, with the count
+    written above each bar at 45 degrees, and the per-ancestry totals as
+    horizontal bars down the left, the way the published figure has them.
+
+    Exclusive intersections, the UpSet default: each bar counts the
+    phenotype-SNP pairs significant in exactly that set of groups and in no
+    other.
     """
     pats = data["membership"][unit]
     rows = []
     for p in pats:
-        mem = [a for a in ANCS if p["pattern"][a]]
+        mem = [a for a in UPSET_ORDER if p["pattern"][a]]
         if mem:
             rows.append((p["count"], mem))
     rows.sort(key=lambda r: -r[0])
-    rows = rows[:top]
 
-    sub = gs.subgridspec(2, 1, height_ratios=[2.5, 1.5], hspace=0.06)
-    bar = fig.add_subplot(sub[0])
-    mat = fig.add_subplot(sub[1], sharex=bar)
+    sub = gs.subgridspec(2, 2, height_ratios=[2.9, 1.25],
+                         width_ratios=[1.75, 7.3], hspace=0.07,
+                         wspace=0.025)
+    bar = fig.add_subplot(sub[0, 1])
+    mat = fig.add_subplot(sub[1, 1], sharex=bar)
+    setax = fig.add_subplot(sub[1, 0], sharey=mat)
+    fig.add_subplot(sub[0, 0]).axis("off")
 
     x = np.arange(len(rows))
     counts = [r[0] for r in rows]
     cols = [BAR_HIGHLIGHT if tuple(r[1]) in highlight else BAR_BASE
             for r in rows]
-    bar.bar(x, counts, width=0.68, color=cols, linewidth=0.8,
+    bar.bar(x, counts, width=0.66, color=cols, linewidth=0.6,
             edgecolor="white")
     bar.set_yscale("log")
     bar.yaxis.set_major_formatter(FMT)
-    bar.set_ylabel(f"{unit}s in the intersection" if unit == "snp"
-                   else "associations in the intersection")
-    bar.yaxis.set_major_locator(matplotlib.ticker.LogLocator(numticks=6))
+    bar.set_ylabel("pairs in the intersection")
+    # keep the y label clear of the panel letter
+    bar.yaxis.set_label_coords(-0.055, 0.5)
+    bar.yaxis.set_major_locator(matplotlib.ticker.LogLocator(numticks=7))
     tidy(bar)
     bar.tick_params(labelbottom=False)
-    # direct-label only the three the manuscript text names
-    for xi, (c, mem) in zip(x, rows):
-        if tuple(mem) in highlight:
-            bar.annotate(compact_sci(c), (xi, c), textcoords="offset points",
-                         xytext=(0, 3), ha="center", fontsize=6,
-                         color=INK, fontweight="bold")
-    bar.text(-0.075, 1.1, "c", transform=bar.transAxes, fontsize=12,
+    # the count above every bar, rotated so 30 of them fit
+    for xi, c in zip(x, counts):
+        bar.annotate(f"{c:,}", (xi, c), textcoords="offset points",
+                     xytext=(1.5, 2.5), ha="left", va="bottom", fontsize=4.6,
+                     rotation=45, rotation_mode="anchor", color=INK)
+    bar.set_ylim(bottom=max(min(counts) / 3.0, 1),
+                 top=max(counts) * 16)
+    bar.set_title("intersections of significant phenotype-SNP pairs "
+                  "across ancestries", fontsize=7, pad=4)
+    bar.text(-0.075, 1.125, "d", transform=bar.transAxes, fontsize=12,
              fontweight="bold", va="top")
-    bar.set_title("intersections of significant associations across ancestries",
-                  fontsize=7, pad=4)
 
     # the membership matrix
-    for yi, a in enumerate(ANCS):
-        mat.axhline(len(ANCS) - 1 - yi, color="#f2f2f2", linewidth=6, zorder=0)
+    n = len(UPSET_ORDER)
+    for yi in range(n):
+        mat.axhline(yi, color="#f4f4f4", linewidth=7.5, zorder=0)
     for xi, (c, mem) in zip(x, rows):
-        on = [len(ANCS) - 1 - ANCS.index(a) for a in mem]
-        mat.plot([xi] * len(ANCS), range(len(ANCS)), "o", ms=3.4,
-                 color="#d9d9d9", zorder=1)
-        col = BAR_HIGHLIGHT if tuple(mem) in highlight else "#4a4a4a"
-        mat.plot([xi] * len(on), on, "o", ms=3.4, color=col, zorder=2)
+        on = [n - 1 - UPSET_ORDER.index(a) for a in mem]
+        mat.plot([xi] * n, range(n), "o", ms=2.8, color="#dcdcdc", zorder=1)
+        col = BAR_HIGHLIGHT if tuple(mem) in highlight else "#3f3f3f"
+        mat.plot([xi] * len(on), on, "o", ms=2.8, color=col, zorder=2)
         if len(on) > 1:
             mat.plot([xi, xi], [min(on), max(on)], "-", color=col,
-                     linewidth=1.1, zorder=2)
-    mat.set_yticks(range(len(ANCS)))
-    mat.set_yticklabels(ANCS[::-1], fontsize=6)
-    mat.set_ylim(-0.6, len(ANCS) - 0.4)
-    mat.set_xlim(-0.7, len(rows) - 0.3)
+                     linewidth=0.9, zorder=2)
+    mat.set_yticks(range(n))
+    mat.set_yticklabels(UPSET_ORDER[::-1], fontsize=6)
+    mat.set_ylim(-0.6, n - 0.4)
+    mat.set_xlim(-0.8, len(rows) - 0.2)
     mat.set_xticks([])
     for side in ("top", "right", "bottom", "left"):
         mat.spines[side].set_visible(False)
     mat.tick_params(length=0)
-    return bar, mat
+
+    # per-ancestry totals, pointing left, with the number beside each bar
+    totals = [data["panel_a"][a]["associations"] for a in UPSET_ORDER[::-1]]
+    setax.barh(range(n), totals, height=0.5,
+               color=[COLOUR[a] for a in UPSET_ORDER[::-1]], zorder=2)
+    # The set axis shares y with the matrix, so giving it ticks would move
+    # the matrix's too; the row names are drawn here instead, at a fixed
+    # left edge with the total beside the bar it belongs to.
+    # The name and the total get their own column at the left, rather than
+    # riding on the bar: the bars differ by a factor of 570, so a label
+    # pinned to the end of each one lands in a different place every row and
+    # the long ones collided with the names.
+    for yi, (t, a) in enumerate(zip(totals, UPSET_ORDER[::-1])):
+        setax.annotate(a, (0.0, yi), xycoords=("axes fraction", "data"),
+                       ha="left", va="center", fontsize=6, color=INK)
+        setax.annotate(f"{t:,}", (0.56, yi),
+                       xycoords=("axes fraction", "data"),
+                       ha="right", va="center", fontsize=5, color=INK)
+    setax.invert_xaxis()
+    setax.set_xscale("log")
+    setax.set_xlim(max(totals) * 1e4, max(totals) * 1e-3)
+    setax.set_yticks([])
+    setax.set_xticks([])
+    for side in ("top", "right", "bottom", "left"):
+        setax.spines[side].set_visible(False)
+    setax.tick_params(length=0)
+    setax.set_xlabel("pairs per ancestry", fontsize=5.5, color=MUTED,
+                     labelpad=1)
+    return bar, mat, setax
 
 
 def verify(fig):
@@ -319,18 +370,18 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     data = json.load(open(os.path.join(RESULTS, "fig1_data.json")))
 
-    fig = plt.figure(figsize=(7.2, 7.6))
-    gs = GridSpec(3, 2, figure=fig, height_ratios=[1.0, 1.15, 1.5],
-                  hspace=0.62, wspace=0.26,
-                  left=0.085, right=0.985, top=0.955, bottom=0.055)
+    fig = plt.figure(figsize=(7.2, 7.9))
+    gs = GridSpec(3, 2, figure=fig, height_ratios=[0.88, 1.05, 2.05],
+                  hspace=0.44, wspace=0.26,
+                  left=0.085, right=0.985, top=0.962, bottom=0.045)
 
     panel_a(fig, gs[0, :], data)
     panel_b(fig, gs[1, 0], data)
-    panel_d(fig, gs[1, 1], data)
-    panel_c(fig, gs[2, :], data, unit="association",
-            highlight={("EUR", "AFR", "AMR", "EAS", "META"),
-                       ("EUR", "AFR", "AMR", "META"),
-                       ("EUR", "META")})
+    panel_c(fig, gs[2 - 1, 1], data)
+    panel_d(fig, gs[2, :], data, unit="association",
+            highlight={("EAS", "AMR", "AFR", "META", "EUR"),
+                       ("AMR", "AFR", "META", "EUR"),
+                       ("EUR",)})
 
     verify(fig)
 

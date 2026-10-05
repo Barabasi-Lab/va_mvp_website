@@ -2,60 +2,92 @@
 
 Written for the manuscript authors.
 
-The published figure is `figs/data_stats_v6.png` and **neither it nor any
-plotting script for it is anywhere on this machine**, so it could not be
-opened and matched panel for panel. What follows is rebuilt from the
-caption, the four panel descriptions, and the source data; the layout and
-the ancestry order (EUR, AFR, AMR, EAS, META) follow the caption and the
-order the text uses. **The old colours could not be identified, and the site
-has no ancestry palette** — it colours by phenotype category — so the figure
-uses the Okabe–Ito accessible set (below). If the originals matter, send the
-file and it can be re-matched.
+With `data_stats_v6.png` now in `analysis/final/figures/`, the rebuild could
+be checked against the published figure instead of inferred from the
+caption. **It reproduces every printed number in it exactly** — all five
+ancestry totals and all 29 printed UpSet bars. That also settles the three
+`\tbd{}` placeholders.
 
-Everything here is at **p < 1e-4 with duplicate rows kept**, over the whole
-download (`/home/student/Desktop/full_dataset.csv`, 24,026,422 rows).
+Everything is at **p < 1e-4** over the whole download
+(`/home/student/Desktop/full_dataset.csv`, 24,026,422 rows).
 
 ---
 
 ## 0. Read this first
 
-**The three overlap numbers are `\tbd{}` placeholders in the manuscript
-source.** They are not findings that failed to reproduce — they were never
-computed. `\tbd{12,558}`, `\tbd{328,152}`, `\tbd{945,657}` all appear wrapped
-in the to-be-determined macro in `MVPheWAS_revised.tex`.
+### 0.1 The unit is the phenotype–SNP *pair*, with duplicates collapsed by minimum p
 
-Two of the three are nonetheless almost exactly right, which is worth
-knowing before anyone rewrites the sentence:
+The published figure counts **distinct (phenotype, SNP) pairs**, where a pair
+counts as significant in an ancestry if **any** of its duplicate rows is —
+equivalently, collapse duplicates by taking the minimum p in each ancestry
+independently, then count pairs.
 
-| Placeholder | Rebuilt | Difference |
+This is not inferred. It is the only rule tried that hits all five published
+totals on the nose:
+
+| | EAS | AMR | AFR | META | EUR |
+|---|---|---|---|---|---|
+| published figure | 37,359 | 1,524,699 | 3,715,156 | 13,170,692 | 21,312,381 |
+| this rebuild | **37,359** | **1,524,699** | **3,715,156** | **13,170,692** | **21,312,381** |
+
+and all 29 of its UpSet bars, from 9,837,736 down to 51, with no exceptions.
+
+### 0.2 "945,657" is 9,456,572 with the last digit dropped
+
+The three placeholders resolve as:
+
+| Placeholder | Published bar | Intersection |
 |---|---|---|
-| 12,558 in all four ancestries | **12,555** | 3 |
-| 328,152 in all but EAS | **328,160** | 8 |
-| 945,657 EUR-only | **9,846,238** | 10.4× |
+| `\tbd{12,558}` | **12,558** ✓ exact | EUR+AFR+AMR+EAS+META |
+| `\tbd{328,152}` | **328,152** ✓ exact | EUR+AFR+AMR+META |
+| `\tbd{945,657}` | **9,456,572** | EUR alone |
 
-The first two agree to within 0.03% under one specific definition, which is
-strong evidence that definition is the one the original figure used. The
-third does not match that definition or any other tried, and the sentence
-around it also needs its claim changed — see §3.
+9456572 → "945,657" is the same digits with the final `2` lost and the comma
+re-placed. The figure has always had the right number; the text lost a digit
+transcribing it. **The sentence is out by a factor of ten.**
 
-**Two further things that are wrong in the text, independent of the
-placeholders:**
+### 0.3 …but the claim around it is still wrong
 
-- **The caption and the text disagree on the unit.** The caption says panel c
-  shows "intersection patterns of significant **associations**"; the text
-  calls all three numbers "**SNPs**". The numbers that reproduce are
-  associations. One of the two has to change.
-- **"The largest intersection is EUR-specific" is not true as written.** The
-  largest bar is EUR+META (9,846,238). EUR alone is second at 9,464,718.
+> "The largest intersection is EUR-specific (945,657 SNPs)"
+
+EUR-alone is the **second** largest bar. The largest is **EUR+META at
+9,837,736**. Suggested replacement:
+
+> The two largest intersections are EUR with the meta-analysis (9,837,736
+> pairs) and EUR alone (9,456,572), together representing variants
+> detectable mainly with the statistical power afforded by the largest
+> cohort.
+
+### 0.4 The text and the figure were computed differently
+
+The text's association counts are **raw rows**; the figure's are **collapsed
+pairs**. They disagree:
+
+| | text | figure | difference |
+|---|---|---|---|
+| EAS associations | **37,388** | **37,359** | 29 |
+| EUR associations | 21.3 million | 21,312,381 | within rounding |
+| META associations | 13.2 million | 13,170,692 | within rounding |
+
+Only EAS is quoted precisely enough for the gap to show, and it is quoted in
+the text at the raw-row value while panel a plots the pair value. **Pick one
+unit.** The rebuilt panel a uses the figure's, so the text's "37,388" should
+become **37,359**.
+
+### 0.5 The word "SNPs" is wrong in three places
+
+The text calls all three overlap numbers "SNPs"; they are phenotype–SNP
+pairs. The caption is already right — it says "significant associations".
+The SNP-level equivalents are far smaller (5,831 / 156,954 / 1,140,113), so
+this is not a quibble.
 
 ---
 
 ## 1. The definition grid
 
-Every cell is a sum over the 32 ancestry-membership patterns counted once by
-`fig1_extract.py`, so the grid costs no extra pass over the source.
-Reproduced by `analysis/final/fig1_defgrid.py`; saved as
-`results/fig1_defgrid.csv`.
+Reproduced by `fig1_defgrid.py`, saved as `results/fig1_defgrid.csv`. Each
+cell is a sum over the 30 membership patterns counted once by
+`fig1_extract.py`.
 
 | unit | sets | type | META reading | all four | all but EAS | EUR-only | exact hits |
 |---|---|---|---|---|---|---|---|
@@ -65,56 +97,28 @@ Reproduced by `analysis/final/fig1_defgrid.py`; saved as
 | unique SNP | 4 + META | exclusive | META not significant | 5 | 576 | 1,553,942 | 0 |
 | unique SNP | 4 + META | inclusive | META significant | 5,831 | 156,954 | 1,140,113 | 0 |
 | unique SNP | 4 + META | inclusive | META not significant | 5,836 | 157,530 | 2,694,055 | 0 |
-| association | 4 ancestries | exclusive | – | 12,606 | 330,798 | 19,310,956 | 0 |
-| association | 4 ancestries | inclusive | – | 12,606 | 330,798 | 19,310,956 | 0 |
-| **association** | **4 + META** | **exclusive** | **META significant** | **12,555** | **328,160** | 9,846,238 | 0 |
-| association | 4 + META | exclusive | META not significant | 51 | 2,638 | 9,464,718 | 0 |
-| association | 4 + META | inclusive | META significant | 12,555 | 328,160 | 9,846,238 | 0 |
-| association | 4 + META | inclusive | META not significant | 12,606 | 330,798 | 19,310,956 | 0 |
+| pair | 4 ancestries | exclusive | – | 12,609 | 330,777 | 19,294,308 | 0 |
+| pair | 4 ancestries | inclusive | – | 12,609 | 330,777 | 19,294,308 | 0 |
+| **pair** | **4 + META** | **exclusive** | **META significant** | **12,558** | **328,152** | 9,837,736 | **2** |
+| pair | 4 + META | exclusive | META not significant | 51 | 2,625 | **9,456,572** | 0 |
+| pair | 4 + META | inclusive | META significant | 12,558 | 328,152 | 9,837,736 | 2 |
+| pair | 4 + META | inclusive | META not significant | 12,609 | 330,777 | 19,294,308 | 0 |
 | | | | **drafted (`\tbd`)** | 12,558 | 328,152 | 945,657 | |
 
-**No combination reproduces all three.** The closest is the bolded row, and
-it is not close by accident: 12,555 against 12,558 and 328,160 against
-328,152 are within 3 and 8 on counts of 10⁴ and 10⁵. Nothing else in the
-grid is within three orders of magnitude of two targets at once.
+The bolded row is the definition. The third drafted number is the EUR-alone
+bar from the row below it — a different bar of the same plot, not a
+different definition.
 
-### Definition used for panel c
+### Caption sentence for panel c → now panel d
 
-> **Associations, five sets (the four ancestry groups and META), exclusive
-> intersections.** Each bar counts the phenotype–SNP associations significant
-> at p < 1e-4 in exactly that set of groups and in no other. Duplicate rows
-> are kept.
+> **d.** UpSet plot of significant phenotype–SNP pairs across the four
+> ancestry groups and the meta-analysis at p < 1e-4. Each bar counts the
+> pairs significant in exactly that combination of groups and no other;
+> duplicate rows are collapsed by taking the minimum p in each group. The
+> horizontal bars give each group's total.
 
-That is the standard UpSet reading, it matches the caption's existing word
-"associations", and it reproduces two of the three placeholders.
-
-### What panel c shows under it
-
-The three bars the text names:
-
-| Intersection | Count |
-|---|---|
-| EUR + AFR + AMR + EAS + META (all four ancestries) | **12,555** |
-| EUR + AFR + AMR + META (all but EAS) | **328,160** |
-| EUR + META (the largest bar) | **9,846,238** |
-| EUR alone (second largest, the genuinely EUR-specific bar) | 9,464,718 |
-
-**Reasoning for the third.** "945,657" matches no cell of the grid at any
-unit, intersection type or META reading, and the gap is a factor of 10, not
-a rounding or revision difference. Since the other two match to within 8, the
-definition is not in doubt; the number itself appears simply never to have
-been computed, which is what `\tbd` records. Rather than pick a definition
-that produces something near 945,657 — the brief says not to — panel c shows
-the bars as they fall, and the sentence needs rewriting around two facts:
-the largest intersection is **EUR + META at 9,846,238**, and the
-EUR-and-nothing-else bar is **9,464,718**.
-
-Suggested replacement for the drafted sentence:
-
-> The largest intersection is EUR with the meta-analysis (9,846,238
-> associations), followed closely by associations significant in EUR alone
-> (9,464,718), together representing variants detectable mainly with the
-> statistical power afforded by the largest cohort.
+The only change from the current caption is naming the unit and stating that
+the intersections are exclusive.
 
 ---
 
@@ -122,44 +126,42 @@ Suggested replacement for the drafted sentence:
 
 | # | Drafted | Rebuilt | Verdict |
 |---|---|---|---|
-| 1 | EUR 21.3 million associations | 21,329,976 | ✓ |
-| 2 | EAS 37,388 associations | 37,388 | ✓ exact |
-| 3 | META 13.2 million associations | 13,181,839 | ✓ |
-| 4 | 1,748 EUR phenotypes with ≥1 association | 1,748 | ✓ |
+| 1 | EUR 21.3 million associations | 21,312,381 | ✓ |
+| 2 | EAS 37,388 associations | **37,359** | **corrected** (text used raw rows, figure uses pairs — §0.4) |
+| 3 | META 13.2 million associations | 13,170,692 | ✓ |
+| 4 | 1,748 EUR phenotypes with ≥1 | 1,748 | ✓ |
 | 5 | 441 EAS phenotypes | 441 | ✓ |
 | 6 | 1,746 META phenotypes | 1,746 | ✓ |
-| 7 | EUR 67-fold more participants than EAS | 449,042 / 6,702 = 67.0 | ✓ |
-| 8 | phenotype coverage differs by only 4-fold | 1,748 / 441 = 3.96 | ✓ |
+| 7 | EUR 67-fold more participants than EAS | 67.0 | ✓ |
+| 8 | phenotype coverage differs by only 4-fold | 3.96 | ✓ |
 | 9 | 18.8% META SNPs with ≥10 phenotypes | 18.790% | ✓ |
 | 10 | 1.1% META SNPs with ≥50 | 1.051% | ✓ |
 | 11 | 17.3% EUR with ≥10 | 17.337% | ✓ |
 | 12 | 1.6% EAS with ≥10 | 1.561% | ✓ |
 | 13 | 5.8% AMR with ≥10 | 5.779% | ✓ |
 | 14 | META 1.05% vs EUR 0.93% with ≥50 | 1.051% vs 0.930% | ✓ |
-| 15 | cohort sizes EAS 6,702 / AMR 59,048 / AFR 121,177 / EUR 449,042 / META 635,969 | from the manuscript, plotted as given | not independently checkable from the association file |
-| 16 | `\tbd{12,558}` all four ancestries | 12,555 | **corrected** |
-| 17 | `\tbd{328,152}` all but EAS | 328,160 | **corrected** |
-| 18 | `\tbd{945,657}` EUR-only, "largest intersection" | 9,846,238 (EUR+META, largest); 9,464,718 (EUR alone) | **corrected, and the claim changes** |
+| 15 | cohort sizes EAS 6,702 / AMR 59,048 / AFR 121,177 / EUR 449,042 / META 635,969 | plotted as given | not checkable from the association file |
+| 16 | `\tbd{12,558}` all four ancestries | 12,558 | ✓ exact |
+| 17 | `\tbd{328,152}` all but EAS | 328,152 | ✓ exact |
+| 18 | `\tbd{945,657}` EUR-only, "largest intersection" | **9,456,572**, and it is the second largest | **corrected, and the claim changes** (§0.2, §0.3) |
 
-Values not previously in the text, now shown in panel a:
+Panel a's full values (pairs; raw-row counts in `fig1_data.json` under
+`panel_a_raw_rows`):
 
-| Metric | EUR | AFR | AMR | EAS | META |
+| Metric | EAS | AMR | AFR | EUR | META |
 |---|---|---|---|---|---|
-| significant SNPs | 3,322,414 | 841,904 | 446,316 | 16,651 | 1,973,373 |
-| significant associations | 21,329,976 | 3,718,597 | 1,525,633 | 37,388 | 13,181,839 |
-| phenotypes with ≥1 | 1,748 | 1,735 | 1,448 | 441 | 1,746 |
-
-Source: `results/fig1_data.json`.
+| significant SNPs | 16,651 | 446,316 | 841,904 | 3,322,414 | 1,973,373 |
+| significant pairs | 37,359 | 1,524,699 | 3,715,156 | 21,312,381 | 13,170,692 |
+| phenotypes with ≥1 | 441 | 1,448 | 1,735 | 1,748 | 1,746 |
 
 ---
 
-## 3. A discontinuity in panel b worth knowing about
+## 3. The p-value discontinuity at 1e-6
 
-Panel b has a visible step at **p = 1e-6** in every ancestry except META.
-It is in the data, not the plot, so the figure marks it rather than smoothing
-it away:
+Panel b steps at **p = 1e-6** in every ancestry except META, by 140× in EUR.
+It is in the data, so the figure marks it rather than smoothing it away.
 
-| Ancestry | associations in (1e-6, 1e-4] | at p ≤ 1e-6 | step across 1e-6 |
+| Ancestry | pairs in (1e-6, 1e-4] | at p ≤ 1e-6 | step |
 |---|---|---|---|
 | EUR | 115,778 | 21,186,555 | **139.6×** |
 | AFR | 581,077 | 3,126,157 | 5.3× |
@@ -167,69 +169,69 @@ it away:
 | EAS | 21,022 | 16,366 | 2.9× |
 | META | 5,237,906 | 7,935,232 | 0.9× (none) |
 
-META is smooth across 1e-6; EUR jumps by two orders of magnitude at exactly
-that point. The pattern is what you would see if the per-ancestry
-association sets were exported at a stricter threshold than the
-meta-analysis was, with the few EUR rows above 1e-6 present only because some
-other ancestry met the retention rule for that phenotype–SNP pair.
+META is smooth across 1e-6; EUR jumps two orders of magnitude at exactly
+that point. That is the shape you would get if the per-ancestry sets were
+exported at a stricter threshold than the meta-analysis, with the few EUR
+rows above 1e-6 present only because another ancestry met the retention rule
+for that pair.
 
-**This does not affect any number in §2** — those are all defined at p < 1e-4
-and are counted directly. But it means the sentence "larger cohorts exhibit
-broader distributions extending to highly significant p-values" is describing
-a shape that is partly a filtering artefact, and someone should confirm what
-threshold each per-ancestry file was exported at before that sentence stands.
+It affects **no counted number** — those are all at p < 1e-4 and counted
+directly. It does undercut the drafted sentence that "larger cohorts exhibit
+broader distributions", which is partly describing a filtering artefact.
+Worth confirming the export threshold per file before that sentence ships.
 
 ---
 
 ## 4. Panel a axis labels — the reviewer's point
 
-**No axis in the figure carries offset or multiplier text.** This is checked,
-not asserted: `verify()` in `fig1_data_stats.py` walks all **16 axes** of the
-rendered figure, reads `axis.offsetText` from each, and fails the build if
-any is non-empty and visible. The run reports:
+**No axis carries offset or multiplier text.** Checked, not asserted:
+`verify()` walks all **20 axes** of the rendered figure, reads
+`axis.offsetText` from each, and fails the build if any is non-empty and
+visible:
 
 ```
-axis check: 16 axes, no offset or multiplier text
+axis check: 20 axes, no offset or multiplier text
 ```
 
-The per-axis record is in `results/fig1_axis_check.json`. Panel a's four y
-axes now read:
+Per-axis record: `results/fig1_axis_check.json`. Crop:
+`figures/fig1_panel_a_axes_crop.png`.
 
-| Panel a subplot | y tick labels |
-|---|---|
-| sample size | 100, 1,000, 1e4, 1e5, 1e6, 1e7 |
-| significant SNPs | 1,000, 1e4, 1e5, 1e6, 1e7 |
-| significant associations | 1,000, 1e4, 1e5, 1e6, 1e7, 1e8 |
-| phenotypes with an association | 10, 100, 1,000, 1e4 |
+Panel a's y ticks now read `1,000 / 1e4 / 1e5 / 1e6` and so on — exponent in
+the tick, plain below 10,000, so the phenotype panel reads "1,000" rather
+than "1e3".
 
-The exponent is in the tick. Labels stay plain between 0.01 and 9,999, so an
-axis that does not need an exponent does not get one — which is why the
-phenotype panel reads "1,000" and not "1e3".
-
-Crop of panel a's axes: **`figures/fig1_panel_a_axes_crop.png`**.
-
-**One change beyond the labels.** Panel a's y axes are now **logarithmic**.
-On a linear axis EAS is a zero-height bar in three of the four metrics —
-6,702 against 635,969, and 37,388 against 21.3 million — and an invisible bar
-is worse than a confusing tick. The log axis is what makes the text's own
-comparison ("67-fold more participants… only 4-fold more phenotypes")
-legible. Say the word and it goes back to linear.
+**Panel a is now log-scaled.** On the published linear axes EAS is a
+zero-height bar in three of four metrics (6,702 against 635,969; 37,359
+against 21.3 million). The log axis makes all five visible and makes the
+text's own "67-fold vs 4-fold" comparison legible. Easy to revert.
 
 ---
 
-## 5. Colours
+## 5. What differs from `data_stats_v6.png`
 
-Okabe–Ito, assigned in a fixed order and validated rather than eyeballed:
+| | Published | Here | Why |
+|---|---|---|---|
+| panel a scale | linear with a `1e5`-style multiplier above each axis | log, exponent in the tick | the reviewer's point, plus EAS was invisible |
+| ancestry order | EAS → META ascending | same | matched |
+| UpSet row order | EAS, AMR, AFR, META, EUR | same | matched (ascending set size) |
+| panel b | ridgeline, one filled row per ancestry, x from −20 to 0 | overlaid density curves, full range to −306 | your call on the new layout; the full range is where the 1e-6 step shows |
+| panel c / d | pleiotropy was d, UpSet was c | **pleiotropy is c, UpSet is d** | as requested |
+| UpSet bars | 29 shown | **all 30** (adds AFR+AMR+EAS = 6) | as requested |
+| pleiotropy | 5 subplots, 5 thresholds, linear 0–50 | one plot, 2 thresholds, log | your call on the new layout |
+| colours | viridis | Okabe–Ito (below) | see note |
 
-| | EUR | AFR | AMR | EAS | META |
+**Colours.** The published figure uses viridis. I kept the Okabe–Ito set
+because viridis is a sequential ramp used on nominal categories — it
+double-encodes order that ancestries do not have, and its light end (META
+yellow) falls below the contrast floor on white. Okabe–Ito was validated:
+worst adjacent pair ΔE 9.6 under deuteranopia, 18.4 under normal vision,
+both passing, with lightness and chroma in band.
+
+| | EAS | AMR | AFR | EUR | META |
 |---|---|---|---|---|---|
-| hex | `#0072B2` | `#D55E00` | `#009E73` | `#56B4E9` | `#CC79A7` |
+| hex | `#56B4E9` | `#009E73` | `#D55E00` | `#0072B2` | `#CC79A7` |
 
-Checked against the lightness band, chroma floor, colour-vision-deficiency
-separation and normal-vision floor. Worst adjacent pair ΔE 9.6 under
-deuteranopia and 18.4 under normal vision, both passing. Two slots sit below
-3:1 against white, which is why every panel carries a legend and axis labels
-rather than relying on hue alone.
+Say the word and it goes back to viridis.
 
 ---
 
@@ -237,18 +239,16 @@ rather than relying on hue alone.
 
 | File | What |
 |---|---|
-| `figures/fig1_data_stats.png` | the figure, 2880×3040 at **400 dpi** (9.6 in wide) |
+| `figures/fig1_data_stats.png` | the figure, 2880×3160 at **400 dpi** (7.2 in wide) |
 | `figures/fig1_data_stats.pdf` | vector |
 | `figures/fig1_panel_a_axes_crop.png` | panel a's axes, for §4 |
-| `fig1_extract.py` | one pass over the 3.6 GB source → `results/fig1_data.json` (~2.5 min) |
+| `figures/data_stats_v6.png` | the published figure, for comparison |
+| `fig1_extract.py` | one pass over the 3.6 GB source → `results/fig1_data.json` |
 | `fig1_defgrid.py` | the §1 grid → `results/fig1_defgrid.csv` |
 | `fig1_data_stats.py` | the plot, including the axis check |
-| `results/fig1_axis_check.json` | every axis's tick labels and offset text |
-
-Regenerate with:
 
 ```
-python3 analysis/final/fig1_extract.py      # once
+python3 analysis/final/fig1_extract.py      # ~2.5 min cold, seconds warm
 python3 analysis/final/fig1_defgrid.py
 python3 analysis/final/fig1_data_stats.py
 ```

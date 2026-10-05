@@ -67,21 +67,27 @@ inside the APOL1 *locus* under 500 kb clumping, so calling it an APOL1-locus
 lead is fine; calling the gene APOL1 is not. rs73885319 and rs9622362 are
 both inside APOL1 at 0 bp.
 
-### 0.7 One Figure 1 number is wrong by 10×, and its sentence misstates the finding
+### 0.7 A Figure 1 number is out by 10×, and two more things around it are wrong
 
-The three overlap numbers are `\tbd{}` placeholders in the manuscript
-source — never computed. Rebuilding Figure 1 recovered the definition behind
-them, and two now land within 3 and 8 (**12,555** all four ancestries,
-**328,160** all but EAS). The third, **945,657 "EUR-only"**, matches nothing
-under any definition, and the claim attached to it is also false: the largest
-intersection is **EUR+META at 9,846,238**, with EUR alone second at
-9,464,718. Everything else in the Figure 1 text reproduces exactly. See
-`FIG1_REPORT.md`.
+With `data_stats_v6.png` supplied, the rebuild now reproduces **every**
+printed number of the published figure exactly — all five ancestry totals
+and all 29 UpSet bars — which settles the three `\tbd{}` placeholders:
+
+- `\tbd{12,558}` and `\tbd{328,152}` are **exactly right**.
+- `\tbd{945,657}` is **9,456,572** with the final digit dropped. The text is
+  out by a factor of ten.
+- The claim attached to it is wrong anyway: EUR-alone is the **second**
+  largest intersection; the largest is EUR+META at 9,837,736.
+- The text calls all three "SNPs"; they are phenotype–SNP **pairs**. The
+  SNP-level equivalents are 5,831 / 156,954 / 1,140,113.
+- The text's EAS count, **37,388**, is a raw-row count while the figure
+  plots **37,359** collapsed pairs. Text and figure were computed on
+  different units.
 
 Separately, panel b has a real step at p = 1e-6 — a 140× jump in EUR, absent
-in META — which suggests the per-ancestry association sets were exported at a
-stricter threshold than the meta-analysis. It affects no counted number but
-does undercut a drafted sentence about distribution shape.
+in META — which suggests the per-ancestry sets were exported at a stricter
+threshold than the meta-analysis. It affects no counted number but does
+undercut a drafted sentence about distribution shape. See `FIG1_REPORT.md`.
 
 ### 0.8 The stored META standard error is not the IVW standard error
 
@@ -237,17 +243,16 @@ changes EAS from 37,388 to 37,337 and EUR from 21,329,976 to 21,312,032, so
 the drafted figures are the duplicate-inclusive ones. The pleiotropy
 percentages are unaffected to three decimals.
 
-#### The three SNP-overlap numbers — superseded, see `FIG1_REPORT.md`
+#### The three SNP-overlap numbers — resolved, see `FIG1_REPORT.md`
 
-These three are `\tbd{}` placeholders in `MVPheWAS_revised.tex`: they were
-never computed, which is why no threshold reproduced them. Rebuilding
-Figure 1 found the definition they almost certainly came from — associations,
-five sets including META, exclusive intersections — under which two of the
-three land within 3 and 8 (**12,555** and **328,160**). The third, 945,657,
-matches nothing at any definition, and the sentence around it is also wrong:
-the largest intersection is EUR+META at 9,846,238, not EUR alone.
+These three are `\tbd{}` placeholders in `MVPheWAS_revised.tex`. The earlier
+sweep could not reproduce them because it used the wrong unit: the figure
+counts **distinct phenotype–SNP pairs with duplicates collapsed by the
+minimum p in each ancestry**, not raw rows. Under that rule the rebuild
+matches the published figure exactly, bar for bar. **12,558** and
+**328,152** are right; **945,657** is **9,456,572** with the last digit lost.
 
-Full grid and recommended wording: `FIG1_REPORT.md`.
+Full grid, the corrected caption and recommended wording: `FIG1_REPORT.md`.
 
 Source: `fig1_defgrid.csv`, `q10_figure1.json`, `q10_figure1_overlap_sweep.json`.
 
@@ -518,11 +523,12 @@ rebuilt from the caption and the source data by `fig1_data_stats.py`. The
 reviewer's y-axis point is fixed — the exponent is in the tick label and no
 axis carries a multiplier, checked across all 16 axes rather than asserted.
 
-Two of the three `\tbd{}` overlap placeholders now resolve to within 3 and 8
-(12,555 and 328,160); the third does not reproduce under any definition and
-its surrounding claim is wrong as written. Panel b also turns out to have a
-real discontinuity at p = 1e-6. **See `FIG1_REPORT.md`** — those findings are
-not repeated here.
+With the published figure supplied, the rebuild reproduces every number
+printed on it exactly — five ancestry totals and all 29 UpSet bars. That
+resolves the three `\tbd{}` placeholders: two are right, and the third is
+9,456,572 with a digit dropped. Panel b also turns out to have a real
+discontinuity at p = 1e-6. **See `FIG1_REPORT.md`** — those findings are not
+repeated here.
 
 ### Draft composites
 

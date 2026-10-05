@@ -7,10 +7,10 @@
    "offset_text": "",
    "offset_visible": false,
    "tick_labels": [
-    "EUR",
-    "AFR",
-    "AMR",
     "EAS",
+    "AMR",
+    "AFR",
+    "EUR",
     "META"
    ]
   },
@@ -34,10 +34,10 @@
    "offset_text": "",
    "offset_visible": false,
    "tick_labels": [
-    "EUR",
-    "AFR",
-    "AMR",
     "EAS",
+    "AMR",
+    "AFR",
+    "EUR",
     "META"
    ]
   },
@@ -60,10 +60,10 @@
    "offset_text": "",
    "offset_visible": false,
    "tick_labels": [
-    "EUR",
-    "AFR",
-    "AMR",
     "EAS",
+    "AMR",
+    "AFR",
+    "EUR",
     "META"
    ]
   },
@@ -87,10 +87,10 @@
    "offset_text": "",
    "offset_visible": false,
    "tick_labels": [
-    "EUR",
-    "AFR",
-    "AMR",
     "EAS",
+    "AMR",
+    "AFR",
+    "EUR",
     "META"
    ]
   },
@@ -176,12 +176,12 @@
    "offset_text": "",
    "offset_visible": false,
    "tick_labels": [
-    "1,000",
+    "1",
+    "100",
     "1e4",
-    "1e5",
     "1e6",
-    "1e7",
-    "1e8"
+    "1e8",
+    "1e10"
    ]
   },
   {
@@ -196,12 +196,47 @@
    "axis": "y",
    "offset_text": "",
    "offset_visible": true,
+   "tick_labels": []
+  },
+  {
+   "axes": 8,
+   "axis": "x",
+   "offset_text": "",
+   "offset_visible": true,
+   "tick_labels": []
+  },
+  {
+   "axes": 8,
+   "axis": "y",
+   "offset_text": "",
+   "offset_visible": true,
+   "tick_labels": []
+  },
+  {
+   "axes": 9,
+   "axis": "x",
+   "offset_text": "",
+   "offset_visible": true,
    "tick_labels": [
-    "META",
-    "EAS",
-    "AMR",
-    "AFR",
-    "EUR"
+    "0.00",
+    "0.25",
+    "0.50",
+    "0.75",
+    "1.00"
+   ]
+  },
+  {
+   "axes": 9,
+   "axis": "y",
+   "offset_text": "",
+   "offset_visible": true,
+   "tick_labels": [
+    "0.0",
+    "0.2",
+    "0.4",
+    "0.6",
+    "0.8",
+    "1.0"
    ]
   }
  ]

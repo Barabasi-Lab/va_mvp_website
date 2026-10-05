@@ -6,7 +6,9 @@ anemia_d_afr_eur.png,4000x2500,300,False,13.33 x 8.33,13.33,True
 anemia_e_pvd_eur_meta.png,4000x2500,300,False,13.33 x 8.33,13.33,True
 anemia_f_hb_afr_meta.png,4000x2500,300,False,13.33 x 8.33,13.33,True
 anemias_v2.png,4140x4210,400,False,10.35 x 10.53,13.8,True
-fig1_data_stats.png,2880x3040,400,False,7.20 x 7.60,9.6,True
+data_stats_v6.png,7971x3808,300,False,26.57 x 12.69,26.57,True
+fig1_data_stats.png,2880x3160,400,False,7.20 x 7.90,9.6,True
+fig1_panel_a_axes_crop.png,2880x487,400,False,7.20 x 1.22,9.6,True
 fig2_comparison_legend.png,896x576,300,False,2.99 x 1.92,2.99,True
 fig2_edge_type_labels.png,848x300,300,False,2.83 x 1.00,2.83,True
 fig2_related_phecode_toggle.png,1252x212,300,False,4.17 x 0.71,4.17,True
