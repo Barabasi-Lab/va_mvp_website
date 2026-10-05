@@ -25,6 +25,11 @@ import numpy as np
 from common import (CLUMP_WINDOW, ESRD, PRIMARY_THRESHOLD, RESULTS, clump,
                     connect, in_region, log, positions, significant)
 
+# Overridable so the final build can match this panel's shape to the
+# screenshot panel beside it; see analysis/final/fig3_panel_f.py.
+FIGSIZE = (11, 4.2)
+DPI = 300
+
 APOL1 = ("22", 36_253_071, 36_267_530)
 TCF7L2 = ("10", 112_950_247, 113_167_678)
 OUT = os.path.join(RESULTS, "figures")
@@ -54,7 +59,7 @@ def main():
 
     chroms = [str(c) for c in range(1, 23)]
     xpos = {c: i for i, c in enumerate(chroms)}
-    fig, ax = plt.subplots(figsize=(11, 4.2))
+    fig, ax = plt.subplots(figsize=FIGSIZE)
     colours = {"afr": "#1f77b4", "eur": "#d62728"}
     offset = {"afr": -0.17, "eur": 0.17}
 
@@ -70,17 +75,28 @@ def main():
                        facecolor=colours[anc], edgecolor="black" if is_shared else "none",
                        linewidth=1.6 if is_shared else 0, alpha=0.85, zorder=3 if is_shared else 2)
             if L["is_apol1"] or L["is_tcf7l2"]:
-                ax.annotate(f"{'APOL1' if L['is_apol1'] else 'TCF7L2'}\n{L['lead_rsid']}",
-                            (x, y), textcoords="offset points", xytext=(0, 11),
-                            ha="center", fontsize=8,
-                            color=colours[anc], fontweight="bold")
+                # AFR labels to the left of their point, EUR to the right.
+                # Both ancestries have a lead in each of the two labelled
+                # loci and the two points sit 0.34 apart on the chromosome
+                # axis, so centred labels overlapped each other.
+                side = -1 if anc == "afr" else 1
+                ax.annotate(
+                    f"{'APOL1' if L['is_apol1'] else 'TCF7L2'}\n{L['lead_rsid']}",
+                    (x, y), textcoords="offset points",
+                    xytext=(7 * side, 9), ha="left" if side > 0 else "right",
+                    fontsize=8, color=colours[anc], fontweight="bold",
+                    annotation_clip=False)
 
     ax.set_yscale("symlog", linthresh=2)
     ax.set_xticks(range(len(chroms)))
     ax.set_xticklabels(chroms, fontsize=8)
     ax.set_xlabel("chromosome (GRCh38)")
     ax.set_ylabel("SNPs in locus")
-    ax.set_xlim(-0.8, len(chroms) - 0.2)
+    ax.set_xlim(-0.8, len(chroms) + 1.4)
+    # headroom for the label above the tallest point, which otherwise sits
+    # on top of the axes frame
+    tallest = max((L["n_snps"] for anc in loci for L in loci[anc]), default=1)
+    ax.set_ylim(0, tallest * 2.6)
     ax.grid(axis="y", alpha=0.25)
     handles = [plt.Line2D([], [], marker="o", linestyle="", color=colours["afr"], label="AFR"),
                plt.Line2D([], [], marker="o", linestyle="", color=colours["eur"], label="EUR"),
@@ -94,7 +110,7 @@ def main():
     fig.tight_layout()
     os.makedirs(OUT, exist_ok=True)
     for ext in ("png", "pdf"):
-        fig.savefig(os.path.join(OUT, f"fig3_f2_locus_map.{ext}"), dpi=300)
+        fig.savefig(os.path.join(OUT, f"fig3_f2_locus_map.{ext}"), dpi=DPI)
     plt.close(fig)
     log(f"wrote fig3_f2_locus_map.png/.pdf "
         f"({len(loci['afr'])} AFR, {len(loci['eur'])} EUR, {len(shared)//2} shared)")

@@ -19,7 +19,13 @@ const puppeteer = require('puppeteer-core');
 const BASE = process.argv.find(a => a.startsWith('http')) || 'http://localhost:3000';
 const CHROME = process.env.CHROME_PATH || '/usr/bin/chromium-browser';
 const OUT = path.join(__dirname, 'figures');
-const W = 2000, H = 1250;                 // publication resolution, @2x
+const W = 2000, H = 1250;                 // publication resolution
+// Device pixel ratio. The full-page panels are fine at 2 (4000x2500); the
+// Figure 2 element crops are small, so they are re-shot at 4 to keep them
+// above 300 dpi at the size a schematic would place them.
+const SCALE = Number(process.env.PANEL_SCALE || 2);
+// ONLY=fig2 re-shoots just the Figure 2 sources.
+const ONLY = process.env.ONLY || '';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // Node ids, which are not phecodes. 270 is phecode 280 (Iron deficiency
@@ -176,12 +182,14 @@ async function setUp(page, p, errors) {
   });
   const manifest = [];
 
-  for (const p of [...PANELS, ...FIG2]) {
+  const todo = ONLY === 'fig2' ? FIG2 : ONLY === 'panels' ? PANELS
+                                      : [...PANELS, ...FIG2];
+  for (const p of todo) {
     const page = await browser.newPage();
     page.on('dialog', d => d.dismiss());
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
-    await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
+    await page.setViewport({ width: W, height: H, deviceScaleFactor: SCALE });
     await page.goto(url(p), { waitUntil: 'networkidle0', timeout: 300000 });
     await sleep(4000);
     await setUp(page, p, errors);
@@ -204,13 +212,20 @@ async function setUp(page, p, errors) {
 
     manifest.push({ ...p, file: path.basename(file), screen_summary: summary,
                     gene_labels_drawn: labels, rank_metric: process.env.RANK_METRIC || 'pval',
-                    viewport: `${W}x${H} @2x`, errors });
+                    viewport: `${W}x${H} @${SCALE}x`, errors });
     console.log(`${p.id.padEnd(34)} ${summary.slice(0, 70)}` +
                 `${errors.length ? '   ERRORS: ' + errors.join('; ') : ''}`);
   }
 
   await browser.close();
-  fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 1));
+  // merge into the manifest rather than replacing it, so re-shooting one
+  // group does not drop the settings recorded for the others
+  const mf = path.join(OUT, 'manifest.json');
+  let all = [];
+  if (fs.existsSync(mf)) all = JSON.parse(fs.readFileSync(mf, 'utf8'));
+  const byId = new Map(all.map(m => [m.id, m]));
+  for (const m of manifest) byId.set(m.id, m);
+  fs.writeFileSync(mf, JSON.stringify([...byId.values()], null, 1));
   const bad = manifest.filter(m => m.errors.length);
   console.log(`\nwrote ${manifest.length} panels + manifest.json to ${OUT}`);
   if (bad.length) console.log(`${bad.length} with errors: ${bad.map(b => b.id).join(', ')}`);

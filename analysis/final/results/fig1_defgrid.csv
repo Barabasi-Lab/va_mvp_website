@@ -1,0 +1,13 @@
+unit,sets,type,meta_reading,all_four,all_but_eas,eur_only,matches_drafted
+unique SNP,4 ancestries,exclusive,-,5836,157530,2694055,0
+unique SNP,4 ancestries,inclusive,-,5836,157530,2694055,0
+unique SNP,4 ancestries + META,exclusive,META significant,5831,156954,1140113,0
+unique SNP,4 ancestries + META,exclusive,META not significant,5,576,1553942,0
+unique SNP,4 ancestries + META,inclusive,META significant,5831,156954,1140113,0
+unique SNP,4 ancestries + META,inclusive,META not significant,5836,157530,2694055,0
+association,4 ancestries,exclusive,-,12606,330798,19310956,0
+association,4 ancestries,inclusive,-,12606,330798,19310956,0
+association,4 ancestries + META,exclusive,META significant,12555,328160,9846238,0
+association,4 ancestries + META,exclusive,META not significant,51,2638,9464718,0
+association,4 ancestries + META,inclusive,META significant,12555,328160,9846238,0
+association,4 ancestries + META,inclusive,META not significant,12606,330798,19310956,0

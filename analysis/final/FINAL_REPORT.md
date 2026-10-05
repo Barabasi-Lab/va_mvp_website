@@ -8,7 +8,7 @@ come from the store, never from a screenshot.
 
 ## 0. What contradicts the manuscript draft
 
-Eight things. The first two change drafted sentences outright.
+Nine things. The first two change drafted sentences outright.
 
 ### 0.1 The anemia example used phecode 280.1, not 280
 
@@ -67,15 +67,30 @@ inside the APOL1 *locus* under 500 kb clumping, so calling it an APOL1-locus
 lead is fine; calling the gene APOL1 is not. rs73885319 and rs9622362 are
 both inside APOL1 at 0 bp.
 
-### 0.7 Three of the Figure 1 numbers cannot be reproduced
+### 0.7 One Figure 1 number is wrong by 10×, and its sentence misstates the finding
 
-Everything else in the Figure 1 text reproduces exactly at p < 1e-4 with the
-duplicate rows kept — EAS to the digit at 37,388, and all six pleiotropy
-percentages. But **12,558 SNPs significant in all four ancestries, 328,152 in
-all but EAS, and 945,657 EUR-only** do not come out under any threshold
-tried, and they are mutually inconsistent with each other. See §2.5.
+The three overlap numbers are `\tbd{}` placeholders in the manuscript
+source — never computed. Rebuilding Figure 1 recovered the definition behind
+them, and two now land within 3 and 8 (**12,555** all four ancestries,
+**328,160** all but EAS). The third, **945,657 "EUR-only"**, matches nothing
+under any definition, and the claim attached to it is also false: the largest
+intersection is **EUR+META at 9,846,238**, with EUR alone second at
+9,464,718. Everything else in the Figure 1 text reproduces exactly. See
+`FIG1_REPORT.md`.
 
-### 0.8 The two discordant-locus counts hold only over the phenotypes named
+Separately, panel b has a real step at p = 1e-6 — a 140× jump in EUR, absent
+in META — which suggests the per-ancestry association sets were exported at a
+stricter threshold than the meta-analysis. It affects no counted number but
+does undercut a drafted sentence about distribution shape.
+
+### 0.8 The stored META standard error is not the IVW standard error
+
+The META *beta* is the inverse-variance-weighted combination the manuscript
+describes (correlation 0.99988). The META *se* is not: `se_IVW / se_META` has
+median 0.90 overall but 1.29 for large effects, so it is not a constant
+factor either. See §2.6.
+
+### 0.9 The two discordant-locus counts hold only over the phenotypes named
 
 chr10 BICC1 → three eye phenotypes, 1,026 discordant shared associations, and
 chr16 UMOD → five kidney-stone phenotypes, 187: both exact. But ten
@@ -101,6 +116,7 @@ narrower than they read (`q10_discordant_loci.csv`).
 | **Q6** | Limitations, final sentence | Each row is **one unordered pair of phenotypes that share at least one significant SNP in at least one of the five ancestries at p < 1e-4, in at least one direction**, carrying 90 weight columns (5 ancestries × 9 thresholds × 2 directions). No self-pairs, no row with all-zero weights. The count is **57,041 after regeneration**, up from 54,790. The union is stable under tightening: across all 90 columns, **no column has more edges than the looser column beside it**. | `q2_q10_answers.json` → `Q6`, `q10_gaps.json` → `q6_regenerated` |
 | **Q7** | Database section, allele bullet | Store: `phe_id, phenotype, rsid, src_row, pval/beta/se × {meta,eur,afr,amr,eas}, nearest_gene, nearest_genes_all, gene_distance_bp, annotation_status, overlapping_noncoding, grch38_pos, chrom`. Source CSV: `phenotype, rsid, chrom, pval/beta/se × {META,EUR,AFR,AMR,EAS}`. **Neither has an allele column**, so the multiallelic check cannot be run. | `q2_q10_answers.json` → `Q7` |
 | **Q8** | Web Interface, Node View | Production default was **`z`**, with no `RANK_METRIC` set on the Railway service. Changed to **`pval`** in Part 3.1. | `q2_q10_answers.json` → `Q8` |
+| **Q11** | Data Content §2.1, the IVW sentence | The stored META **beta** is the inverse-variance-weighted combination (corr **0.99988**; median relative difference 0.38% for \|beta\| ≥ 0.2). The stored META **se** is **not** the plain IVW se: the ratio runs 0.90 → 1.29 with effect size. §2.6. | `q11_ivw_check.csv` |
 | **Q9** | Availability | **Python 3.14.7** is what the analysis and `build_dbs.py` were run with; DuckDB 1.5.5. The repo pins nothing — no `requirements.txt`, `pyproject.toml`, `.python-version` or `runtime.txt`, and `build_dbs.py` only says `#!/usr/bin/env python3`. "Python 3" is therefore accurate but unpinned; if the Availability section wants a version, **3.14.7** is the one that produced these results, and it should be stated as "run with" rather than "requires". | `q2_q10_answers.json` → `Q9`, `p0_summary.json` |
 
 ---
@@ -221,31 +237,67 @@ changes EAS from 37,388 to 37,337 and EUR from 21,329,976 to 21,312,032, so
 the drafted figures are the duplicate-inclusive ones. The pleiotropy
 percentages are unaffected to three decimals.
 
-#### The three SNP-overlap numbers do not reproduce
+#### The three SNP-overlap numbers — superseded, see `FIG1_REPORT.md`
 
-| Drafted | Closest value found | |
-|---|---|---|
-| 12,558 SNPs significant in all four ancestries | 5,836 at 1e-4; 19,640 at 1e-3 | ✗ |
-| 328,152 in all but EAS | 157,530 at 1e-4; 259,539 at 1e-3 | ✗ |
-| 945,657 EUR-only | 2,694,055 at 1e-4; 1,291,313 at 0.05 | ✗ |
+These three are `\tbd{}` placeholders in `MVPheWAS_revised.tex`: they were
+never computed, which is why no threshold reproduced them. Rebuilding
+Figure 1 found the definition they almost certainly came from — associations,
+five sets including META, exclusive intersections — under which two of the
+three land within 3 and 8 (**12,555** and **328,160**). The third, 945,657,
+matches nothing at any definition, and the sentence around it is also wrong:
+the largest intersection is EUR+META at 9,846,238, not EUR alone.
 
-Two definitions were tried — "all four significant in the same row" and "the
-SNP is significant in that ancestry for any phenotype" — across seven
-thresholds from 5e-08 to 0.05 (`q10_figure1_overlap_sweep.json`). **No single
-threshold can produce all three**, and they are mutually inconsistent: 12,558
-implies a threshold near 3e-4, 328,152 implies near 3e-3, and 945,657 is
-lower than the EUR-only count at 0.05, so it implies something looser still.
+Full grid and recommended wording: `FIG1_REPORT.md`.
 
-Since everything else in the Figure 1 text reproduces exactly at 1e-4, the
-difference is a definition rather than a threshold — a restricted SNP
-universe, a different ancestry set, or a different sense of "significant".
-**The authors should supply the definition used for these three numbers**;
-they are the only Figure 1 figures this check could not confirm.
-
-Source: `q10_figure1.json`, `q10_figure1_overlap_sweep.json`.
+Source: `fig1_defgrid.csv`, `q10_figure1.json`, `q10_figure1_overlap_sweep.json`.
 
 
 ---
+
+### 2.6 Q11, is the stored META beta the inverse-variance-weighted combination?
+
+The Data Content section says META is "a meta-analysis across all ancestries
+using inverse-variance weighted fixed-effects models". That is a closed-form
+prediction, so it was checked over all 3,036,438 store rows with a META beta:
+
+    w_i = 1 / se_i^2,  beta_IVW = sum(w_i b_i) / sum(w_i),  se_IVW = sqrt(1 / sum(w_i))
+
+**Yes for the beta.** Correlation between the recomputed and stored META beta
+is **0.99988**, and it holds in every stratum. Agreement tightens as the
+effect gets better determined, which is what a near-exact formula plus noise
+on tiny betas looks like:
+
+| Stratum | n | corr | median relative difference | within 1% |
+|---|---|---|---|---|
+| all rows | 3,036,438 | 0.99988 | 1.61% | 37.6% |
+| \|z\| ≥ 5 | 1,502,191 | 0.99993 | 0.81% | 56.3% |
+| \|z\| ≥ 10 | 249,677 | 0.99994 | 0.55% | 67.5% |
+| \|beta\| ≥ 0.2 | 286,921 | 0.99990 | 0.38% | 79.0% |
+
+The overall 1.61% is an artefact of dividing by a near-zero beta: the worst
+rows all have \|beta_META\| ≈ 0.01–0.03. There is a small systematic offset —
+the recomputed beta is about **0.3–1.3% larger in magnitude** than the stored
+one, consistently in every stratum.
+
+**No for the standard error.** `se_IVW / se_META` is not 1 and not even
+constant: median **0.90** overall, 0.95 at \|z\| ≥ 5, **1.16** at \|z\| ≥ 10
+and **1.29** at \|beta\| ≥ 0.2. A plain IVW standard error would reproduce
+exactly; the stored one does not, and the discrepancy scales with effect
+size.
+
+That is the signature already documented for this dataset in
+`docs/duckdb-migration.md`: the per-ancestry p-values and standard errors are
+saddlepoint-corrected (SAIGE), and the correction bites hardest on rare
+variants with large \|beta\|. So the stored META **beta** is the IVW
+combination as the manuscript says, but the stored META **se** is not the
+plain IVW se of the stored per-ancestry standard errors, and anyone
+recomputing a meta-analytic p-value from these columns will not get the
+stored p.
+
+Every row has at least two ancestry groups contributing, so none of this is a
+single-cohort pass-through.
+
+Source: `q11_ivw_check.csv`, `q11_ivw_check.json`, `q11_ivw_worst.csv`.
 
 ## 3. Slider fix (Part 2)
 
@@ -386,50 +438,39 @@ brackets alone (same 5 brackets over the same 150 SNPs, with and without
 `mask=1`), and pages 1–3 load without console errors for ESRD, phecode 280 and
 Obesity in all three ancestries.
 
-### 5.4 Status: not deployed
+### 5.4 Status: deployed
 
-**The store is uploaded but not swapped in, and the code is not pushed.**
+The authors confirmed the upload, and the store went up. The Railway CLI,
+given an existing `/db`, nested the upload at `/db/db` rather than replacing
+`/db`, and the three renames that swap it into place were blocked by this
+environment's permission policy; **the authors ran them**, then pushed.
 
-The authors confirmed the volume upload in-session and the 178 MB store was
-uploaded successfully. The Railway CLI, given an existing `/db`, nested the
-upload at **`/db/db`** instead of replacing `/db`. The uploaded copy is
-verified complete (7 top-level entries, 22 chromosome shards). Swapping it in
-needs three renames on the volume, and that action was blocked by the
-environment's permission policy.
+Verified live on 2026-10-05 at `www.appliedintegrativeanalytics.com`:
 
-Current state, which is safe:
+| Check | Result |
+|---|---|
+| `/api/landing/edges` meta 1e-04 | 200, **57,041 pairs**, 1,159 degrees — the regenerated store |
+| `/api/landing/edges` eur 1e-08 | 200 — the sub-1e-6 columns are populated |
+| `/api/relations/pairs?node=905` | 200, 4 tiers, 25 related — the relation files are on the volume, so the toggle works |
+| `/api/page2/rows` | 200, response carries the `genes` side map — merged `main` is the running code |
 
-- `/db` — the **old** store, untouched, still serving the live site;
-- `/db/db` — the **new** store, complete and inert;
-- production code — `f0680f9`, unchanged;
-- local `main` — 43 commits ahead of `origin/main`, not pushed.
-
-The production commit hash to record once this completes will be whatever
-`main` is at the time of the push; it is **not yet** that commit.
-
-Remaining steps, in order:
-
-1. `railway volume files -v va_mvp_website-volume rename /db/db /db_new`
-2. `railway volume files -v va_mvp_website-volume rename /db /db_old`
-3. `railway volume files -v va_mvp_website-volume rename /db_new /db`
-4. restart the service, smoke-test production on the old code
-5. `git push origin main`, smoke-test again, record the commit hash
-6. delete `/db_old` once the site is confirmed good
-
-Steps 2–3 are the only window in which the site is without a `/db`; renames
-are metadata operations, so it is short. `/db_old` is the rollback.
-
-If a smoke test fails the instruction stands: roll back the code push first,
-then report, and do not fix on production.
-
----
+**Production commit: `2c7260f`**, which is `origin/main` and equals local
+`main`. The old store remains on the volume as the rollback.
 
 ## 6. Figure manifest
 
-All panels captured at **2000×1250, deviceScaleFactor 2**, `RANK_METRIC=pval`,
-from a local build of merged `main` against the regenerated store. Full
-per-panel settings, including each panel's on-screen summary line, are in
+Full-page panels captured at **2000×1250, deviceScaleFactor 2** (4000×2500
+px), `RANK_METRIC=pval`, from a local build of merged `main` against the
+regenerated store. The Figure 2 element crops are re-shot at
+deviceScaleFactor 4, since they are small. Full per-panel settings, including
+each panel's on-screen summary line, are in
 `analysis/final/figures/manifest.json`.
+
+**Resolution.** Every figure declares at least 300 dpi; the composites, the
+locus map and Figure 1 are at 400. `check_figure_dpi.py` stamps a resolution
+on the screenshot PNGs, which carry none of their own, and fails if anything
+is below 300. The per-file table, with the print width each supports, is
+`results/figure_resolutions.csv`.
 
 ### Figure 3 — `renal_disease_v3.png`
 
@@ -440,7 +481,7 @@ per-panel settings, including each panel's on-screen summary line, are in
 | c | `fig3_c_network_eur_discordant.png` | page 1, EUR, p < 1e-4, edge type **Discordant Weight**, ESRD selected |
 | d | `fig3_d_network_afr_discordant.png` | page 1, AFR, p < 1e-4, edge type **Discordant Weight**, ESRD selected |
 | e | `fig3_e_node_afr_genes_apol1.png` | page 2, node 905, AFR, p < 1e-4, gene labels on, k = 3, rs73885319 clicked |
-| f | `fig3_f_locus_map.png` / `.pdf` | drawn from the store by `fig3_panel_f.py`; 32 AFR loci, 23 EUR, 2 shared; APOL1 and TCF7L2 labelled |
+| f | `fig3_f_locus_map.png` / `.pdf` | drawn from the store by `fig3_panel_f.py`; 32 AFR loci, 23 EUR, 2 shared; APOL1 and TCF7L2 labelled. Redrawn at panel e's 1.6:1 so the two sit level and the same height, and the AFR/EUR labels are offset to opposite sides — centred, they collided at chr10 and the chr22 one ran off the axes |
 
 ### Anemia figure — `anemias_v2.png`, **phecode 280** (node 270)
 
@@ -469,17 +510,27 @@ Each cropped to the element, for the authors to assemble.
 | `fig2_reset_button.png` | reset button |
 | `fig2_related_phecode_toggle.png` | related-phecode toggle |
 
-### Figure 1 — not regenerated
+### Figure 1 — `fig1_data_stats.png`, rebuilt
 
-**There is no `data_stats` plotting script in the repo.** The only plotting
-code present is `analysis/examples/fig_panel_f.py`. The y-axis tick change in
-panel a therefore could not be made, and Figure 1 is unchanged.
+There was no `data_stats` plotting script in the repo and the published
+`figs/data_stats_v6.png` is not on this machine either, so Figure 1 was
+rebuilt from the caption and the source data by `fig1_data_stats.py`. The
+reviewer's y-axis point is fixed — the exponent is in the tick label and no
+axis carries a multiplier, checked across all 16 axes rather than asserted.
+
+Two of the three `\tbd{}` overlap placeholders now resolve to within 3 and 8
+(12,555 and 328,160); the third does not reproduce under any definition and
+its surrounding claim is wrong as written. Panel b also turns out to have a
+real discontinuity at p = 1e-6. **See `FIG1_REPORT.md`** — those findings are
+not repeated here.
 
 ### Draft composites
 
 `renal_disease_v3.png` and `anemias_v2.png` are 3×2 drafts built by
-`assemble_figures.py`, letters a–f reading across in a band above each panel.
-They are for the authors to replace, not final artwork.
+`assemble_figures.py`, letters a–f reading across in a band above each panel,
+4140×4210 at 400 dpi (10.3 in wide). Panels are centred both ways in their
+cell, so a short panel sits level with a tall one instead of hanging from the
+top of the row. They are for the authors to replace, not final artwork.
 
 ---
 
@@ -491,6 +542,11 @@ They are for the authors to replace, not final artwork.
 | `analysis/final/q2_q10_queries.py` | Q2–Q10 |
 | `analysis/final/q10_gaps.py` | the Q10 entries no earlier output covered |
 | `analysis/final/q10_figure1.py` | Figure 1 counts from the source CSV |
+| `analysis/final/q11_ivw_check.py` | the IVW recomputation against the stored META beta |
+| `analysis/final/fig1_extract.py` | one pass over the source for everything Figure 1 needs |
+| `analysis/final/fig1_defgrid.py` | the panel c definition grid |
+| `analysis/final/fig1_data_stats.py` | Figure 1, with the axis check |
+| `analysis/final/check_figure_dpi.py` | stamps and verifies >= 300 dpi on every figure |
 | `analysis/final/check_slider.py` | summary panel vs a direct recomputation below 1e-6 |
 | `analysis/final/shoot_final_figures.js` | every captured panel |
 | `analysis/final/fig3_panel_f.py` | Figure 3 panel f |

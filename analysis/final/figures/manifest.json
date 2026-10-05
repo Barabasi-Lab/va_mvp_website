@@ -207,7 +207,7 @@
   "screen_summary": "Phenotypes 1,002Associations 53,400 concordant 43,454 discordant 22,486Selected End stage renal disease degree 142",
   "gene_labels_drawn": [],
   "rank_metric": "pval",
-  "viewport": "2000x1250 @2x",
+  "viewport": "2000x1250 @4x",
   "errors": []
  },
  {
@@ -222,7 +222,7 @@
   "screen_summary": "Phenotypes 1,002Associations 53,400 concordant 43,454 discordant 22,486",
   "gene_labels_drawn": [],
   "rank_metric": "pval",
-  "viewport": "2000x1250 @2x",
+  "viewport": "2000x1250 @4x",
   "errors": []
  },
  {
@@ -237,7 +237,7 @@
   "screen_summary": "Phenotypes 1,002Associations 53,400 concordant 43,454 discordant 22,486",
   "gene_labels_drawn": [],
   "rank_metric": "pval",
-  "viewport": "2000x1250 @2x",
+  "viewport": "2000x1250 @4x",
   "errors": []
  },
  {
@@ -252,7 +252,7 @@
   "screen_summary": "Phenotypes 1,002Associations 53,400 concordant 43,454 discordant 22,486",
   "gene_labels_drawn": [],
   "rank_metric": "pval",
-  "viewport": "2000x1250 @2x",
+  "viewport": "2000x1250 @4x",
   "errors": []
  },
  {
@@ -267,7 +267,7 @@
   "screen_summary": "SNPs 150Phenotypes 38Associations 2,866 positive 906 negative 1,960SNPs for this phenotype 1,282",
   "gene_labels_drawn": [],
   "rank_metric": "pval",
-  "viewport": "2000x1250 @2x",
+  "viewport": "2000x1250 @4x",
   "errors": []
  },
  {
@@ -283,7 +283,7 @@
   "screen_summary": "SNPs 14Phenotypes 59Associations 158 same direction 158 opposite direction 0SNPs for this phenotype 1,245",
   "gene_labels_drawn": [],
   "rank_metric": "pval",
-  "viewport": "2000x1250 @2x",
+  "viewport": "2000x1250 @4x",
   "errors": []
  }
 ]
