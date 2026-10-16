@@ -8,18 +8,44 @@ EAS and a fixed-effects meta-analysis).
 Live at **[appliedintegrativeanalytics.com](https://www.appliedintegrativeanalytics.com)**,
 deployed from this repository through Railway.
 
-The site answers one question in three views: *which phenotypes share genetic
-signal, and which variants carry it?*
+If you use MVPheWAS Explorer in your research, please cite both this browser and 
+the original analysis:
+
+```
+@article{Spector2026MVPheWAS,
+  author  = {Spector, J. and Ehlert, J. and Costa, L. and others},
+  title   = {{MVPheWAS Explorer}: an open source platform for scalable {GWAS} visualization},
+  journal = {Database},
+  year    = {2026},
+  note    = {In press}
+}
+
+@article{
+VA_MVP_Verma2024,
+author = {Anurag Verma  and Jennifer E. Huffman  and Alex Rodriguez and others},
+title = {Diversity and scale: Genetic architecture of 2068 traits in the VA Million Veteran Program},
+journal = {Science},
+volume = {385},
+number = {6706},
+pages = {eadj1182},
+year = {2024},
+doi = {10.1126/science.adj1182},
+URL = {https://www.science.org/doi/abs/10.1126/science.adj1182},
+eprint = {https://www.science.org/doi/pdf/10.1126/science.adj1182},
+}
+```
+
+> *…Verma, A., Huffman, J.E., Rodriguez, A., et al. (2024). Diversity and scale: Genetic architecture of 2068 traits in the VA million veteran program. \textit{Science}, 385(6706), eadj1182.
+
+Spector, J., Ehlert, J., Costa, L., et al. (2026). MVPheWAS Explorer: an open source platform for scalable GWAS visualization. \textit{Database}, in press.*
 
 ---
 
-## The three views
-
-| View | Shows | Nodes |
+| Page | Shows | Nodes |
 |---|---|---|
-| **Network** (`/`) | every phenotype pair linked by SNPs associated with both | ~1,300 phenotypes |
-| **Phenotype** (`/page2.html`) | one phenotype, its strongest SNPs, and the other phenotypes those SNPs reach | 1 centre + SNPs + neighbours |
-| **SNP** (`/page3.html`) | the SNPs two phenotypes share | 2 phenotypes + shared SNPs |
+| **Phenotype Network** (`/`) | every phenotype pair linked by SNPs associated with both | ~1,300 phenotypes |
+| **Phenotype View** (`/page2.html`) | one phenotype, its strongest SNPs, and the other phenotypes those SNPs reach | 1 centre + SNPs + neighbours |
+| **SNP View** (`/page3.html`) | the SNPs two phenotypes share | 2 phenotypes + shared SNPs |
 
 All three filter by ancestry and p-value threshold, and all three can
 compare two ancestries at once, in which case only associations present in
