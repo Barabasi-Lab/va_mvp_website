@@ -36,6 +36,7 @@ eprint = {https://www.science.org/doi/pdf/10.1126/science.adj1182},
 ```
 
 > Verma, A., Huffman, J.E., Rodriguez, A., et al. (2024). Diversity and scale: Genetic architecture of 2068 traits in the VA million veteran program. *Science*, 385(6706), eadj1182.
+>
 > Spector, J., Ehlert, J., Costa, L., et al. (2026). MVPheWAS Explorer: an open source platform for scalable GWAS visualization. *Database*, in press.
 
 ---
