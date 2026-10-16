@@ -12,16 +12,16 @@ If you use MVPheWAS Explorer in your research, please cite both this browser and
 the original analysis:
 
 ```
-@article{Spector2026MVPheWAS,
+@article{Spector2026,
   author  = {Spector, J. and Ehlert, J. and Costa, L. and others},
   title   = {{MVPheWAS Explorer}: an open source platform for scalable {GWAS} visualization},
   journal = {Database},
   year    = {2026},
   note    = {In press}
 }
-
-@article{
-VA_MVP_Verma2024,
+```
+```
+@article{Verma2024,
 author = {Anurag Verma  and Jennifer E. Huffman  and Alex Rodriguez and others},
 title = {Diversity and scale: Genetic architecture of 2068 traits in the VA Million Veteran Program},
 journal = {Science},
@@ -35,9 +35,8 @@ eprint = {https://www.science.org/doi/pdf/10.1126/science.adj1182},
 }
 ```
 
-> *…Verma, A., Huffman, J.E., Rodriguez, A., et al. (2024). Diversity and scale: Genetic architecture of 2068 traits in the VA million veteran program. \textit{Science}, 385(6706), eadj1182.
-
-Spector, J., Ehlert, J., Costa, L., et al. (2026). MVPheWAS Explorer: an open source platform for scalable GWAS visualization. \textit{Database}, in press.*
+> Verma, A., Huffman, J.E., Rodriguez, A., et al. (2024). Diversity and scale: Genetic architecture of 2068 traits in the VA million veteran program. *Science*, 385(6706), eadj1182.
+> Spector, J., Ehlert, J., Costa, L., et al. (2026). MVPheWAS Explorer: an open source platform for scalable GWAS visualization. *Database*, in press.
 
 ---
 
