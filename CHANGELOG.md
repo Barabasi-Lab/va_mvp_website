@@ -2,10 +2,6 @@
 
 ## 1.1 — 2026-10-05
 
-The first release since the data layer moved to DuckDB. Four things are new
-in the interface, one long-standing bug is fixed, and the deployment is
-substantially smaller.
-
 ### Fixed
 
 - **The network view's p-value slider did nothing useful below 1e-6.** The
@@ -17,16 +13,9 @@ substantially smaller.
   the on-screen counts now equal a direct recomputation at every
   ancestry/threshold combination tested.
 
-  The regeneration grew the pair universe from 54,790 to **57,041**, adding
-  2,321 pairs over 85 phenotypes the old file never carried. Edge counts and
-  weights at 1e-4 to 1e-6 can differ by a few per cent from previously
+  The regeneration added 2,321 pairs over 85 phenotypes. Edge counts and
+  weights at 1e-4 to 1e-6 can differ by a few percent from previously
   published values.
-
-- **SNPs were ranked by |beta/se|, not by p-value**, contrary to the
-  manuscript. The default is now the reported p-value.
-
-- Duplicate (SNP, phenotype) rows are collapsed on the phenotype and SNP
-  views rather than drawn twice.
 
 ### Added
 
@@ -45,11 +34,10 @@ substantially smaller.
 
 ### Changed
 
+- **SNPs are ranked by |beta/se|, not by p-value**
 - **The comparison legend now reads "same direction" and "opposite
-  direction".** It previously said concordant/discordant, which elsewhere
-  means sign agreement between two *phenotypes*; in comparison mode the
-  quantity is agreement between two *ancestries*. The two are now never
-  confused.
+  direction".** It had previously used concordant/discordant, which assigns
+  two meanings to those terms and was confusing.
 
 - The phenotype view draws only SNPs that reach the centre phenotype, and
   prioritises SNPs with more than one edge.
@@ -75,5 +63,6 @@ substantially smaller.
 
 ## 1.0
 
-Initial release: the three views, the DuckDB/Parquet data layer, and the
-Railway deployment.
+Initial release: the three network views, deployed through railway with data
+stored locally as csvs per node, and two csvs (nodes and edges) for the page 1
+network.
