@@ -1101,7 +1101,7 @@ const infoText = infoContainer.append('div')
     .style('border-radius', '5px')
     .on('click', () => {
         // redirect people to dbgap
-        window.open('https://ftp.ncbi.nlm.nih.gov/dbgap/studies/phs002453/analyses/', '_blank');
+        window.open('https://ftp.ncbi.nlm.nih.gov/dbgap/studies/phs002453/phs002453.v1.p1/', '_blank');
 
     });
 
