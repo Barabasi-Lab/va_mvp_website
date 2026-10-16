@@ -38,8 +38,7 @@ Two distinctions are used consistently and mean different things:
 
 ### Data layer
 
-The pages do not download CSVs and filter them in the browser. They query
-DuckDB over chromosome-partitioned Parquet through endpoints in
+The pages query DuckDB over chromosome-partitioned Parquet through endpoints in
 `server.js`.
 
 **The data is not in this repository.** In production it lives on a Railway
@@ -57,10 +56,6 @@ overrides both.
   node_phecodes.json, pair_relations_t34.json
 <volume>/annotation/                           nearest-gene build input
 ```
-
-`scripts/ensure-db.js` runs as npm's `prestart` and names any missing file at
-boot. It never fails the start: the site comes up and the API reports 503, so
-a data problem cannot become a total outage.
 
 ### Network view
 
